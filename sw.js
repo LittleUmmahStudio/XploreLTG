@@ -1,6 +1,6 @@
 // LO:TONG: service worker untuk main tanpa internet.
 // Tukar VERSI setiap kali index.html dikemas kini supaya peranti memuat turun versi baharu.
-const VERSI = 'lotong-v39';
+const VERSI = 'lotong-v49';
 const TERAS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const LUAR = [
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
