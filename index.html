@@ -928,6 +928,8 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <h2>🆕 Apa yang baharu</h2>
       <p class="pfSub" id="baharuVersi"></p>
       <ul class="senaraiBaharu">
+        <li><b>📚 Suruhan guru subjek</b>: semasa kelas, guru yang mengajar mungkin meminta kamu mengambil barang di mejanya di Bilik Guru, atau menghantar barang ke mejanya. Serahkan terus kepada guru!</li>
+        <li><b>🏛️ Bilik Guru Besar</b> di tingkat atas Pentadbiran, lengkap dengan bendera Malaysia & Sabah, almari trofi dan sudut sofa.</li>
         <li><b>👩‍🏫 Warga SK Lotong</b>: guru dan staf kini ada nama dan watak sendiri. Guru masuk ke kelas mengikut subjek, Cikgu Edwin (Guru Besar) menyambut murid di pintu pagar, dan Cikgu Shahrul (Guru Disiplin) menegur murid yang berlari!</li>
         <li><b>📞 Panggilan segera</b> daripada Cik Sandra, Makcik RMT, Ustazah dan guru lain. Ambil dan hantar dalam 2 minit 30 saat!</li>
         <li><b>🍽️ Rasa lapar</b>: tenaga lambat pulih apabila lapar. Makan semasa rehat, beli kuih atau minum air.</li>
@@ -1161,8 +1163,8 @@ const CONTENT = {
         { teks: 'Tahun 4', u: 1 / 6, aras: 1, masuk: 'k4' }, { teks: 'Tahun 5', u: 0.5, aras: 1, masuk: 'k5' }, { teks: 'Tahun 6', u: 5 / 6, aras: 1, masuk: 'k6' }],
       papanBerdiri: { jawi: 'بلوک کلس', rumi: 'Blok Kelas', pos: [-3.4, 10.2] } },
     { id: 'pentadbiran', x: -13, z: 28, w: 15, d: 26, h: 8.8, tingkat: 2, dinding: '#EFCF94', bumbung: '#7F8EA3', depan: '+x', koridor: true, 
-      bilik: [{ teks: 'Makmal Sains', u: 0.27, aras: 0, masuk: 'makmal' }, { teks: 'Tandas', u: 0.81, aras: 0, masuk: 'tandas' }, { teks: 'Bilik Guru', u: 0.42, aras: 1, masuk: 'bilikguru' },
-        { teks: 'Pejabat Sekolah', u: 0.62, aras: 1, masuk: 'bilikguru', kunci: 'pejabat', dalamX: -6.5 }],
+      bilik: [{ teks: 'Makmal Sains', u: 0.27, aras: 0, masuk: 'makmal' }, { teks: 'Tandas', u: 0.81, aras: 0, masuk: 'tandas' }, { teks: 'Bilik Guru', u: 0.62, aras: 1, masuk: 'bilikguru' },
+        { teks: 'Pejabat Sekolah', u: 0.42, aras: 1, masuk: 'bilikguru', kunci: 'pejabat', dalamX: -6.5 }, { teks: 'Bilik Guru Besar', u: 0.25, aras: 1, masuk: 'bilikgb' }],
       papanBerdiri: { jawi: 'ڤنتدبيرن', rumi: 'Pentadbiran', pos: [-3.0, 22.5] } },
     { id: 'rmt', x: 18.35, z: -8.35, w: 17.5, d: 16.7, h: 6.2, tingkat: 1, dinding: '#BFD8EA', bumbung: '#9AAAC0', depan: '-x',
       papan: { rumi: 'Dewan RMT' }, masuk: 'rmt' },
@@ -1693,9 +1695,9 @@ const CONTENT = {
       ganjaran: { kebaikan: 2, ilmu: 1, reputasi: 2 }, maklumBalas: 'Barang yang tersusun memudahkan kerja semua orang.', rujukan: '' },
 
     { masa: ['tiba', 'rehat', 'pulang'], id: 'm_bukulatihan', tajuk: 'Hantar Buku Latihan', pemberi: 'cikgu', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Tolong-menolong', terima: 'Baik, cikgu!',
-      dialogMula: ['Buku latihan Tahun 2 sudah cikgu semak.', 'Ambil di meja Cikgu Faizal di Bilik Guru, kemudian letakkan di meja guru dalam kelas Tahun 2.'],
+      dialogMula: ['Buku latihan Tahun 2 sudah cikgu semak.', 'Ambil di meja Cikgu Carmen di Bilik Guru, kemudian letakkan di meja guru dalam kelas Tahun 2.'],
       langkah: [
-        { jenis: 'bawa', item: 'buku', dari: { bilik: 'bilikguru', pos: [1.6, -1.9], label: 'meja Cikgu Faizal' }, ke: [{ bilik: 'k2', pos: [-3.2, -2.1], letak: [-3.2, 0.8, -2.9] }], objektif: 'Hantar buku latihan ke kelas Tahun 2' },
+        { jenis: 'bawa', item: 'buku', dari: { bilik: 'bilikguru', pos: [1.6, -1.9], label: 'meja Cikgu Carmen' }, ke: [{ bilik: 'k2', pos: [-3.2, -2.1], letak: [-3.2, 0.8, -2.9] }], objektif: 'Hantar buku latihan ke kelas Tahun 2' },
         { jenis: 'kembali', objektif: 'Lapor kepada Cikgu Kelas', dialog: ['Terima kasih! Murid Tahun 2 boleh semak pembetulan mereka.'] }
       ],
       ganjaran: { kebaikan: 3, reputasi: 2 }, maklumBalas: 'Kamu membantu guru dan rakan-rakan Tahun 2.', rujukan: '' },
@@ -1883,8 +1885,9 @@ const CONTENT = {
     susu: { nama: 'Bilik SUSU', w: 8, d: 7, lantai: 'jubinBiru', dinding: '#A9CFF0', susun: 'susu', bunyi: 'stor' },
     makmal: { nama: 'Makmal Sains', w: 12, d: 9, lantai: 'jubinPutih', dinding: '#B3D6EC', susun: 'makmal', bunyi: 'makmal', murid: 4 },
     tandas: { nama: 'Tandas', w: 8, d: 6, lantai: 'jubinBiru', dinding: '#8FC6E3', susun: 'tandas', bunyi: 'tandas' },
+    bilikgb: { nama: 'Bilik Guru Besar', w: 9, d: 7, lantai: 'kayu', dinding: '#EADBC0', susun: 'bilikgb', bunyi: 'bilikguru' },
     bilikguru: { nama: 'Bilik Guru', w: 18, d: 11, pintuLain: [{ x: -6.5, kunci: 'pejabat', label: 'Pejabat Sekolah' }], lantai: 'kayu', dinding: '#E8C79C', susun: 'bilikguru', bunyi: 'bilikguru',
-      watak: [GURU.def('faizal'), GURU.def('alina'), GURU.def('carmen')] },
+      watak: [GURU.def('carmen'), GURU.def('alina'), GURU.def('faizal')] },
     rmt: { nama: 'Dewan RMT', w: 24, d: 14, lantai: 'jubin', dinding: '#F4CFA2', susun: 'rmt', bunyi: 'rmt', murid: 14,
       watak: [
         { nama: 'Kakak Kantin', rupa: { baju: '#FF9A6B', bawah: '#8B5A3C', kain: true, kulit: '#E2AD82', kepala: 'tudung', warnaKepala: '#2F6B5A', apron: true, skala: 1.1 }, bual: ['Nasi lemak hari ini sedap!', 'Beratur dengan tertib, ya.'] },
@@ -1922,7 +1925,7 @@ const CONTENT = {
       pulangUstazah: { bilik: 'pi', pos: [2.2, -2.7], arah: 0, sorok: true },       // Ustazah sudah pulang ke rumah
       gerbangGB: { pos: [9.8, -50.6], arah: Math.PI * 0.85 },
       himpunGB: { pos: [18.35, -45.4], arah: 0 },
-      pejabatGB: { bilik: 'bilikguru', pos: [-7.2, 2.8], arah: Math.PI / 2 },
+      pejabatGB: { bilik: 'bilikgb', pos: [0, -2.45], arah: 0 },
       berandaRG1: { pos: [-5.0, 46.8], arah: Math.PI / 2 },
       berandaRG3: { pos: [17.3, 47.3], arah: -Math.PI / 2 },
       kaunterKerani: { bilik: 'bilikguru', pos: [-4.7, 0.8], arah: Math.PI / 2 },
@@ -2210,7 +2213,7 @@ const CONTENT = {
   giliranBuah: ['tembikai', 'betik', 'pisang', 'tarap'],
   // Meja guru di Bilik Guru (koordinat bilik). Hampiri dari sisi kerusi (z + 1.1)
   mejaGuru: [
-    { id: 'k1', nama: 'Cikgu Selina', pos: [-1.4, -3.0] }, { id: 'faizal', nama: 'Cikgu Faizal', pos: [1.6, -3.0] }, { id: 'k3', nama: 'Cikgu Stella', pos: [4.6, -3.0] }, { id: 'k4', nama: 'Cikgu Daniel', pos: [7.6, -3.0] },
+    { id: 'k1', nama: 'Cikgu Selina', pos: [-1.4, -3.0] }, { id: 'carmen', nama: 'Cikgu Carmen', pos: [1.6, -3.0] }, { id: 'k3', nama: 'Cikgu Stella', pos: [4.6, -3.0] }, { id: 'k4', nama: 'Cikgu Daniel', pos: [7.6, -3.0] },
     { id: 'k5', nama: 'Cikgu Fiona', pos: [-1.4, 1.2] }, { id: 'k6', nama: 'Cikgu Julinah', pos: [1.6, 1.2] }, { id: 'pi', nama: 'Ustazah Sakinah', pos: [4.6, 1.2] }, { id: 'alina', nama: 'Cikgu Alina', pos: [7.6, 1.2] }
   ],
   // Buku di rak kelas (fakta umum ringkas)
@@ -3987,6 +3990,83 @@ const LAYOUT = {
     tugas(1.6, -2.1, 'Tutup', 'Tutup paip yang terbiar mengalir', 'paip', () => Kebersihan.tutupPaip());
     tugas(0.3, -2.1, 'Isi', 'Isi semula bekas sabun', 'sabun', () => Kebersihan.isiSabun());
   },
+  bilikgb(r, def, A) {
+    const kotak = (x, z, w, d, h, c, y) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(c)); m.position.set(x, (y || 0) + h / 2, z); r.group.add(m); return m; };
+    const silinder = (x, z, rt, rb, h, c, y) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 14), mat(c)); m.position.set(x, (y || 0) + h / 2, z); r.group.add(m); return m; };
+    // Permaidani & meja besar Guru Besar (menghadap pintu)
+    { const p = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 3.4), mat('#8C2F39')); p.rotation.x = -Math.PI / 2; p.position.set(0, 0.012, -1.3); r.group.add(p);
+      const b = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 3.0), mat('#B5484F')); b.rotation.x = -Math.PI / 2; b.position.set(0, 0.014, -1.3); r.group.add(b); }
+    kotak(0, -1.75, 2.6, 1.05, 0.08, '#6B4428', 0.74); kotak(0, -1.75, 2.5, 0.95, 0.74, '#7E5232'); kotak(0, -1.28, 2.5, 0.04, 0.6, '#5E3B22', 0.08);
+    A.block(0, -1.75, 2.6, 1.05);
+    kotak(0.65, -1.9, 0.5, 0.06, 0.34, '#1B1B26', 0.82); kotak(0.65, -1.86, 0.46, 0.02, 0.29, '#5FD3FF', 0.84);   // skrin komputer
+    kotak(0.65, -1.95, 0.08, 0.1, 0.06, '#2B2F38', 0.82); kotak(0.65, -1.62, 0.44, 0.16, 0.02, '#2B2F38', 0.82);
+    kotak(-0.75, -1.85, 0.36, 0.26, 0.05, '#2E7D6B', 0.82); kotak(-0.75, -1.85, 0.32, 0.22, 0.04, '#FFFFFF', 0.87);   // fail
+    silinder(-0.2, -1.95, 0.05, 0.05, 0.12, '#1F4E8C', 0.82);   // bekas pen
+    { const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.2), new THREE.MeshBasicMaterial({ map: plateTex('Guru Besar') })); pl.position.set(0, 0.9, -1.22); pl.rotation.x = -0.3; r.group.add(pl); }
+    // Kerusi eksekutif & 2 kerusi tetamu
+    kotak(0, -2.65, 0.66, 0.6, 0.12, '#1B1B26', 0.45); kotak(0, -2.95, 0.66, 0.12, 0.85, '#1B1B26', 0.5); silinder(0, -2.65, 0.05, 0.05, 0.45, '#5A5A66');
+    [-0.75, 0.75].forEach((x) => A.piece('kerusi', x, -0.65, 0, 1, false));
+    // Sudut sofa tetamu
+    // Sudut tetamu: sofa kelabu gelap (sandaran rapat ke dinding barat, menghadap bilik) & meja kopi sepadan
+    { const SX = -3.62, SZ = 1.5, KEL = '#4A4F58', GELAP = '#3A3F48', BANTAL = '#5B616B';
+      kotak(SX, SZ, 0.85, 2.1, 0.42, GELAP, 0.08);                       // tapak
+      [-0.5, 0.5].forEach((dz) => kotak(SX + 0.06, SZ + dz, 0.72, 1.0, 0.14, BANTAL, 0.5));   // kusyen duduk
+      kotak(SX - 0.36, SZ, 0.2, 2.1, 0.62, KEL, 0.42);                  // sandaran (di sisi dinding)
+      [-0.98, 0.98].forEach((dz) => kotak(SX, SZ + dz, 0.85, 0.16, 0.5, KEL, 0.18));   // tempat letak tangan
+      [-0.5, 0.5].forEach((dz) => kotak(SX - 0.22, SZ + dz, 0.12, 0.6, 0.4, BANTAL, 0.62));   // bantal sandar
+      [[-0.32, -0.95], [0.32, -0.95], [-0.32, 0.95], [0.32, 0.95]].forEach(([dx, dz]) => kotak(SX + dx, SZ + dz, 0.06, 0.06, 0.08, '#1B1B26'));
+      A.block(SX, SZ, 0.85, 2.1);
+      const MX = -2.45;                                                   // meja kopi: kayu walnut, kaki kelabu gelap (sepadan sofa)
+      kotak(MX, SZ, 0.62, 1.05, 0.05, '#7E5232', 0.36); kotak(MX, SZ, 0.56, 0.99, 0.03, '#6B4428', 0.12);
+      [[-0.26, -0.47], [0.26, -0.47], [-0.26, 0.47], [0.26, 0.47]].forEach(([dx, dz]) => kotak(MX + dx, SZ + dz, 0.05, 0.05, 0.36, GELAP));
+      kotak(MX + 0.05, SZ - 0.2, 0.26, 0.34, 0.02, '#FFFFFF', 0.41); kotak(MX - 0.1, SZ + 0.25, 0.2, 0.26, 0.04, '#2E7D6B', 0.41);   // kertas & majalah
+      A.block(MX, SZ, 0.62, 1.05); }
+    // Bonsai mini di penjuru sebelah sofa
+    { const BX = -3.95, BZ = 3.0;
+      kotak(BX, BZ, 0.42, 0.32, 0.16, '#3A3F48'); kotak(BX, BZ, 0.36, 0.26, 0.02, '#5C4632', 0.16);
+      const batang = (x, y, z, h, rx, rz) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.045, h, 8), mat('#6B4A2E')); m.position.set(x, y + h / 2, z); m.rotation.set(rx, 0, rz); r.group.add(m); };
+      batang(BX, 0.16, BZ, 0.3, 0, 0.35); batang(BX - 0.07, 0.42, BZ, 0.22, 0, -0.55);
+      [[-0.14, 0.62, 0.02, 0.17], [0.08, 0.55, -0.04, 0.14], [-0.02, 0.7, 0.05, 0.12]].forEach(([dx, y, dz, rr]) => { const d = new THREE.Mesh(new THREE.SphereGeometry(rr, 12, 8), mat('#3E8E46')); d.scale.set(1.25, 0.6, 1.0); d.position.set(BX + dx, y, BZ + dz); r.group.add(d); });
+      A.block(BX, BZ, 0.42, 0.32); }
+    // Penghawa dingin di dinding utara
+    { const AX = -1.7, AY = 2.62, AZ = -3.5 + 0.2;
+      kotak(AX, AZ, 1.15, 0.26, 0.32, '#F4F6F8', AY); kotak(AX, AZ + 0.135, 1.05, 0.01, 0.05, '#AEB6BF', AY + 0.04);
+      kotak(AX + 0.45, AZ + 0.135, 0.08, 0.01, 0.03, '#58B85A', AY + 0.24); }
+    // Cermin berdiri di penjuru timur laut & karpet kecil di hadapannya
+    { const CX = 4.05, CZ = -2.5, g = new THREE.Group(); g.position.set(CX, 0, CZ); g.rotation.y = -Math.PI / 2; r.group.add(g);
+      const k = (w, h, d, c, x, y, z, rx) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(c)); m.position.set(x, y, z); if (rx) m.rotation.x = rx; g.add(m); return m; };
+      const cond = -0.12;   // condong sedikit ke dinding
+      k(0.62, 1.62, 0.05, '#8B5E3C', 0, 0.95, 0, cond);
+      const kaca = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 1.48), new THREE.MeshLambertMaterial({ color: '#CFE8F7', emissive: '#4A7FA8', emissiveIntensity: 0.25 })); kaca.position.set(0, 0.95, 0.03); kaca.rotation.x = cond; g.add(kaca);
+      const kilau = new THREE.Mesh(new THREE.PlaneGeometry(0.08, 1.2), new THREE.MeshBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0.55 })); kilau.position.set(-0.12, 1.0, 0.035); kilau.rotation.set(cond, 0, 0.15); g.add(kilau);
+      k(0.06, 0.6, 0.06, '#8B5E3C', -0.24, 0.3, -0.28, 0.5); k(0.06, 0.6, 0.06, '#8B5E3C', 0.24, 0.3, -0.28, 0.5);   // kaki penyokong
+      A.block(CX, CZ, 0.35, 0.7);
+      const kp = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.15), mat('#B9A68A')); kp.rotation.x = -Math.PI / 2; kp.position.set(CX - 0.85, 0.013, CZ + 0.05); r.group.add(kp);
+      const kd = new THREE.Mesh(new THREE.PlaneGeometry(0.76, 1.0), mat('#8E7B62')); kd.rotation.x = -Math.PI / 2; kd.position.set(CX - 0.85, 0.015, CZ + 0.05); r.group.add(kd);
+      for (let i = -4; i <= 4; i++) [0.6, -0.6].forEach((dz) => { const f = new THREE.Mesh(new THREE.PlaneGeometry(0.03, 0.06), mat('#E8DCC4')); f.rotation.x = -Math.PI / 2; f.position.set(CX - 0.85 + i * 0.1, 0.016, CZ + 0.05 + dz); r.group.add(f); }); }
+    // Pokok kecil di atas kabinet
+    { const PX = 3.95, PZ = -1.0; kotak(PX, PZ, 0.18, 0.18, 0.14, '#E8E2D6', 0.9); [[0, 1.12, 0.12], [0.06, 1.2, 0.09], [-0.05, 1.18, 0.08]].forEach(([dx, y, rr]) => { const d = new THREE.Mesh(new THREE.SphereGeometry(rr, 10, 8), mat('#58B85A')); d.position.set(PX + dx, y, PZ); r.group.add(d); }); }
+    // Almari trofi & kabinet fail
+    A.piece('almari', 3.0, -3.15); A.piece('kabinet', 3.95, -1.4, -Math.PI / 2);
+    [[2.6, '#FFCC33'], [3.0, '#C0C6CE'], [3.4, '#C98A3E']].forEach(([x, c]) => { silinder(x, -3.05, 0.09, 0.05, 0.22, c, 1.9); silinder(x, -3.05, 0.06, 0.08, 0.06, '#5E3B22', 1.84); });
+    // Bendera Malaysia & Sabah di belakang meja
+    const bendera = (x, lukis) => { silinder(x, -3.3, 0.025, 0.025, 2.1, '#C0C6CE'); silinder(x, -3.3, 0.14, 0.18, 0.06, '#5E3B22');
+      const t = canvasTex(180, 120, lukis); const m = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.48), new THREE.MeshBasicMaterial({ map: t, side: THREE.DoubleSide }));
+      m.position.set(x + 0.38, 1.82, -3.3); r.group.add(m); };
+    bendera(-2.3, (c, W, H) => { for (let i = 0; i < 14; i++) { c.fillStyle = i % 2 ? '#FFFFFF' : '#CC0001'; c.fillRect(0, i * H / 14, W, H / 14 + 1); }
+      c.fillStyle = '#010066'; c.fillRect(0, 0, W * 0.5, H * 8 / 14); c.fillStyle = '#FFCC00'; c.beginPath(); c.arc(W * 0.2, H * 0.29, H * 0.2, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#010066'; c.beginPath(); c.arc(W * 0.235, H * 0.29, H * 0.17, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#FFCC00'; c.beginPath(); for (let k = 0; k < 28; k++) { const a = k * Math.PI / 14, rr = k % 2 ? H * 0.06 : H * 0.15; c.lineTo(W * 0.37 + Math.cos(a) * rr, H * 0.29 + Math.sin(a) * rr); } c.fill(); });
+    bendera(-1.35, (c, W, H) => { c.fillStyle = '#5BC2E7'; c.fillRect(0, 0, W, H / 3); c.fillStyle = '#FFFFFF'; c.fillRect(0, H / 3, W, H / 3); c.fillStyle = '#C8102E'; c.fillRect(0, H * 2 / 3, W, H / 3 + 1);
+      c.fillStyle = '#0B2B6B'; c.fillRect(0, 0, W * 0.42, H * 0.6); c.fillStyle = '#5BC2E7'; c.beginPath(); c.moveTo(W * 0.04, H * 0.52); c.lineTo(W * 0.13, H * 0.3); c.lineTo(W * 0.18, H * 0.36); c.lineTo(W * 0.24, H * 0.18); c.lineTo(W * 0.3, H * 0.34); c.lineTo(W * 0.38, H * 0.52); c.closePath(); c.fill(); });
+    // Dinding: Visi & Misi, Piagam Pelanggan, carta organisasi, jam, papan kenyataan
+    A.wall('n', 1.2, 2.2, 1.7, 0.9, boardTex([{ t: 'Visi & Misi', s: 34, c: '#B5371F' }, { t: 'SK Lotong', s: 30, c: '#1F6FB5' }], '#FFFDF2'));
+    A.wall('e', -0.6, 1.8, 1.5, 1.1, boardTex([{ t: 'Carta Organisasi', s: 30, c: '#1D6B37' }, { t: 'SK Lotong 2026', s: 26 }], '#FFFDF2'));
+    A.wall('e', 1.9, 1.8, 1.2, 1.0, boardTex([{ t: 'Piagam', s: 32, c: '#A8430F' }, { t: 'Pelanggan', s: 32, c: '#A8430F' }], '#FFF8E6'));
+    A.wall('w', -1.2, 2.3, 0.55, 0.55, clockTex());
+    A.wall('w', 1.2, 1.7, 1.6, 1.1, corkTex());
+    A.act(0.0, -2.75, 'Baca', 'Baca Visi & Misi sekolah', () => Peralatan.ganjaran('gbVisi', { ilmu: 1 }, 'Visi: Murid berilmu, berakhlak dan berkemahiran. Misi: Mendidik dengan kasih sayang untuk masa depan yang cemerlang.'), 1.2);
+  },
   bilikguru(r, def, A) {
     const kotak = (x, z, w, d, h, c, y, op) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), op ? new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: op, depthWrite: false }) : mat(c)); m.position.set(x, (y || 0) + h / 2, z); r.group.add(m); return m; };
     const HD = r.d / 2;   // bilik 18 x 11: x -9..9, z -5.5..5.5; pintu utama (ruang guru) x 0, pintu Pejabat x -6.5
@@ -4313,7 +4393,10 @@ const Rooms = {
   },
   guide(t) {
     const cur = this.current, tr = t.room || null;
-    if (tr === cur) return t;
+    if (tr === cur) {   // sasaran di luar pada tingkat atas (cth. pintu kelas atas): penanda ikut aras pintu, bukan aras tanah
+      if (!cur && t.pos && t.pos.y > 0.5 && (t.h || 0) < t.pos.y + 1) return Object.assign({}, t, { h: t.pos.y + 2.6 });
+      return t;
+    }
     if (cur) { const r = this.list[cur]; return { pos: r.exitPos, h: 2.6 }; }
     const dr = this.pintu[tr]; return dr ? { pos: dr.pos, h: dr.pos.y + 2.6 } : null;
   },
@@ -5099,7 +5182,7 @@ const Kelas = {
     if (s.pj) return { nama: KelasPJ.guruNama(s), pos: KelasPJ.guruPos(s) };
     if (s.bilik === 'pi') { const u = NPCs.byId.ustazah; return u && u.room === 'pi' ? { nama: u.def.nama, pos: u.pos } : null; }
     const r = Rooms.list[s.bilik]; if (!r) return null;
-    const g = r.npcs.find((n) => !n.generik); return g ? { nama: g.nama, pos: g.pos } : null;
+    const g = (r.guruKelas || []).find((n) => !n.hilang) || r.npcs.find((n) => !n.generik && !n.hilang); return g ? { nama: g.nama, pos: g.pos } : null;
   },
   reset() { this.hentiAkt(); const K = this.K; K.slotKey = null; K.dalam = false; K.tepat = false; K.cd = 0; K.sesi = 0; K.siap = false; },
   hentiAkt() { try { KelasPJ.bersih(); } catch (e) {} const K = this.K; if (K.tanda && K.tanda.parent) K.tanda.parent.remove(K.tanda); K.tanda = null; K.akt = null; },
@@ -5123,7 +5206,7 @@ const Kelas = {
       const hh = State.data.hari;
       // Doa penerang hati: kelas pertama setiap hari, dan setiap kali kelas Pendidikan Islam bermula (duduk & tadah tangan)
       const kunciSlot = 'slot' + CONTENT.jadualKelas.slot.findIndex(([x, y]) => jam >= toMin(x) && jam < toMin(y));
-      const perlu = hh && !Agama.moral() && !State.uiLock && (!hh.doaBelajar || (s.bilik === 'pi' && hh.doaPI !== kunciSlot));
+      const perlu = hh && !Agama.moral() && !State.uiLock && s.bilik === 'pi' && hh.doaPI !== kunciSlot;   // doa penerang hati hanya di Bilik PI
       const g0 = this.guru(s), namaG = g0 ? g0.nama : (s.bilik === 'pi' ? 'Ustazah' : 'Cikgu'), doaNanti = perlu ? () => Doa.belajar(s, namaG) : null;
       if (perlu) { hh.doaBelajar = true; if (s.bilik === 'pi') hh.doaPI = kunciSlot; }
       if (!K.salam && !K.siap) {
@@ -7048,7 +7131,7 @@ function refreshMarkers() {
   for (const n of NPCs.list) { n.tanda.visible = play && !!Missions.offerFor(n.def.id); n.tanya.visible = play && lapor.has(n.def.id) && !n.tanda.visible; }
 }
 function updateMarkers() {
-  const raw = State.mode === 'play' ? (Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null;
+  const raw = State.mode === 'play' ? (Suruhan.target() || Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null;
   const tg = raw ? Rooms.guide(raw) : null;   // sasaran dalam bangunan lain -> tunjuk ke pintu
   if (tg) {
     marker.visible = true; marker.position.set(tg.pos.x, tg.h + Math.sin(State.t * 4) * 0.12, tg.pos.z); marker.rotation.y += 0.04;
@@ -7101,6 +7184,7 @@ const Interact = {
         else { const w = Rooms.toWorld('rmt', [-11.4, -5.4]); cuba(Math.hypot(p.x - w[0], p.z - w[1]), 1.9, { kind: 'hantarDulang', verb: 'Hantar', kata: 'Hantar dulang ke rak' }, 0.8); }
       }
       Panggilan.calon(cur, tanah, p, cuba);   // panggilan segera
+      Suruhan.calon(cur, tanah, p, cuba);     // suruhan guru subjek
       // Gelanggang & padang mini
       if (!cur && tanah) for (const t of Sukan.titik()) cuba(dist2D(p, t.pos), 1.8, { kind: 'sukan', ref: t.jenis, verb: 'Main', kata: t.kata }, 0.3);
       if (!cur) {
@@ -7169,6 +7253,7 @@ function doInteract() {
   else if (c.kind === 'makan') Rooms.makan(c.ref);
   else if (c.kind === 'hantarDulang') Rooms.hantarDulang();
   else if (c.kind === 'panggilan') Panggilan.buat();
+  else if (c.kind === 'suruhan') Suruhan.buat();
   else if (c.kind === 'sukan') Sukan.mula(c.ref);
   else if (c.kind === 'rnpc') {
     if (c.ref.kedai != null) Rooms.beli(c.ref.kedai);
@@ -7214,6 +7299,7 @@ const HUD = {
   },
   objective() {
     try { requestAnimationFrame(() => { const ob = $('objektif'), tx = $('objTeks').textContent || ''; const kosong = /^Tiada tugasan sekarang/.test(tx); if (ob.dataset.t !== tx) { ob.dataset.t = tx; if (!kosong) HudRingkas.bangun(); } ob.classList.toggle('kosong', kosong); }); } catch (e) {}
+    if (typeof Suruhan !== 'undefined' && Suruhan.a && State.mode === 'play') { $('objTajuk').textContent = '📚 Suruhan: ' + Suruhan.a.nama; $('objTeks').textContent = Suruhan.objektif(); return; }
     if (typeof Panggilan !== 'undefined' && Panggilan.a && State.mode === 'play') { $('objTajuk').textContent = '📞 Panggilan: ' + Panggilan.a.J.siapa; $('objTeks').textContent = Panggilan.objektif(); return; }
     if (typeof Perhimpunan !== 'undefined' && Perhimpunan.masa() && State.data.hari.perhimpunan == null && State.mode === 'play') { $('objTajuk').textContent = '🔔 Perhimpunan pagi'; $('objTeks').textContent = 'Pergi ke Dewan Terbuka untuk perhimpunan (7:10 hingga 7:20).'; return; }
     const tp = State.mode === 'play' && typeof Peristiwa !== 'undefined' && Peristiwa.teks();
@@ -7588,6 +7674,8 @@ $('btnLari').addEventListener('pointerdown', (e) => {
 
 /* ===================== Minimap ===================== */
 const MM = {
+  // Tanda kecil "▲" (tingkat atas) di sebelah titik sasaran pada peta mini
+  atas(c, x, z) { c.save(); c.fillStyle = '#FFFFFF'; c.strokeStyle = '#1B1B26'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(x + 7, z - 13); c.lineTo(x + 13, z - 4); c.lineTo(x + 1, z - 4); c.closePath(); c.fill(); c.stroke(); c.restore(); },
   cv: $('minimap'), ctx: $('minimap').getContext('2d'), acc: 0,
   draw() {
     const c = this.ctx, W = this.cv.width, H = this.cv.height, SX = W / 78, SZ = H / 112;
@@ -7614,9 +7702,10 @@ const MM = {
       c.fillStyle = sekarang ? '#FFCC33' : '#7FC8F8'; c.strokeStyle = '#1B1B26'; c.lineWidth = 2;
       c.beginPath(); c.arc(x, z, 7.5, 0, Math.PI * 2); c.fill(); c.stroke();
       c.fillStyle = '#1B1B26'; c.font = '700 11px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(q.jenis, x, z + 0.5);
+      if (q.atas) MM.atas(c, x, z);   // tugas di tingkat atas
     });
-    const tg = Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target();
-    if (tg) { const q = Rooms.extPos(tg.room, tg.pos); c.fillStyle = '#FF5A36'; c.beginPath(); c.arc(X(q.x), Z(q.z), 6, 0, Math.PI * 2); c.fill(); c.strokeStyle = '#fff'; c.stroke(); }
+    const tg = Suruhan.target() || Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target();
+    if (tg) { const q = Rooms.extPos(tg.room, tg.pos); if (q && q.y > 0.5) this.atas(c, X(q.x), Z(q.z)); c.fillStyle = '#FF5A36'; c.beginPath(); c.arc(X(q.x), Z(q.z), 6, 0, Math.PI * 2); c.fill(); c.strokeStyle = '#fff'; c.stroke(); }
     if (Geng.aktif) for (const g of Object.values(Geng.ahli)) { if (g.baru) continue; const q = Rooms.extPos(g.b, { x: g.x, z: g.z }); c.fillStyle = '#58B85A'; c.strokeStyle = '#FFFFFF'; c.lineWidth = 2; c.beginPath(); c.arc(X(q.x), Z(q.z), 5, 0, Math.PI * 2); c.fill(); c.stroke(); }
     if (Geng.akt) { c.fillStyle = '#FFCC33'; for (const it of Geng.item()) { c.beginPath(); c.arc(X(it.x), Z(it.z), 3, 0, Math.PI * 2); c.fill(); } }
     if (!Rooms.current) for (const pe of Peristiwa.calon()) { c.fillStyle = '#FF7A45'; c.strokeStyle = '#FFFFFF'; c.lineWidth = 1.5; c.beginPath(); c.arc(X(pe.pos.x), Z(pe.pos.z), 4, 0, Math.PI * 2); c.fill(); c.stroke(); }
@@ -9791,6 +9880,8 @@ const BukuTugas = {
     { id: 'bonus', tajuk: 'Siapkan 2 aktiviti tambahan di kelas', ikon: '🌟', dari: '07:30', hingga: '12:00', kira: 'aktivitiBonus', n: 2, g: { ilmu: 2 } },
     { id: 'panggilan', tajuk: 'Selesaikan 2 panggilan segera', ikon: '📞', dari: '07:00', hingga: '12:30', kira: 'panggilan', n: 2, g: { reputasi: 2 },
       cara: 'Apabila telefon berdering (📞), ambil barang di tempat yang disebut dan hantar dalam 2 minit 30 saat. Ikut tiang cahaya biru.' },
+    { id: 'suruhan', tajuk: 'Bantu guru subjek: ambil atau hantar barang', ikon: '📚', dari: '07:30', hingga: '12:10', kira: 'suruhan', n: 1, g: { kebaikan: 2, reputasi: 1 },
+      cara: 'Semasa kelas, guru yang mengajar mungkin meminta bantuan: ambil barang di mejanya di Bilik Guru dan serahkan kepadanya, atau hantar barang ke mejanya. Ustazah: meja Ustazah ↔ Bilik PI.' },
     { id: 'dulang', tajuk: 'Ambil dulang sendiri di troli sebelum beratur', ikon: '🍽️', dari: '10:00', hingga: '10:30', kira: 'dulangSendiri', n: 1, g: { kebaikan: 1 } },
     { id: 'baki', tajuk: 'Kira baki dengan betul semasa membeli', ikon: '🪙', dari: '10:00', hingga: '10:30', kira: 'kiraBaki', n: 1, g: { ilmu: 1 } },
     { id: 'baca', tajuk: 'Baca 2 papan atau poster ilmu', ikon: '📖', dari: '07:00', hingga: '12:30', kira: 'baca', n: 2, g: { ilmu: 1 } },
@@ -9805,7 +9896,7 @@ const BukuTugas = {
     const L = this.TETAP.concat(pilih).map((t) => ({ id: t.id, c: 0, siap: false, luput: false, umum: false, ingat: false }));
     const mula = 480 + Math.floor(rnd() * 200);   // permintaan segera: antara 8:00 dan 11:20
     L.push({ id: 'peranan', c: 0, siap: false, luput: false, umum: false, ingat: false });   // tugas peranan mingguan
-    L.push({ id: 'segera', c: 0, siap: false, luput: false, umum: false, ingat: false, mula, fasa: null, baki: 0 });
+    L.push({ id: 'suruhan', c: 0, siap: false, luput: false });   // suruhan guru subjek (menggantikan permintaan segera pen marker)
     return L;
   },
   def(id) { if (id === 'peranan') return Peranan.def(); return this.TETAP.concat(this.RAWAK).find((t) => t.id === id) || { id: 'segera', tajuk: 'Permintaan segera: hantar pen marker kepada guru kelas', ikon: '⚡', n: 1, g: { kebaikan: 2, reputasi: 1 } }; },
@@ -10171,9 +10262,9 @@ const Sorotan = {
     }
     // Tiang cahaya di lokasi sasaran tugasan semasa (tempat ambil/letak, mesin, kaunter, NPC)
     if (!this.beacon) { const b = new THREE.Group(); scene.add(b); this.beacon = { obj: b, it: this.pasang(b, { warna: '#5FD3FF', tinggi: 2.4, jejari: 0.75 }) }; }
-    const raw = State.mode === 'play' ? (Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null, tg = raw ? Rooms.guide(raw) : null;
+    const raw = State.mode === 'play' ? (Suruhan.target() || Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null, tg = raw ? Rooms.guide(raw) : null;
     const B = this.beacon.obj; B.visible = !!tg && (!Rooms.current || !!raw.room || true);
-    if (tg) B.position.set(tg.pos.x, Player.lantai && !Rooms.current ? Player.pos.y : 0, tg.pos.z);
+    if (tg) B.position.set(tg.pos.x, Rooms.current ? 0 : (tg.pos.y || 0), tg.pos.z);   // aras sasaran (tingkat atas/bawah), bukan aras pemain
   }
 };
 /* ===================== Penggera tugas & bunyi terlepas ===================== */
@@ -10243,6 +10334,7 @@ const TandaTugas = {
       case 'baca': return { pos: [11.0, 25.35] };
       case 'eksperimen': return { bilik: 'makmal' };
       case 'pra': return { bilik: 'prasekolah' };
+      case 'suruhan': { const S = Suruhan.sasaranSemasa(); if (!S) return null; return S.dunia ? { bilik: S.bilik, dalam: (() => { const r = Rooms.list[S.bilik]; return r ? [S.dunia[0] - r.ox, S.dunia[1] - r.oz] : [0, 0]; })(), npc: 'guru' } : { bilik: S.bilik, dalam: S.dalam, npc: 'suruhan' }; }
       case 'segera': { const f = BukuTugas.fasa(); return f === 'ambil' ? { bilik: 'bilikguru', dalam: [2.6, -4.4] } : f === 'hantar' ? { bilik: k, dalam: [-2.2, -2.9] } : null; }
       default: return null;   // 'misi' & 'peristiwa' sudah ada tanda sendiri pada watak
     }
@@ -10270,7 +10362,7 @@ const TandaTugas = {
   },
   // Kedudukan luar bangunan (untuk peta & tanda di luar)
   luar(L) { if (L.pos) return { x: L.pos[0], y: 0, z: L.pos[1] }; const P = Rooms.pintu[L.bilik]; return P ? { x: P.pos.x, y: P.pos.y || 0, z: P.pos.z } : null; },
-  peta() { return this.aktif.map((L) => { const q = this.luar(L); return q ? { x: q.x, z: q.z, jenis: L.jenis } : null; }).filter(Boolean); },
+  peta() { return this.aktif.map((L) => { const q = this.luar(L); return q ? { x: q.x, z: q.z, jenis: L.jenis, atas: q.y > 0.5 } : null; }).filter(Boolean); },
   dapat(kunci, jenis) {
     let s = this.sprite[kunci];
     if (!s || s.userData.jenis !== jenis) { if (s) scene.remove(s); s = markerSprite(jenis); s.userData.jenis = jenis; s.renderOrder = 15; scene.add(s); this.sprite[kunci] = s; }
@@ -10316,7 +10408,7 @@ const Panggilan = {
   a: null, tunggu: 45, MASA: 150, akhir: null,
   bebas() {
     if (State.mode !== 'play' || State.uiLock || State.paused || this.a) return false;
-    if (Player.bawaJenis || State.makan || Iring.aktif || Buaian.aktif || AktivitiBonus.a || BukuTugas.fasa() || Sukan.aktif) return false;
+    if (Player.bawaJenis || State.makan || Iring.aktif || Buaian.aktif || AktivitiBonus.a || BukuTugas.fasa() || Sukan.aktif || Suruhan.a) return false;
     if (Hari.aktif()) { const j = State.data.hari.jam; if (j < toMin('07:00') || j >= toMin('12:25')) return false; if (Kelas.slot() && Kelas.K.dalam && !Kelas.K.siap) return false; if (!Hari.masaBebas() && !Kelas.pasAktif()) return false; }
     return true;
   },
@@ -10459,7 +10551,7 @@ const AutoJalan = {
   bolehTangga() { return !this.aktif || !!(this.titik[0] && this.titik[0].tangga); },
   // Sasaran objektif semasa (tiang cahaya) -> lokasi
   dariSasaran() {
-    const raw = State.mode === 'play' ? (Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null; if (!raw) return null;
+    const raw = State.mode === 'play' ? (Suruhan.target() || Kelas.target() || Kantin.target() || Panggilan.target() || Missions.target()) : null; if (!raw) return null;
     if (raw.room) return Rooms.current === raw.room ? { bilik: raw.room, dunia: [raw.pos.x, raw.pos.z] } : { bilik: raw.room };
     return Rooms.current ? null : { pos: [raw.pos.x, raw.pos.z] };
   }
@@ -10467,6 +10559,93 @@ const AutoJalan = {
 
 $('btnPergiObj').addEventListener('click', (e) => { e.stopPropagation(); const L = AutoJalan.dariSasaran(); if (L) AutoJalan.mula(L, ($('objTeks').textContent || 'objektif').slice(0, 40)); });
 $('btnPergiObj').addEventListener('pointerdown', (e) => e.stopPropagation());
+/* ===================== Suruhan guru subjek (semasa kelas) ===================== */
+// Guru yang sedang mengajar meminta bantuan secara rawak: (A) ambil barang di mejanya, serahkan kepada guru di kelas;
+// (B) hantar barang dari kelas ke mejanya. Ustazah: meja Ustazah di Bilik Guru <-> Ustazah di Bilik PI.
+const Suruhan = {
+  MEJA: {
+    selina: { bilik: 'bilikguru', pos: [-1.4, -1.9], label: 'meja Cikgu Selina di Bilik Guru' },
+    carmen: { bilik: 'bilikguru', pos: [1.6, -1.9], label: 'meja Cikgu Carmen di Bilik Guru' },
+    stella: { bilik: 'bilikguru', pos: [4.6, -1.9], label: 'meja Cikgu Stella di Bilik Guru' },
+    daniel: { bilik: 'bilikguru', pos: [7.6, -1.9], label: 'meja Cikgu Daniel di Bilik Guru' },
+    fiona: { bilik: 'bilikguru', pos: [-1.4, 2.3], label: 'meja Cikgu Fiona di Bilik Guru' },
+    julinah: { bilik: 'bilikguru', pos: [1.6, 2.3], label: 'meja Cikgu Julinah di Bilik Guru' },
+    sakinah: { bilik: 'bilikguru', pos: [4.6, 2.3], label: 'meja Ustazah di Bilik Guru' },
+    alina: { bilik: 'bilikguru', pos: [7.6, 2.3], label: 'meja Cikgu Alina di Bilik Guru' },
+    shahrul: { bilik: 'makmal', pos: [0, -2.1], label: 'meja Cikgu Shahrul di Makmal Sains' },
+    bernard: { bilik: 'spbt', pos: [2.2, 0.7], label: 'Cikgu Bernard di Bilik SPBT' },
+    silvanus: { bilik: 'susu', pos: [1.7, -0.8], label: 'Cikgu Silvanus di Bilik SUSU' },
+    edwin: { bilik: 'bilikgb', pos: [0, -0.55], label: 'meja Guru Besar di Bilik Guru Besar' }
+  },
+  BARANG: { bm: ['buku', 'buku latihan Bahasa Melayu'], bi: ['buku', 'buku cerita Bahasa Inggeris'], mt: ['pen', 'pen marker'], sn: ['kertas', 'lembaran eksperimen'], pi: ['buku', "buku Iqra'"], moral: ['kertas', 'lembaran kerja Moral'] },
+  a: null, dicuba: {}, tunggu: 0,
+  // Guru subjek bagi kelas pemain sekarang
+  guruSemasa(s) {
+    const n = Kelas.tahun(), J = CONTENT.jadualKelas, sid = (J.tahun[n] || [])[s.i];
+    if (sid === 'pj') return null;
+    if (sid === 'pi') return Agama.moral() ? { id: GURU.untuk(n, 'pi'), sid: 'moral' } : { id: 'sakinah', sid: 'pi' };
+    return { id: GURU.untuk(n, sid), sid };
+  },
+  // Kedudukan guru di kelas (untuk serahan)
+  posGuru(s) { const g = Kelas.guru(s); return g ? { bilik: s.bilik, dunia: [g.pos.x, g.pos.z], nama: g.nama } : null; },
+  mula(s, G) {
+    const meja = this.MEJA[G.id], B = this.BARANG[G.sid] || ['buku', 'buku latihan'], nama = GURU.nama(G.id), ust = G.id === 'sakinah';
+    if (!meja) return;
+    const jenis = Math.random() < 0.5 ? 'ambil' : 'hantar';
+    this.a = { s, slot: s.i, gid: G.id, nama, item: B[0], barang: B[1], meja, jenis, fasa: jenis === 'ambil' ? 'ambil' : 'hantar', akhir: toMin(CONTENT.jadualKelas.slot[s.i][1]) + 10 };
+    const tempat = ust ? 'Bilik PI' : 'kelas';
+    const ayat = jenis === 'ambil'
+      ? [(ust ? 'Ustazah' : 'Cikgu') + ' terlupa ' + B[1] + ' di ' + meja.label + '.', 'Boleh tolong ambilkan dan serahkan terus kepada ' + (ust ? 'Ustazah' : 'cikgu') + ' di ' + tempat + ' ini?']
+      : ['Tolong hantar ' + B[1] + ' ini ke ' + meja.label + '.', 'Selepas itu, kembali ke ' + tempat + ', ya. Terima kasih!'];
+    if (jenis === 'hantar') Player.pegang(this.a.item);
+    Sound.play('ding'); Dialog.show(nama, ayat, { tag: '📚 Suruhan guru' }); HUD.objective();
+  },
+  sasaranSemasa() {
+    const a = this.a; if (!a) return null;
+    if (a.fasa === 'serah') { const g = this.posGuru(a.s); return g ? Object.assign(g, { label: a.nama }) : null; }
+    return { bilik: a.meja.bilik, dalam: a.meja.pos, label: a.meja.label };
+  },
+  target() {
+    const S = this.sasaranSemasa(); if (!S) return null;
+    const w = S.dunia || Rooms.toWorld(S.bilik, S.dalam);
+    return { pos: V3(w[0], w[1]), h: 1.8, room: S.bilik };
+  },
+  calon(cur, tanah, p, cuba) {
+    const S = this.sasaranSemasa(); if (!S || cur !== S.bilik) return;
+    const w = S.dunia || Rooms.toWorld(S.bilik, S.dalam), a = this.a;
+    const kata = a.fasa === 'ambil' ? 'Ambil ' + a.barang : a.fasa === 'serah' ? 'Serahkan ' + a.barang + ' kepada ' + a.nama : 'Letak ' + a.barang + ' (' + a.meja.label.replace(/ di .*/, '') + ')';
+    cuba(Math.hypot(p.x - w[0], p.z - w[1]), a.fasa === 'serah' ? 2.0 : 1.5, { kind: 'suruhan', verb: a.fasa === 'ambil' ? 'Ambil' : a.fasa === 'serah' ? 'Serah' : 'Letak', kata }, 3);
+  },
+  buat() {
+    const a = this.a; if (!a) return;
+    if (a.fasa === 'ambil') { a.fasa = 'serah'; Player.pegang(a.item); Sound.play('pick'); toast('📚 Diambil! Bawa kepada ' + a.nama + '.'); HUD.objective(); return; }
+    Player.pegang(null); this.a = null;
+    const d = State.data; d.stats.kebaikan += 2; d.stats.reputasi += 1; HUD.stats({ kebaikan: 2, reputasi: 1 });
+    Kiraan.tambah('suruhan'); Sound.play('done'); Player.gembira = 0.8;
+    toast('✅ ' + a.nama + ': Terima kasih kerana membantu! +2 Kebaikan, +1 Reputasi'); HUD.objective(); Save.save();
+  },
+  objektif() {
+    const a = this.a; if (!a) return null;
+    return a.fasa === 'ambil' ? 'Ambil ' + a.barang + ' di ' + a.meja.label : a.fasa === 'serah' ? 'Serahkan ' + a.barang + ' kepada ' + a.nama : 'Hantar ' + a.barang + ' ke ' + a.meja.label;
+  },
+  update(dt) {
+    if (State.mode !== 'play' || !Hari.aktif()) { if (this.a) { this.a = null; } return; }
+    const j = State.data.hari.jam, a = this.a;
+    if (a) {
+      if (j > a.akhir) { if (Player.bawaJenis === a.item) Player.pegang(null); this.a = null; Penggera.luput(); toast('⏰ Suruhan ' + a.nama + ' tidak sempat diselesaikan.'); HUD.objective(); }
+      return;
+    }
+    const s = Kelas.slot(), K = Kelas.K; if (!s || s.pj || !K.dalam || Rooms.current !== s.bilik) { this.tunggu = 0; return; }
+    const kunci = State.data.hari.ke + ':' + s.i; if (this.dicuba[kunci]) return;
+    if (State.uiLock || Player.bawaJenis || State.makan || Panggilan.a || (K.akt && K.akt.jenis)) return;
+    this.tunggu += dt; if (this.tunggu < this.selang) return;
+    this.dicuba[kunci] = true; this.tunggu = 0; this.selang = 25 + Math.random() * 50;
+    if (Math.random() > 0.65) return;   // tidak setiap kelas
+    const G = this.guruSemasa(s); if (G && this.MEJA[G.id]) this.mula(s, G);
+  },
+  selang: 30
+};
+
 /* ===================== Main Bersama (Geng): co-op melalui Kod Geng ===================== */
 // Sambungan terus antara peranti (WebRTC melalui PeerJS). Seorang "Buka Geng" (hos), kawan "Sertai Geng" dengan kod.
 // Mod ujian (?gengUjian=1): BroadcastChannel antara tab pada peranti yang sama.
@@ -11104,7 +11283,7 @@ function kemaskiniBingkai(dt) {
   Perf.tick(dt); State.t += dt; World.kibar(State.t);
   if (State.mode === 'play') {
     Sesat.awas(dt); Geng.update(dt); Buaian.update(dt);
-    [AgihSusu, PapanPutih, Gelembung, Peristiwa, DapurRL, MakanAnim, MakanNPC, SuasanaRehat, Perhimpunan, AktivitiBonus, KantinHidup, KelasPJ, BukuTugas, HudRingkas, Makmal, Kebersihan, RumahGuru, Sorotan, TandaTugas, Panggilan, Kenyang, AutoJalan, GuruSubjek, Disiplin].forEach((M) => { try { M.update(dt); } catch (e) { if (!M._ralat) { M._ralat = true; console.warn('Modul ralat:', e); } } });
+    [AgihSusu, PapanPutih, Gelembung, Peristiwa, DapurRL, MakanAnim, MakanNPC, SuasanaRehat, Perhimpunan, AktivitiBonus, KantinHidup, KelasPJ, BukuTugas, HudRingkas, Makmal, Kebersihan, RumahGuru, Sorotan, TandaTugas, Panggilan, Kenyang, AutoJalan, GuruSubjek, Disiplin, Suruhan].forEach((M) => { try { M.update(dt); } catch (e) { if (!M._ralat) { M._ralat = true; console.warn('Modul ralat:', e); } } });
     Kemajuan.acc += dt;
     if (Kemajuan.acc > 1) { Kemajuan.acc = 0; Lencana.semak(); Pangkat.semak(); HUD.pangkat(); if (Player.m !== Aksesori.mLast) Aksesori.pasang(); }
   }
