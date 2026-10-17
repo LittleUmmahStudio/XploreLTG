@@ -10,8 +10,8 @@
  */
 const HELAIAN_PEMAIN = 'Pemain';
 const HELAIAN_MINGGUAN = 'Mingguan';
-const HELAIAN_NOTA = 'ParkingLot';
-const HELAIAN_UMUM = 'Pengumuman';   // pengumuman perhimpunan yang ditulis oleh cikgu (masa nyata)   // nota "Cikgu, nak cikgu tambah" (Parking Lot PAK21), hanya untuk cikgu
+const HELAIAN_NOTA = 'ParkingLot';   // nota "Cikgu, nak cikgu tambah" (Parking Lot PAK21), hanya untuk cikgu
+const HELAIAN_UMUM = 'Pengumuman';   // pengumuman perhimpunan yang ditulis oleh cikgu (masa nyata)
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -98,7 +98,8 @@ function nota_(p) {
   const kunci = LockService.getScriptLock(); kunci.waitLock(8000);
   try {
     const sh = helaian_(HELAIAN_NOTA, ['masa', 'nama', 'tahun', 'kategori', 'nota', 'id', 'sudah dibaca']);
-    if (!cariBaris_(sh, id) && !sh.getDataRange().getValues().some(function (r) { return r[5] === id; })) {
+    // Elak nota berganda: nota yang sama (id sama) mungkin dihantar semula jika sambungan terputus
+    if (!sh.getDataRange().getValues().some(function (r) { return r[5] === id; })) {
       sh.appendRow([new Date(), bersih_(p.nama, 16), nombor_(p.tahun, 6), bersih_(p.kat, 30), teks, id, '']);
     }
   } finally { kunci.releaseLock(); }

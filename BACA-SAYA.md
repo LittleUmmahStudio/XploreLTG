@@ -6,13 +6,14 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 | Fail | Kegunaan |
 |---|---|
 | `index.html` | Game LO:TONG |
-| `manifest.webmanifest` | Maklumat aplikasi (nama, ikon, mod skrin penuh landskap) |
+| `bunyi/` | Muzik dan bunyi suasana (dimuat di latar belakang) |
+| `manifest.webmanifest` | Maklumat aplikasi (nama, ikon, mod skrin penuh) |
 | `sw.js` | Service worker untuk main tanpa internet |
 | `icon-*.png`, `apple-touch-icon.png` | Ikon aplikasi |
 
 ## Hos di GitHub Pages
 1. Cipta repositori baharu di GitHub, contohnya `lotong`.
-2. Muat naik **semua fail dalam folder ini** ke repositori itu (bukan folder itu sendiri). Pastikan `index.html` berada di akar repositori.
+2. Muat naik **semua fail dalam folder ini, termasuk folder `bunyi`** ke repositori itu (bukan folder `lotong` itu sendiri). Pastikan `index.html` berada di akar repositori dan fail bunyi berada di `bunyi/`. Di laman GitHub, folder `bunyi` boleh diseret terus ke ruang *Upload files*.
 3. Pergi ke **Settings → Pages**. Di bawah *Build and deployment*, pilih **Deploy from a branch**, branch `main`, folder `/ (root)`, kemudian **Save**.
 4. Tunggu 1 hingga 2 minit. Game boleh dibuka di `https://NAMA-PENGGUNA.github.io/lotong/`.
 
@@ -24,7 +25,7 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 Buka game **sekali dengan internet** selepas dipasang, supaya Three.js dan fon disimpan dalam peranti. Selepas itu, game boleh dimainkan walaupun tanpa internet.
 
 ## Mengemas kini game
-Apabila `index.html` diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` (contohnya `lotong-v2`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
+Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v58` menjadi `lotong-v59`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
 
 ## Jika aplikasi Android tidak terbuka atau pegun
 1. Buang aplikasi LO:TONG lama dari skrin utama (tekan lama ikon → *Nyahpasang* / *Buang*).
@@ -59,6 +60,13 @@ Tanpa langkah ini, Papan Anugerah hanya menunjukkan profil dalam peranti yang sa
 - **Pengumuman cikgu:** dalam Google Sheet yang sama, buka helaian **Pengumuman** (dicipta automatik). Tulis pengumuman di lajur A. Lajur B dan C (tarikh mula dan tamat) adalah pilihan. Lajur D: tulis TIDAK untuk menyembunyikan. Pengumuman muncul serta-merta pada perhimpunan seterusnya (maksimum 5).
 - Berita umum dari internet tidak diambil secara automatik supaya kandungan sentiasa sesuai untuk murid.
 - Selepas mengemas kini `papan-anugerah.gs`, pilih **Gunakan → Urus penggunaan → ✏️ Edit → Versi baharu → Gunakan**.
+
+## Ruang Guru (jana Kod Hadiah)
+- Di muka depan, tekan **👩‍🏫 Ruang Guru** dan masukkan kata laluan guru. Selepas masuk, cikgu boleh menjana kod hadiah untuk murid dan menyalin senarainya.
+- Kata laluan **tidak disimpan** dalam game; hanya cincangannya (SHA-256). Fail ini juga tidak mengandungi kata laluan, jadi selamat dimuat naik ke GitHub.
+- Selepas 5 cubaan salah, Ruang Guru dikunci selama 60 saat.
+- Ruang Guru hanya terbuka untuk sesi itu. Tekan **🔒 Keluar Ruang Guru** sebelum memberi peranti kepada murid, atau tutup game.
+- Kod hadiah sah selama 14 hari dan setiap murid boleh menebus satu kod sekali sahaja (melalui **🎁 Ada Kod Cikgu?**).
 
 ## Main Bersama (Geng)
 - Tekan **🤝** dalam permainan (atau **Main Bersama** di muka depan). Seorang murid tekan **Buka Geng** dan mendapat **Kod Geng** (contoh `LTG-4821`); kawan tekan **Sertai** dan masukkan 4 nombor itu. Sehingga 4 orang dalam satu geng.
