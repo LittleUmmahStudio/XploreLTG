@@ -2386,7 +2386,31 @@ const Sound = {
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05);
   },
+  /* Kawalan bunyi bertindih: elak bunyi berganda (contohnya klik butang + bunyi perbualan dibuka serentak).
+     - Bunyi yang sama dua kali dalam 0.12 saat: hanya sekali.
+     - Bunyi perbualan (talk) tidak dimainkan jika butang baru sahaja berbunyi, atau bunyi lain baru dimainkan.
+     - Bunyi maklum balas (ok, pick...) yang datang serentak: hanya yang pertama dimainkan (kecuali bunyi salah/terlepas).
+     - Bunyi penting (selesai, naik tahap, duit, kucing...) tidak dimainkan serentak dengan maklum balas kecil.
+     - Jika bunyi bermakna dimainkan sejurus selepas klik butang, klik itu dipudarkan supaya tidak kedengaran "dua kali". */
+  KLIK: { klikMenu: 1, klikGame: 1, talk: 1 },
+  MAKLUM: { pick: 1, kutip: 1, sampah: 1, ok: 2, wrong: 3, luput: 3 },
+  akhir: {}, tKlik: -1e9, tMaklum: -1e9, pMaklum: 0, tBesar: -1e9,
+  boleh(n) {
+    const t = performance.now(), p = this.MAKLUM[n];
+    if (t - (this.akhir[n] || -1e9) < 120) return false;
+    if (n === 'talk' && (t - this.tKlik < 350 || t - this.tMaklum < 300 || t - this.tBesar < 300)) return false;
+    if (this.KLIK[n] && n !== 'talk' && t - this.tKlik < 90) return false;
+    if (p && ((t - this.tMaklum < 250 && !(p === 3 && this.pMaklum < 3)) || t - this.tBesar < 250)) return false;   // salah/terlepas tetap didengar
+    this.akhir[n] = t;
+    if (this.KLIK[n]) this.tKlik = t;
+    else {
+      if (t - this.tKlik < 220) Sampel.senyapKlik();
+      if (p) { this.tMaklum = t; this.pMaklum = p; } else this.tBesar = t;
+    }
+    return true;
+  },
   play(n) {
+    if (!this.boleh(n)) return;
     if (Sampel.main(n)) return;   // bunyi sebenar jika tersedia
     if (n === 'naik') n = 'done'; else if (n === 'bayar' || n === 'ding' || n === 'misiBaru') n = 'ok'; else if (n === 'pintuTutup') n = 'pintu'; else if (n === 'kutip' || n === 'sampah') n = 'pick'; else if (n === 'pam' || n === 'klikMenu' || n === 'klikGame' || n === 'kucing') return;   // sandaran digital
     if (n === 'ok') { this.tone(660, 0.14, 'triangle'); this.tone(880, 0.18, 'triangle', 0.12, 0.1); }
@@ -2453,9 +2477,11 @@ const Sampel = {
   // Mainkan satu buffer (kekuatan sudah dikira); kadar main boleh diubah sedikit supaya tidak berulang sama
   bunyi(kunci, vol, kadar) {
     const c = Sound.ctx, b = this.buf[kunci]; if (!c || !b || vol <= 0) return false;
-    try { const src = c.createBufferSource(), g = c.createGain(); src.buffer = b; if (kadar) src.playbackRate.value = kadar; g.gain.value = vol; src.connect(g); g.connect(c.destination); src.start(); } catch (e) { return false; }
+    try { const src = c.createBufferSource(), g = c.createGain(); src.buffer = b; if (kadar) src.playbackRate.value = kadar; g.gain.value = vol; src.connect(g); g.connect(c.destination); src.start(); if (kunci === 'klikMenu' || kunci === 'klikGame') this.klikAkhir = g; } catch (e) { return false; }
     return true;
   },
+  // Pudarkan klik butang yang sedang berbunyi (digunakan apabila bunyi bermakna menggantikannya)
+  senyapKlik() { const g = this.klikAkhir, c = Sound.ctx; if (!g || !c) return; try { g.gain.cancelScheduledValues(c.currentTime); g.gain.setTargetAtTime(0, c.currentTime, 0.015); } catch (e) {} this.klikAkhir = null; },
   main(n) {
     const M = this.PETA[n], c = Sound.ctx; if (!M || !c) return false;
     if (!this.buf[M[0]]) return false;
