@@ -948,9 +948,9 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
           <label for="akTahun">Tahun</label>
           <select id="akTahun"><option value="1">Tahun 1</option><option value="2">Tahun 2</option><option value="3">Tahun 3</option><option value="4">Tahun 4</option><option value="5">Tahun 5</option><option value="6">Tahun 6</option></select>
           <label for="akPin">Cipta PIN (4 nombor)</label>
-          <input id="akPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••">
+          <input id="akPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" placeholder="••••">
           <label for="akPin2">Taip PIN sekali lagi</label>
-          <input id="akPin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••">
+          <input id="akPin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" placeholder="••••">
           <p class="tpNota">Ingat PIN kamu. Jangan beritahu kawan. Gunakan nama panggilan sahaja.</p>
         </div>
         <div class="baris-btn"><button id="btnAkBina" class="btn utama">Bina akaun</button><button class="btn akKembali">Kembali</button></div>
@@ -960,7 +960,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
           <label for="akKod">Kod Akaun</label>
           <input id="akKod" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="LTG-7KQ4">
           <label for="akPinPulih">PIN (4 nombor)</label>
-          <input id="akPinPulih" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="••••">
+          <input id="akPinPulih" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="one-time-code" placeholder="••••">
           <p class="tpNota">Lupa Kod Akaun atau PIN? Minta bantuan cikgu.</p>
         </div>
         <div class="baris-btn"><button id="btnAkPulih" class="btn utama">Pulihkan</button><button class="btn akKembali">Kembali</button></div>
@@ -990,12 +990,12 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <p id="akStatus" class="tpNota" aria-live="polite"></p>
     </div>
   </section>
-  <section id="panelGuru" class=""lapisan gelap panel-fokus panelMenu" hidden role="dialog" aria-label="Ruang Guru">
+  <section id="panelGuru" class="lapisan gelap panel-fokus panelMenu" hidden role="dialog" aria-label="Ruang Guru">
     <div class="kertas">
       <h2>👩‍🏫 Ruang Guru</h2>
       <div id="guruKunci" class="kotakPutus">
         <p class="tpNota">Ruang ini untuk guru sahaja. Masukkan kata laluan guru untuk masuk.</p>
-        <div class="sbBaris"><input id="inGuruLaluan" type="password" maxlength="40" placeholder="Kata laluan guru" aria-label="Kata laluan guru" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="btnGuruMasuk" class="btn utama">Masuk</button></div>
+        <div class="sbBaris"><input id="inGuruLaluan" type="password" maxlength="40" placeholder="Kata laluan guru" aria-label="Kata laluan guru" autocomplete="one-time-code" autocapitalize="off" spellcheck="false"><button id="btnGuruMasuk" class="btn utama">Masuk</button></div>
         <p id="guruStatus" class="tpNota" aria-live="polite"></p>
       </div>
       <div id="guruRuang" hidden>
