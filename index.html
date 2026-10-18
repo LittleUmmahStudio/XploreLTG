@@ -334,6 +334,11 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
 .mulaSlogan{margin:4px 0 0;font-family:var(--fonTajuk);font-size:clamp(13px,1.9vw,22px);color:#fff;letter-spacing:.5px;
   text-shadow:-2px 0 0 #1B1B26,2px 0 0 #1B1B26,0 -2px 0 #1B1B26,0 2px 0 #1B1B26,3px 3px 0 #1B1B26}
 #mula .tagline{font-size:clamp(11px,1.4vw,15px)}
+.mulaKemajuan{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.cipKemajuan{background:#FFFEF8;color:#1E2B4A;border:2px solid #1B1B26;border-radius:999px;padding:2px 10px;font-size:clamp(11px,1.3vw,14px);box-shadow:2px 2px 0 #1B1B26;white-space:nowrap}
+.cipKemajuan b{font-family:var(--fonTajuk);font-weight:400;color:#C2410C;margin-left:2px}
+@media (max-width:700px) and (orientation:portrait){.mulaKemajuan{justify-content:center}}
+@media (max-height:460px){.mulaKemajuan{margin-top:4px;gap:4px}.cipKemajuan{padding:0 7px;font-size:10.5px}}
 #mula .menuBtn{grid-row:3;align-items:flex-start}
 .mulaBaris{display:flex;gap:12px;align-items:stretch}
 #btnMula.besar{font-size:clamp(26px,4vw,44px);letter-spacing:3px;padding:8px clamp(36px,6vw,80px);min-height:clamp(58px,10vh,84px)}
@@ -905,6 +910,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <p class="subLogo">a little school story</p>
       <p class="mulaSlogan">SATU HARI PERSEKOLAHAN. SERIBU KEBAIKAN.</p>
       <p class="tagline">Look. Observe. Take action. Offer kindness. Nurture growth.</p>
+      <div id="mulaKemajuan" class="mulaKemajuan" hidden aria-label="Kemajuan kamu"></div>
       <p class="jawi-hiasan jawi" lang="ms-Arab" id="mulaJawi" hidden></p>
     </div>
     <div class="menuBtn">
@@ -11423,7 +11429,12 @@ const Menu = {
   statistik() {
     const d = this.profil(), k = (d && d.kiraan) || {};
     const lenc = d && d.lencana ? Object.keys(d.lencana).length : 0;
-    $('mulaStat').textContent = 'Sekolah & watak fiksyen, diilhamkan oleh SK Lotong, Tambunan · © 2026 Little Ummah Studio · oleh Ust. Sahranie' + (d ? ' · Hari persekolahan: ' + ((d.hari && d.hari.ke) || 0) + ' · Gred A: ' + (k.gredA || 0) + ' · Lencana: ' + lenc : '');
+    $('mulaStat').textContent = 'Sekolah & watak fiksyen, diilhamkan oleh SK Lotong, Tambunan · © 2026 Little Ummah Studio · oleh Ust. Sahranie';
+    // Kemajuan pemain dipaparkan di bawah slogan supaya mudah dilihat
+    const km = $('mulaKemajuan'); km.hidden = !d; km.innerHTML = '';
+    if (d) [['🏫', 'Hari persekolahan', (d.hari && d.hari.ke) || 0], ['🅰️', 'Gred A', k.gredA || 0], ['🏅', 'Lencana', lenc]].forEach(([ik, lb, n]) => {
+      const c = document.createElement('span'); c.className = 'cipKemajuan'; c.innerHTML = ik + ' ' + lb + ' <b></b>'; c.querySelector('b').textContent = n; km.appendChild(c);
+    });
     const ad = $('almariDuit'); if (ad) { ad.hidden = !d; if (d) ad.textContent = rm(typeof d.duit === 'number' ? d.duit : Duit.ELAUN).replace('Percuma', 'RM0.00'); }
     $('mulaVersi').textContent = VERSI_GAME;
     let lihat = ''; try { lihat = localStorage.getItem('lotong.lihatVersi') || ''; } catch (e) {}
