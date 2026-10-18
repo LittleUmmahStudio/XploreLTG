@@ -25,13 +25,28 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 Buka game **sekali dengan internet** selepas dipasang, supaya Three.js dan fon disimpan dalam peranti. Selepas itu, game boleh dimainkan walaupun tanpa internet.
 
 ## Mengemas kini game
-Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v64` menjadi `lotong-v65`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
+Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v67` menjadi `lotong-v68`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
 
 ## Jika aplikasi Android tidak terbuka atau pegun
 1. Buang aplikasi LO:TONG lama dari skrin utama (tekan lama ikon → *Nyahpasang* / *Buang*).
 2. Buka pautan GitHub Pages dalam Chrome dan tunggu muka depan dimuatkan. Muat semula halaman sekali.
 3. Pasang semula melalui butang **📲 Pasang Game** atau menu Chrome → *Pasang aplikasi*.
 4. Jika game masih tidak bermula selepas 15 saat, skrin akan menunjukkan butang **Baiki & muat semula**. Butang ini membersihkan salinan lama dan memuat turun semula game.
+
+## Akaun Murid (simpan kemajuan di awan)
+Akaun murid menggunakan Apps Script yang sama dengan Papan Anugerah. **Sekali sahaja**, kemas kini skrip:
+1. Buka Google Sheet Papan Anugerah → **Sambungan → Apps Script**.
+2. Gantikan semua kod dengan kandungan `papan-anugerah.gs` yang baharu, kemudian **Simpan**.
+3. **Gunakan (Deploy) → Urus penggunaan → ✏️ Edit → Versi: Versi baharu → Gunakan**. URL kekal sama.
+4. Helaian **Akaun** akan dibina secara automatik apabila murid pertama membina akaun.
+
+Cara guna:
+- Bila game dibuka, murid yang belum ada akaun akan nampak tetingkap **Akaun Murid**. Mereka boleh **Bina akaun baharu**, **Pulihkan akaun** (Kod Akaun + PIN), atau tekan **Nanti dulu**. Butang **👤 Akaun** di muka depan membuka tetingkap ini semula.
+- Kemajuan disegerakkan secara automatik bila ada internet (kira-kira 20 saat selepas setiap simpanan, dan bila game ditutup).
+- **Murid lupa Kod Akaun:** cari namanya dalam helaian **Akaun**.
+- **Murid lupa PIN:** taip PIN baharu (4 nombor) dalam lajur **pinBaru**. Murid tekan *Saya sudah ada akaun* dan masukkan PIN itu; PIN baharu terus berkuat kuasa.
+- PIN tidak disimpan (hanya cincangan). Akaun dikunci 10 minit selepas 5 kali PIN salah.
+- Jangan ubah lajur **pinHash**, **masa** atau **data1–data8** secara manual.
 
 ## Papan Anugerah Mingguan (dikongsi seluruh sekolah)
 Tanpa langkah ini, Papan Anugerah hanya menunjukkan profil dalam peranti yang sama. Supaya semua murid melihat papan yang sama:
