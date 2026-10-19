@@ -108,7 +108,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--kuning);outline
 #sukan .btn{min-height:36px;padding:4px 12px;font-size:14px;margin-left:auto}
 body.sukan #hud > *:not(#btnAct){visibility:hidden}
 body.kunci.sukan #btnAct{visibility:visible}
-#miniJawi.teks{font-family:var(--fonTeks);direction:ltr;font-size:clamp(24px,7vh,38px);line-height:1.3;font-weight:700;margin:6px 0}
+#miniJawi.teks{font-family:var(--fonTeks);direction:ltr;font-size:clamp(24px,7vh,38px);font-size:clamp(24px,7dvh,38px);line-height:1.3;font-weight:700;margin:6px 0}
 #ringkasan .kertas{width:min(520px,100%);max-height:100%;overflow:auto;touch-action:pan-y}
 #ringkasan h2{margin:0;font-family:var(--fonTajuk);font-weight:400;font-weight:400;font-size:16px;line-height:30px;color:var(--tajukOren);letter-spacing:0}
 #rkHari{margin:0;font-weight:700;color:#2F8F4E;line-height:30px}
@@ -168,17 +168,17 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .lapisan.gelap{background:rgba(36,50,79,.42)}
 .boleh-skrol{overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 
-#dialog{position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(620px,94%);max-height:56vh;
+#dialog{position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(620px,94%);max-height:56vh;max-height:56dvh;
   overflow:visible;touch-action:pan-y;z-index:4;background:#fff;background-image:none;border-radius:12px;padding:12px 16px 12px 18px;color:#1E2B4A}
 #dialog::before{content:"";position:absolute;top:-15px;left:46px;border:14px solid transparent;border-top:0;border-bottom:15px solid #1B1B26}
 #dialog::after{content:"";position:absolute;top:-10px;left:50px;border:10px solid transparent;border-top:0;border-bottom:11px solid #fff}
-#dialog.pilihan{max-height:74vh}
+#dialog.pilihan{max-height:74vh;max-height:74dvh}
 #dialog.pilihan #dlgButang{flex-direction:column;align-items:stretch;gap:6px}
 #dialog.pilihan #dlgButang .btn{min-height:40px;font-size:16px;padding:6px 12px;text-align:left}
 #dialog header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
 #dlgNama{font-size:15px;color:#fff;background:#2160AD;border:3px solid #1B1B26;border-radius:6px;box-shadow:2px 2px 0 #1B1B26;padding:1px 12px;line-height:1.4}
 #dlgTag{font-size:12px;font-weight:700;background:#FFCC33;color:#3A2400;border:2px solid #1B1B26;border-radius:4px;padding:0 9px;line-height:20px}
-#dlgTeks{margin:2px 0 8px;font-size:17px;font-weight:700;line-height:1.45;max-height:30vh;overflow:auto;color:#1E2B4A}
+#dlgTeks{margin:2px 0 8px;font-size:17px;font-weight:700;line-height:1.45;max-height:30vh;max-height:30dvh;overflow:auto;color:#1E2B4A}
 #dlgButang{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 
 #mini .kertas{width:min(560px,100%);max-height:100%;overflow:auto;touch-action:pan-y;text-align:center}
@@ -189,8 +189,8 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #miniProg i.siap{background:#7ED957}
 #miniProg i.kini{background:#FFC93C;color:#1E2B4A}
 #miniSoalan{margin:0;font-size:17px;font-weight:600;line-height:30px}
-#miniJawi{font-size:clamp(56px,14vh,104px);line-height:1.45;margin:0;color:var(--teks);min-height:1.3em}
-#miniJawi.perkataan{font-size:clamp(46px,11vh,80px)}
+#miniJawi{font-size:clamp(56px,14vh,104px);font-size:clamp(56px,14dvh,104px);line-height:1.45;margin:0;color:var(--teks);min-height:1.3em}
+#miniJawi.perkataan{font-size:clamp(46px,11vh,80px);font-size:clamp(46px,11dvh,80px)}
 #miniPilihan{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 #miniPilihan .btn{min-width:110px;font-size:20px}
 #miniPilihan .btn.betul{background:#7ED957;color:#143866;border-color:#2F8F4E}
@@ -207,7 +207,7 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .kompas i{font-style:normal;color:#E8684F;font-size:13px}.kompas b{font-size:12px}
 body.peta #objektif{display:none}
 #objektif{pointer-events:auto;cursor:pointer}
-#geng .kertas{width:min(620px,95vw);max-height:92vh;overflow-y:auto}
+#geng .kertas{width:min(620px,95vw);max-height:92vh;max-height:92dvh;overflow-y:auto}
 #geng h2{margin:0 0 4px}
 .gengPilih{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:6px 0}
 .gengPilih>div{border:3px solid #1B1B26;border-radius:6px;background:#fff;padding:8px 10px;box-shadow:3px 3px 0 #1B1B26;color:#1E2B4A}
@@ -218,7 +218,7 @@ body.peta #objektif{display:none}
 #gengAhli{list-style:none;padding:0;margin:4px 0;display:flex;flex-wrap:wrap;gap:6px}
 #gengAhli li{border:2px solid #1B1B26;border-radius:6px;background:#FFF4C2;padding:2px 8px;font-weight:700;color:#1E2B4A}
 .gengEmo{display:flex;flex-wrap:wrap;gap:6px}.gengEmo .btn,#gengAktHos .btn{min-height:36px;padding:3px 10px;font-size:14px}
-#parkingLot .kertas{width:min(880px,96vw);max-height:94vh;overflow-y:auto;padding:10px 14px}
+#parkingLot .kertas{width:min(880px,96vw);max-height:94vh;max-height:94dvh;overflow-y:auto;padding:10px 14px}
 #parkingLot h2{margin:0;font-size:20px}
 .plPapan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:8px 0;padding:10px;border:4px solid #7A5236;border-radius:8px;
   background:#C8955E radial-gradient(#B07A45 1px,transparent 1.5px) 0 0/9px 9px;box-shadow:inset 0 0 0 3px #E3B880}
@@ -233,7 +233,7 @@ body.peta #objektif{display:none}
 .byAtas{display:flex;gap:12px;align-items:center;margin:8px 0}.byAtas .mmGambar{width:110px;flex:none}.byAtas p{margin:2px 0;font-size:15px}.byHarga b{color:#C0392B;font-size:20px}
 #byDuit{flex-wrap:wrap;gap:6px}#byDuit .btn{min-height:40px;padding:4px 12px}
 .duitChip{position:static;align-self:flex-start;background:#FFF6D6;border:3px solid #1B1B26;border-radius:8px;box-shadow:3px 3px 0 #1B1B26;padding:2px 10px;font-family:var(--fonTajuk);font-size:15px;pointer-events:none;color:#1E2B4A}
-#menuMakan .kertas{width:min(820px,96vw);max-height:94vh;display:flex;flex-direction:column;padding:10px 14px}
+#menuMakan .kertas{width:min(820px,96vw);max-height:94vh;max-height:94dvh;display:flex;flex-direction:column;padding:10px 14px}
 .mmKepala{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.mmKepala h2{margin:0;font-size:20px}
 .mmSapa{margin:4px 0 6px;font-family:var(--fonDialog);font-size:16px;color:var(--btn-teks)}
 #mmTab{gap:6px;flex-wrap:wrap;margin:0 0 6px}#mmTab .btn{min-height:32px;padding:2px 10px;font-size:13px}
@@ -244,13 +244,13 @@ body.peta #objektif{display:none}
 .mmNama{font-family:var(--fonTajuk);font-weight:400;font-size:15px;line-height:1.15}.mmKat{font-size:11px;color:#2F8F4E;font-weight:700}
 .mmDesk{margin:0;font-size:12px;line-height:1.3;flex:1}.mmHarga{font-family:var(--fonTajuk);font-weight:400;font-size:18px}
 .mmKad .mmHarga{color:#B32D22!important}.mmKad .btn{min-height:32px;padding:2px 8px;font-size:14px}
-#papanAnugerah .kertas{width:min(940px,96vw);max-height:95vh;overflow-y:auto;padding:10px 16px 12px}
+#papanAnugerah .kertas{width:min(940px,96vw);max-height:95vh;max-height:95dvh;overflow-y:auto;padding:10px 16px 12px}
 #papanAnugerah h2{margin:0;font-size:20px}
 .paKepala{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
 .paKepala .pfSub{margin:0}
 #paTab{flex-wrap:wrap;gap:6px;margin:6px 0}#paTab .btn{min-height:34px;padding:3px 10px;font-size:14px}
 #paSenarai{list-style:none;margin:6px 0;padding:0;display:grid;gap:5px 10px}
-#paSenarai.semua{max-height:52vh;overflow-y:auto;padding-right:4px}
+#paSenarai.semua{max-height:52vh;max-height:52dvh;overflow-y:auto;padding-right:4px}
 .paKaki{display:flex;flex-wrap:wrap;gap:0 16px}.paKaki .pfSub{margin:2px 0}
 @media (max-height:620px){#paSenarai:not(.semua){grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(5,auto)}
   .paBaris{padding:2px 8px !important}.paNo{font-size:16px !important}#papanAnugerah h2{font-size:17px}}
@@ -258,7 +258,7 @@ body.peta #objektif{display:none}
 .paBaris.saya{background:#FFF4C2;color:#1E2B4A}
 .paNo{font-weight:700;font-size:18px;text-align:center}.paNama{font-weight:700}.paNilai{font-weight:700;color:#C9571E}
 .paKosong{padding:8px;font-style:italic}.paStatus{opacity:.7;font-size:12px}
-#sandaran .kertas{width:min(560px,94vw);max-height:90vh;overflow-y:auto}
+#sandaran .kertas{width:min(560px,94vw);max-height:90vh;max-height:90dvh;overflow-y:auto}
 #sandaran h2{margin:0 0 6px}
 #sbTeks{width:100%;box-sizing:border-box;font-family:"Courier New",monospace;font-size:12px;border:3px solid #1B1B26;border-radius:6px;padding:6px;background:#fff;color:#1B1B26;resize:vertical;word-break:break-all}
 .sbFail{display:inline-flex;align-items:center;margin-top:6px;cursor:pointer}
@@ -273,7 +273,7 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
   padding:max(14px,env(safe-area-inset-top,0px)) 12px max(14px,env(safe-area-inset-bottom,0px));pointer-events:none;z-index:3}
 #mula[hidden]{display:none}
 #mula button{pointer-events:auto}
-.judul{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;padding-top:clamp(18px,4vh,40px)}
+.judul{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;padding-top:clamp(18px,4vh,40px);padding-top:clamp(18px,4dvh,40px)}
 .logo{position:relative;line-height:1}
 #mula h1.logoTeks{margin:0;font-family:var(--fonTajuk);font-weight:400;font-size:clamp(60px,12vw,150px);line-height:1;letter-spacing:3px;
   background:linear-gradient(180deg,#FFF06A 0%,#FFC23A 40%,#FF8A2A 70%,#E8571E 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;text-shadow:none}
@@ -291,9 +291,9 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
 .menuKecil{display:grid;grid-template-columns:repeat(2,minmax(150px,1fr));gap:8px}
 .menuKecil .btn{font-size:16px;min-height:42px}
 .mulaNota{margin:0;font-family:var(--fonTajuk);font-weight:400;font-size:14px;color:#1E2B4A;background:rgba(255,253,242,.9);border:2px solid #1B1B26;border-radius:6px;padding:2px 10px;pointer-events:none}
-@media (min-height:620px){.menuKecil{grid-template-columns:1fr;width:min(300px,70vw)}.menuBtn{gap:10px;margin-bottom:4vh}}
+@media (min-height:620px){.menuKecil{grid-template-columns:1fr;width:min(300px,70vw)}.menuBtn{gap:10px;margin-bottom:4vh;margin-bottom:4dvh}}
 @media (max-height:460px){#mula h1.logoTeks{font-size:clamp(54px,9.5vw,92px)}.menuKecil{grid-template-columns:repeat(4,auto)}.menuKecil .btn{font-size:14px;min-height:38px;padding:4px 10px}#btnMula{padding:6px 48px}}
-.panelMenu .kertas{width:min(560px,94vw);max-height:90vh;overflow-y:auto}
+.panelMenu .kertas{width:min(560px,94vw);max-height:90vh;max-height:90dvh;overflow-y:auto}
 .panelMenu h2{margin:0 0 8px}
 #panelWatak .kertas{display:flex;flex-direction:column;gap:6px;position:relative}
 #panelAkaun .kertas{width:min(480px,100%);max-height:100%;overflow:auto;touch-action:pan-y}
@@ -329,7 +329,7 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
 #mula{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr auto auto;justify-items:start;align-items:start;text-align:left;
   padding:max(14px,env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) max(10px,env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px))}
 #mula::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,247,224,.62) 0%,rgba(255,247,224,.25) 38%,rgba(255,247,224,0) 60%);pointer-events:none;z-index:-1}
-#mula .judul{align-items:flex-start;text-align:left;padding-top:clamp(26px,6vh,64px)}
+#mula .judul{align-items:flex-start;text-align:left;padding-top:clamp(26px,6vh,64px);padding-top:clamp(26px,6dvh,64px)}
 #mula .judul .kilatK{left:-6%}
 .mulaSlogan{margin:4px 0 0;font-family:var(--fonTajuk);font-size:clamp(13px,1.9vw,22px);color:#fff;letter-spacing:.5px;
   text-shadow:-2px 0 0 #1B1B26,2px 0 0 #1B1B26,0 -2px 0 #1B1B26,0 2px 0 #1B1B26,3px 3px 0 #1B1B26}
@@ -341,7 +341,7 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
 @media (max-height:460px){.mulaKemajuan{margin-top:4px;gap:4px}.cipKemajuan{padding:0 7px;font-size:10.5px}}
 #mula .menuBtn{grid-row:3;align-items:flex-start}
 .mulaBaris{display:flex;gap:12px;align-items:stretch}
-#btnMula.besar{font-size:clamp(26px,4vw,44px);letter-spacing:3px;padding:8px clamp(36px,6vw,80px);min-height:clamp(58px,10vh,84px)}
+#btnMula.besar{font-size:clamp(26px,4vw,44px);letter-spacing:3px;padding:8px clamp(36px,6vw,80px);min-height:clamp(58px,10vh,84px);min-height:clamp(58px,10dvh,84px)}
 .mulaWatak{display:flex !important;flex-direction:column;justify-content:center;align-items:center;gap:0;background:#FFB8D2;min-width:clamp(64px,9vw,92px);font-size:clamp(20px,3vw,30px);line-height:1}
 .mulaWatak small{font-size:13px;margin-top:2px}
 .mulaModTeks{margin:2px 0 0;font-size:13px;font-weight:700;color:#1E2B4A;text-shadow:0 0 4px #fff,0 0 6px #fff}
@@ -388,7 +388,7 @@ h1,h2,h3,.btn,.snSub,#dlgNama,#objTajuk,#miniTajuk,#rwTajuk,legend{font-family:v
 input:not([type=range]):not([type=checkbox]):not([type=radio]),select,textarea{background:#FFFFFF;color:#1B1B26}
 input::placeholder,textarea::placeholder{color:#6B7280}
 /* Tetapan bertab */
-.tpKertas{width:min(860px,96vw);max-height:92vh;display:flex;flex-direction:column}
+.tpKertas{width:min(860px,96vw);max-height:92vh;max-height:92dvh;display:flex;flex-direction:column}
 .tpKecil{margin:0;font-family:var(--fonTajuk);font-size:12px;letter-spacing:2px;color:var(--hijauTeks)}
 .tpKertas h2{margin:0 0 8px}
 .tpBadan{display:grid;grid-template-columns:190px 1fr;gap:16px;min-height:0;flex:1;overflow:hidden}
@@ -419,7 +419,7 @@ body.kidal #btnLari{right:auto;left:112px}
 #tenaga.lapar::after{content:'🍽️';margin-left:2px;font-size:13px;animation:denyut 1s ease-in-out infinite}
 @keyframes goyang{0%,100%{transform:rotate(0)}15%{transform:rotate(-6deg) scale(1.08)}30%{transform:rotate(5deg) scale(1.08)}45%{transform:rotate(-4deg)}60%{transform:rotate(3deg)}75%{transform:rotate(-2deg)}}
 #bukuChip.goyang,#ringkasChip.goyang{animation:goyang .9s ease-in-out 2;box-shadow:0 0 0 3px #FFC93C,3px 3px 0 #1B1B26}
-#buku .kertas{width:min(640px,96vw);max-height:92vh;overflow-y:auto;padding:10px 14px}#buku h2{margin:0;font-size:20px}
+#buku .kertas{width:min(640px,96vw);max-height:92vh;max-height:92dvh;overflow-y:auto;padding:10px 14px}#buku h2{margin:0;font-size:20px}
 #bukuSenarai{list-style:none;margin:8px 0;padding:0;display:flex;flex-direction:column;gap:5px}
 #bukuSenarai li{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:#FFFFFF;color:#1E2B4A;border:2px solid #1B1B26;border-radius:6px;padding:4px 8px;font-size:14px}
 #bukuSenarai li small{color:#4A5568;font-size:12px}#bukuSenarai .bukuCara{grid-column:1 / -1;font-style:normal;font-size:12.5px;color:#3B4A63;margin-top:-2px}#bukuSenarai .bukuCara:empty{display:none}
@@ -439,7 +439,7 @@ body.kidal #btnLari{right:auto;left:112px}
   background:#fff;color:#1E2B4A;border:3px solid #1B1B26;border-radius:6px;box-shadow:3px 3px 0 #1B1B26;padding:2px 8px 4px;min-width:150px;touch-action:manipulation}
 #pangkatChip i{display:block;width:100%;height:6px;background:#E3E8EF;border-radius:3px;overflow:hidden;color:#1E2B4A}
 #pangkatChip em{display:block;height:100%;width:0;background:linear-gradient(90deg,#FFCC33,#FF7A45)}
-#profil .kertas{width:min(640px,94vw);max-height:90vh;overflow-y:auto}
+#profil .kertas{width:min(640px,94vw);max-height:90vh;max-height:90dvh;overflow-y:auto}
 #profil h2{margin:0}
 .pfSub{margin:2px 0;font-size:14px}
 .pfBarLuar{height:12px;border:3px solid #1B1B26;border-radius:6px;background:#E3E8EF;overflow:hidden;margin:6px 0 2px;color:#1E2B4A}
@@ -454,7 +454,7 @@ body.kidal #btnLari{right:auto;left:112px}
 #pfAksesori{display:flex;flex-wrap:wrap;gap:6px}
 #pfAksesori .btn{min-height:36px;padding:3px 10px;font-size:14px}
 #pfAksesori .btn:disabled{opacity:.55;cursor:not-allowed}
-#tetapan .kertas{width:min(520px,92vw);max-height:88vh;overflow-y:auto}
+#tetapan .kertas{width:min(520px,92vw);max-height:88vh;max-height:88dvh;overflow-y:auto}
 #tetapan h2{margin:0 0 8px}
 .tetapanGrid{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;margin:4px 0 12px;font-weight:700}
 .tetapanGrid .btn{min-height:38px;padding:4px 14px;min-width:96px}
@@ -463,7 +463,7 @@ body.kidal #btnLari{right:auto;left:112px}
 body.teksBesar #dlgTeks{font-size:21px} body.teksBesar #objTeks{font-size:17px} body.teksBesar .toast{font-size:17px}
 body.teksBesar #prompt{font-size:18px} body.teksBesar #miniSoalan{font-size:21px;line-height:1.5} body.teksBesar .btn{font-size:18px}
 body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
-#senarai .kertas{width:min(560px,92vw);max-height:86vh;overflow-y:auto}
+#senarai .kertas{width:min(560px,92vw);max-height:86vh;max-height:86dvh;overflow-y:auto}
 #senarai h2{margin:0 0 8px}
 .snItem{border:3px solid #1B1B26;border-radius:6px;background:#fff;padding:8px 10px;margin:0 0 8px;box-shadow:3px 3px 0 #1B1B26;color:#1E2B4A}
 .snItem.fokus{background:#FFF4C2;border-left:10px solid #FFCC33;color:#1E2B4A}
@@ -587,6 +587,27 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important}
 }
+
+/* ===== v71: Paparan muat penuh untuk semua peranti (laptop, iPad, tablet, iPhone, Android) ===== */
+/* Muka depan: saiz dikecilkan secara automatik (skrip muatMula) jika skrin rendah */
+#mula .judul,#mula .menuBtn,#mula .mulaKaki,#mula .mulaAtas{zoom:var(--zm,1)}
+#mula .menuBtn{max-width:100%}
+#mula .mulaBaris{max-width:100%}
+#mula #btnMula{min-width:min(320px,58vw);flex:1 1 auto}
+#mula .mulaWatak{flex:0 0 auto}
+#mula .mulaKaki{min-width:0}
+/* Skrin landskap rendah (telefon): susunan lebih padat */
+@media (max-height:500px) and (orientation:landscape){
+  #mula .judul{padding-top:max(16px,4dvh)}
+  #mula .tunas{top:-16px;font-size:clamp(22px,7dvh,34px)}
+  #mula .menuBtn{gap:5px}
+  #mula .menuKecil{gap:6px}
+  #mula h1.logoTeks{font-size:clamp(44px,15dvh,80px)}
+  .subLogo{font-size:clamp(16px,6dvh,26px) !important;padding:2px 16px !important}
+  #btnMula.besar{min-height:clamp(42px,12dvh,56px)}
+}
+/* Semua panel/tetingkap: tidak melebihi skrin, boleh skrol jika panjang */
+.lapisan>.kertas{max-width:100%;max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 </style>
 </head>
 <body>
@@ -11936,5 +11957,46 @@ async function boot() {
 boot();
 })();
 </script>
+<script>
+/* ===== v71: Muat muka depan ikut saiz skrin sebenar (semua peranti) =====
+   Jika kandungan menu lebih tinggi/lebar daripada skrin (contohnya iPhone landskap dengan bar Safari),
+   semuanya dikecilkan sedikit secara seragam supaya SEMUA butang kelihatan. */
+(function () {
+  const m = document.getElementById('mula'); if (!m) return;
+  const MIN = 0.55;
+  let tunggu = 0;
+  function muat() {
+    tunggu = 0;
+    if (m.hidden) return;
+    m.style.setProperty('--zm', '1');
+    const cs = getComputedStyle(m);
+    const ruangT = m.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const ruangL = m.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let perlu = 0, lebar = 0, n = 0;
+    for (const e of m.children) {
+      const s = getComputedStyle(e);
+      if (e.id === 'mulaTirai' || e.hidden || s.display === 'none' || s.position === 'absolute' || s.position === 'fixed') continue;
+      perlu += e.offsetHeight + (parseFloat(s.marginTop) || 0) + (parseFloat(s.marginBottom) || 0);
+      lebar = Math.max(lebar, e.scrollWidth);
+      n++;
+    }
+    perlu += (parseFloat(cs.rowGap) || 0) * Math.max(0, n - 1);
+    if (!perlu || ruangT <= 0) return;
+    let z = Math.min(1, ruangT / perlu, lebar ? ruangL / lebar : 1);
+    if (z < 1) z = Math.max(MIN, Math.floor(z * 100) / 100 - 0.01);
+    m.style.setProperty('--zm', String(z));
+  }
+  function jadual() { if (!tunggu) tunggu = requestAnimationFrame(muat); }
+  window.addEventListener('resize', jadual);
+  window.addEventListener('orientationchange', () => setTimeout(jadual, 300));
+  window.addEventListener('pageshow', jadual);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', jadual);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(jadual);
+  new MutationObserver(jadual).observe(m, { attributes: true, attributeFilter: ['hidden'], childList: true, subtree: true, characterData: true });
+  window.muatMula = muat;
+  jadual();
+})();
+</script>
+
 </body>
 </html>
