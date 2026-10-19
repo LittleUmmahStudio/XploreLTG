@@ -13,12 +13,20 @@
  *   - Murid lupa PIN? Taip PIN baharu (4 digit) dalam lajur "pinBaru". Murid masukkan PIN itu
  *     semasa "Pulihkan akaun" dan PIN baharu terus berkuat kuasa.
  *   - Akaun dikunci 10 minit selepas 5 kali PIN salah.
+ *
+ * MODUL GURU (Tugasan Cuti): setiap TAB dalam Sheet ini ialah SATU SUBJEK (contoh: PI, MORAL, SAINS, MATH, BM, BI).
+ *   - Jalankan fungsi sediakanModul() sekali untuk membina tab contoh. Padam baris contoh dan isi modul cikgu.
+ *   - Tab baharu dengan nama apa-apa (selain tab sistem) terus menjadi subjek baharu dalam game.
+ *   - Lajur: aktif | tahun | tajuk | jenis | soalan | A | B | C | D | jawapan | mula | tamat | penerangan
+ *   - Jawapan murid masuk ke helaian "Hantaran". Cikgu boleh isi lajur "markah guru" dan "komen guru"; murid nampak komen itu.
  */
 const HELAIAN_PEMAIN = 'Pemain';
 const HELAIAN_MINGGUAN = 'Mingguan';
 const HELAIAN_NOTA = 'ParkingLot';   // nota "Cikgu, nak cikgu tambah" (Parking Lot PAK21), hanya untuk cikgu
 const HELAIAN_UMUM = 'Pengumuman';   // pengumuman perhimpunan yang ditulis oleh cikgu (masa nyata)
 const HELAIAN_AKAUN = 'Akaun';       // akaun murid: simpanan kemajuan di awan
+const HELAIAN_HANTARAN = 'Hantaran'; // jawapan murid untuk modul guru
+const HELAIAN_SISTEM = ['Pemain', 'Mingguan', 'ParkingLot', 'Pengumuman', 'Akaun', 'Hantaran', 'Arahan'];   // bukan subjek
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -28,6 +36,8 @@ function doGet(e) {
     else if (p.aksi === 'padam') out = padam_(p);
     else if (p.aksi === 'nota') out = nota_(p);
     else if (p.aksi === 'pengumuman') out = pengumuman_();
+    else if (p.aksi === 'modul') out = modul_();
+    else if (p.aksi === 'semakModul') out = semakModul_(p);
     else out = senarai_(p);
   } catch (err) {
     out = { ok: false, ralat: String(err) };
@@ -48,6 +58,7 @@ function doPost(e) {
     else if (b.aksi === 'akaunSimpan') out = akaunSimpan_(b);
     else if (b.aksi === 'akaunAmbil') out = akaunAmbil_(b, true);
     else if (b.aksi === 'akaunSemak') out = akaunAmbil_(b, false);
+    else if (b.aksi === 'hantarModul') out = hantarModul_(b);
     else out = { ok: false, ralat: 'aksi tidak dikenali' };
   } catch (err) {
     out = { ok: false, ralat: String(err) };
@@ -222,3 +233,112 @@ function akaunAmbil_(b, denganData) {
   } finally { kunci.releaseLock(); }
 }
 
+/* ===================== Modul Guru (Tugasan Cuti): satu tab = satu subjek ===================== */
+const LAJUR_MODUL = ['aktif (YA/TIDAK)', 'tahun (kosong = semua; cth 4 atau 4-6 atau 1,2,3)', 'tajuk modul', 'jenis (kuiz / jawapan / amalan)', 'soalan atau arahan', 'A', 'B', 'C', 'D', 'jawapan betul (A/B/C/D)', 'tarikh mula', 'tarikh tamat', 'penerangan selepas jawab'];
+
+function teks_(t, n) { return String(t === null || t === undefined ? '' : t).replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n); }
+// Elak formula Google Sheets daripada teks murid (=, +, -, @ di permulaan)
+function selamat_(t) { t = String(t); return /^[=+\-@]/.test(t) ? "'" + t : t; }
+
+function tahunModul_(v) {
+  const t = String(v === null || v === undefined ? '' : v).trim(); if (!t) return [];
+  const out = {};
+  t.split(/[,;\s]+/).forEach(function (bahagian) {
+    const m = bahagian.match(/^(\d)\s*-\s*(\d)$/);
+    if (m) { for (let i = +m[1]; i <= +m[2]; i++) if (i >= 1 && i <= 6) out[i] = true; }
+    else if (/^\d$/.test(bahagian) && +bahagian >= 1 && +bahagian <= 6) out[+bahagian] = true;
+  });
+  return Object.keys(out).map(Number);
+}
+function tarikhModul_(v, akhir) { if (!v) return null; const d = new Date(v); if (isNaN(d)) return null; d.setHours(akhir ? 23 : 0, akhir ? 59 : 0, 0, 0); return d; }
+
+function modul_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet(), kini = new Date(), subjek = [];
+  ss.getSheets().forEach(function (sh) {
+    const nama = sh.getName();
+    if (nama.charAt(0) === '_' || HELAIAN_SISTEM.indexOf(nama) >= 0) return;
+    const v = sh.getDataRange().getValues(); if (v.length < 2) return;
+    const item = [];
+    for (let i = 1; i < v.length && item.length < 300; i++) {
+      const r = v[i];
+      if (String(r[0]).toUpperCase() === 'TIDAK') continue;
+      const soalan = teks_(r[4], 400); if (!soalan) continue;
+      const m = tarikhModul_(r[10], false), t = tarikhModul_(r[11], true);
+      if ((m && kini < m) || (t && kini > t)) continue;
+      const pilihan = [r[5], r[6], r[7], r[8]].map(function (x) { return teks_(x, 120); });
+      let jenis = String(r[3] || '').toLowerCase();
+      jenis = /kuiz|pilih/.test(jenis) ? 'kuiz' : /amal/.test(jenis) ? 'amalan' : 'jawapan';
+      const adaPilihan = pilihan.filter(function (x) { return x; }).length;
+      if (jenis === 'kuiz' && adaPilihan < 2) jenis = 'jawapan';
+      item.push({ rid: nama + '!' + (i + 1), tahun: tahunModul_(r[1]), tajuk: teks_(r[2], 60) || 'Latihan', jenis: jenis, soalan: soalan,
+        pilihan: pilihan, betul: String(r[9] || '').trim().toUpperCase().slice(0, 1), terang: teks_(r[12], 300) });
+    }
+    if (item.length) subjek.push({ nama: teks_(nama, 30), item: item });
+  });
+  return { ok: true, subjek: subjek };
+}
+
+function hantaranHelaian_() {
+  return helaian_(HELAIAN_HANTARAN, ['masa', 'nama', 'tahun', 'id', 'subjek', 'tajuk', 'jenis', 'soalan', 'jawapan murid', 'betul', 'markah guru', 'komen guru', 'kunci']);
+}
+
+// Murid hantar jawapan (POST). Jawapan kuiz disemak semula terhadap helaian guru.
+function hantarModul_(b) {
+  const id = bersih_(b.id, 40), nama = bersih_(b.nama, 16), hid = bersih_(b.hantarId, 40);
+  if (!id || !nama || !hid || !Array.isArray(b.jawapan)) return { ok: false, ralat: 'data tidak lengkap' };
+  const subjek = teks_(b.subjek, 30), sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(subjek);
+  if (!sh || sh.getName().charAt(0) === '_' || HELAIAN_SISTEM.indexOf(sh.getName()) >= 0) return { ok: false, ralat: 'subjek tidak sah' };
+  const data = sh.getDataRange().getValues();
+  const kunci = LockService.getScriptLock(); kunci.waitLock(8000);
+  try {
+    const hs = hantaranHelaian_(), ada = {};
+    const nBaris = hs.getLastRow();
+    if (nBaris > 1) hs.getRange(2, 13, nBaris - 1, 1).getValues().forEach(function (r) { ada[r[0]] = true; });
+    const baru = []; let skor = 0, jumlah = 0;
+    b.jawapan.slice(0, 60).forEach(function (j) {
+      const rid = teks_(j.rid, 60), k = hid + '|' + rid; if (ada[k]) return;
+      const no = +(rid.split('!')[1] || 0), r = data[no - 1] || [];
+      const soalan = teks_(r[4], 400) || teks_(j.soalan, 400);
+      const jenis = String(j.jenis || ''), jwp = teks_(j.jwp, 300);
+      let betul = '-';
+      if (jenis === 'kuiz') { jumlah++; betul = String(r[9] || '').trim().toUpperCase().slice(0, 1) === jwp.toUpperCase().slice(0, 1) ? 'Ya' : 'Tidak'; if (betul === 'Ya') skor++; }
+      baru.push([new Date(), nama, nombor_(b.tahun, 6), id, subjek, teks_(r[2], 60) || teks_(b.tajuk, 60), jenis, selamat_(soalan), selamat_(jwp), betul, '', '', k]);
+    });
+    if (baru.length) hs.getRange(hs.getLastRow() + 1, 1, baru.length, 13).setValues(baru);
+    return { ok: true, skor: skor, jumlah: jumlah };
+  } finally { kunci.releaseLock(); }
+}
+
+// Komen / markah cikgu untuk seorang murid (GET ?aksi=semakModul&id=...)
+function semakModul_(p) {
+  const id = bersih_(p.id, 40); if (!id) return { ok: false };
+  const v = hantaranHelaian_().getDataRange().getValues().slice(1), out = [];
+  for (let i = v.length - 1; i >= 0 && out.length < 80; i--) {
+    const r = v[i]; if (String(r[3]) !== id) continue;
+    if (String(r[10]).trim() === '' && String(r[11]).trim() === '') continue;
+    out.push({ subjek: teks_(r[4], 30), tajuk: teks_(r[5], 60), soalan: teks_(r[7], 80), markah: teks_(r[10], 20), komen: teks_(r[11], 300) });
+  }
+  return { ok: true, semakan: out };
+}
+
+// Jalankan SEKALI: bina tab contoh PI, MORAL, SAINS, MATH. Padam baris contoh dan isi modul sendiri.
+function sediakanModul() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const contoh = {
+    PI: [['YA', '1-3', 'Adab Harian', 'kuiz', 'Apakah yang dibaca sebelum makan?', 'Bismillah', 'Alhamdulillah', 'Insya-Allah', '', 'A', '', '', 'Kita membaca Bismillah sebelum makan.'],
+         ['YA', '', 'Amalan Cuti', 'amalan', 'Bantu ibu bapa di rumah dan ceritakan apa yang kamu buat.', '', '', '', '', '', '', '', '']],
+    MORAL: [['YA', '', 'Nilai Murni', 'kuiz', 'Murid menyerahkan dompet yang dijumpai kepada guru. Nilai apakah ini?', 'Kejujuran', 'Keberanian', 'Kerjasama', '', 'A', '', '', ''],
+            ['YA', '', 'Nilai Murni', 'jawapan', 'Ceritakan satu perbuatan baik yang kamu lakukan hari ini.', '', '', '', '', '', '', '', '']],
+    SAINS: [['YA', '4-6', 'Tumbuhan', 'kuiz', 'Apakah yang diperlukan tumbuhan untuk membuat makanan?', 'Cahaya matahari', 'Plastik', 'Batu', '', 'A', '', '', '']],
+    MATH: [['YA', '1-2', 'Tambah', 'kuiz', '12 + 8 = ?', '18', '20', '22', '', 'B', '', '', '']]
+  };
+  Object.keys(contoh).forEach(function (nama) {
+    if (ss.getSheetByName(nama)) return;
+    const sh = ss.insertSheet(nama);
+    sh.getRange(1, 1, 1, LAJUR_MODUL.length).setValues([LAJUR_MODUL]).setFontWeight('bold').setWrap(true);
+    sh.setFrozenRows(1);
+    sh.getRange(2, 1, contoh[nama].length, LAJUR_MODUL.length).setValues(contoh[nama]);
+    sh.setColumnWidth(5, 320);
+  });
+  hantaranHelaian_();
+}

@@ -228,6 +228,13 @@ body.peta #objektif{display:none}
 #plKat{flex-wrap:wrap;gap:6px}#plKat .btn{min-height:32px;padding:2px 10px;font-size:13px}
 .plTulis{display:flex;gap:8px;align-items:stretch;margin-top:6px}.plTulis textarea{flex:1;font:inherit;font-size:15px;border:3px solid #1B1B26;border-radius:6px;padding:6px;resize:none}
 @media (max-width:640px){.plPapan{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#modulGuru .kertas{width:min(720px,96vw);max-height:94vh;max-height:94dvh;overflow-y:auto;padding:10px 14px}#modulGuru h2{margin:0;font-size:20px}
+#mgSubjek{flex-wrap:wrap;gap:6px}#mgSubjek .btn{min-height:34px;padding:2px 12px;font-size:14px}
+.mgKad{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#FFF6E0;border:3px solid #1B1B26;border-radius:10px;padding:8px 10px;margin:8px 0}.mgKad>div{min-width:0}.mgKad b{font-size:16px;display:block}.mgKad small{display:block;font-size:13px}
+.mgKomen{background:#E6F4FF;border-left:5px solid #2F7FC4;border-radius:6px;padding:4px 8px;margin-top:4px;font-size:13px;word-break:break-word}
+.mgSoalan{font-size:17px;line-height:1.35;margin:8px 0;word-break:break-word}.mgPilih{display:flex;flex-direction:column;gap:8px;margin:8px 0}.mgPilih .btn{text-align:left;justify-content:flex-start;min-height:44px}
+.mgPilih .btn.betul{background:#BFE8B0}.mgPilih .btn.salah{background:#F6B9B0}.mgTeks{width:100%;box-sizing:border-box;font:inherit;font-size:15px;border:3px solid #1B1B26;border-radius:6px;padding:6px;resize:none;margin:6px 0}
+.mgTerang{background:#FFF6D6;border-radius:6px;padding:6px 8px;font-size:14px;margin:6px 0}.mgSkor{font-size:22px;font-family:var(--fonTajuk);margin:8px 0}
 #bayar .kertas{width:min(560px,94vw);padding:10px 14px}#bayar h2{margin:0;font-size:20px}
 .byHarga b,.mmHarga{color:var(--harga)!important}
 .byAtas{display:flex;gap:12px;align-items:center;margin:8px 0}.byAtas .mmGambar{width:110px;flex:none}.byAtas p{margin:2px 0;font-size:15px}.byHarga b{color:#C0392B;font-size:20px}
@@ -744,6 +751,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
         <button id="btnProfilJ" class="btn">Profil &amp; lencana</button>
         <button id="btnAnugerahJ" class="btn">Papan Anugerah</button>
         <button id="btnParkingJ" class="btn">📝 Cikgu, nak cikgu tambah</button>
+        <button id="btnModulJ" class="btn">📘 Tugasan Cuti</button>
         <button id="btnGengJ" class="btn">Main Bersama</button>
         <button id="btnPetaJ" class="btn">Lihat peta sekolah</button>
         <button id="btnSesat" class="btn">Saya sesat</button>
@@ -782,6 +790,14 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <ul id="cabaranSenarai"></ul>
       <p id="cabaranBonus" class="pfSub"></p>
       <div class="baris-btn"><button id="cabaranTutup" class="btn utama">Tutup</button></div>
+    </div>
+  </section>
+  <section id="modulGuru" class="lapisan gelap panel-fokus" hidden role="dialog" aria-label="Tugasan Cuti">
+    <div class="kertas">
+      <div class="mmKepala"><div><h2>📘 Tugasan Cuti</h2><small>Modul daripada cikgu. Jawapan kamu dihantar terus kepada cikgu.</small></div><button id="mgTutup" class="btn">Tutup</button></div>
+      <div id="mgSubjek" class="baris-btn"></div>
+      <div id="mgIsi"></div>
+      <p id="mgStatus" class="pfSub"></p>
     </div>
   </section>
   <section id="parkingLot" class="lapisan gelap panel-fokus" hidden role="dialog" aria-label="Cikgu, nak cikgu tambah">
@@ -948,6 +964,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
         <button id="btnGengMula" class="btn">🤝 Main Bersama</button>
         <button id="btnMaklumMula" class="btn">💬 Maklum Balas</button>
         <button id="btnParkingMula" class="btn">📝 Papan Nota</button>
+        <button id="btnModulMula" class="btn">📘 Tugasan Cuti</button>
         <button id="btnPasang" class="btn" hidden>📲 Pasang Game</button>
       </div>
       <p id="mulaNota" class="mulaNota"></p>
@@ -1598,7 +1615,7 @@ const CONTENT = {
       ganjaran: { kebaikan: 4, reputasi: 3 },
       maklumBalas: 'Kamu memilih untuk menegur dengan lembut. Kata-kata yang baik membawa kebaikan.', rujukan: '' },
 
-    { id: 'm_buku', tajuk: 'Buku untuk Ustazah', pemberi: 'cikgu', syarat: ['m_kenal'], nilai: 'Amanah',
+    { agama: true, id: 'm_buku', tajuk: 'Buku untuk Ustazah', pemberi: 'cikgu', syarat: ['m_kenal'], nilai: 'Amanah',
       dialogMula: ['Boleh tolong cikgu? Ada buku di atas meja dekat tangga Blok Kelas.', 'Tolong hantarkan kepada Ustazah. Ikut anak panah kuning untuk mencari Ustazah.'],
       langkah: [
         { jenis: 'kutip', item: 'buku', bilangan: 1, tempat: [[-3.8, -14, 0.92]], objektif: 'Ambil buku di atas meja dekat tangga Blok Kelas' },
@@ -1608,7 +1625,7 @@ const CONTENT = {
       ganjaran: { kebaikan: 5, reputasi: 5 },
       maklumBalas: 'Kamu menghantar buku dengan selamat. Orang yang menunaikan amanah akan dipercayai.', rujukan: '' },
 
-    { masa: ['tiba', 'pulang'], id: 'm_huruf', tajuk: 'Kenal Huruf Jawi', pemberi: 'ustazah', syarat: ['m_buku'], ulang: true, rehat: 60, nilai: 'Menuntut ilmu',
+    { agama: true, masa: ['tiba', 'pulang'], id: 'm_huruf', tajuk: 'Kenal Huruf Jawi', pemberi: 'ustazah', syarat: ['m_buku'], ulang: true, rehat: 60, nilai: 'Menuntut ilmu',
       dialogMula: ['Mari kita kenal huruf Jawi bersama-sama.'],
       langkah: [
         { jenis: 'permainan', permainan: 'huruf', npc: 'ustazah', objektif: 'Main permainan huruf Jawi bersama Ustazah',
@@ -1617,7 +1634,7 @@ const CONTENT = {
       ganjaran: { ilmu: 10, reputasi: 2 },
       maklumBalas: 'Kamu mengenal huruf Jawi. Setiap ilmu yang dipelajari ialah bekalan yang berharga.', rujukan: '' },
 
-    { masa: ['tiba', 'pulang'], id: 'm_perkataan', tajuk: 'Baca Perkataan Jawi', pemberi: 'ustazah', syarat: ['m_huruf'], ulang: true, rehat: 60, nilai: 'Menuntut ilmu',
+    { agama: true, masa: ['tiba', 'pulang'], id: 'm_perkataan', tajuk: 'Baca Perkataan Jawi', pemberi: 'ustazah', syarat: ['m_huruf'], ulang: true, rehat: 60, nilai: 'Menuntut ilmu',
       dialogMula: ['Sekarang cuba baca perkataan Jawi pula.'],
       langkah: [
         { jenis: 'permainan', permainan: 'perkataan', npc: 'ustazah', objektif: 'Baca perkataan Jawi bersama Ustazah',
@@ -1719,7 +1736,7 @@ const CONTENT = {
       ],
       ganjaran: { kebaikan: 5, reputasi: 2 },
       maklumBalas: 'Kamu membantu adik yang dalam kesusahan. Islam mengajar kita prihatin kepada orang lain.', rujukan: '' },
-    { id: 'm_carihuruf', tajuk: 'Cari Kad Huruf', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 240, nilai: 'Menuntut ilmu',
+    { agama: true, id: 'm_carihuruf', tajuk: 'Cari Kad Huruf', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 240, nilai: 'Menuntut ilmu',
       dialogMula: ['Ustazah sembunyikan kad huruf Jawi di sekitar sekolah.', 'Cari semuanya, kemudian datang semula untuk menyusunnya menjadi perkataan.'],
       langkah: [
         { jenis: 'kutip', item: 'kad', rawak: 'kad', objektif: 'Cari kad huruf Jawi di sekitar sekolah' },
@@ -1945,17 +1962,17 @@ const CONTENT = {
       langkah: [{ jenis: 'permainan', permainan: 'asma', npc: 'ustazah', objektif: 'Padankan Asmaul Husna bersama Ustazah' }],
       ganjaran: { ilmu: 6 }, maklumBalas: 'Semakin kita mengenal nama-nama Allah, semakin kita mencintai-Nya.', rujukan: '' },
 
-    { id: 'm_padan', tajuk: 'Padan Jawi-Rumi', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 200, nilai: 'Menuntut ilmu',
+    { agama: true, id: 'm_padan', tajuk: 'Padan Jawi-Rumi', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 200, nilai: 'Menuntut ilmu',
       dialogMula: ['Mari berlatih memadankan perkataan Jawi dengan bacaannya.'],
       langkah: [{ jenis: 'permainan', permainan: 'padan', npc: 'ustazah', objektif: 'Main Padan Jawi-Rumi bersama Ustazah' }],
       ganjaran: { ilmu: 5 }, maklumBalas: 'Semakin kerap berlatih, semakin lancar kamu membaca Jawi.', rujukan: '' },
 
-    { id: 'm_bina', tajuk: 'Bina Suku Kata', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 200, nilai: 'Menuntut ilmu',
+    { agama: true, id: 'm_bina', tajuk: 'Bina Suku Kata', pemberi: 'ustazah', syarat: ['m_kenal'], ulang: true, rehat: 200, nilai: 'Menuntut ilmu',
       dialogMula: ['Hari ini kita bina perkataan Jawi daripada suku kata.', 'Ingat, tulisan Jawi bermula dari kanan.'],
       langkah: [{ jenis: 'permainan', permainan: 'bina', npc: 'ustazah', objektif: 'Bina perkataan Jawi bersama Ustazah' }],
       ganjaran: { ilmu: 6 }, maklumBalas: 'Kamu boleh membina perkataan Jawi sendiri. Teruskan usaha!', rujukan: '' },
 
-    { masa: ['tiba', 'rehat', 'pulang'], id: 'm_papantanda', tajuk: 'Jejak Papan Tanda', pemberi: 'pengawas', syarat: ['m_lawatan'], ulang: true, rehat: 300, nilai: 'Menuntut ilmu',
+    { agama: true, masa: ['tiba', 'rehat', 'pulang'], id: 'm_papantanda', tajuk: 'Jejak Papan Tanda', pemberi: 'pengawas', syarat: ['m_lawatan'], ulang: true, rehat: 300, nilai: 'Menuntut ilmu',
       dialogMula: ['Jom uji bacaan Jawi kamu!', 'Cari bangunan mengikut tulisan Jawi pada papan tanda. Kali ini tiada anak panah, ya.'],
       langkah: [
         { jenis: 'pergi', sembunyi: true, ke: { pos: [-3.0, 22.5], jejari: 3, label: 'ڤنتدبيرن (Pentadbiran)' }, objektif: 'Cari papan tanda: ڤنتدبيرن' },
@@ -1995,7 +2012,115 @@ const CONTENT = {
           ] }
       ],
       ganjaran: { kebaikan: 4, reputasi: 2 },
-      maklumBalas: 'Kamu memberi semangat kepada kawan. Menang atau kalah, kita tetap bersahabat.', rujukan: '' }
+      maklumBalas: 'Kamu memberi semangat kepada kawan. Menang atau kalah, kita tetap bersahabat.', rujukan: '' },
+
+    { moral: true, id: 'm_bukum', tajuk: 'Buku Pendidikan Moral', pemberi: 'cikgu', syarat: ['m_kenal'], nilai: 'Amanah',
+      dialogMula: ['Boleh tolong cikgu? Ada buku Pendidikan Moral di atas meja dekat tangga Blok Kelas.', 'Tolong ambil dan bawa kepada cikgu. Ikut anak panah kuning, ya.'],
+      langkah: [
+        { jenis: 'kutip', item: 'buku', bilangan: 1, tempat: [[-3.8, -14, 0.92]], objektif: 'Ambil buku di atas meja dekat tangga Blok Kelas' },
+        { jenis: 'cakap', npc: 'cikgu', pegang: 'buku', objektif: 'Serahkan buku kepada Cikgu Kelas',
+          dialog: ['Terima kasih. Buku ini sampai dengan selamat.', 'Menunaikan amanah, walaupun kecil, ialah sikap yang terpuji.'] }
+      ],
+      ganjaran: { kebaikan: 5, reputasi: 5 },
+      maklumBalas: 'Kamu menghantar buku dengan selamat. Orang yang amanah akan dipercayai.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_dompet', tajuk: 'Dompet Tercicir', pemberi: 'cikgu', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Kejujuran', mula: 'terus',
+      dialogMula: ['Tadi ada murid terjumpa sebuah dompet di tepi tangga Blok Kelas.', 'Di dalamnya ada duit dan kad murid.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Kalau kamu yang menjumpainya, apa yang patut kamu buat?'],
+          pilihan: [
+            { teks: 'Serahkan dompet kepada guru supaya dipulangkan kepada pemiliknya', jenis: 'baik', maklum: ['Betul. Orang jujur dipercayai oleh semua orang.'] },
+            { teks: 'Ambil sedikit duit kerana tiada siapa nampak', jenis: 'kurang', maklum: ['Mengambil barang orang lain ialah perbuatan tidak jujur.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Biarkan sahaja di tepi tangga', jenis: 'neutral', maklum: ['Pemilik dompet mungkin sedang risau mencarinya.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 4, reputasi: 2 },
+      maklumBalas: 'Kamu jujur memulangkan barang orang lain. Kejujuran menjadikan kita insan yang dipercayai.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_beratur', tajuk: 'Beratur di Kantin', pemberi: 'makcik', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Keadilan', mula: 'terus',
+      dialogMula: ['Rehat sudah bermula dan barisan di kaunter panjang.', 'Seorang kawan mengajak kamu menyelit di hadapan.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Apa yang patut kamu lakukan?'],
+          pilihan: [
+            { teks: 'Beratur di belakang dan menunggu giliran dengan sabar', jenis: 'baik', maklum: ['Bagus. Semua orang berhak mendapat giliran yang sama.'] },
+            { teks: 'Menyelit di hadapan kerana kawan sudah menunggu', jenis: 'kurang', maklum: ['Menyelit barisan tidak adil kepada murid lain yang sudah lama menunggu.', 'Cuba pilih tindakan yang lebih adil.'] },
+            { teks: 'Marah-marah kerana barisan terlalu panjang', jenis: 'neutral', maklum: ['Marah tidak menyelesaikan masalah dan boleh menyakitkan hati orang lain.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 4, reputasi: 3 },
+      maklumBalas: 'Kamu menunggu giliran dengan tertib. Itulah sikap adil dan menghormati orang lain.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_pinggir', tajuk: 'Rakan Baharu', pemberi: 'rakan', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Kasih sayang', mula: 'terus',
+      dialogMula: ['Ada murid baharu duduk seorang diri di bangku tepi gelanggang.', 'Dia kelihatan segan dan sedih.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Apa yang patut kamu lakukan?'],
+          pilihan: [
+            { teks: 'Pergi menyapa dan mengajaknya bermain bersama', jenis: 'baik', maklum: ['Terima kasih! Saya sudah ada kawan baharu.'] },
+            { teks: 'Berbisik dan mentertawakannya dengan rakan lain', jenis: 'kurang', maklum: ['Mentertawakan orang boleh melukakan hati.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Buat tidak tahu kerana dia bukan kawan kamu', jenis: 'neutral', maklum: ['Orang yang keseorangan perlukan teman.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 5, reputasi: 3 },
+      maklumBalas: 'Kamu mengajak rakan baharu bermain. Kasih sayang dan keprihatinan membuat orang lain berasa disayangi.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_perayaan', tajuk: 'Jemputan Perayaan', pemberi: 'cikgu', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Toleransi', mula: 'terus',
+      dialogMula: ['Rakan sekelas kamu menjemput semua kawan ke rumah terbuka perayaan keluarganya.', 'Perayaan itu berlainan daripada yang kamu sambut di rumah.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Bagaimanakah sikap yang baik?'],
+          pilihan: [
+            { teks: 'Terima jemputan dengan sopan dan hormati adat di rumahnya', jenis: 'baik', maklum: ['Bagus. Kita belajar mengenali budaya kawan dan mengeratkan perpaduan.'] },
+            { teks: 'Menolak kerana perayaan itu bukan perayaan kita', jenis: 'kurang', maklum: ['Menghormati perayaan orang lain menambah keharmonian.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Pergi tetapi mengejek makanan dan pakaian mereka', jenis: 'neutral', maklum: ['Mengejek budaya orang lain tidak menghormati tuan rumah.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 5, reputasi: 3 },
+      maklumBalas: 'Masyarakat Sabah hidup harmoni kerana saling menghormati budaya dan perayaan. Itulah toleransi.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_terimakasih', tajuk: 'Terima Kasih Makcik', pemberi: 'makcik', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Berterima kasih', mula: 'terus',
+      dialogMula: ['Makcik RMT bangun awal setiap pagi untuk memasak untuk murid-murid.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Apa yang patut kamu lakukan selepas makan?'],
+          pilihan: [
+            { teks: 'Ucapkan terima kasih dan hantar dulang ke rak dengan kemas', jenis: 'baik', maklum: ['Sama-sama. Terima kasih kerana menghargai kerja makcik.'] },
+            { teks: 'Tinggalkan dulang di atas meja sahaja', jenis: 'kurang', maklum: ['Meninggalkan dulang menyusahkan orang lain.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Merungut kerana lauk tidak sedap', jenis: 'neutral', maklum: ['Hargailah makanan dan usaha orang yang memasaknya.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 4, reputasi: 2 },
+      maklumBalas: 'Kamu menghargai jasa orang yang membantu kita. Berterima kasih ialah sikap yang terpuji.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_jimat', tajuk: 'Jangan Membazir', pemberi: 'gurususu', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Kesederhanaan', mula: 'terus',
+      dialogMula: ['Seorang kawan membuang separuh nasi dan sekotak susu yang belum dibuka ke dalam tong.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Apa yang patut kamu katakan kepadanya?'],
+          pilihan: [
+            { teks: 'Ambil secukupnya sahaja dan habiskan makanan', jenis: 'baik', maklum: ['Betul. Mengambil secukupnya mengelakkan pembaziran.'] },
+            { teks: 'Ambil banyak-banyak kerana mahu cuba semua', jenis: 'kurang', maklum: ['Mengambil terlalu banyak akan membazir jika tidak dihabiskan.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Diam sahaja kerana itu bukan urusan kamu', jenis: 'neutral', maklum: ['Kita boleh menasihati kawan dengan lembut.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 4, reputasi: 2 },
+      maklumBalas: 'Kamu bersederhana dan tidak membazir makanan. Pembaziran merugikan diri dan orang lain.', rujukan: '' },
+
+    { moral: true, id: 'm_mor_berani', tajuk: 'Berani Mengaku', pemberi: 'pengawas', syarat: ['m_kenal'], ulang: true, rehat: 300, nilai: 'Keberanian', mula: 'terus',
+      dialogMula: ['Tadi kamu terlanggar pasu bunga di koridor dan ia retak.', 'Tiada sesiapa yang nampak.'],
+      langkah: [
+        { jenis: 'pilih', objektif: 'Pilih tindakan yang betul',
+          situasi: ['Apa yang patut kamu lakukan?'],
+          pilihan: [
+            { teks: 'Jumpa guru dan mengaku kesalahan itu dengan berani', jenis: 'baik', maklum: ['Terima kasih kerana jujur. Mengaku salah memerlukan keberanian.'] },
+            { teks: 'Pergi dari situ dan berpura-pura tidak tahu', jenis: 'kurang', maklum: ['Lari daripada kesalahan tidak menyelesaikan masalah.', 'Cuba pilih tindakan yang lebih baik.'] },
+            { teks: 'Menuduh kawan lain yang memecahkannya', jenis: 'neutral', maklum: ['Menuduh orang lain adalah perbuatan yang tidak adil.', 'Cuba pilih semula, ya.'] }
+          ] }
+      ],
+      ganjaran: { kebaikan: 5, reputasi: 3 },
+      maklumBalas: 'Kamu berani mengaku kesalahan. Orang yang berani dan jujur dihormati.', rujukan: '' }
 
   ],
 
@@ -6742,6 +6867,8 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'duduk') { if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'e', ' ', 'escape'].includes(k)) DudukPondok.bangun(); return; }
   if (k === 'escape' && !$('parkingLot').hidden) { ParkingLot.tutup(); return; }
   if (State.uiLock === 'parking') return;
+  if (k === 'escape' && !$('modulGuru').hidden) { Modul.tutup(); return; }
+  if (State.uiLock === 'modul') return;
   if (State.uiLock === 'cabaran') { if (k === 'escape' || k === 'c') Cabaran.tutup(); return; }
   if (k === 'c' && !State.paused && !e.repeat && State.mode === 'play' && !State.uiLock) { Cabaran.buka(); return; }
   if (k === 'g' && !State.paused && !e.repeat && State.mode === 'play' && !State.uiLock) { Geng.buka(); return; }
@@ -6955,8 +7082,8 @@ const Director = {
   rancang() {
     const d = State.data, h = d.hari; if (!h) return;
     const semalam = h.semalam || [], plan = [];
-    ['m_kenal', 'm_lawatan', 'm_buku'].forEach((id) => { if (this.ada(id) && !d.selesai[id]) plan.push(id); });
-    const pool = CONTENT.missions.filter((m) => !plan.includes(m.id) && !(d.selesai[m.id] && !m.ulang) && (m.syarat || []).every((x) => d.selesai[x] || plan.includes(x)));
+    ['m_kenal', 'm_lawatan', Agama.moral() ? 'm_bukum' : 'm_buku'].forEach((id) => { if (this.ada(id) && !d.selesai[id]) plan.push(id); });
+    const pool = CONTENT.missions.filter((m) => !plan.includes(m.id) && Agama.sesuai(m) && !(d.selesai[m.id] && !m.ulang) && (m.syarat || []).every((x) => d.selesai[x] || plan.includes(x)));
     this.wajib().forEach((id) => { const M = pool.find((m) => m.id === id); if (M) { plan.push(M.id); pool.splice(pool.indexOf(M), 1); } });   // tugasan peranan minggu ini & agih susu
     // Hari yang sibuk & seimbang: sekurang-kurangnya satu tugasan dari setiap kawasan (Pejabat, Makmal, Prasekolah, Rumah Guru)
     ['kerani', 'gurusains', 'gurupra', 'cikgurumah'].forEach((pb) => {
@@ -7168,6 +7295,7 @@ const Missions = {
   available(m, abaikanPenuh) {
     const d = State.data; if (!d) return false;
     if (m.agama && Agama.moral()) return false;
+    if (m.moral && !Agama.moral()) return false;   // v72: misi Moral hanya untuk pemain Moral
     if (!abaikanPenuh && this.penuh()) return false;
     if (this.semua().some((a) => a.id === m.id)) return false;
     if (!(m.syarat || []).every((s) => d.selesai[s])) return false;
@@ -7554,7 +7682,7 @@ function toast(msg) {
   try { HudRingkas.bangun(); } catch (e) {}
   const box = $('toasts');
   while (box.children.length > 2) box.removeChild(box.firstChild);
-  const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg; box.appendChild(el);
+  const el = document.createElement('div'); el.className = 'toast'; el.textContent = (typeof Agama !== 'undefined' ? Agama.teks(msg) : msg); box.appendChild(el);
   setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 2900);
 }
 const HUD = {
@@ -7935,8 +8063,8 @@ $('miniKeluar').addEventListener('click', () => Mini.close());
 const Reward = {
   show(m) {
     Player.gembira = 0.9;
-    $('rwTajuk').textContent = m.tajuk; $('rwTeks').textContent = m.maklumBalas || '';
-    $('rwNilai').textContent = 'Nilai: ' + (m.nilai || '');
+    $('rwTajuk').textContent = m.tajuk; $('rwTeks').textContent = Agama.teks(m.maklumBalas || '');
+    $('rwNilai').textContent = 'Nilai: ' + Agama.teks(m.nilai || '');
     const rj = $('rwRujukan'), ru = Agama.moral() ? '' : (m.rujukan || ''); rj.textContent = ru; rj.hidden = !ru;
     const box = $('rwDapat'); box.innerHTML = ''; const g = m.ganjaran || {};
     [['kebaikan', 'Kebaikan'], ['ilmu', 'Ilmu'], ['reputasi', 'Reputasi']].forEach(([k, l]) => {
@@ -8462,7 +8590,7 @@ const Sesat = {
   // Pengawas automatik: kunci yang tertinggal lebih 1 saat (panelnya sudah tertutup) dilepaskan
   tAwas: 0,
   awas(dt) {
-    const L = State.uiLock, panel = L && { dialog: 'dialog', mini: 'mini', reward: 'ganjaran', ringkasan: 'ringkasan', senarai: 'senarai', profil: 'profil', anugerah: 'papanAnugerah', geng: 'geng', cabaran: 'cabaran', menuMakan: 'menuMakan', parking: 'parkingLot', duduk: 'btnBangun', bayar: 'bayar', buku: 'buku' }[L];
+    const L = State.uiLock, panel = L && { dialog: 'dialog', mini: 'mini', reward: 'ganjaran', ringkasan: 'ringkasan', senarai: 'senarai', profil: 'profil', anugerah: 'papanAnugerah', geng: 'geng', cabaran: 'cabaran', menuMakan: 'menuMakan', parking: 'parkingLot', modul: 'modulGuru', duduk: 'btnBangun', bayar: 'bayar', buku: 'buku' }[L];
     const basi = panel ? $(panel).hidden : (L === 'pindah' && !Rooms.busy) || (L === 'sukan' && !Sukan.aktif) || (L === 'buaian' && !Buaian.aktif);
     if (L && basi) { this.tAwas += dt; if (this.tAwas > 1) { this.tAwas = 0; setLock(null); console.warn('Kunci UI tertinggal dilepaskan:', L); } } else this.tAwas = 0;
   },
@@ -9777,6 +9905,136 @@ $('btnBangun').addEventListener('click', () => DudukPondok.bangun());
 $('plTampal').addEventListener('click', () => ParkingLot.tampal());
 $('btnParkingMula').addEventListener('click', () => ParkingLot.buka());
 $('btnParkingJ').addEventListener('click', () => { Pause.close(); ParkingLot.buka(); });
+/* ===================== Modul Guru / Tugasan Cuti: cikgu isi modul dalam Google Sheet (satu tab = satu subjek) ===================== */
+const Modul = {
+  KEY: 'lotong.modul', d: null, sub: null, kerja: null, menghantar: false,
+  RPI: /^(PI|ISLAM|PENDIDIKAN ISLAM)$/, RMOR: /^(MORAL|PENDIDIKAN MORAL)$/,
+  baca() { if (this.d) return this.d; let o = null; try { o = JSON.parse(localStorage.getItem(this.KEY) || 'null'); } catch (e) {} this.d = Object.assign({ data: null, selesai: {}, baki: [], semakan: [] }, o || {}); return this.d; },
+  simpan() { try { localStorage.setItem(this.KEY, JSON.stringify(this.d)); } catch (e) {} },
+  siapa() {
+    const d = State.data, P = Menu.pilihan, nama = d ? d.nama : (P.nama || ''), pf = d ? null : Menu.profil();
+    return { id: (d && d.pemainId) || (pf && pf.pemainId) || ('n:' + nama), nama, tahun: d ? (d.tahun || 1) : (P.tahun || 1), moral: (d ? d.subjek : P.subjek) === 'moral' };
+  },
+  nampak(nama, S) { const n = String(nama).toUpperCase().trim(); return this.RPI.test(n) ? !S.moral : this.RMOR.test(n) ? S.moral : true; },
+  // Subjek yang sesuai dengan murid (tab PI hanya untuk murid PI, tab MORAL hanya untuk murid Moral), dengan soalan ikut Tahun
+  subjek(S) {
+    const D = this.baca(); if (!D.data || !Array.isArray(D.data.subjek)) return [];
+    return D.data.subjek.filter((x) => this.nampak(x.nama, S)).map((x) => {
+      const G = {}, urut = [];
+      x.item.filter((i) => !i.tahun || !i.tahun.length || i.tahun.includes(S.tahun)).forEach((i) => { if (!G[i.tajuk]) { G[i.tajuk] = []; urut.push(i.tajuk); } G[i.tajuk].push(i); });
+      return { nama: x.nama, modul: urut.map((t) => ({ tajuk: t, item: G[t] })) };
+    }).filter((x) => x.modul.length);
+  },
+  status(t) { $('mgStatus').textContent = t || ''; },
+  buka() {
+    if (State.mode === 'play') { if (State.uiLock) return; if (State.paused) Pause.close(); releaseInputs(); setLock('modul'); } else Menu.tutup();
+    $('modulGuru').hidden = false; this.kerja = null;
+    const S = this.siapa();
+    if (!S.nama) { $('mgSubjek').innerHTML = ''; $('mgIsi').innerHTML = ''; this.status('Tulis nama kamu di menu utama dahulu, supaya cikgu tahu jawapan ini daripada siapa.'); return; }
+    this.lukisSenarai(); this.muat(); this.hantarBaki();
+  },
+  tutup() { $('modulGuru').hidden = true; this.kerja = null; if (State.uiLock === 'modul') setLock(null); },
+  async muat() {
+    const D = this.baca(); if (!PAPAN_URL) { this.status(D.data ? '' : 'Tiada sambungan ke cikgu.'); return; }
+    this.status('Memuatkan modul daripada cikgu…');
+    try {
+      const r = await Anugerah.ambilJSON(PAPAN_URL + '?aksi=modul');
+      if (!r || !r.ok || !Array.isArray(r.subjek)) throw new Error('data');
+      D.data = { masa: Date.now(), subjek: r.subjek }; this.simpan(); this.status('');
+    } catch (e) { this.status(D.data ? 'Tiada internet. Modul yang disimpan terakhir dipaparkan.' : 'Tiada internet dan belum ada modul disimpan. Sambung internet sekali untuk memuat turun modul.'); }
+    if (!$('modulGuru').hidden && !this.kerja) this.lukisSenarai();
+    this.semak();
+  },
+  async semak() {
+    if (!PAPAN_URL) return; const S = this.siapa();
+    try {
+      const r = await Anugerah.ambilJSON(PAPAN_URL + '?aksi=semakModul&id=' + encodeURIComponent(S.id));
+      if (r && r.ok && Array.isArray(r.semakan)) { this.baca().semakan = r.semakan; this.simpan(); if (!$('modulGuru').hidden && !this.kerja) this.lukisSenarai(); }
+    } catch (e) {}
+  },
+  lukisSenarai() {
+    const S = this.siapa(), D = this.baca(), L = this.subjek(S), chips = $('mgSubjek'), isi = $('mgIsi'); chips.innerHTML = ''; isi.innerHTML = '';
+    if (!L.length) { const p = document.createElement('p'); p.className = 'pfSub'; p.textContent = 'Belum ada modul daripada cikgu untuk Tahun ' + S.tahun + '. Cuba lagi nanti, ya.'; isi.appendChild(p); return; }
+    if (!this.sub || !L.some((x) => x.nama === this.sub)) this.sub = L[0].nama;
+    L.forEach((x) => { const b = document.createElement('button'); b.className = 'btn' + (x.nama === this.sub ? ' utama' : ''); b.textContent = x.nama; b.addEventListener('click', () => { this.sub = x.nama; this.lukisSenarai(); }); chips.appendChild(b); });
+    const SJ = L.find((x) => x.nama === this.sub);
+    SJ.modul.forEach((m) => {
+      const kunci = this.sub + '|' + m.tajuk, sel = D.selesai[kunci], kad = document.createElement('div'); kad.className = 'mgKad';
+      const kiri = document.createElement('div'), t = document.createElement('b'), k = document.createElement('small');
+      t.textContent = m.tajuk; k.textContent = m.item.length + ' soalan' + (sel ? ' · ✓ ' + (sel.jumlah ? 'Skor ' + sel.skor + '/' + sel.jumlah + ' · ' : '') + (sel.hantar ? 'dihantar kepada cikgu' : 'menunggu internet untuk dihantar') : '');
+      kiri.appendChild(t); kiri.appendChild(k);
+      (D.semakan || []).filter((v) => v.subjek === this.sub && v.tajuk === m.tajuk).slice(0, 2).forEach((v) => { const c = document.createElement('div'); c.className = 'mgKomen'; c.textContent = '💬 Cikgu' + (v.markah ? ' (' + v.markah + ')' : '') + ': ' + (v.komen || 'Telah disemak.'); kiri.appendChild(c); });
+      const btn = document.createElement('button'); btn.className = 'btn' + (sel ? '' : ' utama'); btn.textContent = sel ? 'Buat lagi' : 'Mula'; btn.addEventListener('click', () => this.mula(m));
+      kad.appendChild(kiri); kad.appendChild(btn); isi.appendChild(kad);
+    });
+  },
+  mula(m) { this.kerja = { subjek: this.sub, tajuk: m.tajuk, item: m.item, i: 0, jwp: [] }; this.status(''); this.soalan(); },
+  soalan() {
+    const K = this.kerja, it = K.item[K.i], isi = $('mgIsi'); isi.innerHTML = ''; $('mgSubjek').innerHTML = '';
+    const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; };
+    isi.appendChild(el('p', 'pfSub', K.subjek + ' · ' + K.tajuk + ' · Soalan ' + (K.i + 1) + ' daripada ' + K.item.length));
+    isi.appendChild(el('p', 'mgSoalan', it.soalan));
+    const seterusnya = (jwp) => { K.jwp.push({ rid: it.rid, jenis: it.jenis, soalan: it.soalan, jwp, betul: it.jenis === 'kuiz' && it.betul ? jwp.toUpperCase().slice(0, 1) === it.betul : null }); K.i++; K.i < K.item.length ? this.soalan() : this.tamat(); };
+    if (it.jenis === 'kuiz') {
+      const kotak = el('div', 'mgPilih'); let jawab = false;
+      ['A', 'B', 'C', 'D'].forEach((h, n) => {
+        const t = it.pilihan[n]; if (!t) return;
+        const b = el('button', 'btn', h + '. ' + t);
+        b.addEventListener('click', () => {
+          if (jawab) return; jawab = true;
+          if (it.betul) { b.classList.add(h === it.betul ? 'betul' : 'salah'); kotak.querySelectorAll('.btn').forEach((x) => { if (x.textContent.charAt(0) === it.betul) x.classList.add('betul'); }); }
+          if (it.terang) isi.appendChild(el('div', 'mgTerang', it.terang));
+          const nx = el('button', 'btn utama', K.i + 1 < K.item.length ? 'Seterusnya' : 'Selesai'); nx.addEventListener('click', () => seterusnya(h)); isi.appendChild(nx);
+        });
+        kotak.appendChild(b);
+      });
+      isi.appendChild(kotak);
+    } else {
+      const ta = el('textarea', 'mgTeks'); ta.rows = 3; ta.maxLength = 300; ta.placeholder = it.jenis === 'amalan' ? 'Catatan kamu (pilihan)…' : 'Tulis jawapan kamu di sini…'; isi.appendChild(ta);
+      const baris = el('div', 'baris-btn');
+      if (it.jenis === 'amalan') {
+        const a = el('button', 'btn utama', '✅ Saya sudah buat'), b = el('button', 'btn', '⏳ Belum buat');
+        a.addEventListener('click', () => seterusnya('Sudah buat' + (ta.value.trim() ? ': ' + ta.value.trim() : '')));
+        b.addEventListener('click', () => seterusnya('Belum buat'));
+        baris.appendChild(a); baris.appendChild(b);
+      } else {
+        const nx = el('button', 'btn utama', K.i + 1 < K.item.length ? 'Seterusnya' : 'Selesai');
+        nx.addEventListener('click', () => { const v = ta.value.trim(); if (!v) { this.status('Tulis jawapan kamu dahulu, ya.'); return; } this.status(''); seterusnya(v); });
+        baris.appendChild(nx);
+      }
+      isi.appendChild(baris);
+    }
+    const keluar = el('button', 'btn', 'Berhenti'); keluar.addEventListener('click', () => { this.kerja = null; this.status(''); this.lukisSenarai(); }); const kb = el('div', 'baris-btn'); kb.appendChild(keluar); isi.appendChild(kb);
+  },
+  tamat() {
+    const K = this.kerja, S = this.siapa(), D = this.baca(), isi = $('mgIsi'); isi.innerHTML = '';
+    const kuiz = K.jwp.filter((j) => j.betul !== null), skor = kuiz.filter((j) => j.betul).length;
+    const id = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    D.baki.push({ hantarId: id, id: S.id, nama: S.nama, tahun: S.tahun, subjek: K.subjek, tajuk: K.tajuk, jawapan: K.jwp.map((j) => ({ rid: j.rid, jenis: j.jenis, soalan: j.soalan, jwp: j.jwp })), masa: Date.now() });
+    D.baki = D.baki.slice(-30); D.selesai[K.subjek + '|' + K.tajuk] = { skor, jumlah: kuiz.length, masa: Date.now(), hantar: false }; this.simpan();
+    const p = document.createElement('p'); p.className = 'mgSkor'; p.textContent = '🎉 Tahniah, ' + S.nama + '!'; isi.appendChild(p);
+    const q = document.createElement('p'); q.className = 'pfSub'; q.textContent = (kuiz.length ? 'Skor kuiz: ' + skor + ' / ' + kuiz.length + '. ' : '') + 'Jawapan kamu akan sampai kepada cikgu.'; isi.appendChild(q);
+    const b = document.createElement('button'); b.className = 'btn utama'; b.textContent = 'Kembali ke senarai'; b.addEventListener('click', () => { this.kerja = null; this.lukisSenarai(); }); isi.appendChild(b);
+    try { Sound.play('ok'); } catch (e) {}
+    this.hantarBaki(true);
+  },
+  // Jawapan hanya ditanda "dihantar" selepas pelayan mengesahkan; jika tiada internet, dicuba semula kemudian
+  async hantarBaki(papar) {
+    const D = this.baca(); if (!PAPAN_URL || this.menghantar || !D.baki.length) return; this.menghantar = true;
+    try {
+      for (const h of D.baki.slice()) {
+        let r = null; try { r = await Akaun.pos(Object.assign({ aksi: 'hantarModul' }, h)); } catch (e) { r = null; }
+        if (!r || !r.ok) { if (papar && !$('modulGuru').hidden) this.status('Tiada internet. Jawapan disimpan dan akan dihantar kepada cikgu apabila ada talian.'); break; }
+        D.baki = D.baki.filter((x) => x.hantarId !== h.hantarId);
+        const k = D.selesai[h.subjek + '|' + h.tajuk]; if (k) { k.hantar = true; if (r.jumlah) { k.skor = r.skor; k.jumlah = r.jumlah; } }
+        this.simpan(); if (papar && !$('modulGuru').hidden) this.status('✅ Jawapan sudah dihantar kepada cikgu.');
+      }
+    } finally { this.menghantar = false; }
+  }
+};
+$('mgTutup').addEventListener('click', () => Modul.tutup());
+$('btnModulMula').addEventListener('click', () => Modul.buka());
+$('btnModulJ').addEventListener('click', () => { Pause.close(); Modul.buka(); });
 /* ===================== Perhimpunan pagi (7:10–7:20, Dewan Terbuka) ===================== */
 const Perhimpunan = {
   ZON: [14.4, 22.3, -48.5, -29.5], kerumun: null, info: { kunci: null, cuaca: null, guru: [] },
@@ -10777,7 +11035,7 @@ const Panggilan = {
     return true;
   },
   mula() {
-    const L = this.JENIS.filter((J) => J.id !== this.akhir), J = L[Math.floor(Math.random() * L.length)];
+    const L = this.JENIS.filter((J) => J.id !== this.akhir && !(J.id === 'iqra' && Agama.moral())), J = L[Math.floor(Math.random() * L.length)];
     this.a = { J, fasa: 'ambil', baki: this.MASA }; this.akhir = J.id;
     Penggera.bunyi('alarm', 300); Penggera.goyang();
     Dialog.show(J.siapa + ' (panggilan)', [J.ayat, 'Ambil di ' + J.ambil.label + ', hantar ke ' + J.hantar.label + '. Cepat, dalam 2 minit 30 saat!'], { tag: '📞 Panggilan segera' });
@@ -11298,11 +11556,38 @@ $('gengKad').addEventListener('click', () => Geng.pilihAkt('kad'));
 $('btnGengJ').addEventListener('click', () => { Pause.close(); Geng.buka(); });
 $('btnGengMula').addEventListener('click', () => { if (!Menu.pilihan.nama) { Menu.mula(); return; } Menu.isiBorang(); startFromForm('bebas'); setTimeout(() => Geng.buka(), 700); });
 window.addEventListener('pagehide', () => { try { Geng.keluar(true); } catch (e) {} });
-window.addEventListener('online', () => { try { ParkingLot.hantarBaki(); } catch (e) {} });
+window.addEventListener('online', () => { try { ParkingLot.hantarBaki(); } catch (e) {} try { Modul.hantarBaki(); } catch (e) {} });
 /* ===================== Pendidikan Moral (murid bukan Islam) ===================== */
 const Agama = {
   moral() { return !!(State.data && State.data.subjek === 'moral'); },
-  teks(t) { return typeof t === 'string' && this.moral() ? t.replace(/Assalamualaikum dan salam sejahtera/g, 'Salam sejahtera').replace(/Assalamualaikum/g, 'Salam sejahtera') : t; },
+  // v72: ganti ungkapan khusus agama Islam dengan ungkapan neutral untuk pemain Pendidikan Moral
+  GANTI: [
+    [/Assalamualaikum dan salam sejahtera/g, 'Salam sejahtera'], [/Waalaikumussalam dan selamat pagi/g, 'Selamat pagi'],
+    [/Waalaikumussalam/g, 'Salam sejahtera'], [/Assalamualaikum/g, 'Salam sejahtera'],
+    [/Alhamdulillah, /g, 'Syukurlah, '], [/Alhamdulillah/g, 'Syukurlah'],
+    [/Islam mengajar kita/g, 'Nilai murni mengajar kita'], [/akhlak yang mulia/g, 'sikap yang terpuji'],
+    [/Mulakan setiap kerja dengan Bismillah\./g, 'Mulakan setiap kerja dengan niat yang baik.'], [/Ilmu yang diamalkan membawa berkat\./g, 'Ilmu yang diamalkan membawa manfaat.'],
+    [/Senyum itu sedekah\./g, 'Senyuman menceriakan hari orang lain.'], [/Saya suka belajar Jawi dengan Ustazah\./g, 'Saya suka belajar dengan cikgu-cikgu di sini.'],
+    [/Papan tanda Jawi di setiap bangunan/g, 'Papan tanda di setiap bangunan'], [/Akhlak bersukan/g, 'Sikap bersukan'], [/Bismillah/g, 'Mari mula']
+  ],
+  teks(t) { if (typeof t !== 'string' || !this.moral()) return t; let r = t; this.GANTI.forEach(([a, b]) => { r = r.replace(a, b); }); return r; },
+  // Misi mengikut subjek: misi agama (PI) tidak untuk Moral; misi Moral tidak untuk PI
+  sesuai(m) { return this.moral() ? !m.agama : !m.moral; },
+  // Dipanggil semasa permainan bermula: bersihkan tugasan subjek lain daripada simpanan lama (jika pemain menukar PI <-> Moral)
+  selaras() {
+    const d = State.data; if (!d) return; const mor = this.moral();
+    const M = (id) => CONTENT.missions.find((x) => x.id === id);
+    const salah = (id) => { const m = M(id); return !!m && !this.sesuai(m); };
+    if (d.aktif && salah(d.aktif.id)) { d.aktif = null; if (typeof Player !== 'undefined' && Player.pegang) { try { Player.pegang(null); } catch (e) {} } }
+    if (Array.isArray(d.simpanan)) d.simpanan = d.simpanan.filter((x) => !salah(x.id));
+    const h = d.hari;
+    if (h && Array.isArray(h.rancang)) {
+      const buang = h.rancang.filter(salah); if (!buang.length) return;
+      h.rancang = h.rancang.filter((id) => !salah(id));
+      const pool = CONTENT.missions.filter((m) => this.sesuai(m) && !h.rancang.includes(m.id) && (m.syarat || []).every((x) => d.selesai[x] || h.rancang.includes(x)) && !(d.selesai[m.id] && !m.ulang));
+      buang.forEach(() => { if (!pool.length) return; const k = Math.floor(Math.random() * pool.length); h.rancang.push(pool[k].id); pool.splice(k, 1); });
+    }
+  },
   bilikPI() { Dialog.show('Bilik Pendidikan Islam', ['Ini bilik tempat rakan Muslim belajar Pendidikan Islam.', 'Kita hormati ruang ini dan semua agama, ya.'], { tag: 'Toleransi' }); }
 };
 
@@ -11527,9 +11812,9 @@ const Menu = {
   },
   modTeks() { $('mulaModTeks').textContent = $('togBebas').checked ? '🗺️ Jelajah Bebas: teroka sekolah tanpa jam dan loceng' : '🔔 Hari Persekolahan: loceng, kelas, rehat dan Buku Tugas'; },
   profil() { return this.pilihan.nama ? Save.load(this.pilihan.nama) : null; },
-  aksesoriPilihan() { const d = this.profil(); if (d && Array.isArray(d.aksesori)) return d.aksesori; return this.pilihan.aksesori || [BEG_ASAL[this.pilihan.jantina]]; },
+  aksesoriPilihan() { const d = this.profil(); if (d && Array.isArray(d.aksesori)) { const jd = d.jantina === 'P' ? 'P' : 'L', jp = this.pilihan.jantina === 'P' ? 'P' : 'L'; return jd === jp ? d.aksesori : d.aksesori.map((x) => (x === BEG_ASAL[jd] ? BEG_ASAL[jp] : x)); } return this.pilihan.aksesori || [BEG_ASAL[this.pilihan.jantina]]; },
   buka(id) { this.tutup(); if (id === 'panelWatak') this.salinanWatak = JSON.parse(JSON.stringify(this.pilihan)); $(id).hidden = false; const b = $(id).querySelector('input, button'); if (b) b.focus({ preventScroll: true }); },
-  tutup() { document.querySelectorAll('.panelMenu').forEach((s) => { s.hidden = true; }); if (!State.paused) $('tetapan').hidden = true; if (State.mode === 'menu') { $('papanAnugerah').hidden = true; $('parkingLot').hidden = true; } },
+  tutup() { document.querySelectorAll('.panelMenu').forEach((s) => { s.hidden = true; }); if (!State.paused) $('tetapan').hidden = true; if (State.mode === 'menu') { $('papanAnugerah').hidden = true; $('parkingLot').hidden = true; $('modulGuru').hidden = true; } },
   mula() {
     if (!this.pilihan.nama) { this.buka('panelWatak'); $('mulaRalat').textContent = 'Tulis nama kamu dahulu.'; $('inNama').focus(); return; }
     this.isiBorang(); startFromForm($('togBebas').checked ? 'bebas' : 'hari');
@@ -11581,6 +11866,13 @@ $('btnWatakBatal').addEventListener('click', () => Menu.batalWatak());
 $('btnWatakTutup').addEventListener('click', () => Menu.batalWatak());
 document.querySelectorAll('.tutupMenu').forEach((b) => b.addEventListener('click', () => Menu.tutup()));
 document.querySelectorAll('input[name="watak"]').forEach((r) => r.addEventListener('change', () => { Menu.bacaBorang(); Menu.pilihan.gaya = null; Menu.isiGaya(); MenuScene.pakai(); MenuScene.lompat(Menu.pilihan.jantina); }));
+// v71: tukar subjek (Pendidikan Islam / Moral) terus mengemas kini rupa watak (contoh: bertudung ↔ ekor kuda)
+document.querySelectorAll('input[name="subjek"]').forEach((r) => r.addEventListener('change', () => {
+  const p = Menu.pilihan, asalLama = p.subjek === 'moral' ? 'ekor' : 'tudung';
+  Menu.bacaBorang();
+  if (p.jantina === 'P' && (!p.gaya || p.gaya === asalLama)) p.gaya = null;
+  Menu.isiGaya(); Menu.segarBaju(); MenuScene.pakai(); MenuScene.lompat(p.jantina);
+}));
 $('pilihGaya').addEventListener('change', () => { Menu.bacaBorang(); Menu.segarBaju(); MenuScene.pakai(); MenuScene.lompat(Menu.pilihan.jantina); });
 $('pilihKaca').addEventListener('change', () => { Menu.bacaBorang(); MenuScene.pakai(); MenuScene.lompat(Menu.pilihan.jantina); });
 $('pilihBaju').addEventListener('change', () => { Menu.bacaBorang(); MenuScene.pakai(); MenuScene.lompat(Menu.pilihan.jantina); });
@@ -11592,7 +11884,7 @@ function startFromForm(mod) {
   const tahun = +((document.querySelector('input[name="tahun"]:checked') || {}).value || 1);
   startGame(nama, j, mod === 'bebas' ? 'bebas' : 'hari', tahun);
   setTimeout(() => { try { KodCikgu.gunaTertunda(); } catch (e) {} }, 2500);
-  setTimeout(() => { try { ParkingLot.hantarBaki(); } catch (e) {} }, 4000);   // hantar nota yang tertunda (ditulis tanpa internet)
+  setTimeout(() => { try { ParkingLot.hantarBaki(); } catch (e) {} try { Modul.hantarBaki(); } catch (e) {} }, 4000);   // hantar nota yang tertunda (ditulis tanpa internet)
   try { GURU.namakanCikguKelas(); } catch (e) {}
 }
 $('btnHari').addEventListener('click', () => startFromForm('hari'));
@@ -11603,14 +11895,24 @@ function startGame(nama, jantina, mod, tahun) {
   Menu.bacaBorang(); Menu.pilihan.nama = nama; Menu.pilihan.jantina = jantina || 'L'; Menu.pilihan.tahun = tahun || 1; Menu.simpan();
   const lama = Save.load(nama);
   State.data = lama || newSave(nama, jantina || 'L', tahun);
+  // v71: watak yang dipilih di menu SENTIASA diguna, walaupun pemain sudah ada simpanan lama
+  const jBaru = jantina === 'P' ? 'P' : 'L';
+  if (lama && (lama.jantina === 'P' ? 'P' : 'L') !== jBaru) {
+    const begLama = BEG_ASAL[lama.jantina === 'P' ? 'P' : 'L'];
+    if (Array.isArray(State.data.aksesori)) State.data.aksesori = State.data.aksesori.map((x) => (x === begLama ? BEG_ASAL[jBaru] : x));
+    State.data.gaya = null;
+  }
+  State.data.jantina = jBaru;
   if (!lama) State.data.aksesori = (Menu.pilihan.aksesori || [BEG_ASAL[State.data.jantina]]).slice();
   State.data.subjek = Menu.pilihan.subjek === 'moral' ? 'moral' : 'pi';
+  Agama.selaras();   // v72: buang tugasan subjek lain daripada simpanan lama
   setTimeout(() => Cabaran.lukis(), 0);
   setTimeout(() => { Pakaian.gunaHari(); Kantin.segarRL(); Duit.harian(); Duit.papar(); }, 0);
   if (Menu.pilihan.gaya) State.data.gaya = Menu.pilihan.gaya;
+  { const Gx = jBaru === 'P' ? GAYA_PEREMPUAN : GAYA_LELAKI; if (State.data.gaya && !Gx[State.data.gaya]) State.data.gaya = null; }
   State.data.kaca = Menu.pilihan.kaca || ''; State.data.baju = Menu.pilihan.baju || 'pinafore';
   if (tahun) State.data.tahun = tahun;
-  Player.setLook(State.data.jantina); Player.m.group.visible = true;
+  Player.look = null; Player.setLook(State.data.jantina); Player.m.group.visible = true;   // v71: bina semula watak supaya perubahan rupa/subjek terus kelihatan
   Ambient.init();
   Rooms.leaveNow(); Player.lantai = null;
   Player.pos.set(State.data.pos[0], 0, State.data.pos[1]); resolveCollisions(Player.pos, Player.r);

@@ -25,7 +25,7 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 Buka game **sekali dengan internet** selepas dipasang, supaya Three.js dan fon disimpan dalam peranti. Selepas itu, game boleh dimainkan walaupun tanpa internet.
 
 ## Mengemas kini game
-Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v70` menjadi `lotong-v71`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
+Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v72` menjadi `lotong-v73`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
 
 ## Jika aplikasi Android tidak terbuka atau pegun
 1. Buang aplikasi LO:TONG lama dari skrin utama (tekan lama ikon → *Nyahpasang* / *Buang*).
@@ -96,3 +96,30 @@ Kemajuan disimpan dalam pelayar setiap peranti. Gunakan **Tetapan → Sandaran s
 - **Kurland** (teks dan dialog) oleh GGBotNet, dilesenkan di bawah SIL Open Font License 1.1 (https://scripts.sil.org/OFL). Fon ini dibenamkan dalam `index.html`.
 - **Raventure** (tajuk dan butang): sila semak syarat lesen di laman tempat fon ini dimuat turun.
 - **Noto Naskh Arabic** (tulisan Jawi) daripada Google Fonts, SIL Open Font License 1.1.
+
+## Modul Guru (Tugasan Cuti): cikgu isi modul sendiri dalam Google Sheet
+Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: `PI`, `MORAL`, `SAINS`, `MATH`, `BM`, `BI`). Murid membukanya melalui butang **📘 Tugasan Cuti** di muka depan atau menu jeda.
+
+**Sekali sahaja:**
+1. Gantikan kod Apps Script dengan `papan-anugerah.gs` yang baharu, kemudian **Simpan**.
+2. Pilih fungsi **`sediakanModul`** pada bar atas Apps Script dan tekan **Jalankan** (benarkan akses jika diminta). Tab contoh `PI`, `MORAL`, `SAINS`, `MATH` dan helaian `Hantaran` akan dibina.
+3. **Gunakan → Urus penggunaan → ✏️ Edit → Versi baharu → Gunakan.** URL kekal sama.
+
+**Mengisi modul:** padam baris contoh dan isi baris baharu. Tab baharu dengan nama apa-apa (selain `Pemain`, `Mingguan`, `ParkingLot`, `Pengumuman`, `Akaun`, `Hantaran`, `Arahan`, atau yang bermula dengan `_`) terus menjadi subjek baharu.
+
+| Lajur | Isi |
+|---|---|
+| aktif | `YA` atau `TIDAK` (kosong = YA). `TIDAK` menyorok soalan |
+| tahun | kosong = semua Tahun; atau `4`, `4-6`, `1,2,3` |
+| tajuk modul | soalan bertajuk sama dikumpulkan sebagai satu modul |
+| jenis | `kuiz` (pilihan A–D, disemak automatik), `jawapan` (murid menaip) atau `amalan` (murid tandakan "Saya sudah buat") |
+| soalan | soalan atau arahan |
+| A, B, C, D | pilihan jawapan (untuk kuiz) |
+| jawapan betul | `A`, `B`, `C` atau `D` |
+| tarikh mula / tamat | pilihan: modul hanya muncul dalam tempoh ini |
+| penerangan | dipaparkan selepas murid menjawab kuiz |
+
+- Tab `PI` hanya dipaparkan kepada murid Pendidikan Islam, dan tab `MORAL` hanya kepada murid Pendidikan Moral. Tab lain dipaparkan kepada semua.
+- **Jawapan murid** masuk ke helaian **Hantaran** (nama, Tahun, subjek, modul, soalan, jawapan, betul/tidak). Isi lajur **markah guru** dan **komen guru**; murid nampak komen itu dalam Tugasan Cuti.
+- Tanpa internet, jawapan disimpan dalam peranti dan dihantar secara automatik apabila ada talian. Jawapan kuiz disemak semula oleh pelayan, bukan hanya oleh peranti murid.
+- Jawapan murid tidak boleh mengandungi formula Sheet (dineutralkan). Gunakan nama dan kod akaun sahaja; jangan minta maklumat peribadi murid.
