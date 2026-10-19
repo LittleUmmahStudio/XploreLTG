@@ -25,7 +25,7 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 Buka game **sekali dengan internet** selepas dipasang, supaya Three.js dan fon disimpan dalam peranti. Selepas itu, game boleh dimainkan walaupun tanpa internet.
 
 ## Mengemas kini game
-Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v72` menjadi `lotong-v73`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
+Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v73` menjadi `lotong-v74`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
 
 ## Jika aplikasi Android tidak terbuka atau pegun
 1. Buang aplikasi LO:TONG lama dari skrin utama (tekan lama ikon → *Nyahpasang* / *Buang*).
