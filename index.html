@@ -9916,7 +9916,8 @@ const Modul = {
   simpan() { try { localStorage.setItem(this.KEY, JSON.stringify(this.d)); } catch (e) {} },
   siapa() {
     const d = State.data, P = Menu.pilihan, nama = d ? d.nama : (P.nama || ''), pf = d ? null : Menu.profil();
-    return { id: (d && d.pemainId) || (pf && pf.pemainId) || ('n:' + nama), nama, tahun: d ? (d.tahun || 1) : (P.tahun || 1), moral: (d ? d.subjek : P.subjek) === 'moral' };
+    const pid = (d && d.pemainId) || (pf && pf.pemainId) || ('n:' + nama); let kod = ''; try { const r = nama ? Akaun.rekod(nama) : null; kod = (r && r.kod) || ''; } catch (e) {}
+    return { id: kod || pid, alt: kod ? pid : '', nama, tahun: d ? (d.tahun || 1) : (P.tahun || 1), moral: (d ? d.subjek : P.subjek) === 'moral' };
   },
   nampak(nama, S) { const n = String(nama).toUpperCase().trim(); return this.RPI.test(n) ? !S.moral : this.RMOR.test(n) ? S.moral : true; },
   // Subjek yang sesuai dengan murid (tab PI hanya untuk murid PI, tab MORAL hanya untuk murid Moral), dengan soalan ikut Tahun
@@ -9951,8 +9952,13 @@ const Modul = {
   async semak() {
     if (!PAPAN_URL) return; const S = this.siapa();
     try {
-      const r = await Anugerah.ambilJSON(PAPAN_URL + '?aksi=semakModul&id=' + encodeURIComponent(S.id));
-      if (r && r.ok && Array.isArray(r.semakan)) { this.baca().semakan = r.semakan; this.simpan(); if (!$('modulGuru').hidden && !this.kerja) this.lukisSenarai(); }
+      const r = await Anugerah.ambilJSON(PAPAN_URL + '?aksi=semakModul&id=' + encodeURIComponent(S.id) + (S.alt ? '&alt=' + encodeURIComponent(S.alt) : ''));
+      if (r && r.ok && Array.isArray(r.semakan)) {
+        const D = this.baca(); D.semakan = r.semakan;
+        // Status "sudah dijawab" dikongsi antara peranti: gabung rekod pelayan (simpan yang lebih baharu)
+        (r.siap || []).forEach((x) => { const k = x.subjek + '|' + x.tajuk, l = D.selesai[k]; if (!l || (l.hantar && (x.masa || 0) >= (l.masa || 0)) || (!l.hantar && !D.baki.some((b) => b.subjek === x.subjek && b.tajuk === x.tajuk))) D.selesai[k] = { skor: x.skor || 0, jumlah: x.jumlah || 0, masa: x.masa || Date.now(), hantar: true }; });
+        this.simpan(); if (!$('modulGuru').hidden && !this.kerja) this.lukisSenarai();
+      }
     } catch (e) {}
   },
   lukisSenarai() {

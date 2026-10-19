@@ -25,7 +25,7 @@ Folder ini membolehkan LO:TONG **dipasang** pada telefon, tablet atau Chromebook
 Buka game **sekali dengan internet** selepas dipasang, supaya Three.js dan fon disimpan dalam peranti. Selepas itu, game boleh dimainkan walaupun tanpa internet.
 
 ## Mengemas kini game
-Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v73` menjadi `lotong-v74`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
+Apabila `index.html` (atau fail lain) diganti dengan versi baharu, tukar juga `VERSI` di baris atas `sw.js` dengan menambah nombornya (contohnya `lotong-v74` menjadi `lotong-v75`). Peranti akan memuat turun versi baharu apabila dibuka dengan internet.
 
 ## Jika aplikasi Android tidak terbuka atau pegun
 1. Buang aplikasi LO:TONG lama dari skrin utama (tekan lama ikon → *Nyahpasang* / *Buang*).
@@ -123,3 +123,4 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - **Jawapan murid** masuk ke helaian **Hantaran** (nama, Tahun, subjek, modul, soalan, jawapan, betul/tidak). Isi lajur **markah guru** dan **komen guru**; murid nampak komen itu dalam Tugasan Cuti.
 - Tanpa internet, jawapan disimpan dalam peranti dan dihantar secara automatik apabila ada talian. Jawapan kuiz disemak semula oleh pelayan, bukan hanya oleh peranti murid.
 - Jawapan murid tidak boleh mengandungi formula Sheet (dineutralkan). Gunakan nama dan kod akaun sahaja; jangan minta maklumat peribadi murid.
+- **Status "sudah dijawab" dikongsi antara peranti** apabila murid menggunakan Akaun Murid yang sama (Kod Akaun). Tanpa akaun, status hanya ada pada peranti itu. Selepas menggantikan `papan-anugerah.gs`, ingat **Gunakan → Versi baharu** semula.

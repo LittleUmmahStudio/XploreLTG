@@ -309,16 +309,27 @@ function hantarModul_(b) {
   } finally { kunci.releaseLock(); }
 }
 
-// Komen / markah cikgu untuk seorang murid (GET ?aksi=semakModul&id=...)
+// Komen / markah cikgu + modul yang sudah dijawab oleh seorang murid (GET ?aksi=semakModul&id=...&alt=...)
+// "id" = Kod Akaun (atau ID pemain); "alt" = ID lama. Dua-dua dipadankan supaya semua peranti murid yang sama nampak status yang sama.
 function semakModul_(p) {
-  const id = bersih_(p.id, 40); if (!id) return { ok: false };
-  const v = hantaranHelaian_().getDataRange().getValues().slice(1), out = [];
-  for (let i = v.length - 1; i >= 0 && out.length < 80; i--) {
-    const r = v[i]; if (String(r[3]) !== id) continue;
-    if (String(r[10]).trim() === '' && String(r[11]).trim() === '') continue;
-    out.push({ subjek: teks_(r[4], 30), tajuk: teks_(r[5], 60), soalan: teks_(r[7], 80), markah: teks_(r[10], 20), komen: teks_(r[11], 300) });
+  const ids = [bersih_(p.id, 40), bersih_(p.alt, 40)].filter(function (x) { return x; });
+  if (!ids.length) return { ok: false };
+  const v = hantaranHelaian_().getDataRange().getValues().slice(1), semakan = [], kumpul = {};
+  for (let i = v.length - 1; i >= 0; i--) {
+    const r = v[i]; if (ids.indexOf(String(r[3])) < 0) continue;
+    if (semakan.length < 80 && (String(r[10]).trim() !== '' || String(r[11]).trim() !== '')) {
+      semakan.push({ subjek: teks_(r[4], 30), tajuk: teks_(r[5], 60), soalan: teks_(r[7], 80), markah: teks_(r[10], 20), komen: teks_(r[11], 300) });
+    }
+    // Kumpulkan ikut satu percubaan (kunci = hantarId|rid), kemudian ambil percubaan terkini bagi setiap modul
+    const hid = String(r[12] || '').split('|')[0]; if (!hid) continue;
+    const masa = r[0] instanceof Date ? r[0].getTime() : (Number(new Date(r[0])) || 0);
+    const g = kumpul[hid] = kumpul[hid] || { subjek: teks_(r[4], 30), tajuk: teks_(r[5], 60), masa: 0, skor: 0, jumlah: 0 };
+    if (masa > g.masa) g.masa = masa;
+    if (r[6] === 'kuiz') { g.jumlah++; if (r[9] === 'Ya') g.skor++; }
   }
-  return { ok: true, semakan: out };
+  const terkini = {};
+  Object.keys(kumpul).forEach(function (h) { const g = kumpul[h], k = g.subjek + '|' + g.tajuk; if (!terkini[k] || g.masa > terkini[k].masa) terkini[k] = g; });
+  return { ok: true, semakan: semakan, siap: Object.keys(terkini).map(function (k) { return terkini[k]; }) };
 }
 
 // Jalankan SEKALI: bina tab contoh PI, MORAL, SAINS, MATH. Padam baris contoh dan isi modul sendiri.
