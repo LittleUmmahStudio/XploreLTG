@@ -166,3 +166,18 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Fail ini dijana oleh `tools/gen_pss_interior.py` (Python sahaja). Untuk menjana semula: `python3 tools/gen_pss_interior.py lotong/assets --png pratonton.png`.
 - Jika fail GLB gagal dimuat, game terus guna susun atur Pusat Sumber yang lama. Untuk mematikan dalaman GLB pada satu peranti (ujian), jalankan `localStorage.setItem('lotong.glbDalam', '0')` dalam konsol pelayar.
 - Selepas mengemas kini, upload kedua-dua fail GLB ke folder `assets/` dan tukar `VERSI` dalam `sw.js`.
+
+## Blok Bilik: PI, SPBT, SUSU (GLB, v83)
+- Luar: `assets/bilik_shell.glb` (3 pintu berlengkung). Dalam: `pi_`, `spbt_`, `susu_` + `interior_shell.glb` / `interior_props.glb`.
+- Dijana oleh `tools/gen_bilik.py`: `python3 tools/gen_bilik.py lotong/assets --png-luar luar.png --png-dalam dalam.png`.
+- Kedudukan peti sejuk, rak buku teks (tempat letak buku), kotak buku dan tempat duduk murid sama seperti dahulu, jadi tugasan tidak berubah.
+- Peti sejuk di Bilik SUSU: tekan **Lihat** dan kedua-dua pintu terbuka.
+- Jika fail GLB sesuatu bilik gagal dimuat, bilik itu terus guna susun atur lama. Mati sementara untuk ujian: `localStorage.setItem('lotong.glbDalam','0')` (dalaman) atau `'lotong.glb'` (luar dan dalam).
+- Selepas mengemas kini, upload semua fail dalam `assets/` dan tukar `VERSI` dalam `sw.js`.
+
+## Prasekolah dan Rumah Guru (GLB, v84)
+- Luar: `prasekolah_shell.glb`, `rumahguru1_shell.glb`, `rumahguru2_shell.glb`, `rumahguru3_shell.glb`. Tinggi Prasekolah diturunkan kepada 4.8 m. Rumah Guru kekal 5.0 m kerana atap garaj (3.4 m) dan papan nama (4.2 m) bergantung padanya.
+- Dalam: `prasekolah_interior_*` dan `rumah1/2/3_interior_*` (shell + props). Tiga Rumah Guru berkongsi susun atur; warna dinding, sofa dan permaidani berbeza.
+- Dijana oleh `tools/gen_pra_rumah.py`: `python3 tools/gen_pra_rumah.py lotong/assets --png-luar luar.png --png-dalam dalam.png`.
+- Tempat letak mainan (di atas rak), meja bekas air dan semua sasaran tugasan Prasekolah dan Rumah Guru kekal pada kedudukan asal.
+- Interaksi baharu: kabinet di Rumah Guru.
