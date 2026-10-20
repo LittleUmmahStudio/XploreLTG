@@ -151,3 +151,12 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - **Tiang** disusun semula supaya mengapit papan nama PSS (ruang bersih 1.1 m di kiri dan kanan); sebelum ini satu tiang tepat di hadapan papan.
 - **Cutaway:** `GarajAtap` menyorok bumbung garaj hanya apabila bumbung itu berada di antara kamera dan papan nama PSS (pemain dalam jarak 22 m, di luar bangunan), selepas 0.35 saat supaya tidak berkelip. Untuk mematikan: tetapkan `GarajAtap.AKTIF = false` dalam `index.html`.
 - `python3 tools/preview_garaj.py keluar.png` menjana pratonton garaj bersama PSS.
+
+## Ketinggian tingkap PSS (v79)
+- Tingkap diturunkan ikut skala watak (~1.55 m): **dasar kaca 0.80 m (paras dada)**, kotak bunga 0.52-0.74 m (paras pinggang), puncak kaca 2.00 m. Semua dinding menggunakan satu nilai `WIN_VC` dalam `tools/gen_pss_shell.py`. Jana semula dengan `python3 tools/gen_pss_shell.py`.
+- `python3 tools/preview_skala.py keluar.png` menjana pratonton watak di sebelah tingkap.
+- Bumbung garaj guru kekal 5.2 m. Dengan tingkap yang lebih rendah, ia boleh diturunkan ke ±4.7 m (di atas papan nama) jika mahu: ubah `GH` dalam `garaj()`.
+
+## Saiz pintu PSS (v80)
+- Pintu utama PSS dibesarkan ±20%: **2.8 m tinggi x 1.8 m lebar** (sebelum ini 2.3 x 1.5), bingkai luar 2.06 x 2.93 m. Bingkai kekal 0.49 m di bawah papan nama (bawah papan 3.42 m). Papan timbul, celah dua daun dan tombol diskala mengikut saiz pintu. Pintu masih di tengah hadapan.
+- Laras dengan `DOOR_H` dan `DOOR_HALF` dalam `tools/gen_pss_shell.py`, kemudian jana semula GLB. Penjana akan gagal jika pintu terlalu hampir dengan papan nama.
