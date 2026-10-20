@@ -136,7 +136,7 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Pemalar boleh dilaras dalam objek `Tahap` (K, E, HAD_HARI) dan dalam `CONTENT.pangkat`.
 
 ## Cangkerang GLB bangunan (v77, prototaip: Pusat Sumber)
-- Hanya bangunan **PSS** menggunakan aset 3D `assets/pss_shell.glb` (badan + bumbung: 23 tingkap berbingkai dan kotak bunga, pintu berlengkung, rabung dan tulang bumbung, AO terbakar dalam warna bucu). Bangunan lain tidak disentuh.
+- Hanya bangunan **PSS** menggunakan aset 3D `assets/pss_shell.glb` (badan + bumbung: sudut dinding bersudut serong, cornice, 14 tingkap berbingkai tirus (hadapan 4 simetri di kiri dan kanan pintu tengah, belakang 4, setiap sisi 3) dengan kaca terbenam, lintel dan kotak bunga, pintu berlengkung dua daun, bumbung dengan fascia/soffit, rabung dan tulang bumbung bulat serta finial; AO terbakar dalam warna bucu). 1,579 segi tiga, 63 KB. Bangunan lain tidak disentuh.
 - Susun atur, ukuran, perlanggaran, pintu masuk, papan tanda, penghalang kamera dan data pemain **tidak berubah**. Plinth dan cucur atap masih dijana oleh kod.
 - **Selamat:** versi asal dibina dahulu, GLB dimuat di latar belakang. Jika GLB gagal dimuat, tiada internet, atau ukurannya tidak sepadan dengan tapak bangunan, permainan terus menggunakan bangunan asal.
 - **Suis mati:** dalam konsol pelayar, `localStorage.setItem('lotong.glb','0')` kemudian muat semula. Padam kunci itu untuk mengaktifkan semula.
@@ -144,3 +144,10 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Aset dijana oleh `tools/gen_pss_shell.py` (Python sahaja, tiada Blender): `python3 tools/gen_pss_shell.py --png pratonton.png`. Folder `tools/` untuk pembangun, tidak perlu dimuat naik.
 - **Aset buatan Blender kelak:** eksport GLB dengan dua nod bernama `pss_body` dan `pss_roof`, asal pada pusat bangunan di tanah, +x ialah hadapan, 1 unit = 1 meter, dan hanya warna bucu (tanpa tekstur). Permainan menolak aset yang ukurannya tidak sepadan dengan tapak.
 - Pemuat ialah `GLBMini` dalam `index.html` (bukan `GLTFLoader.js` rasmi, kerana fail rasmi tidak boleh dimuat turun dalam persekitaran pembangunan ini). Ia menyokong mesh berwarna-bucu sahaja.
+- **Semak dalam permainan:** buka konsol pelayar selepas permainan dimuat. Mesej `Cangkerang GLB: pss dimuat, 1579 segi tiga, … ms` bermakna GLB aktif. Mesej `Cangkerang GLB gagal (pss), guna versi asal: …` bermakna bangunan asal digunakan (sebab dinyatakan dalam mesej).
+
+## Garaj guru dan papan nama Pusat Sumber (v78)
+- Bumbung garaj guru dinaikkan dari 3.4 m ke **5.2 m** (bawah bumbung): melepasi tingkap PSS (puncak lintel 4.2 m) dan papan nama PSS (puncak 4.5 m), dan kekal di bawah cornice PSS (5.7 m). Tapak, kereta dan susun atur tidak berubah. Tiang, dinding belakang dan papan "Garaj Guru" mengikut ketinggian baharu.
+- **Tiang** disusun semula supaya mengapit papan nama PSS (ruang bersih 1.1 m di kiri dan kanan); sebelum ini satu tiang tepat di hadapan papan.
+- **Cutaway:** `GarajAtap` menyorok bumbung garaj hanya apabila bumbung itu berada di antara kamera dan papan nama PSS (pemain dalam jarak 22 m, di luar bangunan), selepas 0.35 saat supaya tidak berkelip. Untuk mematikan: tetapkan `GarajAtap.AKTIF = false` dalam `index.html`.
+- `python3 tools/preview_garaj.py keluar.png` menjana pratonton garaj bersama PSS.
