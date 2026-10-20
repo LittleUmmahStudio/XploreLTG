@@ -26,7 +26,7 @@ const HELAIAN_NOTA = 'ParkingLot';   // nota "Cikgu, nak cikgu tambah" (Parking 
 const HELAIAN_UMUM = 'Pengumuman';   // pengumuman perhimpunan yang ditulis oleh cikgu (masa nyata)
 const HELAIAN_AKAUN = 'Akaun';       // akaun murid: simpanan kemajuan di awan
 const HELAIAN_HANTARAN = 'Hantaran'; // jawapan murid untuk modul guru
-const HELAIAN_SISTEM = ['Pemain', 'Mingguan', 'ParkingLot', 'Pengumuman', 'Akaun', 'Hantaran', 'Arahan'];   // bukan subjek
+const HELAIAN_SISTEM = ['Pemain', 'Mingguan', 'ParkingLot', 'Pengumuman', 'Akaun', 'Hantaran', 'Prestasi', 'Arahan'];   // bukan subjek
 
 function doGet(e) {
   const p = (e && e.parameter) || {};
@@ -59,6 +59,7 @@ function doPost(e) {
     else if (b.aksi === 'akaunAmbil') out = akaunAmbil_(b, true);
     else if (b.aksi === 'akaunSemak') out = akaunAmbil_(b, false);
     else if (b.aksi === 'hantarModul') out = hantarModul_(b);
+    else if (b.aksi === 'prestasi') out = prestasi_(b);
     else out = { ok: false, ralat: 'aksi tidak dikenali' };
   } catch (err) {
     out = { ok: false, ralat: String(err) };
@@ -352,4 +353,19 @@ function sediakanModul() {
     sh.setColumnWidth(5, 320);
   });
   hantaranHelaian_();
+}
+
+/* ===================== Prestasi murid (level, XP, ketepatan, subjek) ===================== */
+// Satu baris bagi setiap murid (ID = Kod Akaun atau ID pemain); dikemas kini setiap kali game menghantar ringkasan prestasi.
+function prestasi_(b) {
+  const id = bersih_(b.id, 40), nama = bersih_(b.nama, 16); if (!id || !nama) return { ok: false };
+  const kunci = LockService.getScriptLock(); kunci.waitLock(8000);
+  try {
+    const sh = helaian_('Prestasi', ['dikemas', 'nama', 'tahun', 'id', 'level', 'xp', 'pangkat', 'ketepatan %', 'soalan dijawab', 'betul', 'subjek (betul/dijawab)', 'lencana', 'hari main']);
+    const baris = [new Date(), nama, nombor_(b.tahun, 6), id, nombor_(b.level, 20), nombor_(b.xp, 1000000), teks_(b.pangkat, 30), nombor_(b.ketepatan, 100), nombor_(b.jawab, 1000000), nombor_(b.betul, 1000000), selamat_(teks_(b.subjek, 380)), nombor_(b.lencana, 500), nombor_(b.hari, 1000)];
+    const n = sh.getLastRow(); let r = 0;
+    if (n > 1) { const ids = sh.getRange(2, 4, n - 1, 1).getValues(); for (let i = 0; i < ids.length; i++) if (String(ids[i][0]) === id) { r = i + 2; break; } }
+    if (r) sh.getRange(r, 1, 1, baris.length).setValues([baris]); else sh.getRange(n + 1, 1, 1, baris.length).setValues([baris]);
+    return { ok: true };
+  } finally { kunci.releaseLock(); }
 }

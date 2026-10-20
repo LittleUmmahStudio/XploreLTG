@@ -124,3 +124,13 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Tanpa internet, jawapan disimpan dalam peranti dan dihantar secara automatik apabila ada talian. Jawapan kuiz disemak semula oleh pelayan, bukan hanya oleh peranti murid.
 - Jawapan murid tidak boleh mengandungi formula Sheet (dineutralkan). Gunakan nama dan kod akaun sahaja; jangan minta maklumat peribadi murid.
 - **Status "sudah dijawab" dikongsi antara peranti** apabila murid menggunakan Akaun Murid yang sama (Kod Akaun). Tanpa akaun, status hanya ada pada peranti itu. Selepas menggantikan `papan-anugerah.gs`, ingat **Gunakan → Versi baharu** semula.
+
+## Level, XP, pangkat dan Prestasi Saya (v76)
+- **Level 1–20** berdasarkan XP: XP untuk level L = 37 × L^1.6 (Level 3 ±215, Level 10 ±1,470, Level 20 ±4,460). Sasaran: murid yang rajin sampai Level 20 dalam ±12 minggu persekolahan.
+- **XP** datang daripada mata (Kebaikan + Ilmu + Reputasi) yang sedia ada, ditambah +1 Ilmu bagi setiap soalan yang dijawab betul pada cubaan pertama (+2 dalam Tugasan Cuti). Pemain sedia ada: mata terkumpul dijadikan XP awal dan pangkat yang sudah dicapai tidak diturunkan.
+- **Pengawal:** XP penuh sehingga 90 sehari, selepas itu separuh. Misi yang sama dalam satu minggu: kali pertama penuh, kali kedua separuh, seterusnya suku.
+- **7 pangkat:** Penolong Baru (L1), Sahabat Prihatin (L3), Pembantu Setia (L6, ketepatan ≥60%), Wira Sekolah (L10, ketepatan ≥70%, Gred A 3 hari), Ikon Jejak Kebaikan (L14, + 6 lencana), Duta Kebaikan (L18, + 10 lencana), Legenda LO:TONG (L20, + 14 lencana). Ketepatan dikira daripada 100 soalan terakhir (sekurang-kurangnya 10 atau 20 soalan).
+- **18 lencana berperingkat baharu** (Gangsa/Perak/Emas): Pejuang Ilmu, Jitu, Hadir Setia, Serba Boleh, Pelajar Cuti, Mercu Level. Tiga lencana Emas adalah rahsia.
+- **📊 Prestasi Saya:** butang dalam Profil dan menu jeda. Paparan level, syarat naik pangkat, ketepatan, minggu ini berbanding minggu lalu, dan jadual setiap subjek.
+- **Tab `Prestasi` dalam Sheet** (dibina automatik): satu baris bagi setiap murid (level, XP, pangkat, ketepatan, ringkasan subjek, lencana, hari main). Dikemas kini apabila game menghantar ringkasan (tertakluk pada tetapan Papan Anugerah). **Gantikan `papan-anugerah.gs` dan Gunakan → Versi baharu** supaya tab ini berfungsi.
+- Pemalar boleh dilaras dalam objek `Tahap` (K, E, HAD_HARI) dan dalam `CONTENT.pangkat`.

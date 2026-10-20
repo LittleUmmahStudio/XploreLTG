@@ -228,6 +228,10 @@ body.peta #objektif{display:none}
 #plKat{flex-wrap:wrap;gap:6px}#plKat .btn{min-height:32px;padding:2px 10px;font-size:13px}
 .plTulis{display:flex;gap:8px;align-items:stretch;margin-top:6px}.plTulis textarea{flex:1;font:inherit;font-size:15px;border:3px solid #1B1B26;border-radius:6px;padding:6px;resize:none}
 @media (max-width:640px){.plPapan{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#prestasi .kertas{width:min(760px,96vw);max-height:94vh;max-height:94dvh;overflow-y:auto;padding:10px 14px}#prestasi h2{margin:0;font-size:20px}
+.prKad{background:var(--btn-bg);color:var(--teks);border:3px solid var(--garis-luar);border-radius:10px;padding:8px 10px;margin:8px 0}.prKad b{font-size:16px}.prKad small{display:block;font-size:13px;color:var(--teksLembut)}
+.prBaris{display:grid;grid-template-columns:1.4fr .7fr .7fr .7fr .7fr;gap:4px;align-items:center;padding:4px 0;border-bottom:1px dashed var(--garis);font-size:14px}.prBaris.kepala{font-weight:700;font-size:12px;color:var(--teksLembut)}.prBaris span:not(:first-child){text-align:right}
+.prGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.prSyarat{font-size:14px;margin:2px 0}.prOk{color:var(--hijauTeks)}
 #modulGuru .kertas{width:min(720px,96vw);max-height:94vh;max-height:94dvh;overflow-y:auto;padding:10px 14px}#modulGuru h2{margin:0;font-size:20px}
 #mgSubjek{flex-wrap:wrap;gap:6px}#mgSubjek .btn{min-height:34px;padding:2px 12px;font-size:14px}
 .mgKad{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#FFF6E0;border:3px solid #1B1B26;border-radius:10px;padding:8px 10px;margin:8px 0}.mgKad>div{min-width:0}.mgKad b{font-size:16px;display:block}.mgKad small{display:block;font-size:13px}
@@ -725,6 +729,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <div class="pfBarLuar"><em id="pfBar"></em></div>
       <p id="pfLagi" class="pfSub"></p>
       <div id="pfTangga"></div>
+      <div class="baris-btn"><button id="pfPrestasi" class="btn utama">📊 Prestasi Saya</button></div>
       <p class="snSub">Lencana</p>
       <div id="pfLencana"></div>
       <p class="snSub">Aksesori avatar</p>
@@ -752,6 +757,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
         <button id="btnSambung" class="btn utama">Sambung main</button>
         <button id="btnSenaraiJ" class="btn">Senarai tugasan</button>
         <button id="btnProfilJ" class="btn">Profil &amp; lencana</button>
+        <button id="btnPrestasiJ" class="btn">📊 Prestasi Saya</button>
         <button id="btnAnugerahJ" class="btn">Papan Anugerah</button>
         <button id="btnParkingJ" class="btn">📝 Cikgu, nak cikgu tambah</button>
         <button id="btnModulJ" class="btn">📘 Tugasan Cuti</button>
@@ -793,6 +799,12 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <ul id="cabaranSenarai"></ul>
       <p id="cabaranBonus" class="pfSub"></p>
       <div class="baris-btn"><button id="cabaranTutup" class="btn utama">Tutup</button></div>
+    </div>
+  </section>
+  <section id="prestasi" class="lapisan gelap panel-fokus" hidden role="dialog" aria-label="Prestasi Saya">
+    <div class="kertas">
+      <div class="mmKepala"><div><h2>📊 Prestasi Saya</h2><small id="prSub"></small></div><button id="prTutup" class="btn">Tutup</button></div>
+      <div id="prIsi"></div>
     </div>
   </section>
   <section id="modulGuru" class="lapisan gelap panel-fokus" hidden role="dialog" aria-label="Tugasan Cuti">
@@ -1436,11 +1448,13 @@ const CONTENT = {
   rujukanHadis: { m_sampah: 0, m_tegur: 2, m_jatuh: 4, m_iring: 4, m_kucing: 6, m_botol: 7, m_rumahguru: 7, m_janji: 8 },
   // Kemajuan: pangkat (ikut jumlah Kebaikan + Ilmu + Reputasi)
   pangkat: [
-    { nama: 'Penolong Baru', ikon: '🌱', min: 0, pesan: 'Setiap kebaikan kecil adalah permulaan yang besar.' },
-    { nama: 'Sahabat Prihatin', ikon: '🌼', min: 60, pesan: 'Kamu mula dikenali kerana suka membantu.' },
-    { nama: 'Pembantu Setia', ikon: '🌟', min: 180, pesan: 'Warga sekolah boleh bergantung kepada kamu.' },
-    { nama: 'Wira Sekolah', ikon: '🏅', min: 400, pesan: 'Kamu menjadi contoh kepada kawan-kawan.' },
-    { nama: 'Ikon Jejak Kebaikan', ikon: '👑', min: 750, pesan: 'Jejak kebaikan kamu terpahat di SK Lotong!' }
+    { nama: 'Penolong Baru', ikon: '🌱', min: 0, lvl: 1, pesan: 'Setiap kebaikan kecil adalah permulaan yang besar.' },
+    { nama: 'Sahabat Prihatin', ikon: '🌼', min: 60, lvl: 3, pesan: 'Kamu mula dikenali kerana suka membantu.' },
+    { nama: 'Pembantu Setia', ikon: '🌟', min: 180, lvl: 6, acc: 60, pesan: 'Warga sekolah boleh bergantung kepada kamu.' },
+    { nama: 'Wira Sekolah', ikon: '🏅', min: 400, lvl: 10, acc: 70, gred: 3, pesan: 'Kamu menjadi contoh kepada kawan-kawan.' },
+    { nama: 'Ikon Jejak Kebaikan', ikon: '👑', min: 750, lvl: 14, acc: 70, gred: 3, lcn: 6, pesan: 'Jejak kebaikan kamu terpahat di SK Lotong!' },
+    { nama: 'Duta Kebaikan', ikon: '🎖️', min: 99999, lvl: 18, acc: 70, gred: 3, lcn: 10, pesan: 'Kamu mewakili semangat SK Lotong di mana-mana!' },
+    { nama: 'Legenda LO:TONG', ikon: '🌠', min: 99999, lvl: 20, acc: 70, gred: 3, lcn: 14, pesan: 'Namamu akan sentiasa diingati di SK Lotong!' }
   ],
   aksesori: [
     { id: 'begSekolah', nama: 'Beg Sekolah Biru', ikon: '🎒', slot: 'belakang', pangkat: 0, syarat: 'Percuma' },
@@ -1489,7 +1503,25 @@ const CONTENT = {
     { agama: true, id: 'doa', nama: 'Rajin Berdoa', ikon: '🤲', syarat: 'Pelajari 5 doa harian yang berbeza', kemajuan: () => [Kiraan.bil('doa'), 5] },
     { agama: true, id: 'asma', nama: 'Mengenal Asmaul Husna', ikon: '✨', syarat: 'Baca 10 nama Allah yang berbeza', kemajuan: () => [Kiraan.bil('asma'), 10] },
     { agama: true, id: 'rukun', nama: 'Asas Akidah', ikon: '🕋', syarat: 'Susun Rukun Islam dan Rukun Iman dengan betul', kemajuan: () => [(Kiraan.bil('rukunIslam') > 0 ? 1 : 0) + (Kiraan.bil('rukunIman') > 0 ? 1 : 0), 2] },
-    { agama: true, id: 'nabi', nama: 'Kenali Para Nabi', ikon: '📜', syarat: 'Susun nama nabi dan rasul 3 kali', kemajuan: () => [Kiraan.bil('nabi'), 3] }
+    { agama: true, id: 'nabi', nama: 'Kenali Para Nabi', ikon: '📜', syarat: 'Susun nama nabi dan rasul 3 kali', kemajuan: () => [Kiraan.bil('nabi'), 3] },
+    { id: 'pejuang_g', nama: 'Pejuang Ilmu · Gangsa', ikon: '🥉', syarat: 'Jawab 25 soalan dengan betul pada cubaan pertama', kemajuan: () => [Tahap.jumBetul(), 25] },
+    { id: 'pejuang_p', nama: 'Pejuang Ilmu · Perak', ikon: '🥈', syarat: 'Jawab 100 soalan dengan betul pada cubaan pertama', kemajuan: () => [Tahap.jumBetul(), 100] },
+    { id: 'pejuang_e', nama: 'Pejuang Ilmu · Emas', ikon: '🥇', syarat: 'Jawab 300 soalan dengan betul pada cubaan pertama', kemajuan: () => [Tahap.jumBetul(), 300] },
+    { id: 'jitu_g', nama: 'Jitu · Gangsa', ikon: '🥉', syarat: 'Ketepatan 80% atau lebih (sekurang-kurangnya 30 soalan terakhir)', kemajuan: () => [(() => { const k = Tahap.ketepatan(); return k.n >= 30 && k.pct >= 80 ? 1 : 0; })(), 1] },
+    { id: 'jitu_p', nama: 'Jitu · Perak', ikon: '🥈', syarat: 'Ketepatan 90% atau lebih (sekurang-kurangnya 60 soalan terakhir)', kemajuan: () => [(() => { const k = Tahap.ketepatan(); return k.n >= 60 && k.pct >= 90 ? 1 : 0; })(), 1] },
+    { rahsia: true, id: 'jitu_e', nama: 'Jitu · Emas', ikon: '🥇', syarat: 'Ketepatan 95% atau lebih (sekurang-kurangnya 100 soalan terakhir)', kemajuan: () => [(() => { const k = Tahap.ketepatan(); return k.n >= 100 && k.pct >= 95 ? 1 : 0; })(), 1] },
+    { id: 'hadir_g', nama: 'Hadir Setia · Gangsa', ikon: '🥉', syarat: 'Bermain 10 hari persekolahan', kemajuan: () => [Object.keys((State.data && State.data.hariMain) || {}).length, 10] },
+    { id: 'hadir_p', nama: 'Hadir Setia · Perak', ikon: '🥈', syarat: 'Bermain 25 hari persekolahan', kemajuan: () => [Object.keys((State.data && State.data.hariMain) || {}).length, 25] },
+    { rahsia: true, id: 'hadir_e', nama: 'Hadir Setia · Emas', ikon: '🥇', syarat: 'Bermain 50 hari persekolahan', kemajuan: () => [Object.keys((State.data && State.data.hariMain) || {}).length, 50] },
+    { id: 'serba_g', nama: 'Serba Boleh · Gangsa', ikon: '🥉', syarat: 'Jawab sekurang-kurangnya 10 soalan betul dalam 2 subjek berbeza', kemajuan: () => [Tahap.subjekBetul(10), 2] },
+    { id: 'serba_p', nama: 'Serba Boleh · Perak', ikon: '🥈', syarat: 'Jawab sekurang-kurangnya 10 soalan betul dalam 3 subjek berbeza', kemajuan: () => [Tahap.subjekBetul(10), 3] },
+    { rahsia: true, id: 'serba_e', nama: 'Serba Boleh · Emas', ikon: '🥇', syarat: 'Jawab sekurang-kurangnya 10 soalan betul dalam 5 subjek berbeza', kemajuan: () => [Tahap.subjekBetul(10), 5] },
+    { id: 'cuti_g', nama: 'Pelajar Cuti · Gangsa', ikon: '🥉', syarat: 'Siapkan 1 modul Tugasan Cuti', kemajuan: () => [Tahap.bilModul(), 1] },
+    { id: 'cuti_p', nama: 'Pelajar Cuti · Perak', ikon: '🥈', syarat: 'Siapkan 5 modul Tugasan Cuti', kemajuan: () => [Tahap.bilModul(), 5] },
+    { id: 'cuti_e', nama: 'Pelajar Cuti · Emas', ikon: '🥇', syarat: 'Siapkan 15 modul Tugasan Cuti', kemajuan: () => [Tahap.bilModul(), 15] },
+    { id: 'lvl_g', nama: 'Mercu Level · Gangsa', ikon: '🥉', syarat: 'Capai Level 5', kemajuan: () => [Tahap.kemajuan().L, 5] },
+    { id: 'lvl_p', nama: 'Mercu Level · Perak', ikon: '🥈', syarat: 'Capai Level 10', kemajuan: () => [Tahap.kemajuan().L, 10] },
+    { id: 'lvl_e', nama: 'Mercu Level · Emas', ikon: '🥇', syarat: 'Capai Level 20', kemajuan: () => [Tahap.kemajuan().L, 20] }
   ],
   // RMT Lama (ikut lakaran): kawasan lapang berpagar + ruang tertutup di timur
   rmtLama: { x0: 9.6, x1: 28.6, z0: 2.5, z1: 14.0, zb: 10.0, stx0: 14.0, stx1: 14.0, kx0: 18.15, fx0: 24.4, fz1: 6.3,
@@ -5369,7 +5401,7 @@ const Ringkasan = {
     else h.log.forEach((x) => { const li = document.createElement('li'); li.textContent = x.tajuk; ul.appendChild(li); });
     const kl = h.kelas || {};
     { const li = document.createElement('li'); li.textContent = 'Sesi kelas disiapkan: ' + (h.hadir || 0) + ' daripada ' + CONTENT.jadualKelas.slot.length; ul.appendChild(li); }
-    { const P = Pangkat.semasa(), li = document.createElement('li'); li.textContent = 'Pangkat: ' + P.ikon + ' ' + P.nama + ' (' + Pangkat.jumlah() + ' mata)'; ul.appendChild(li); }
+    { const P = Pangkat.semasa(), li = document.createElement('li'); li.textContent = 'Pangkat: ' + P.ikon + ' ' + P.nama + ' · Level ' + Tahap.kemajuan().L + ' (' + Pangkat.jumlah() + ' mata)'; ul.appendChild(li); }
     { // Gred Harian daripada Buku Tugas
       const G = BukuTugas.gred(), d = State.data; let siri = '';
       if (!h.gredDicatat) { h.gredDicatat = G.gred; d.siriA = G.gred === 'A' ? (d.siriA || 0) + 1 : 0; if (G.gred === 'A') { Kiraan.tambah('gredA'); if (d.siriA % 3 === 0) { s.reputasi += 5; siri = ' · Siri 3 hari Gred A! +5 Reputasi'; } } }
@@ -5667,21 +5699,23 @@ const Kelas = {
     const sub = s.subjek, tahun = this.tahun();
     if (K.akt.jenis === 'soalan') {
       const g = this.guru(s) || { nama: 'Cikgu' };
+      let pertama = true;
       const tanya = (q) => Dialog.show(g.nama, [q.s], { tag: s.info.nama, wajibPilih: true, choices: q.p.map((x) => ({ label: x, fn: () => {
-        if (x === q.j) Dialog.show(g.nama, ['Betul! Bagus sekali.'], { onDone: () => this.selesai('soalan', { ilmu: 2 }) });
-        else { Sound.play('wrong'); Dialog.show(g.nama, ['Hampir betul. Cuba fikir semula.'], { onDone: () => tanya({ s: q.s, j: q.j, p: shuffle(q.p.slice()) }) }); }
+        if (x === q.j) { if (pertama) Tahap.catat(sub, true, 1, s.info.nama); Dialog.show(g.nama, ['Betul! Bagus sekali.'], { onDone: () => this.selesai('soalan', { ilmu: 2 }) }); }
+        else { if (pertama) { pertama = false; Tahap.catat(sub, false, 0, s.info.nama); } Sound.play('wrong'); Dialog.show(g.nama, ['Hampir betul. Cuba fikir semula.'], { onDone: () => tanya({ s: q.s, j: q.j, p: shuffle(q.p.slice()) }) }); }
       } })) });
       tanya(Soalan.ambil(sub, tahun));
     } else if (K.akt.jenis === 'kerja') {
       DudukKelas.mula(s.bilik);
       if (sub === 'pi') Mini.open(Kelas.permainanPI()[Math.floor(Math.random() * Kelas.permainanPI().length)], () => this.selesai('kerja', { ilmu: 3 }));
       else if (sub === 'moral' && Math.random() < 0.5) Mini.open('nilai', () => this.selesai('kerja', { ilmu: 3 }));
-      else Mini.openSoalan('Latihan ' + s.info.nama, [0, 1, 2].map(() => { const q = Soalan.ambil(sub, tahun); return { soalan: q.s, betul: q.j, pilihan: q.p }; }), () => this.selesai('kerja', { ilmu: 3 }));
+      else Mini.untuk(sub, s.info.nama).openSoalan('Latihan ' + s.info.nama, [0, 1, 2].map(() => { const q = Soalan.ambil(sub, tahun); return { soalan: q.s, betul: q.j, pilihan: q.p }; }), () => this.selesai('kerja', { ilmu: 3 }));
     } else {
       const q = Soalan.ambil(sub === 'pi' ? 'jawi' : sub, tahun);
+      let pertama = true;
       const tanya = (qq) => Dialog.show('Kawan', ['Saya tak faham soalan ini.', qq.s], { tag: 'Bantu kawan', wajibPilih: true, choices: qq.p.map((x) => ({ label: x, fn: () => {
-        if (x === qq.j) Dialog.show('Kawan', ['Oh, sekarang saya faham! Terima kasih.'], { onDone: () => this.selesai('bantu', { kebaikan: 2 }) });
-        else { Sound.play('wrong'); Dialog.show('Kawan', ['Hmm, saya rasa itu kurang tepat. Jom cuba lagi.'], { onDone: () => tanya({ s: qq.s, j: qq.j, p: shuffle(qq.p.slice()) }) }); }
+        if (x === qq.j) { if (pertama) Tahap.catat(sub, true, 1, s.info.nama); Dialog.show('Kawan', ['Oh, sekarang saya faham! Terima kasih.'], { onDone: () => this.selesai('bantu', { kebaikan: 2 }) }); }
+        else { if (pertama) { pertama = false; Tahap.catat(sub, false, 0, s.info.nama); } Sound.play('wrong'); Dialog.show('Kawan', ['Hmm, saya rasa itu kurang tepat. Jom cuba lagi.'], { onDone: () => tanya({ s: qq.s, j: qq.j, p: shuffle(qq.p.slice()) }) }); }
       } })) });
       tanya(q);
     }
@@ -6872,6 +6906,8 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'parking') return;
   if (k === 'escape' && !$('modulGuru').hidden) { Modul.tutup(); return; }
   if (State.uiLock === 'modul') return;
+  if (k === 'escape' && !$('prestasi').hidden) { PrestasiUI.tutup(); return; }
+  if (State.uiLock === 'prestasi') return;
   if (State.uiLock === 'cabaran') { if (k === 'escape' || k === 'c') Cabaran.tutup(); return; }
   if (k === 'c' && !State.paused && !e.repeat && State.mode === 'play' && !State.uiLock) { Cabaran.buka(); return; }
   if (k === 'g' && !State.paused && !e.repeat && State.mode === 'play' && !State.uiLock) { Geng.buka(); return; }
@@ -7422,8 +7458,9 @@ const Missions = {
   },
   complete(m) {
     const d = State.data; d.aktif = null; Items.clear(); Iring.henti(); Player.pegang(null);
-    const g = m.ganjaran || {};
+    const g = m.ganjaran || {}; Tahap.sinkron();
     ['kebaikan', 'ilmu', 'reputasi'].forEach((k) => { d.stats[k] += (g[k] || 0); });
+    Tahap.sinkron(Tahap.faktorMisi(m.id));   // v76: misi yang diulang dalam minggu sama beri XP lebih sedikit
     d.selesai[m.id] = (d.selesai[m.id] || 0) + 1;
     if (Hari.aktif()) { d.hari.log.push({ tajuk: m.tajuk, nilai: m.nilai || '' }); d.hari.siap = d.hari.siap || {}; d.hari.siap[m.id] = true; }
     if (m.ulang) d.cooldown[m.id] = d.masaMain + Math.max(m.rehat || 45, 240);   // Jelajah Bebas: tidak terlalu kerap berulang
@@ -7691,9 +7728,9 @@ function toast(msg) {
 const HUD = {
   pangkat() {
     if (!State.data) return;
-    const P = CONTENT.pangkat, m = Pangkat.jumlah(), i = Pangkat.indeks(m), n = P[i + 1];
-    $('pangkatTeks').textContent = P[i].ikon + ' ' + P[i].nama;
-    $('pangkatBar').style.width = Math.round(clamp(n ? (m - P[i].min) / (n.min - P[i].min) : 1, 0, 1) * 100) + '%';
+    const P = Pangkat.semasa(), K = Tahap.kemajuan();
+    $('pangkatTeks').textContent = P.ikon + ' ' + P.nama + ' · Lv ' + K.L;
+    $('pangkatBar').style.width = Math.round(K.pct * 100) + '%';
   },
   lastTenaga: -1,
   stats(gain) {
@@ -7813,13 +7850,17 @@ const JawiTahap = {
 const Mini = {
   rounds: [], i: 0, skor: 0, salah: false, locked: false, timer: null, onFinish: null,
   // Latihan soalan berteks (kerja kelas)
+  untuk(k, l) { this.subjSeterus = [k, l]; return this; },
+  catatSub(b) { if (this.subj) { try { Tahap.catat(this.subj, b, 1, this.subLbl); } catch (e) {} } },
   openSoalan(tajuk, rounds, onFinish) {
+    { const u = this.subjSeterus; this.subjSeterus = null; this.subj = u ? u[0] : null; this.subLbl = u ? u[1] : ''; }
     this.mod = 'pilih'; $('miniPilihan').classList.remove('grid'); $('miniJawi').hidden = false; $('miniJawi').classList.remove('susun'); $('miniJawi').setAttribute('dir', 'rtl'); this.onFinish = onFinish; this.i = 0; this.skor = 0; this.rounds = rounds;
     $('miniTajuk').textContent = tajuk; $('miniSoalan').textContent = 'Pilih jawapan yang betul.';
     $('miniJawi').classList.remove('perkataan'); $('miniJawi').classList.add('teks');
     $('mini').hidden = false; setLock('mini'); this.render();
   },
   open(jenis, onFinish) {
+    this.subjSeterus = null; this.subj = jenis === 'nilai' ? 'moral' : 'pi'; this.subLbl = '';
     this.mod = 'pilih'; $('miniPilihan').classList.remove('grid'); $('miniJawi').hidden = false; $('miniJawi').classList.remove('susun'); $('miniJawi').setAttribute('dir', 'rtl');
     if (jenis === 'padan') return this.openPadan(onFinish);
     if (jenis === 'bina') return this.openBina(this.pusinganBina(3), 'Bina Suku Kata', onFinish);
@@ -8041,10 +8082,11 @@ const Mini = {
     if (this.locked) return;
     const r = this.rounds[this.i];
     if (val === r.betul) {
-      this.locked = true; btn.classList.add('betul'); if (!this.salah) this.skor++;
+      this.locked = true; btn.classList.add('betul'); if (!this.salah) { this.skor++; this.catatSub(true); }
       $('miniMaklum').textContent = r.nota ? 'Betul! ' + r.nota : 'Betul!'; Sound.play('ok');
       this.timer = setTimeout(() => { this.timer = null; this.i++; if (this.i < this.rounds.length) this.render(); else this.summary(); }, r.nota ? 1300 : 750);
     } else {
+      if (!this.salah) this.catatSub(false);
       this.salah = true; btn.disabled = true; btn.classList.add('salah');
       $('miniMaklum').textContent = 'Hampir! Cuba lagi.'; Sound.play('wrong');
     }
@@ -8191,12 +8233,23 @@ const Kiraan = {
 };
 const Pangkat = {
   jumlah() { const s = State.data.stats; return s.kebaikan + s.ilmu + s.reputasi; },
-  indeks(m) { const P = CONTENT.pangkat; let i = 0; for (let k = 0; k < P.length; k++) if (m >= P[k].min) i = k; return i; },
-  semasa() { return CONTENT.pangkat[this.indeks(this.jumlah())]; },
+  // v76: pangkat ditentukan oleh Level + syarat prestasi (bukan mata sahaja). Pangkat yang pernah dicapai tidak diturunkan.
+  syarat(i, d) {
+    d = d || State.data; Tahap.pastikan(); const P = CONTENT.pangkat[i], k = Tahap.ketepatan(d), out = [];
+    out.push({ t: 'Level ' + P.lvl, ok: Tahap.level(d.xp) >= P.lvl });
+    if (P.acc) out.push({ t: 'ketepatan ' + P.acc + '% (kini ' + (k.n >= 10 ? k.pct + '%' : 'belum cukup soalan') + ')', ok: k.n >= (P.acc >= 70 ? 20 : 10) && k.pct >= P.acc });
+    if (P.gred) out.push({ t: 'Gred A ' + P.gred + ' hari', ok: Kiraan.bil('gredA') >= P.gred });
+    if (P.lcn) out.push({ t: P.lcn + ' lencana (kini ' + Object.keys(d.lencana || {}).length + ')', ok: Object.keys(d.lencana || {}).length >= P.lcn });
+    return out;
+  },
+  layak(d) { d = d || State.data; for (let i = CONTENT.pangkat.length - 1; i > 0; i--) if (this.syarat(i, d).every((x) => x.ok)) return i; return 0; },
+  idx(d) { d = d || State.data; return Math.min(CONTENT.pangkat.length - 1, Math.max(d.pangkat || 0, this.layak(d))); },
+  semasa(d) { return CONTENT.pangkat[this.idx(d)]; },
   antri: false,
   semak(senyap) {
     const d = State.data; if (!d) return;
-    const i = this.indeks(this.jumlah());
+    Tahap.sinkron(); Tahap.semakLevel(senyap);
+    const i = this.layak(d);
     if (d.pangkat == null || senyap) { d.pangkat = Math.max(d.pangkat || 0, i); return; }
     if (i > d.pangkat) { d.pangkat = i; this.antri = true; }
     if (this.antri && !State.uiLock && State.mode === 'play' && !State.paused) { this.antri = false; this.sambut(); }
@@ -8289,13 +8342,13 @@ const Profil = {
   },
   tutup() { if ($('profil').hidden) return; $('profil').hidden = true; if (State.uiLock === 'profil') setLock(null); },
   lukis() {
-    const d = State.data, P = CONTENT.pangkat, m = Pangkat.jumlah(), i = Pangkat.indeks(m), seterus = P[i + 1];
+    const d = State.data, P = CONTENT.pangkat, m = Pangkat.jumlah(), i = Pangkat.idx(), K = Tahap.kemajuan();
     $('pfNama').textContent = d.nama + ' · Tahun ' + (d.tahun || 1) + ' · ' + (d.subjek === 'moral' ? 'Pendidikan Moral' : 'Pendidikan Islam');
-    $('pfPangkat').textContent = P[i].ikon + ' ' + P[i].nama;
-    $('pfMata').textContent = 'Jumlah mata: ' + m + ' (Kebaikan ' + d.stats.kebaikan + ' · Ilmu ' + d.stats.ilmu + ' · Reputasi ' + d.stats.reputasi + ')';
-    const k = seterus ? (m - P[i].min) / (seterus.min - P[i].min) : 1;
-    $('pfBar').style.width = Math.round(clamp(k, 0, 1) * 100) + '%';
-    $('pfLagi').textContent = seterus ? (seterus.min - m) + ' mata lagi ke ' + seterus.ikon + ' ' + seterus.nama : 'Pangkat tertinggi dicapai. Hebat!';
+    $('pfPangkat').textContent = P[i].ikon + ' ' + P[i].nama + ' · Level ' + K.L;
+    $('pfMata').textContent = 'XP ' + Math.round(d.xp) + ' · Jumlah mata: ' + m + ' (Kebaikan ' + d.stats.kebaikan + ' · Ilmu ' + d.stats.ilmu + ' · Reputasi ' + d.stats.reputasi + ')';
+    $('pfBar').style.width = Math.round(K.pct * 100) + '%';
+    const nxt = P[i + 1], kurang = nxt ? Pangkat.syarat(i + 1).filter((x) => !x.ok).map((x) => x.t) : [];
+    $('pfLagi').textContent = (K.L >= Tahap.MAX ? 'Level tertinggi dicapai.' : (K.ke - Math.round(d.xp)) + ' XP lagi ke Level ' + (K.L + 1) + '.') + (nxt ? ' Pangkat seterusnya ' + nxt.ikon + ' ' + nxt.nama + (kurang.length ? ' perlu: ' + kurang.join(', ') + '.' : ': syarat sudah dipenuhi.') : '');
     const tg = $('pfTangga'); tg.innerHTML = '';
     P.forEach((p, k2) => { const s = document.createElement('span'); s.className = k2 <= i ? 'dapat' : ''; s.textContent = p.ikon + ' ' + p.nama; tg.appendChild(s); });
     const lg = $('pfLencana'); lg.innerHTML = '';
@@ -8303,8 +8356,8 @@ const Profil = {
       const ada = d.lencana && d.lencana[L.id], [n, t] = L.kemajuan();
       const c = document.createElement('div'); c.className = 'pfL' + (ada ? ' ada' : '');
       c.innerHTML = '<b></b><span></span><small></small>';
-      c.querySelector('b').textContent = L.ikon; c.querySelector('span').textContent = L.nama;
-      c.querySelector('small').textContent = ada ? 'Diperoleh' : L.syarat + ' (' + Math.min(n, t) + '/' + t + ')';
+      const rh = L.rahsia && !ada; c.querySelector('b').textContent = rh ? '❓' : L.ikon; c.querySelector('span').textContent = rh ? 'Lencana rahsia' : L.nama;
+      c.querySelector('small').textContent = ada ? 'Diperoleh' : rh ? 'Teruskan bermain untuk menemuinya' : L.syarat + ' (' + Math.min(n, t) + '/' + t + ')';
       lg.appendChild(c);
     });
     const ag = $('pfAksesori'); ag.innerHTML = '';
@@ -8593,7 +8646,7 @@ const Sesat = {
   // Pengawas automatik: kunci yang tertinggal lebih 1 saat (panelnya sudah tertutup) dilepaskan
   tAwas: 0,
   awas(dt) {
-    const L = State.uiLock, panel = L && { dialog: 'dialog', mini: 'mini', reward: 'ganjaran', ringkasan: 'ringkasan', senarai: 'senarai', profil: 'profil', anugerah: 'papanAnugerah', geng: 'geng', cabaran: 'cabaran', menuMakan: 'menuMakan', parking: 'parkingLot', modul: 'modulGuru', duduk: 'btnBangun', bayar: 'bayar', buku: 'buku' }[L];
+    const L = State.uiLock, panel = L && { dialog: 'dialog', mini: 'mini', reward: 'ganjaran', ringkasan: 'ringkasan', senarai: 'senarai', profil: 'profil', anugerah: 'papanAnugerah', geng: 'geng', cabaran: 'cabaran', menuMakan: 'menuMakan', parking: 'parkingLot', modul: 'modulGuru', prestasi: 'prestasi', duduk: 'btnBangun', bayar: 'bayar', buku: 'buku' }[L];
     const basi = panel ? $(panel).hidden : (L === 'pindah' && !Rooms.busy) || (L === 'sukan' && !Sukan.aktif) || (L === 'buaian' && !Buaian.aktif);
     if (L && basi) { this.tAwas += dt; if (this.tAwas > 1) { this.tAwas = 0; setLock(null); console.warn('Kunci UI tertinggal dilepaskan:', L); } } else this.tAwas = 0;
   },
@@ -8809,13 +8862,14 @@ const Anugerah = {
     d.mingguan.hari[this.hariIni()] = 1; d.hariMain = d.hariMain || {}; d.hariMain[this.hariIni()] = 1;
   },
   rekod(d) {
-    const m = this.minggu(), jum = this.jumlah(d), mg = d.mingguan && d.mingguan.id === m ? d.mingguan : null, P = CONTENT.pangkat[Pangkat.indeks(jum)];
+    const m = this.minggu(), jum = this.jumlah(d), mg = d.mingguan && d.mingguan.id === m ? d.mingguan : null, P = Pangkat.semasa(d);
     return { id: d.pemainId || ('n:' + d.nama), nama: d.nama, tahun: d.tahun || 1, pangkat: P.ikon + ' ' + P.nama, mata: jum, minggu: m,
       mataMinggu: mg ? Math.max(0, jum - mg.mula) : 0, hariMinggu: mg ? Object.keys(mg.hari || {}).length : 0, hariJumlah: Object.keys(d.hariMain || {}).length };
   },
   hantar(paksa) {
     if (!PAPAN_URL || !State.data || Tetapan.s.papan === false) return;
     const now = Date.now(); if (!paksa && now - this.hantarLepas < 90000) return; this.hantarLepas = now;
+    try { Tahap.hantar(paksa); } catch (e) {}
     const r = this.rekod(State.data), q = new URLSearchParams({ aksi: 'hantar' });
     Object.keys(r).forEach((k) => q.set(k, String(r[k])));
     try { fetch(PAPAN_URL + '?' + q.toString(), { mode: 'no-cors' }).catch(() => {}); } catch (e) {}
@@ -9908,11 +9962,137 @@ $('btnBangun').addEventListener('click', () => DudukPondok.bangun());
 $('plTampal').addEventListener('click', () => ParkingLot.tampal());
 $('btnParkingMula').addEventListener('click', () => ParkingLot.buka());
 $('btnParkingJ').addEventListener('click', () => { Pause.close(); ParkingLot.buka(); });
+/* ===================== Tahap (Level & XP) dan Prestasi Saya (v76) ===================== */
+const Tahap = {
+  K: 37, E: 1.6, MAX: 20, HAD_HARI: 90, lepas: 0,
+  ALIAS: { pi: 'pi', islam: 'pi', 'pendidikan islam': 'pi', moral: 'moral', 'pendidikan moral': 'moral', mt: 'math', math: 'math', matematik: 'math', sn: 'sains', sains: 'sains', science: 'sains', bm: 'bm', 'bahasa melayu': 'bm', bi: 'bi', 'bahasa inggeris': 'bi', english: 'bi' },
+  NAMA: { pi: 'Pendidikan Islam', moral: 'Pendidikan Moral', math: 'Matematik', sains: 'Sains', bm: 'Bahasa Melayu', bi: 'Bahasa Inggeris' },
+  kunci(s) { const t = String(s || 'umum').toLowerCase().trim(); return this.ALIAS[t] || (t.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 20) || 'umum'); },
+  namaSubjek(k, S) { return this.NAMA[k] || (S && S.n) || k.toUpperCase(); },
+  ambang(L) { return L <= 1 ? 0 : Math.round(this.K * Math.pow(L, this.E)); },
+  level(xp) { let L = 1; while (L < this.MAX && xp >= this.ambang(L + 1)) L++; return L; },
+  kemajuan() {
+    const d = this.pastikan() || { xp: 0 }, L = this.level(d.xp), dari = this.ambang(L), ke = L >= this.MAX ? dari : this.ambang(L + 1);
+    return { L, xp: d.xp, dari, ke, pct: L >= this.MAX ? 1 : clamp((d.xp - dari) / Math.max(1, ke - dari), 0, 1) };
+  },
+  pastikan() {
+    const d = State.data; if (!d) return null;
+    if (typeof d.xp !== 'number') { const j = Pangkat.jumlah(); d.xp = j; d.xpLepas = j; }   // pemain sedia ada: mata terkumpul menjadi XP awal
+    if (!d.prestasi) d.prestasi = { subjek: {}, akhir: '', modul: {}, mg: null, lalu: null };
+    return d;
+  },
+  minggu() { try { return Anugerah.minggu(); } catch (e) { return ''; } },
+  hariKunci() { const d = State.data; return (typeof Hari !== 'undefined' && Hari.aktif() && d.hari) ? 'h' + d.hari.ke : 't' + new Date().toISOString().slice(0, 10); },
+  // Tukar perubahan mata (Kebaikan+Ilmu+Reputasi) kepada XP. Selepas ±HAD_HARI XP sehari, XP dikira separuh.
+  sinkron(f) {
+    const d = this.pastikan(); if (!d) return;
+    const j = Pangkat.jumlah(), delta = j - (d.xpLepas || 0); d.xpLepas = j; if (delta <= 0) return;
+    const k = this.hariKunci(); if (!d.xpHari || d.xpHari.k !== k) d.xpHari = { k, x: 0 };
+    const mentah = delta * (f == null ? 1 : f), baki = Math.max(0, this.HAD_HARI - d.xpHari.x), tambah = Math.min(mentah, baki) + Math.max(0, mentah - baki) * 0.5;
+    d.xp += tambah; d.xpHari.x += tambah;
+  },
+  // Misi sama dalam satu minggu: kali pertama penuh, kali kedua separuh, seterusnya suku
+  faktorMisi(id) {
+    const d = this.pastikan(); if (!d) return 1; const w = this.minggu();
+    if (!d.misiMg || d.misiMg.id !== w) d.misiMg = { id: w, n: {} };
+    const c = d.misiMg.n[id] || 0; d.misiMg.n[id] = c + 1; return c === 0 ? 1 : c === 1 ? 0.5 : 0.25;
+  },
+  semakLevel(senyap) {
+    const d = this.pastikan(); if (!d) return; const L = this.level(d.xp);
+    if (d.level == null || senyap) { d.level = Math.max(d.level || 1, L); return; }
+    if (L > d.level) { d.level = L; this.naik(L); }
+  },
+  naik(L) { try { toast('⬆️ Level ' + L + '! Teruskan usaha!'); Sound.play('naik'); Kesan.letup(Player.pos, '#FFCC33', 10, 1.4); HUD.pangkat(); Save.save(); } catch (e) {} },
+  // Catat satu jawapan (cubaan pertama sahaja). Jawapan betul memberi mata subjek + Ilmu.
+  catat(sub, betul, mata, label) {
+    const d = this.pastikan(); if (!d) return;
+    const k = this.kunci(sub), P = d.prestasi, S = P.subjek[k] = P.subjek[k] || { j: 0, b: 0, m: 0 };
+    if (label && !this.NAMA[k]) S.n = String(label).slice(0, 24);
+    S.j++; P.akhir = (P.akhir + (betul ? '1' : '0')).slice(-100);
+    const w = this.minggu(); if (!P.mg || P.mg.id !== w) { if (P.mg) P.lalu = P.mg; P.mg = { id: w, j: 0, b: 0, m: 0 }; }
+    P.mg.j++;
+    if (betul) { const g = mata || 1; S.b++; S.m += g; P.mg.b++; P.mg.m += g; d.stats.ilmu += g; try { HUD.stats({ ilmu: g }); } catch (e) {} }
+  },
+  usaha(sub, label, mata) {
+    const d = this.pastikan(); if (!d) return; const k = this.kunci(sub), S = d.prestasi.subjek[k] = d.prestasi.subjek[k] || { j: 0, b: 0, m: 0 };
+    if (label && !this.NAMA[k]) S.n = String(label).slice(0, 24); S.u = (S.u || 0) + 1; S.m += mata || 1; d.stats.ilmu += mata || 1;
+  },
+  // Tugasan Cuti: setiap modul dikira sekali sahaja (kuiz = jawapan betul 2 mata; jawapan/amalan = usaha 1 mata)
+  terimaModul(r) {
+    const d = this.pastikan(); if (!d) return false; if (d.prestasi.modul[r.kunci]) return true;
+    d.prestasi.modul[r.kunci] = Date.now();
+    r.butir.forEach((b) => { if (b.jenis === 'kuiz') this.catat(r.subjek, !!b.betul, 2, r.subjek); else this.usaha(r.subjek, r.subjek, 1); });
+    try { HUD.stats({ ilmu: 1 }); } catch (e) {} return true;
+  },
+  terimaTuntut() {
+    const D = Modul.baca(); if (!State.data || !D.tuntut.length) return;
+    const L = D.tuntut.slice(); D.tuntut = []; L.forEach((r) => this.terimaModul(r)); Modul.simpan();
+  },
+  ketepatan(d) { d = d || State.data; const a = (d && d.prestasi && d.prestasi.akhir) || '', n = a.length, b = (a.match(/1/g) || []).length; return { n, b, pct: n ? Math.round(b * 100 / n) : 0 }; },
+  jumBetul() { const d = this.pastikan(); return d ? Object.values(d.prestasi.subjek).reduce((x, S) => x + S.b, 0) : 0; },
+  jumJawab() { const d = this.pastikan(); return d ? Object.values(d.prestasi.subjek).reduce((x, S) => x + S.j, 0) : 0; },
+  subjekBetul(min) { const d = this.pastikan(); return d ? Object.values(d.prestasi.subjek).filter((S) => S.b >= min).length : 0; },
+  bilModul() { const d = this.pastikan(); return d ? Object.keys(d.prestasi.modul).length : 0; },
+  // Hantar ringkasan prestasi kepada cikgu (tab Prestasi dalam Sheet); tertakluk pada tetapan papan anugerah
+  hantar(paksa) {
+    const d = State.data; if (!d || !PAPAN_URL) return; const now = Date.now(); if (!paksa && now - this.lepas < 180000) return; this.lepas = now;
+    this.pastikan(); const S = Modul.siapa(), K = this.ketepatan(d), P = Pangkat.semasa(d);
+    const ring = Object.keys(d.prestasi.subjek).map((k) => { const x = d.prestasi.subjek[k]; return this.namaSubjek(k, x) + ' ' + x.b + '/' + x.j; }).join(' · ').slice(0, 380);
+    Akaun.pos({ aksi: 'prestasi', id: S.id, nama: S.nama, tahun: S.tahun, level: this.level(d.xp), xp: Math.round(d.xp), pangkat: P.nama, ketepatan: K.pct, jawab: this.jumJawab(), betul: this.jumBetul(), subjek: ring, lencana: Object.keys(d.lencana || {}).length, hari: Object.keys(d.hariMain || {}).length }).catch(() => {});
+  }
+};
+const PrestasiUI = {
+  buka() {
+    if (State.mode !== 'play' || !State.data) return;
+    if (State.uiLock && State.uiLock !== 'profil') return; if (State.uiLock === 'profil') Profil.tutup();
+    if (State.paused) Pause.close(); releaseInputs(); setLock('prestasi');
+    this.lukis(); $('prestasi').hidden = false; $('prestasi').querySelector('.kertas').scrollTop = 0; try { Tahap.hantar(true); } catch (e) {}
+  },
+  tutup() { if ($('prestasi').hidden) return; $('prestasi').hidden = true; if (State.uiLock === 'prestasi') setLock(null); },
+  lukis() {
+    const d = Tahap.pastikan(), isi = $('prIsi'); isi.innerHTML = ''; Tahap.sinkron();
+    const el = (tag, cls, txt, ke) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; if (ke) ke.appendChild(e); return e; };
+    const K = Tahap.kemajuan(), P = CONTENT.pangkat, i = Pangkat.idx(), A = Tahap.ketepatan(d), PR = d.prestasi;
+    $('prSub').textContent = d.nama + ' · Tahun ' + (d.tahun || 1);
+    // Level
+    const kl = el('div', 'prKad', null, isi); el('b', '', P[i].ikon + ' ' + P[i].nama + ' · Level ' + K.L + ' / ' + Tahap.MAX, kl);
+    const bar = el('div', 'pfBarLuar', null, kl); el('em', '', null, bar).style.width = Math.round(K.pct * 100) + '%';
+    el('small', '', K.L >= Tahap.MAX ? 'Level tertinggi dicapai. Hebat!' : 'XP ' + Math.round(d.xp) + ' · ' + (K.ke - Math.round(d.xp)) + ' XP lagi ke Level ' + (K.L + 1), kl);
+    const hariX = d.xpHari && d.xpHari.k === Tahap.hariKunci() ? Math.round(d.xpHari.x) : 0;
+    el('small', '', 'XP hari ini: ' + hariX + ' (selepas ' + Tahap.HAD_HARI + ' XP sehari, XP dikira separuh)', kl);
+    // Syarat pangkat seterusnya
+    const nx = P[i + 1];
+    if (nx) { const kp = el('div', 'prKad', null, isi); el('b', '', 'Naik pangkat: ' + nx.ikon + ' ' + nx.nama, kp); Pangkat.syarat(i + 1).forEach((x) => el('div', 'prSyarat' + (x.ok ? ' prOk' : ''), (x.ok ? '✅ ' : '⬜ ') + x.t, kp)); }
+    // Ringkasan
+    const g = el('div', 'prGrid', null, isi), kad = (t, v, k) => { const c = el('div', 'prKad', null, g); el('small', '', t, c); el('b', '', v, c); if (k) el('small', '', k, c); };
+    kad('Ketepatan (100 soalan terakhir)', A.n ? A.pct + '%' : '-', A.n + ' soalan dicatat');
+    kad('Jumlah mata', String(Pangkat.jumlah()), 'Kebaikan ' + Math.round(d.stats.kebaikan) + ' · Ilmu ' + Math.round(d.stats.ilmu) + ' · Reputasi ' + Math.round(d.stats.reputasi));
+    kad('Lencana', Object.keys(d.lencana || {}).length + ' diperoleh', 'Gred A: ' + Kiraan.bil('gredA') + ' hari');
+    kad('Tugasan Cuti', Tahap.bilModul() + ' modul', 'dikira sekali bagi setiap modul');
+    // Minggu ini
+    const mg = PR.mg && PR.mg.id === Tahap.minggu() ? PR.mg : { j: 0, b: 0, m: 0 }, lalu = PR.mg && PR.mg.id !== Tahap.minggu() ? PR.mg : PR.lalu;
+    const km = el('div', 'prKad', null, isi); el('b', '', 'Minggu ini', km);
+    const tm = (x) => x && x.j ? Math.round(x.b * 100 / x.j) : null, a1 = tm(mg), a0 = tm(lalu);
+    el('small', '', mg.j ? mg.b + ' betul daripada ' + mg.j + ' soalan (' + a1 + '%) · +' + mg.m + ' mata' : 'Belum ada soalan dijawab minggu ini.', km);
+    if (a1 != null && a0 != null) el('small', '', (a1 > a0 ? '▲ Meningkat ' : a1 < a0 ? '▼ Menurun ' : '＝ Sama ') + 'berbanding minggu lalu (' + a0 + '%)', km);
+    // Subjek
+    const ks = el('div', 'prKad', null, isi); el('b', '', 'Prestasi mengikut subjek', ks);
+    const kepala = el('div', 'prBaris kepala', null, ks); ['Subjek', 'Dijawab', 'Betul', 'Tepat', 'Mata'].forEach((t) => el('span', '', t, kepala));
+    const ks2 = Object.keys(PR.subjek).sort((a, b) => PR.subjek[b].j - PR.subjek[a].j);
+    if (!ks2.length) el('small', '', 'Jawab kuiz dalam kelas atau Tugasan Cuti untuk melihat prestasi di sini.', ks);
+    ks2.forEach((k) => { const S = PR.subjek[k], r = el('div', 'prBaris', null, ks); el('span', '', Tahap.namaSubjek(k, S), r); el('span', '', String(S.j), r); el('span', '', String(S.b), r); el('span', '', S.j ? Math.round(S.b * 100 / S.j) + '%' : '-', r); el('span', '', String(S.m), r); });
+    el('small', '', 'Cara menambah XP: siapkan tugasan, jawab soalan dengan betul pada cubaan pertama, dan main setiap hari.', isi);
+  }
+};
+$('prTutup').addEventListener('click', () => PrestasiUI.tutup());
+$('pfPrestasi').addEventListener('click', () => PrestasiUI.buka());
+$('btnPrestasiJ').addEventListener('click', () => PrestasiUI.buka());
+
 /* ===================== Modul Guru / Tugasan Cuti: cikgu isi modul dalam Google Sheet (satu tab = satu subjek) ===================== */
 const Modul = {
   KEY: 'lotong.modul', d: null, sub: null, kerja: null, menghantar: false,
   RPI: /^(PI|ISLAM|PENDIDIKAN ISLAM)$/, RMOR: /^(MORAL|PENDIDIKAN MORAL)$/,
-  baca() { if (this.d) return this.d; let o = null; try { o = JSON.parse(localStorage.getItem(this.KEY) || 'null'); } catch (e) {} this.d = Object.assign({ data: null, selesai: {}, baki: [], semakan: [] }, o || {}); return this.d; },
+  baca() { if (this.d) return this.d; let o = null; try { o = JSON.parse(localStorage.getItem(this.KEY) || 'null'); } catch (e) {} this.d = Object.assign({ data: null, selesai: {}, baki: [], semakan: [], tuntut: [] }, o || {}); if (!Array.isArray(this.d.tuntut)) this.d.tuntut = []; return this.d; },
   simpan() { try { localStorage.setItem(this.KEY, JSON.stringify(this.d)); } catch (e) {} },
   siapa() {
     const d = State.data, P = Menu.pilihan, nama = d ? d.nama : (P.nama || ''), pf = d ? null : Menu.profil();
@@ -10020,6 +10200,8 @@ const Modul = {
     const kuiz = K.jwp.filter((j) => j.betul !== null), skor = kuiz.filter((j) => j.betul).length;
     const id = 'h' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     D.baki.push({ hantarId: id, id: S.id, nama: S.nama, tahun: S.tahun, subjek: K.subjek, tajuk: K.tajuk, jawapan: K.jwp.map((j) => ({ rid: j.rid, jenis: j.jenis, soalan: j.soalan, jwp: j.jwp })), masa: Date.now() });
+    { const r = { kunci: K.subjek + '|' + K.tajuk, subjek: K.subjek, butir: K.jwp.map((j) => ({ jenis: j.jenis, betul: j.betul === true })) };
+      if (State.data) { try { Tahap.terimaModul(r); Save.save(); } catch (e) {} } else if (!D.tuntut.some((x) => x.kunci === r.kunci)) D.tuntut.push(r); }
     D.baki = D.baki.slice(-30); D.selesai[K.subjek + '|' + K.tajuk] = { skor, jumlah: kuiz.length, masa: Date.now(), hantar: false }; this.simpan();
     const p = document.createElement('p'); p.className = 'mgSkor'; p.textContent = '🎉 Tahniah, ' + S.nama + '!'; isi.appendChild(p);
     const q = document.createElement('p'); q.className = 'pfSub'; q.textContent = (kuiz.length ? 'Skor kuiz: ' + skor + ' / ' + kuiz.length + '. ' : '') + 'Jawapan kamu akan sampai kepada cikgu.'; isi.appendChild(q);
@@ -10113,7 +10295,7 @@ const Perhimpunan = {
     const soalan = [0, 1, 2].map(() => { const k = 2 + Math.floor(Math.random() * 9), j = N * k, p = shuffle([j, j + N, Math.max(N, j - N)].filter((v, i, A) => A.indexOf(v) === i)); while (p.length < 3) p.push(j + 2 * N); return { soalan: N + ' × ' + k + ' = ?', betul: String(j), pilihan: p.map(String) }; });
     Dialog.show(guru, [Agama.teks('Assalamualaikum dan salam sejahtera, murid-murid.'), 'Selamat datang ke perhimpunan pagi SK Lotong.', 'Mari kita baca sifir ' + N + ' bersama-sama!'], { tag: 'Perhimpunan pagi', onDone: () =>
       Dialog.show('Semua murid', [baris(1, 5), baris(6, 10)], { tag: 'Sifir ' + N, onDone: () =>
-        Mini.openSoalan('Kuiz Sifir ' + N, soalan, () => {
+        Mini.untuk('math', 'Matematik').openSoalan('Kuiz Sifir ' + N, soalan, () => {
           const L = this.pengumuman();
           Dialog.show(guru, ['Bagus! Sekarang, pengumuman hari ini:'].concat(L).concat(['Sekian, terima kasih. Sila masuk ke kelas dengan tertib.']), { tag: 'Pengumuman', onDone: () => {
             h.perhimpunan = 'hadir'; Kiraan.tambah('perhimpunan'); State.data.stats.reputasi += 1; State.data.stats.ilmu += 1; HUD.stats({ reputasi: 1, ilmu: 1 });
@@ -10140,7 +10322,7 @@ const AktivitiBonus = {
     if (j === 'kuiz') {
       const s = Kelas.slot(), sub = s && s.subjek !== 'pi' ? s.subjek : ['bm', 'bi', 'mt', 'sn'][Math.floor(Math.random() * 4)], th = Kelas.tahun();
       this.a = { j };
-      Mini.openSoalan('Kuiz Pantas', [0, 1, 2, 3, 4].map(() => { const q = Soalan.ambil(sub, th); return { soalan: q.s, betul: q.j, pilihan: q.p }; }), () => this.tamat({ ilmu: 2 }, 'Kuiz pantas selesai!'));
+      Mini.untuk(sub, '').openSoalan('Kuiz Pantas', [0, 1, 2, 3, 4].map(() => { const q = Soalan.ambil(sub, th); return { soalan: q.s, betul: q.j, pilihan: q.p }; }), () => this.tamat({ ilmu: 2 }, 'Kuiz pantas selesai!'));
       return;
     }
     const kerusi = shuffle((r.kerusi || []).filter(([x, z]) => !(Math.abs(x - 1.1) < 0.01 && Math.abs(z - 0.95) < 0.01))).slice(0, j === 'edar' ? 4 : 3);
@@ -11823,7 +12005,7 @@ const Menu = {
   profil() { return this.pilihan.nama ? Save.load(this.pilihan.nama) : null; },
   aksesoriPilihan() { const d = this.profil(); if (d && Array.isArray(d.aksesori)) { const jd = d.jantina === 'P' ? 'P' : 'L', jp = this.pilihan.jantina === 'P' ? 'P' : 'L'; return jd === jp ? d.aksesori : d.aksesori.map((x) => (x === BEG_ASAL[jd] ? BEG_ASAL[jp] : x)); } return this.pilihan.aksesori || [BEG_ASAL[this.pilihan.jantina]]; },
   buka(id) { this.tutup(); if (id === 'panelWatak') this.salinanWatak = JSON.parse(JSON.stringify(this.pilihan)); $(id).hidden = false; const b = $(id).querySelector('input, button'); if (b) b.focus({ preventScroll: true }); },
-  tutup() { document.querySelectorAll('.panelMenu').forEach((s) => { s.hidden = true; }); if (!State.paused) $('tetapan').hidden = true; if (State.mode === 'menu') { $('papanAnugerah').hidden = true; $('parkingLot').hidden = true; $('modulGuru').hidden = true; } },
+  tutup() { document.querySelectorAll('.panelMenu').forEach((s) => { s.hidden = true; }); if (!State.paused) $('tetapan').hidden = true; if (State.mode === 'menu') { $('papanAnugerah').hidden = true; $('parkingLot').hidden = true; $('modulGuru').hidden = true; $('prestasi').hidden = true; } },
   mula() {
     if (!this.pilihan.nama) { this.buka('panelWatak'); $('mulaRalat').textContent = 'Tulis nama kamu dahulu.'; $('inNama').focus(); return; }
     this.isiBorang(); startFromForm($('togBebas').checked ? 'bebas' : 'hari');
@@ -11915,6 +12097,7 @@ function startGame(nama, jantina, mod, tahun) {
   if (!lama) State.data.aksesori = (Menu.pilihan.aksesori || [BEG_ASAL[State.data.jantina]]).slice();
   State.data.subjek = Menu.pilihan.subjek === 'moral' ? 'moral' : 'pi';
   Agama.selaras();   // v72: buang tugasan subjek lain daripada simpanan lama
+  try { Tahap.pastikan(); Tahap.terimaTuntut(); } catch (e) {}   // v76: XP, level dan prestasi
   setTimeout(() => Cabaran.lukis(), 0);
   setTimeout(() => { Pakaian.gunaHari(); Kantin.segarRL(); Duit.harian(); Duit.papar(); }, 0);
   if (Menu.pilihan.gaya) State.data.gaya = Menu.pilihan.gaya;
