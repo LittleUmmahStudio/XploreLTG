@@ -1,10 +1,12 @@
 // LO:TONG: service worker untuk main tanpa internet.
 // Tukar VERSI setiap kali index.html atau fail lain dikemas kini supaya peranti memuat turun versi baharu.
-const VERSI = 'lotong-v76';
+const VERSI = 'lotong-v77';
 const TERAS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 // Bunyi suasana & muzik (folder bunyi/): disimpan untuk main tanpa internet
 const BUNYI = ['muzikMula', 'dewan', 'kelas', 'luar', 'muzik-pss', 'perpustakaan', 'rumahGuru', 'suasana-bilikguru', 'suasana-prasekolah', 'suasana-rmt']
   .map((k) => './bunyi/' + k + '.mp3');
+// Aset 3D bangunan (GLB): disimpan untuk main tanpa internet; jika gagal dimuat, permainan guna bangunan asal
+const ASET = ['./assets/pss_shell.glb'];
 const LUAR = [
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
   'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&display=swap'
@@ -19,6 +21,7 @@ self.addEventListener('install', (e) => {
     await c.addAll(TERAS);
     // Bunyi & fail luar disimpan jika ada internet; kegagalan tidak menghalang pemasangan
     await Promise.all(BUNYI.map((u) => c.add(u).catch(() => {})));
+    await Promise.all(ASET.map((u) => c.add(u).catch(() => {})));
     await Promise.all(LUAR.map((u) => fetch(u, { mode: 'no-cors' }).then((r) => c.put(u, r)).catch(() => {})));
     await self.skipWaiting();
   })());

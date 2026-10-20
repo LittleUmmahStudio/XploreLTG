@@ -134,3 +134,13 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - **📊 Prestasi Saya:** butang dalam Profil dan menu jeda. Paparan level, syarat naik pangkat, ketepatan, minggu ini berbanding minggu lalu, dan jadual setiap subjek.
 - **Tab `Prestasi` dalam Sheet** (dibina automatik): satu baris bagi setiap murid (level, XP, pangkat, ketepatan, ringkasan subjek, lencana, hari main). Dikemas kini apabila game menghantar ringkasan (tertakluk pada tetapan Papan Anugerah). **Gantikan `papan-anugerah.gs` dan Gunakan → Versi baharu** supaya tab ini berfungsi.
 - Pemalar boleh dilaras dalam objek `Tahap` (K, E, HAD_HARI) dan dalam `CONTENT.pangkat`.
+
+## Cangkerang GLB bangunan (v77, prototaip: Pusat Sumber)
+- Hanya bangunan **PSS** menggunakan aset 3D `assets/pss_shell.glb` (badan + bumbung: 23 tingkap berbingkai dan kotak bunga, pintu berlengkung, rabung dan tulang bumbung, AO terbakar dalam warna bucu). Bangunan lain tidak disentuh.
+- Susun atur, ukuran, perlanggaran, pintu masuk, papan tanda, penghalang kamera dan data pemain **tidak berubah**. Plinth dan cucur atap masih dijana oleh kod.
+- **Selamat:** versi asal dibina dahulu, GLB dimuat di latar belakang. Jika GLB gagal dimuat, tiada internet, atau ukurannya tidak sepadan dengan tapak bangunan, permainan terus menggunakan bangunan asal.
+- **Suis mati:** dalam konsol pelayar, `localStorage.setItem('lotong.glb','0')` kemudian muat semula. Padam kunci itu untuk mengaktifkan semula.
+- **Grafik:** berfungsi dalam Komik penuh dan Ringan. Tiada bayang masa nyata. Bahan GLB ditukar kepada bahan toon permainan, jadi garis dakwat dan kabus sama.
+- Aset dijana oleh `tools/gen_pss_shell.py` (Python sahaja, tiada Blender): `python3 tools/gen_pss_shell.py --png pratonton.png`. Folder `tools/` untuk pembangun, tidak perlu dimuat naik.
+- **Aset buatan Blender kelak:** eksport GLB dengan dua nod bernama `pss_body` dan `pss_roof`, asal pada pusat bangunan di tanah, +x ialah hadapan, 1 unit = 1 meter, dan hanya warna bucu (tanpa tekstur). Permainan menolak aset yang ukurannya tidak sepadan dengan tapak.
+- Pemuat ialah `GLBMini` dalam `index.html` (bukan `GLTFLoader.js` rasmi, kerana fail rasmi tidak boleh dimuat turun dalam persekitaran pembangunan ini). Ia menyokong mesh berwarna-bucu sahaja.

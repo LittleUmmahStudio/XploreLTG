@@ -1308,7 +1308,7 @@ const CONTENT = {
             aras 0 = tingkat bawah, aras 1 = tingkat atas.
      papan: papan tanda pada dinding. papanBerdiri: papan tanda bertiang di depan bangunan. */
   bangunan: [
-    { id: 'pss', x: -15, z: -44, w: 14.5, d: 20, h: 6.2, tingkat: 1, dinding: '#F6C3A7', bumbung: '#E8684F', depan: '+x',
+    { id: 'pss', x: -15, z: -44, w: 14.5, d: 20, h: 6.2, tingkat: 1, dinding: '#F6C3A7', bumbung: '#E8684F', depan: '+x', glb: 'assets/pss_shell.glb',
       papan: { jawi: 'ڤوست سومبر', rumi: 'Pusat Sumber' }, papanY: 3.95, masuk: 'pss' },
     { id: 'bilik', x: -16.25, z: -25, w: 10.5, d: 15, h: 5.6, tingkat: 1, dinding: '#F4C9AE', bumbung: '#E8684F', depan: '+x',
       bilik: [{ teks: 'Bilik Pendidikan Islam', u: 1 / 6, aras: 0, masuk: 'pi' }, { teks: 'Bilik SPBT', u: 0.5, aras: 0, masuk: 'spbt' }, { teks: 'Bilik SUSU', u: 5 / 6, aras: 0, masuk: 'susu' }],
@@ -3217,7 +3217,7 @@ const FACE = {
 const facePt = (F, u, out) => ({ x: F.lx + F.tx * u * F.L + F.nx * out, z: F.lz + F.tz * u * F.L + F.nz * out });
 
 const World = {
-  colliders: [], occluders: [], objek: [], paved: [], titik: [], clouds: null, rnd: mulberry32(20261006),
+  colliders: [], occluders: [], shells: {}, objek: [], paved: [], titik: [], clouds: null, rnd: mulberry32(20261006),
   bounds: { minX: -43.2, maxX: 33.2, minZ: -55, maxZ: 55 },
   // Permukaan berturap (jalan, laluan, gelanggang): tiada semak atau bunga di sini
   road(w, d, color, x, z, y) { this.paved.push({ x, z, w, d }); return this.plane(w, d, color, x, z, y); },
@@ -3300,6 +3300,7 @@ const World = {
     this.box(b.x, b.z, b.w + 1.35, b.d + 1.35, 0.24, darker(b.bumbung, 0.78), { y: b.h - 0.06, collide: false });
     const roof = new THREE.Mesh(hipRoof(b.w + 1.2, b.d + 1.2, rh), roofMat(b.bumbung));
     roof.position.set(b.x, b.h, b.z); scene.add(roof); this.occluders.push(roof);
+    if (b.glb) this.shells[b.id] = { b, body, roof, rh };   // v77: boleh ditukar kepada cangkerang GLB (selepas dimuat)
     const fh = b.h / b.tingkat;
     if (b.tingkat > 1) {
       // Jalur lantai di sekeliling bangunan supaya aras atas jelas dari semua sisi
@@ -4648,6 +4649,85 @@ function bakeStatic(root) {
   groups.forEach((parts, material) => root.add(new THREE.Mesh(mergeGeoms(parts), material)));
   return victims.length;
 }
+
+/* ===================== Cangkerang GLB bangunan (v77) =====================
+   Pemuat GLB ringkas (tanpa pustaka luar): menyokong mesh berwarna-bucu (POSITION, COLOR_0, NORMAL pilihan, indeks).
+   Tekstur tidak disokong lagi. Bahan ditukar kepada bahan toon permainan (gradien 3 tona), jadi garis dakwat,
+   kabus dan kesan komik kekal sama. Hanya bangunan yang ada medan `glb` ditukar; yang lain tidak disentuh. */
+const GLBMini = {
+  KOMP: { 5120: ['getInt8', 1, 127], 5121: ['getUint8', 1, 255], 5122: ['getInt16', 2, 32767], 5123: ['getUint16', 2, 65535], 5125: ['getUint32', 4, 0], 5126: ['getFloat32', 4, 0] },
+  BILANG: { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4 },
+  parse(buf) {
+    const dv = new DataView(buf);
+    if (buf.byteLength < 20 || dv.getUint32(0, true) !== 0x46546C67 || dv.getUint32(4, true) !== 2) throw new Error('bukan GLB 2.0');
+    let off = 12, json = null, bin = null;
+    while (off + 8 <= buf.byteLength) {
+      const len = dv.getUint32(off, true), tip = dv.getUint32(off + 4, true); off += 8;
+      if (tip === 0x4E4F534A) json = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, off, len)));
+      else if (tip === 0x004E4942 && !bin) bin = new DataView(buf, off, len);
+      off += len;
+    }
+    if (!json || !bin) throw new Error('GLB tidak lengkap');
+    const baca = (ai) => {
+      const A = json.accessors[ai], V = json.bufferViews[A.bufferView], K = this.KOMP[A.componentType], n = this.BILANG[A.type];
+      if (!K || !n || A.sparse) throw new Error('accessor tidak disokong');
+      const stride = V.byteStride || K[1] * n, base = (V.byteOffset || 0) + (A.byteOffset || 0), out = new Float32Array(A.count * n);
+      for (let i = 0; i < A.count; i++) for (let k = 0; k < n; k++) { let x = bin[K[0]](base + i * stride + k * K[1], true); if (A.normalized && K[2]) x = Math.max(x / K[2], -1); out[i * n + k] = x; }
+      return { d: out, n };
+    };
+    const bahan = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });   // -> bahan toon permainan
+    const bina = (idx) => {
+      const N = json.nodes[idx], o = new THREE.Group(); o.name = N.name || ('nod' + idx);
+      if (N.matrix) { const m = new THREE.Matrix4().fromArray(N.matrix); m.decompose(o.position, o.quaternion, o.scale); }
+      else { if (N.translation) o.position.fromArray(N.translation); if (N.rotation) o.quaternion.fromArray(N.rotation); if (N.scale) o.scale.fromArray(N.scale); }
+      if (N.mesh != null) json.meshes[N.mesh].primitives.forEach((P, pi) => {
+        if (P.mode != null && P.mode !== 4) throw new Error('hanya segi tiga disokong');
+        const g = new THREE.BufferGeometry(), pos = baca(P.attributes.POSITION), nv = pos.d.length / 3;
+        g.setAttribute('position', new THREE.BufferAttribute(pos.d, 3));
+        const col = P.attributes.COLOR_0 != null ? baca(P.attributes.COLOR_0) : null, c3 = new Float32Array(nv * 3).fill(1);
+        if (col) for (let i = 0; i < nv; i++) { c3[i * 3] = col.d[i * col.n]; c3[i * 3 + 1] = col.d[i * col.n + 1]; c3[i * 3 + 2] = col.d[i * col.n + 2]; }
+        g.setAttribute('color', new THREE.BufferAttribute(c3, 3));
+        if (P.indices != null) { const ix = baca(P.indices).d, I = nv > 65535 ? new Uint32Array(ix.length) : new Uint16Array(ix.length); for (let i = 0; i < ix.length; i++) I[i] = ix[i]; g.setIndex(new THREE.BufferAttribute(I, 1)); }
+        if (P.attributes.NORMAL != null) g.setAttribute('normal', new THREE.BufferAttribute(baca(P.attributes.NORMAL).d, 3)); else g.computeVertexNormals();   // normal rata: setiap muka ada bucu sendiri
+        g.computeBoundingSphere(); g.computeBoundingBox();
+        const me = new THREE.Mesh(g, bahan); me.name = o.name + (pi ? '_' + pi : ''); o.add(me);
+      });
+      (N.children || []).forEach((c) => o.add(bina(c)));
+      return o;
+    };
+    const root = new THREE.Group();
+    ((json.scenes && json.scenes[json.scene || 0] || { nodes: [0] }).nodes || []).forEach((i) => root.add(bina(i)));
+    return root;
+  }
+};
+
+const ShellGLB = {
+  AKTIF: true, TOL: 0.45,
+  mati() { try { return localStorage.getItem('lotong.glb') === '0'; } catch (e) { return false; } },   // suis mati: localStorage 'lotong.glb' = '0'
+  async muatSemua() {
+    if (!this.AKTIF || this.mati()) return;
+    for (const id of Object.keys(World.shells)) { try { await this.tukar(World.shells[id]); } catch (e) { console.warn('Cangkerang GLB gagal (' + id + '), guna versi asal:', e && e.message); } }
+  },
+  async tukar(S) {
+    const b = S.b, r = await fetch(b.glb);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const root = GLBMini.parse(await r.arrayBuffer());
+    const bodyN = root.getObjectByName(b.id + '_body'), roofN = root.getObjectByName(b.id + '_roof');
+    if (!bodyN || !roofN) throw new Error('nod ' + b.id + '_body / _roof tiada');
+    root.updateMatrixWorld(true);
+    const bb = new THREE.Box3().setFromObject(bodyN), rb = new THREE.Box3().setFromObject(roofN), T = this.TOL, hw = b.w / 2, hd = b.d / 2, rw = (b.w + 1.2) / 2, rd = (b.d + 1.2) / 2;
+    // Pengesahan ukuran: cangkerang mesti sepadan dengan tapak, perlanggaran dan pintu sedia ada
+    const ok = Math.abs(bb.min.x + hw) < T && Math.abs(bb.max.x - hw) < T && Math.abs(bb.min.z + hd) < T && Math.abs(bb.max.z - hd) < T && Math.abs(bb.min.y) < 0.05 && Math.abs(bb.max.y - b.h) < 0.1 &&
+      Math.abs(rb.min.x + rw) < T && Math.abs(rb.max.x - rw) < T && Math.abs(rb.min.z + rd) < T && Math.abs(rb.max.z - rd) < T && Math.abs(rb.min.y - b.h) < 0.2 && Math.abs(rb.max.y - (b.h + S.rh)) < 0.3;
+    if (!ok) throw new Error('ukuran cangkerang tidak sepadan dengan tapak bangunan');
+    const meshes = (n) => { const L = []; n.traverse((o) => { if (o.isMesh) L.push(o); }); return L; };
+    const g = new THREE.Group(); g.name = b.id + '_glb'; g.position.set(b.x, 0, b.z); g.add(root); extRoot.add(g);
+    const lama = new Set([S.body, S.roof]);
+    World.occluders = World.occluders.filter((o) => !lama.has(o)).concat(meshes(bodyN), meshes(roofN));
+    lama.forEach((o) => { o.visible = false; try { Cam.tersorok.delete(o); } catch (e) {} });
+    console.info('Cangkerang GLB: ' + b.id + ' dimuat (' + (meshes(bodyN).length + meshes(roofN).length) + ' mesh)');
+  }
+};
 
 /* ===================== InteriorManager ===================== */
 const extRoot = new THREE.Group();
@@ -12428,6 +12508,7 @@ async function boot() {
     scene.children.slice().forEach((ch) => { if (ch.isLight || ch === marker || ch === arrow) return; extRoot.add(ch); });
     scene.add(extRoot); scene.add(Rooms.root);
     bakeStatic(extRoot);
+    try { ShellGLB.muatSemua(); } catch (e) {}   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
     NPCs.build(); Pejalan.bina(); Iring.bina(); Kesan.init(); Sukan.bina(); Missions.init();
     Pasca.init(); Pasca.resize(); Grafik.init(); Cam.initMod(); Tetapan.muat();
     Player.setLook('L'); Player.m.group.visible = false;
