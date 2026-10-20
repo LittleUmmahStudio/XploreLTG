@@ -160,3 +160,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 ## Saiz pintu PSS (v80)
 - Pintu utama PSS dibesarkan ±20%: **2.8 m tinggi x 1.8 m lebar** (sebelum ini 2.3 x 1.5), bingkai luar 2.06 x 2.93 m. Bingkai kekal 0.49 m di bawah papan nama (bawah papan 3.42 m). Papan timbul, celah dua daun dan tombol diskala mengikut saiz pintu. Pintu masih di tengah hadapan.
 - Laras dengan `DOOR_H` dan `DOOR_HALF` dalam `tools/gen_pss_shell.py`, kemudian jana semula GLB. Penjana akan gagal jika pintu terlalu hampir dengan papan nama.
+
+## Dalaman Pusat Sumber (GLB, v82)
+- Dalaman Pusat Sumber dibina daripada dua fail: `assets/pss_interior_shell.glb` (lantai, dinding, sekatan Ruang Digital) dan `assets/pss_interior_props.glb` (perabot, sauh interaksi).
+- Fail ini dijana oleh `tools/gen_pss_interior.py` (Python sahaja). Untuk menjana semula: `python3 tools/gen_pss_interior.py lotong/assets --png pratonton.png`.
+- Jika fail GLB gagal dimuat, game terus guna susun atur Pusat Sumber yang lama. Untuk mematikan dalaman GLB pada satu peranti (ujian), jalankan `localStorage.setItem('lotong.glbDalam', '0')` dalam konsol pelayar.
+- Selepas mengemas kini, upload kedua-dua fail GLB ke folder `assets/` dan tukar `VERSI` dalam `sw.js`.

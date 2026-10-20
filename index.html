@@ -2415,6 +2415,7 @@ const CONTENT = {
     suria: ['Matahari ialah bintang yang paling dekat dengan Bumi.', 'Terdapat lapan planet dalam Sistem Suria.', 'Bumi mengambil masa kira-kira 365 hari untuk mengelilingi Matahari.', 'Bulan mengelilingi Bumi.'],
     warna: [{ a: 'biru', b: 'kuning', hasil: 'hijau', pilihan: ['hijau', 'ungu', 'oren'] }, { a: 'merah', b: 'kuning', hasil: 'oren', pilihan: ['oren', 'hijau', 'ungu'] }, { a: 'merah', b: 'biru', hasil: 'ungu', pilihan: ['ungu', 'hijau', 'oren'] }],
     komputer: ['Kamu mencari maklumat tentang hutan hujan tropika di Malaysia.', 'Kamu membaca tentang sejarah tulisan Jawi.', 'Kamu belajar cara menaip dengan betul.', 'Kamu melihat gambar haiwan-haiwan di Borneo.'],
+    kaunterPss: ['Untuk meminjam buku, bawa buku ke kaunter dan tunjukkan kad perpustakaan kepada Cikgu Helena.', 'Tempoh pinjaman ialah tujuh hari. Jaga buku dengan baik, ya.', 'Pulangkan buku tepat pada masanya supaya rakan lain pun dapat membacanya.', 'Buku yang hendak dipulangkan boleh dimasukkan ke dalam kotak biru di sebelah kaunter.', 'Ruang Digital boleh digunakan untuk mencari maklumat. Gunakan komputer dengan berhemah.'],
     pengumuman: ['Minggu Membaca akan diadakan bulan depan.', 'Pertandingan Kelas Terbersih: jaga kebersihan kelas kamu!', 'Latihan sukan diadakan setiap petang Rabu.'],
     ucapan: [
       { tajuk: 'Jaga kebersihan sekolah', teks: ['Assalamualaikum dan salam sejahtera, kawan-kawan.', 'Sekolah yang bersih membuat kita selesa belajar.', 'Mari buang sampah ke dalam tong, ya!'] },
@@ -4316,6 +4317,8 @@ const LAYOUT = {
     A.act(-1.9, -2.3, 'Lihat', 'Lihat peti sejuk', () => Dialog.show('Peti sejuk', ['Peti sejuk ini menyimpan susu kotak untuk murid.', 'Ambil dengan tertib, kemudian buang kotak kosong ke dalam tong sampah.']));
   },
   pss(r, def, A) {
+    const G = InteriorGLB.sedia('pss');   // v82: dalaman GLB; jika tiada/gagal, susun atur asal di bawah
+    if (G) { try { InteriorGLB.pasang(r, def, A, G); return; } catch (e) { console.warn('Dalaman GLB pss gagal dipasang, guna susun atur asal:', e && e.message); } }
     [-5.2, -3.0, -0.8, 1.4, 3.6].forEach((x) => A.shelf(x, -4.755, 0, 2.0, 'buku'));
     A.shelf(-6.755, -1.6, Math.PI / 2, 1.8, 'buku'); A.shelf(-6.755, 0.5, Math.PI / 2, 1.8, 'buku');
     [[-1.6, -0.6], [2.0, -0.6]].forEach(([x, z]) => {
@@ -4734,6 +4737,87 @@ const ShellGLB = {
   }
 };
 
+/* v82: Dalaman Pusat Sumber berasaskan GLB (cangkerang + perabot), dijana oleh tools/gen_pss_interior.py.
+   Jika fail gagal dimuat, gagal disahkan atau dimatikan (localStorage 'lotong.glbDalam' = '0'), susun atur asal digunakan. */
+const InteriorGLB = {
+  AKTIF: true, hasil: {}, janji: {},
+  DEF: {
+    pss: { shell: 'assets/pss_interior_shell.glb', props: 'assets/pss_interior_props.glb',
+      wajib: ['lantai', 'dinding_utara', 'dinding_selatan', 'dinding_timur', 'dinding_barat', 'sekatan_skrin', 'kaunter', 'rak_rendah_2', 'rak_rendah_4',
+        'meja_baca_1', 'meja_digital', 'papan_kenyataan', 'int_komputer_1', 'int_rak', 'int_kaunter', 'int_papan', 'int_sudut'] }
+  },
+  // Sauh interaksi: nod int_<kunci> atau int_<kunci>_<n> -> [kata kerja, label, fungsi, jarak]
+  AKSI: {
+    int_komputer: ['Guna', 'Guna komputer', () => Peralatan.komputer(), 1.2],
+    int_rak: ['Baca', 'Baca buku', () => Rooms.baca(), 1.8],
+    int_kaunter: ['Tanya', 'Tanya di kaunter pinjaman', () => Peralatan.kaunterPss(), 1.5],
+    int_papan: ['Lihat', 'Baca papan kenyataan', () => Peralatan.pengumuman(), 1.6],
+    int_sudut: ['Baca', 'Baca buku cerita di sudut bacaan', () => Peralatan.kisah(), 1.5]
+  },
+  // Papan nama teks pada sauh tanda_*: [teks, arah (rotation.y), lebar, tinggi]
+  TANDA: {
+    tanda_digital: ['Ruang Digital', -Math.PI / 2, 1.3, 0.32], tanda_digital_dalam: ['Ruang Digital', Math.PI / 2, 1.3, 0.32],
+    tanda_kaunter: ['Kaunter Pinjaman', Math.PI, 1.2, 0.3], tanda_papan: ['Papan Kenyataan', Math.PI / 2, 1.2, 0.26],
+    tanda_pameran: ['Hasil Kerja Murid', Math.PI / 2, 0.9, 0.22]
+  },
+  mati() { try { return localStorage.getItem('lotong.glbDalam') === '0' || ShellGLB.mati(); } catch (e) { return false; } },
+  selesai(id) { return !this.DEF[id] || (id in this.hasil); },
+  sedia(id) { return this.hasil[id] || null; },
+  muat(id) {
+    const D = this.DEF[id];
+    if (!D || !this.AKTIF || this.mati()) { if (D) this.hasil[id] = null; return Promise.resolve(null); }
+    if (this.janji[id]) return this.janji[id];
+    const t0 = performance.now(), ambil = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status + ' ' + u); return r.arrayBuffer(); });
+    return (this.janji[id] = Promise.all([ambil(D.shell), ambil(D.props)]).then(([a, b]) => {
+      const shell = GLBMini.parse(a), props = GLBMini.parse(b), def = CONTENT.dalaman[id], nama = new Set();
+      [shell, props].forEach((R) => R.children.forEach((c) => nama.add(c.name)));
+      const tiada = D.wajib.filter((n) => !nama.has(n)); if (tiada.length) throw new Error('nod tiada: ' + tiada.join(', '));
+      const bb = new THREE.Box3().setFromObject(shell.getObjectByName('lantai'));
+      if (Math.abs(bb.max.x - bb.min.x - def.w) > 0.1 || Math.abs(bb.max.z - bb.min.z - def.d) > 0.1) throw new Error('ukuran lantai tidak sepadan dengan bilik');
+      let tri = 0; [shell, props].forEach((R) => R.traverse((o) => { if (o.isMesh) tri += o.geometry.index ? o.geometry.index.count / 3 : o.geometry.attributes.position.count / 3; }));
+      console.info('Dalaman GLB: ' + id + ' dimuat, ' + tri + ' segi tiga, ' + Math.round(performance.now() - t0) + ' ms');
+      return (this.hasil[id] = { shell, props, dipakai: false });
+    }).catch((e) => { console.warn('Dalaman GLB gagal (' + id + '), guna susun atur asal:', e && e.message); return (this.hasil[id] = null); }));
+  },
+  // Pasang ke dalam bilik. Semua pengiraan (sempadan, sauh) dibuat dahulu; bilik hanya diubah jika tiada ralat.
+  pasang(r, def, A, G) {
+    if (G.dipakai) throw new Error('aset dalaman sudah digunakan');
+    const SISI = { dinding_utara: 'n', dinding_selatan: 's', dinding_timur: 'e', dinding_barat: 'w' };
+    const ubah = [], halang = [], aksi = [], tanda = [];
+    G.shell.children.slice().forEach((o) => {
+      const s = SISI[o.name];
+      if (s) { if (!r.walls[s]) throw new Error('dinding ' + s + ' tiada'); ubah.push(() => { const g = r.walls[s]; g.children.forEach((c) => { if (!c.userData.cahaya) c.visible = false; }); o.position.set(-g.position.x, 0, -g.position.z); g.add(o); }); }
+      else if (o.name === 'lantai') ubah.push(() => { if (r.lantai) r.lantai.visible = false; r.group.add(o); });
+      else { halang.push(o); ubah.push(() => r.group.add(o)); }
+    });
+    G.props.children.slice().forEach((o) => {
+      if (o.name.startsWith('int_')) aksi.push(o);
+      else if (o.name.startsWith('tanda_')) tanda.push(o);
+      else { if (!o.name.startsWith('lalu_')) halang.push(o); ubah.push(() => r.group.add(o)); }
+    });
+    const kotak = halang.map((o) => new THREE.Box3().setFromObject(o)).filter((b) => !b.isEmpty());   // koordinat bilik (akar GLB tanpa transformasi)
+    const act = aksi.map((o) => { const k = Object.keys(this.AKSI).find((p) => o.name === p || o.name.startsWith(p + '_')); return k ? [o.position.x, o.position.z].concat(this.AKSI[k]) : null; }).filter(Boolean);
+    if (!act.length) throw new Error('tiada sauh interaksi');
+    // --- Ubah bilik ---
+    G.dipakai = true;
+    ubah.forEach((f) => f());
+    kotak.forEach((b) => { const sx = Math.max(0.05, b.max.x - b.min.x - 0.04), sz = Math.max(0.05, b.max.z - b.min.z - 0.04); A.block((b.min.x + b.max.x) / 2, (b.min.z + b.max.z) / 2, sx, sz); });
+    act.forEach(([x, z, verb, kata, fn, jarak]) => A.act(x, z, verb, kata, fn, jarak));
+    tanda.forEach((o) => {
+      const t = this.TANDA[o.name]; if (!t) return;
+      const pl = new THREE.Mesh(new THREE.PlaneGeometry(t[2], t[3]), new THREE.MeshBasicMaterial({ map: plateTex(t[0]) }));
+      pl.position.copy(o.position); pl.rotation.y = t[1]; r.group.add(pl);
+    });
+    A.wall('n', 5.0, 2.05, 0.9, 1.15, posterTex('Etika digital: bijak dan selamat', '#7FC8F8', '💻'));
+    // Watak (kedudukan sama seperti susun atur asal supaya tugasan & jadual kekal)
+    A.murid(-2.1, 0.15, Math.PI, 'duduk', 0.42); A.murid(2.5, -1.35, 0, 'duduk', 0.42); A.murid(1.5, 0.15, Math.PI, 'duduk', 0.42);
+    A.murid(5.35, -2.4, Math.PI / 2, 'duduk', 0.42);
+    if (def.watak && def.watak[0]) A.person(4.6, 3.3, Math.PI, null, 0, def.watak[0]);
+    A.murid(-4.6, 2.6, 0.4, 'lantai');
+    r.glb = true;
+  }
+};
+
 /* ===================== InteriorManager ===================== */
 const extRoot = new THREE.Group();
 const Rooms = {
@@ -4750,7 +4834,7 @@ const Rooms = {
     const r = { id, def, ox: o.x, oz: o.z, w: def.w, d: def.d, group: new THREE.Group(), walls: {}, npcs: [], inter: [], batch: {}, rnd: mulberry32(hashStr(id)) };
     r.group.position.set(o.x, 0, o.z); this.root.add(r.group);
     const fl = new THREE.Mesh(new THREE.PlaneGeometry(r.w, r.d), new THREE.MeshLambertMaterial({ map: floorTex(def.lantai, r.w, r.d) }));
-    fl.rotation.x = -Math.PI / 2; r.group.add(fl);
+    fl.rotation.x = -Math.PI / 2; r.group.add(fl); r.lantai = fl;
     this.walls(r);
     const A = this.api(r);
     (LAYOUT[def.susun] || (() => {}))(r, def, A);
@@ -4785,7 +4869,7 @@ const Rooms = {
       [-dw / 2 - 0.05, 1.15, -T / 2, 0.1, 2.3, 0.06, '#FFFFFF'], [dw / 2 + 0.05, 1.15, -T / 2, 0.1, 2.3, 0.06, '#FFFFFF'], [0, 2.33, -T / 2, dw + 0.2, 0.08, 0.06, '#FFFFFF'],
       [0, H + 0.05, 0, w + 2 * T, 0.1, T + 0.04, rim]]);
     const light = new THREE.Mesh(new THREE.PlaneGeometry(dw, 2.3), new THREE.MeshBasicMaterial({ color: '#FFF4CF' }));
-    light.position.set(0, 1.15, 0); light.rotation.y = Math.PI; r.walls.s.add(light);
+    light.position.set(0, 1.15, 0); light.rotation.y = Math.PI; light.userData.cahaya = true; r.walls.s.add(light);
     add('w', -w / 2 - T / 2, 0, [[0, H / 2, 0, T, H, d], [T / 2 + 0.01, 0.09, 0, 0.04, 0.18, d, rim]]);
     add('e', w / 2 + T / 2, 0, [[0, H / 2, 0, T, H, d], [-T / 2 - 0.01, 0.09, 0, 0.04, 0.18, d, rim]]);
     // Siling, lampu dan kipas: hanya kelihatan apabila kamera berada di dalam bilik (pandang ke atas)
@@ -4897,7 +4981,12 @@ const Rooms = {
     if (this.busy) return; this.busy = true; setLock('pindah'); $('pudar').classList.add('on'); Sound.play('pintu');
     setTimeout(() => { try { fn(); } catch (e) { laporRalat(e); } $('pudar').classList.remove('on'); setTimeout(() => { this.busy = false; if (State.uiLock === 'pindah') setLock(null); }, 260); }, 260);
   },
-  enter(id, selepas) { this.fade(() => { this.enterNow(id); if (selepas) selepas(); }); },
+  enter(id, selepas) {
+    const sb = (this.pintu[id] && this.pintu[id].bilik) || id, terus = () => this.fade(() => { this.enterNow(id); if (selepas) selepas(); });
+    if (this.list[sb] || InteriorGLB.selesai(sb)) { terus(); return; }
+    if (this.menunggu) return; this.menunggu = true;   // v82: aset GLB dalaman belum siap: tunggu sebentar, kemudian masuk (guna susun atur asal jika lewat)
+    Promise.race([InteriorGLB.muat(sb), new Promise((ok) => setTimeout(ok, 2500))]).then(() => { this.menunggu = false; terus(); });
+  },
   exit(kunci) {
     Sound.play('pintuTutup');
     this.fade(() => this.exitNow(kunci));
@@ -6286,6 +6375,7 @@ const Peralatan = {
   },
   komputer() { this.fakta('Komputer', CONTENT.alat.komputer, 'komputer'); },
   pengumuman() { Dialog.show('Papan kenyataan', CONTENT.alat.pengumuman.slice()); },
+  kaunterPss() { Dialog.show('Kaunter Pinjaman', [this.pilih(CONTENT.alat.kaunterPss)], { tag: 'Pusat Sumber' }); },
   kisah() { this.fakta('Buku kisah teladan', Agama.moral() ? CONTENT.alat.kisah.filter((k) => !k.startsWith('Kisah Rasul')) : CONTENT.alat.kisah, 'kisah'); },
   wuduk() { if (Agama.moral()) { Dialog.show('Tempat berwuduk', ['Rakan Muslim menggunakan sinki ini untuk berwuduk sebelum solat.', 'Kita hormati amalan setiap agama.'], { tag: 'Toleransi' }); return; } Mini.open('wuduk', () => { this.ganjaran('wuduk', { ilmu: 1 }, 'Wuduk sempurna! +1 Ilmu'); Dialog.show('Ambil wuduk', this.pelajaranWuduk(), { tag: 'Wuduk' }); }); },
   // Ringkasan pelajaran selepas menyusun langkah wuduk (Tahap 1 lebih ringkas)
@@ -12540,7 +12630,8 @@ async function boot() {
     scene.children.slice().forEach((ch) => { if (ch.isLight || ch === marker || ch === arrow) return; extRoot.add(ch); });
     scene.add(extRoot); scene.add(Rooms.root);
     bakeStatic(extRoot);
-    try { ShellGLB.muatSemua(); } catch (e) {}   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
+    try { ShellGLB.muatSemua(); } catch (e) {}
+    setTimeout(() => { try { InteriorGLB.muat('pss'); } catch (e) {} }, 1200);   // v82: dalaman Pusat Sumber dimuat di latar   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
     NPCs.build(); Pejalan.bina(); Iring.bina(); Kesan.init(); Sukan.bina(); Missions.init();
     Pasca.init(); Pasca.resize(); Grafik.init(); Cam.initMod(); Tetapan.muat();
     Player.setLook('L'); Player.m.group.visible = false;
