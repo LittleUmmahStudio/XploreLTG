@@ -1,0 +1,32 @@
+{
+  "name": "LO:TONG: a little school story",
+  "short_name": "LO:TONG",
+  "description": "Look. Observe. Take action. Offer kindness. Nurture growth. Game 3D kehidupan sekolah SK Lotong.",
+  "lang": "ms",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#9ED8F7",
+  "theme_color": "#FFCC33",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "./",
+  "prefer_related_applications": false
+}
