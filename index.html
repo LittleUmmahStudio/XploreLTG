@@ -254,6 +254,14 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #suMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
 @media (max-height:430px){#suria .kertas{padding:4px 10px 8px;max-height:58vh;max-height:58dvh}#suArahan{font-size:13px;margin:2px 0 3px;min-height:2.2em}.suBaris{margin-bottom:3px}.suBaris .btn,.suSudut .btn{min-height:38px}#suSlot .slot{min-height:38px}}
 @media (prefers-reduced-motion: reduce){#suSlot .slot.goyang,#suPool .btn.goyang{animation:none}#suBar{transition:none}}
+#litar{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#litar .kertas{pointer-events:auto;width:min(720px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#litar header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+#liArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#liMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+#liStatus{font-weight:700;font-size:14px;margin-left:6px}
+#liWayar .btn small,#liTerm .btn small{font-weight:700;opacity:.8}
 /* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
 .dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
 .wnAtas .dokTogol{margin:0}
@@ -261,8 +269,9 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .dokKecil .kertas{padding-bottom:6px}
 body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
 @media (max-height:520px){
-  #mikroskop .kertas,#warna .kertas,#suria .kertas{padding:4px 10px 6px}
-  #mkArahan,#wnArahan,#suArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas{padding:4px 10px 6px}
+  #liMaklum{margin:0 0 3px;min-height:0}
+  #mkArahan,#wnArahan,#suArahan,#liArahan{font-size:13px;margin:2px 0 3px;min-height:0}
   .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
   #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
   .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
@@ -836,6 +845,21 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
         <p id="suMaklum" aria-live="polite"></p>
         <div class="suBaris"><button id="suUlang" class="btn" type="button">Cuba Lagi</button><button id="suBalik" class="btn" type="button">Kembali Teroka</button><button id="suSiap" class="btn" type="button" hidden>Selesai</button></div>
       </div>
+    </div>
+  </section>
+
+  <section id="litar" class="panel-fokus" hidden role="dialog" aria-label="Eksperimen litar elektrik">
+    <div class="kertas">
+      <header><strong>Litar Elektrik</strong><span class="wnAtas"><button id="liSemula" class="btn" type="button">Set Semula</button><button id="liKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="liArahan" aria-live="polite"></p>
+      <div id="liL1">
+        <div id="liWayar" class="wnBaris" role="group" aria-label="Pilih wayar"></div>
+        <div id="liTerm" class="wnBaris" role="group" aria-label="Pilih terminal untuk wayar yang dipilih"></div>
+      </div>
+      <div class="wnBaris"><button id="liSuis" class="btn" type="button" disabled>Suis: OFF</button><span id="liStatus"></span></div>
+      <div id="liL2" hidden><div id="liJawab" class="wnBaris" role="group" aria-label="Pilih jawapan"></div></div>
+      <p id="liMaklum" aria-live="polite"></p>
+      <div class="wnBaris"><button id="liUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="liSiap" class="btn" type="button" hidden>Selesai</button></div>
     </div>
   </section>
 
@@ -5037,7 +5061,8 @@ const InteriorGLB = {
         const T = 0.935;   // permukaan meja makmal
         kotak(-3.6, T + 0.16, 2.0, 0.55, 0.3, 0.32, '#7FC8F8', 0.38);   // air dalam tangki (eksperimen terapung atau tenggelam)
         kotak(2.6, T + 0.16, -0.55, 0.28, 0.32, 0.26, '#2B2F38', 0.55); // kotak gelap menutup pasu B (eksperimen tumbuhan)
-        { const m = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), mat('#E8EEF4')); m.position.set(-1.95, T + 0.14, -0.55); r.group.add(m); Makmal.mentol = m; }   // mentol litar (bahan ditukar oleh Makmal.litar)
+        { const m = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), mat('#E8EEF4')); m.position.set(-1.95, T + 0.14, -0.55); r.group.add(m); Makmal.mentol = m; }
+        try { Litar.sediakan(r); } catch (err) { console.warn('Litar: wayar interaktif tidak dapat disediakan:', err && err.message); }   // v91   // mentol litar (bahan ditukar oleh Makmal.litar)
       }
     }
   },
@@ -7420,6 +7445,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'mikroskop') { if (!Fokus.kunci(e, k, 'mikroskop')) Mikroskop.kunci(e, k); return; }
   if (State.uiLock === 'warna') { if (!Fokus.kunci(e, k, 'warna')) Warna.kunci(e, k); return; }
   if (State.uiLock === 'suria') { if (!Fokus.kunci(e, k, 'suria')) Suria.kunci(e, k); return; }
+  if (State.uiLock === 'litar') { if (!Fokus.kunci(e, k, 'litar')) Litar.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7611,7 +7637,8 @@ const Cam = {
     camera.lookAt(this.look);
     if (Mikroskop.k > 0.002) Mikroskop.kamera();
     if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna
-    if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria
+    if (Litar.k > 0.002) Litar.kamera();   // v91: kamera dekat litar elektrik   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11374,7 +11401,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -11407,7 +11434,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -11990,6 +12017,201 @@ const Suria = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
 
+/* ===================== Litar elektrik: aktiviti praktikal (v91) ===================== */
+const Litar = {
+  Y: 0.949, SNAP: 0.05, SEIRING: 0.62,
+  WARNA: { merah: '#E8503F', kuning: '#F6C453', biru: '#4F8FE8' }, NAMAW: { merah: 'Merah', kuning: 'Kuning', biru: 'Biru' },
+  W: ['merah', 'kuning', 'biru'],
+  // koordinat tempatan bilik: sama dengan tools/gen_makmal.py
+  TERM: { suis: [-2.255, 0.985, -0.45], mentol: [-2.03, 0.971, -0.50], bateri: [-2.47, 0.971, -0.62] },
+  TETAP: { merah: [-2.36, 0.971, -0.50], kuning: [-2.185, 0.985, -0.45], biru: [-1.93, 0.971, -0.60] },
+  REHAT: { merah: [-2.30, 0.947, -0.395], kuning: [-2.10, 0.947, -0.395], biru: [-1.86, 0.947, -0.40] },
+  SASARAN: { merah: 'suis', kuning: 'mentol', biru: 'bateri' }, NAMAT: { suis: 'Suis', mentol: 'Mentol', bateri: 'Bateri (−)' },
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, st: {}, pilihW: null, drag: null, suisON: false, suisV: 0.75, sudahON: false, sudahOFF: false, lampu: false, ho: 0, tT: 0, diberi: false, selesaiQ: false, hint: '', m0: null, mOn: null,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null; const g = (n) => r.group.getObjectByName(n), N = { r, klip: {} };
+    N.suis = g('lalu_litar_suis'); if (!N.suis) return null;
+    for (const c of this.W) { N.klip[c] = g('lalu_litar_klip_' + c); if (!N.klip[c]) return null; }
+    N.dawai = r.group.userData.litarDawai; if (!N.dawai) return null; return N;
+  },
+  sediakan(r) {   // dipanggil semasa bilik dibina: wayar (kod), penanda terminal dan cahaya (halo); hujung klip GLB tidak diubah
+    const g = (n) => r.group.getObjectByName(n); if (!g('lalu_litar_suis') || !this.W.every((c) => g('lalu_litar_klip_' + c))) return;
+    if (r.group.userData.litarDawai) return; const V3 = THREE.Vector3, D = { wayar: {}, penanda: {}, halo: null };
+    this.W.forEach((c) => { const idx = []; for (let i = 0; i < 10; i++) for (let j = 0; j < 4; j++) { const a = i * 4 + j, b = i * 4 + (j + 1) % 4; idx.push(a, b, a + 4, b, b + 4, a + 4); }
+      const gm = new THREE.BufferGeometry(); gm.setAttribute('position', new THREE.BufferAttribute(new Float32Array(11 * 4 * 3), 3)); gm.setIndex(idx.map((v) => v)); const me = new THREE.Mesh(gm, new THREE.MeshLambertMaterial({ color: this.WARNA[c], side: THREE.DoubleSide })); me.frustumCulled = false; r.group.add(me); D.wayar[c] = me; });
+    this.W.forEach((c) => { const t = this.TERM[this.SASARAN[c]], pn = new THREE.Mesh(new THREE.TorusGeometry(0.02, 0.0035, 6, 20), new THREE.MeshBasicMaterial({ color: this.WARNA[c], transparent: true, opacity: 0.95, depthTest: false })); pn.rotation.x = -Math.PI / 2; pn.position.set(t[0], t[1] - 0.012, t[2]); pn.renderOrder = 5; pn.visible = false; r.group.add(pn); D.penanda[c] = pn; });
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(0.1, 12, 8), new THREE.MeshBasicMaterial({ color: '#FFE9A0', transparent: true, opacity: 0, depthWrite: false })); halo.visible = false; halo.renderOrder = 4; r.group.add(halo); D.halo = halo;
+    r.group.userData.litarDawai = D; this.st = this.st || {}; this.W.forEach((c) => { this.st[c] = this.st[c] || null; });
+    const N = this.cari(); if (N) { this.inisial(N); this.lukisWayar(N, 0); }
+  },
+  inisial(N) {   // keadaan awal: klip berehat, tuas suis terbuka
+    const V3 = THREE.Vector3; this.W.forEach((c) => { const rh = this.REHAT[c]; this.st[c] = { p: new V3(rh[0], rh[1], rh[2]), tg: new V3(rh[0], rh[1], rh[2]), sambung: false, mode: 'rehat', goyang: 0, tetap: new V3(...this.TETAP[c]) }; });
+    N.suis.rotation.z = this.suisV;
+  },
+  buka() {   // mengembalikan true jika aktiviti dibuka; false -> soalan asal (susun atur tanpa GLB)
+    if (this.aktif || State.uiLock) return true; const r = Rooms.list && Rooms.list.makmal; if (!r || Rooms.current !== 'makmal') return false;
+    const N = this.cari(); if (!N || !Makmal.mentol) return false; this.nod = N; this.aktif = true; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3();
+    if (!this.st.merah) this.inisial(N); this.mulaSemula(true); this.diberi = false; this.m0 = Makmal.mentol.material; this.mOn = this.mOn || new THREE.MeshBasicMaterial({ color: '#FFE680' });
+    this.bina(); $('litar').hidden = false; setLock('litar'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); return true;
+  },
+  mulaSemula(senyap) {   // klip kembali ke tempat rehat (beranimasi), suis dibuka, kemajuan dikosongkan
+    this.W.forEach((c) => { const s = this.st[c]; s.sambung = false; s.mode = 'rehat'; s.tg.set(...this.REHAT[c]); }); this.suisON = false; this.sudahON = this.sudahOFF = false; this.pilihW = null; this.selesaiQ = false; this.tahap = 0; this.drag = null; this.hint = '';
+    if (!senyap) { this.bina(); $('liMaklum').textContent = ''; } this.mula();
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat() || Fokus.sedia('litar')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  belumRehat() { const N = this.nod; if (!N || !this.st.merah) return false; return this.W.some((c) => { const s = this.st[c]; return s.p.distanceTo(s.tg) > 0.0008 || s.goyang > 0; }) || Math.abs(N.suis.rotation.z - (this.suisON ? 0 : this.suisV)) > 0.01 || this.ho > 0.004 || (Math.abs(this.ho - (this.lampu ? 1 : 0)) > 0.01); },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('litar').hidden = true; if (State.uiLock === 'litar') setLock(null); this.drag = null; this.mulaSemula(true); this.setLampu(false); this.mula();
+    if (this.kurang()) { this.k = 0; }
+    if (this.siapTunggu && !this.diberi) { this.siapTunggu = false; this.diberi = true; Makmal.siap('litar', 'Litar lengkap! Mentol menyala.'); }
+  },
+  // ----- UI -----
+  bina() {
+    const Wy = $('liWayar'), Tm = $('liTerm'); Wy.innerHTML = ''; Tm.innerHTML = '';
+    this.W.forEach((c, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.w = c; bt.setAttribute('aria-pressed', 'false'); bt.innerHTML = '<i class="wnDot" style="background:' + this.WARNA[c] + '"></i>Wayar ' + this.NAMAW[c] + ' <small>(' + (i + 1) + ')</small>'; bt.addEventListener('click', () => this.pilihWayar(c)); Wy.appendChild(bt); });
+    ['suis', 'mentol', 'bateri'].forEach((t, i) => { const w = this.W.find((c) => this.SASARAN[c] === t), bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.t = t; bt.innerHTML = '<i class="wnDot" style="background:' + this.WARNA[w] + '"></i>' + this.NAMAT[t] + ' <small>(' + (i + 4) + ')</small>'; bt.addEventListener('click', () => this.pilihTerm(t)); Tm.appendChild(bt); });
+    $('liL1').hidden = false; $('liL2').hidden = true; $('liUlang').hidden = true; $('liSiap').hidden = true; $('liMaklum').textContent = ''; this.segar();
+    $('liArahan').textContent = 'Sambungkan setiap wayar ke terminal yang bercincin warna sama. Seret hujung wayar, atau pilih wayar kemudian terminal.';
+  },
+  bil() { return this.W.filter((c) => this.st[c].sambung).length; },
+  segar() {
+    const n = this.bil(), lengkap = n === 3;
+    $('liWayar').querySelectorAll('button').forEach((bt, i) => { const c = bt.dataset.w, s = this.st[c]; bt.setAttribute('aria-pressed', this.pilihW === c ? 'true' : 'false'); bt.innerHTML = '<i class="wnDot" style="background:' + this.WARNA[c] + '"></i>Wayar ' + this.NAMAW[c] + (s.sambung ? ' ✓' : ' <small>(' + (i + 1) + ')</small>'); });
+    $('liTerm').querySelectorAll('button').forEach((bt) => { bt.disabled = !this.pilihW; });
+    $('liStatus').textContent = 'Sambungan ' + n + '/3'; const su = $('liSuis'); su.disabled = !lengkap || this.tahap >= 3; su.textContent = 'Suis: ' + (this.suisON ? 'ON' : 'OFF'); su.setAttribute('aria-pressed', this.suisON ? 'true' : 'false');
+  },
+  pilihWayar(c) { if (!this.aktif || this.tahap > 1) return; if (this.st[c].sambung) { this.putus(c); return; } this.pilihW = this.pilihW === c ? null : c; Sound.play('pick'); this.segar(); $('liArahan').textContent = this.pilihW ? 'Wayar ' + this.NAMAW[c] + ' dipilih. Pilih terminal, atau seret hujungnya ke terminal.' : 'Pilih wayar untuk disambungkan.'; this.mula(); },
+  pilihTerm(t) { if (!this.aktif || this.tahap > 1 || !this.pilihW) return; const c = this.pilihW; this.pilihW = null; this.cubaSambung(c, t); this.segar(); },
+  putus(c) {   // cabut wayar yang telah bersambung (boleh dicuba lagi)
+    const s = this.st[c]; s.sambung = false; s.mode = 'rehat'; s.tg.set(...this.REHAT[c]); if (this.suisON) { this.suisON = false; } this.tahap = 0; $('liL2').hidden = true; $('liMaklum').textContent = ''; Sound.play('pick'); this.segar(); this.mula();
+    $('liArahan').textContent = 'Wayar ' + this.NAMAW[c] + ' dicabut. Sambungkan semula ke terminal yang betul.';
+  },
+  cubaSambung(c, t) {   // dipanggil apabila klip dilepaskan berhampiran terminal t (seretan) atau terminal dipilih (ketik)
+    const s = this.st[c];
+    if (this.SASARAN[c] === t) {
+      const T = this.TERM[t]; s.sambung = true; s.mode = 'sambung'; s.tg.set(T[0], T[1], T[2]); Sound.play('ok'); const n = this.bil();
+      $('liMaklum').textContent = '✓ Wayar ' + this.NAMAW[c] + ' bersambung ke ' + this.NAMAT[t] + '. (' + n + '/3)';
+      if (n === 3) { this.tahap = 1; $('liArahan').textContent = 'Semua wayar bersambung! Sekarang tekan suis untuk menutup litar.'; $('liMaklum').textContent = ''; }
+    } else {
+      s.mode = 'rehat'; s.goyang = 0.5; s.tg.set(...this.REHAT[c]); Sound.play('wrong');
+      $('liMaklum').textContent = 'Belum tepat. Wayar ' + this.NAMAW[c] + ' perlu ke terminal yang bercincin ' + this.NAMAW[c].toLowerCase() + '. Cuba lagi.';
+    }
+    this.segar(); this.mula();
+  },
+  // ----- suis -----
+  togolSuis() {
+    if (!this.aktif || this.bil() < 3 || this.tahap < 1 || this.tahap >= 3) return; this.suisON = !this.suisON; Sound.play('pick'); if (this.suisON) this.sudahON = true; else this.sudahOFF = true;
+    $('liArahan').textContent = this.suisON ? 'Suis ON: litar tertutup, arus mengalir, mentol menyala.' : 'Suis OFF: litar terbuka, mentol padam.'; this.segar(); this.mula();
+    if (this.sudahON && this.sudahOFF && this.tahap === 1) this.soalan();
+  },
+  soalan() {
+    this.tahap = 2; const q = Makmal.q('Apabila suis dibuka (OFF), mentol akan ___.', 'Padam', ['Menyala lebih terang', 'Bertukar warna']); $('liL2').hidden = false; $('liL1').hidden = true;
+    $('liArahan').textContent = 'Soalan pemerhatian: ' + q.soalan; const J = $('liJawab'); J.innerHTML = '';
+    q.pilihan.forEach((x, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.j = x; bt.innerHTML = x + ' <small>(' + (i + 1) + ')</small>'; bt.addEventListener('click', () => this.jawab(x, q.betul)); J.appendChild(bt); });
+    this.q = q; try { J.firstChild.focus({ preventScroll: true }); } catch (err) {}
+  },
+  jawab(x, betul) {
+    if (!this.aktif || this.tahap !== 2) return; const J = $('liJawab');
+    if (x === betul) {
+      this.tahap = 3; Sound.play('ok'); J.querySelectorAll('button').forEach((bt) => { bt.disabled = true; });
+      $('liArahan').textContent = 'Betul! Mentol menyala hanya apabila litar lengkap dan suis ditutup (ON). Tekan Selesai.'; $('liMaklum').textContent = ''; $('liUlang').hidden = false; $('liSiap').hidden = false; this.segar();
+      this.siapTunggu = !this.diberi;   // Makmal.siap (misi / ganjaran sedia ada) dipanggil sekali sahaja apabila panel ditutup (elak dialog misi bertindih dengan kunci aktiviti)
+    } else { Sound.play('wrong'); J.querySelectorAll('button').forEach((bt) => { if (bt.dataset.j === x) bt.disabled = true; }); $('liMaklum').textContent = 'Hmm, lihat semula mentol apabila suis OFF. Cuba pilih lagi.'; }
+  },
+  ulang() { if (!this.aktif) return; this.mulaSemula(false); },
+  // ----- seretan pada kanvas -----
+  titikPlane(e) {
+    const V = this.V2; const rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); pl.constant = -0.99; const r = this.nod.r;
+    if (!rc.ray.intersectPlane(pl, V)) return null; return [Math.max(-2.75, Math.min(-1.7, V.x - r.ox)), Math.max(-0.85, Math.min(-0.2, V.z - r.oz))];
+  },
+  terdekat(px, py, jenis) {   // klip atau tuas suis terdekat dengan titik skrin (piksel)
+    const N = this.nod; if (!N) return null; const W = window.innerWidth, H = window.innerHeight, V = this.V; let best = null, bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 52 : 36);
+    const uji = (o, id) => { o.getWorldPosition(V); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = id; } };
+    this.W.forEach((c) => uji(N.klip[c], 'w:' + c));
+    if (jenis !== 'klip') {   // sasaran suis = tombol di hujung tuas (bukan pangsi, kerana klip wayar merah melekap pada pangsi)
+      const a = N.suis.rotation.z, r = N.r; V.set(r.ox + N.suis.position.x + 0.065 * Math.cos(a), N.suis.position.y + 0.065 * Math.sin(a) + 0.01, r.oz + N.suis.position.z); V.project(camera);
+      if (V.z <= 1) { const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = 'suis'; } }
+    }
+    return best;
+  },
+  kanvas(e, fasa) {
+    if (!this.aktif || this.tahap >= 3 && fasa === 'turun') return false; const N = this.nod;
+    if (fasa === 'turun') {
+      const id = this.terdekat(e.clientX, e.clientY); if (!id) return false;
+      if (id === 'suis') { this.togolSuis(); return true; } const c = id.slice(2); if (this.tahap >= 2) return true;
+      const s = this.st[c]; if (s.sambung) { this.putus(c); }
+      this.drag = { id: e.pointerId, c }; s.mode = 'seret'; this.pilihW = null; this.segar(); const t = this.titikPlane(e); if (t) s.tg.set(t[0], 0.99, t[1]); this.mula(); return true;
+    }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false; const s = this.st[d.c];
+    if (fasa === 'gerak') { const t = this.titikPlane(e); if (t) s.tg.set(t[0], 0.99, t[1]); return true; }
+    if (fasa === 'naik') {
+      this.drag = null; let best = null, bd = this.SNAP; ['suis', 'mentol', 'bateri'].forEach((t) => { const T = this.TERM[t], dd = Math.hypot(T[0] - s.tg.x, T[2] - s.tg.z); if (dd < bd) { bd = dd; best = t; } });
+      if (best) this.cubaSambung(d.c, best); else { s.mode = 'rehat'; s.tg.set(...this.REHAT[d.c]); $('liMaklum').textContent = 'Hantar hujung wayar ke terminal yang bercincin warna sama.'; this.mula(); } return true;
+    }
+    return false;
+  },
+  // ----- animasi -----
+  setLampu(on) {
+    if (!Makmal.mentol) return; this.lampu = on; if (on) { this.m0 = this.m0 || Makmal.mentol.material; Makmal.mentol.material = this.mOn || (this.mOn = new THREE.MeshBasicMaterial({ color: '#FFE680' })); } else if (this.m0) Makmal.mentol.material = this.m0;
+  },
+  tick(dt) {
+    const kur = this.kurang(), N = this.nod; Fokus.urus('litar', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!N || !this.st.merah) return;
+    const hidup = this.aktif && this.tahap >= 1 && this.bil() === 3 && this.suisON;
+    if (hidup !== this.lampu) this.setLampu(hidup);
+    const sasarHo = hidup ? 1 : 0; this.ho += (sasarHo - this.ho) * (kur ? 1 : 1 - Math.exp(-dt * 7)); if (Math.abs(this.ho - sasarHo) < 0.003) this.ho = sasarHo;
+    N.suis.rotation.z += ((this.suisON ? 0 : this.suisV) - N.suis.rotation.z) * (kur ? 1 : 1 - Math.exp(-dt * 14));
+    this.W.forEach((c) => {
+      const s = this.st[c]; if (s.goyang > 0) s.goyang = Math.max(0, s.goyang - dt);
+      const rate = s.mode === 'seret' ? 26 : 10; s.p.lerp(s.tg, kur ? 1 : 1 - Math.exp(-dt * rate)); if (s.p.distanceTo(s.tg) < 0.0004) s.p.copy(s.tg);
+      const gx = s.goyang > 0 ? Math.sin(this.tT * 50) * 0.006 * (s.goyang / 0.5) : 0; N.klip[c].position.set(s.p.x + gx, s.p.y, s.p.z);
+    });
+    this.lukisWayar(N, dt); this.lukisPenanda(N); this.lukisHalo(N);
+  },
+  lukisWayar(N, dt) {
+    const D = N.dawai.wayar; this.W.forEach((c) => {
+      const s = this.st[c], A = s.tetap, B = N.klip[c].position, me = D[c], pos = me.geometry.attributes.position.array, jar = Math.hypot(B.x - A.x, B.y - A.y, B.z - A.z);
+      const ax = A.x, ay = A.y, az = A.z, cy = Math.max(ay, B.y) + 0.012 + 0.2 * jar, cx = (ax + B.x) / 2, cz = (az + B.z) / 2; const P = [];
+      for (let i = 0; i <= 10; i++) { const t = i / 10, u = 1 - t; P.push([u * u * ax + 2 * u * t * cx + t * t * B.x, u * u * ay + 2 * u * t * cy + t * t * (B.y + 0.012), u * u * az + 2 * u * t * cz + t * t * B.z]); }
+      for (let i = 0; i <= 10; i++) {
+        const p = P[i], q = P[Math.min(10, i + 1)], o = P[Math.max(0, i - 1)]; let tx = q[0] - o[0], ty = q[1] - o[1], tz = q[2] - o[2]; const tl = Math.hypot(tx, ty, tz) || 1; tx /= tl; ty /= tl; tz /= tl;
+        let sx = tz, sz = -tx; const sl = Math.hypot(sx, sz) || 1; sx /= sl; sz /= sl; const h = 0.0032;   // sisi = melintang mengufuk; atas = (0,1,0)
+        [[1, 1], [-1, 1], [-1, -1], [1, -1]].forEach(([a, b], j) => { const k = (i * 4 + j) * 3; pos[k] = p[0] + sx * h * a; pos[k + 1] = p[1] + h * b; pos[k + 2] = p[2] + sz * h * a; });
+      }
+      me.geometry.attributes.position.needsUpdate = true; if (me.geometry.computeVertexNormals) me.geometry.computeVertexNormals();
+    });
+  },
+  lukisPenanda(N) {
+    const D = N.dawai.penanda, hid = this.aktif && this.tahap === 0, tp = this.drag ? this.st[this.drag.c].tg : null;
+    this.W.forEach((c) => { const pn = D[c], s = this.st[c]; pn.visible = hid && !s.sambung; if (!pn.visible) return; const T = this.TERM[this.SASARAN[c]]; let sk = 1 + 0.12 * Math.sin(this.tT * 5);
+      if (tp && Math.hypot(T[0] - tp.x, T[2] - tp.z) < this.SNAP * 1.5) sk = 1.45; else if (this.pilihW === c || (this.drag && this.drag.c === c)) sk = 1.25 + 0.15 * Math.sin(this.tT * 7); pn.scale.setScalar(sk); });
+  },
+  lukisHalo(N) {
+    const h = N.dawai.halo; if (!h || !Makmal.mentol) return; h.visible = this.ho > 0.01; if (!h.visible) return; h.position.copy(Makmal.mentol.position); const sk = 1 + 0.04 * Math.sin(this.tT * 3.2); h.scale.setScalar(sk); h.material.opacity = 0.28 * this.ho * (0.9 + 0.1 * Math.sin(this.tT * 3.2));
+  },
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, mx = r.ox - 2.2, mz = r.oz - 0.5;
+    camera.position.lerp(V.set(mx, 1.4, mz + 0.62), e); V.copy(Cam.look).lerp(this.V2.set(mx, 0.97, mz - 0.03), e); camera.lookAt(V);
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.tahap <= 1 && ['1', '2', '3'].includes(k)) { this.pilihWayar(this.W[+k - 1]); e.preventDefault(); return; }
+    if (this.tahap <= 1 && ['4', '5', '6'].includes(k)) { this.pilihTerm(['suis', 'mentol', 'bateri'][+k - 4]); e.preventDefault(); return; }
+    if (this.tahap === 2 && ['1', '2', '3'].includes(k)) { const bt = $('liJawab').querySelectorAll('button')[+k - 1]; if (bt && !bt.disabled) this.jawab(bt.dataset.j, this.q.betul); e.preventDefault(); return; }
+    if ((k === 't' || k === ' ') && !butang && this.tahap >= 1 && this.tahap < 3) { this.togolSuis(); e.preventDefault(); return; }
+    if (k === 'r' && !e.repeat) { this.mulaSemula(false); e.preventDefault(); }
+  }
+};
+{ // pendengar acara (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('liKeluar').addEventListener('click', () => Litar.tutup()); $('liSemula').addEventListener('click', () => Litar.ulang()); $('liUlang').addEventListener('click', () => Litar.ulang()); $('liSiap').addEventListener('click', () => Litar.tutup()); $('liSuis').addEventListener('click', () => Litar.togolSuis());
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!Litar.aktif || (e.target !== canvas && !Litar.drag)) return; if (Litar.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
 const Makmal = {
   pakai: false, kotMesh: null, mentol: null,
   langkah(a) { const st = Missions.step(); return !!(st && st.jenis === 'aksi' && st.aksi === a); },
@@ -12040,6 +12262,10 @@ const Makmal = {
   },
   litar() {
     if (!this.perluKot()) return;
+    if (Litar.buka()) return;   // v91: aktiviti praktikal (GLB); jika tiada, soalan asal di bawah
+    this.litarLama();
+  },
+  litarLama() {
     Mini.openSoalan('Litar Elektrik Ringkas', [
       this.q('Apakah yang diperlukan untuk menyalakan mentol?', 'Bateri, wayar dan mentol yang bersambung lengkap', ['Mentol sahaja', 'Bateri dan mentol tanpa wayar']),
       this.q('Apabila suis dibuka (OFF), mentol akan ___.', 'Padam', ['Menyala lebih terang', 'Bertukar warna']),

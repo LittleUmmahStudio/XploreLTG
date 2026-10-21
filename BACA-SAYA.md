@@ -212,3 +212,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 ## Paparan item yang lapang (v90)
 - Modul `Fokus` (dikongsi oleh Mikroskop, Eksperimen Warna dan Sistem Suria): watak dalam jarak 1.7 m daripada model (murid, guru, pemain) mengecil perlahan semasa kamera dekat dan pulih selepas ditutup; paparan 3D dialihkan ke ruang bebas di atas panel (`camera.setViewOffset`); panel boleh dikecilkan (butang Kecilkan atau kekunci H); HUD tidak penting (objektif, ringkasan tugas, peta mini) disorok semasa aktiviti (`body.fokusItem`).
 - Tiada perubahan pada fail GLB.
+
+## Litar elektrik interaktif (v91)
+- `Makmal.litar()` (selepas semakan kot makmal) membuka `Litar.buka()`: sambung tiga wayar ke terminal bercincin warna sama (seret, atau ketik wayar kemudian terminal), tekan suis ON/OFF (mentol menyala/padam dengan halo kuning lembut), soalan pemerhatian, Set Semula / Cuba Lagi / Keluar. Soalan asal kekal sebagai `Makmal.litarLama()` (fallback tanpa GLB).
+- `Makmal.siap('litar', ...)` dipanggil sekali sahaja apabila panel ditutup selepas berjaya (misi dan ganjaran sedia ada).
+- GLB: `lalu_litar` kini hanya papan, bateri, soket dan terminal. Nod bergerak `lalu_litar_suis` (pangsi di terminal kiri) dan `lalu_litar_klip_merah/kuning/biru` (pangsi di hujung sentuh). Wayar dijana kod supaya mengikuti klip.
+- Kawalan: seret/sentuh, butang, kekunci 1-3 (wayar), 4-6 (terminal), T atau Space (suis), R (semula), H (kecilkan), Esc.
