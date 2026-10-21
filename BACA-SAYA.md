@@ -230,3 +230,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Makmal.siap('terapung', ...)` dipanggil sekali sahaja apabila panel ditutup selepas keenam-enam objek diuji.
 - GLB: `lalu_tangki_air` (bingkai tangki + dulang), `lalu_terapung_pingpong/gabus/kayu/batu/syiling/skru` (pangsi di pusat objek). Isi air lut sinar kekal dijana kod.
 - Kawalan: seret/sentuh, butang Jatuhkan ke air, 1-6 (objek), F/T (ramalan), Space/Enter/E (jatuhkan), R (semula), H (kecilkan), Esc.
+
+## Papan Jawi magnet, fasa 1 (v94)
+- Bilik PI: anchor tunggal `int_papan_jawi` ("Aktiviti Jawi") menggantikan dua interaksi papan putih yang bertindih. Menu: **Aktiviti Jawi** atau **Lihat papan putih** (`PapanPutih.lihat('pi')` dikekalkan).
+- Aktiviti: lima huruf tunggal daripada `CONTENT.jawi.huruf` (12 pertama); seret ubin magnet ke petak nama huruf yang betul (betul: melekap; salah: pulang ke dulang). Alternatif ketik, dan kekunci 1-5 (ubin) dengan Q/W/E/R/T (petak). Ganjaran sedia ada sekali sehari (`jawi_papan_pi`, +1 Ilmu) hanya selepas selesai.
+- GLB (`tools/gen_bilik.py`, `bilik_pi()`): bingkai kayu papan, `lalu_jawi_dulang`, `lalu_jawi_ubin_1..5` (pangsi di pusat ubin). Glif Jawi dilukis oleh kod permainan pada kanvas (fon Jawi sedia ada, huruf tunggal).
+- Hanya `pi_interior_props.glb` berubah; GLB bilik lain tidak disentuh.

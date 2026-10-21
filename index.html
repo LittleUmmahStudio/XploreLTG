@@ -280,6 +280,17 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #tpMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
 #tpObjek .btn{min-height:42px;padding:0 9px;font-size:13px}#tpObjek .btn.apung{background:#E6F3FF}#tpObjek .btn.tenggelam{background:#EDEAF7}
 #tpRamal .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px}#tpRamal .btn[disabled]{opacity:.45}
+#jawi{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#jawi .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#jawi header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+#jwArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#jwMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+#jwUbin .btn{min-width:58px;min-height:48px;padding:0 10px;font-family:"Noto Naskh Arabic",serif;font-size:28px;font-weight:700;direction:rtl}
+#jwUbin .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px}#jwUbin .btn[disabled]{opacity:.35}
+#jwSlot .btn{min-height:40px;padding:0 10px;font-size:14px}#jwSlot .btn.betul{background:#E6F7EC}
+#jwBar{height:100%;width:0;background:#58C27C;transition:width .25s}
+#jwUbin .btn.goyang,#jwSlot .btn.goyang{animation:suGoyang .35s}
 /* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
 .dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
 .wnAtas .dokTogol{margin:0}
@@ -287,11 +298,12 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .dokKecil .kertas{padding-bottom:6px}
 body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
 @media (max-height:520px){
-  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas,#terapung .kertas{padding:4px 10px 6px}
+  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas,#terapung .kertas,#jawi .kertas{padding:4px 10px 6px}
+  #jwMaklum{margin:0 0 3px;min-height:0}#jwUbin .btn{min-height:40px;font-size:24px}#jwSlot .btn{min-height:34px;font-size:12px;padding:0 6px}
   #tpMaklum{margin:0 0 3px;min-height:0}#tpObjek .btn{min-height:34px;padding:0 6px;font-size:12px}
   #mgMaklum{margin:0 0 3px;min-height:0}#mgObjek .btn,#mgToken .btn{min-height:34px;padding:0 6px;font-size:12px}
   #liMaklum{margin:0 0 3px;min-height:0}
-  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan,#tpArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan,#tpArahan,#jwArahan{font-size:13px;margin:2px 0 3px;min-height:0}
   .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
   #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
   .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
@@ -909,6 +921,21 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <div id="tpRamal" class="wnBaris" hidden role="group" aria-label="Ramalan dan tindakan"><button id="tpTerapung" class="btn" type="button" aria-pressed="false">Ramal: Terapung <small>(F)</small></button><button id="tpTenggelam" class="btn" type="button" aria-pressed="false">Ramal: Tenggelam <small>(T)</small></button><button id="tpJatuh" class="btn" type="button" disabled>Jatuhkan ke air</button></div>
       <p id="tpMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="tpUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="tpSiap" class="btn" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="jawi" class="panel-fokus" hidden role="dialog" aria-label="Aktiviti Jawi di papan putih">
+    <div class="kertas">
+      <header><strong>Papan Jawi Magnet</strong><span class="wnAtas"><button id="jwKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="jwArahan" aria-live="polite"></p>
+      <div id="jwMenu" class="wnBaris"><button id="jwMula" class="btn" type="button">Aktiviti Jawi</button><button id="jwLihat" class="btn" type="button">Lihat papan putih</button></div>
+      <div id="jwL1" hidden>
+        <div id="jwUbin" class="wnBaris" role="group" aria-label="Ubin huruf Jawi: pilih satu ubin"></div>
+        <div id="jwSlot" class="wnBaris" role="group" aria-label="Petak nama huruf: pilih petak untuk ubin"></div>
+        <div class="suProg"><div id="jwBar"></div></div>
+      </div>
+      <p id="jwMaklum" aria-live="polite"></p>
+      <div class="wnBaris"><button id="jwUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="jwSiap" class="btn" type="button" hidden>Selesai</button></div>
     </div>
   </section>
 
@@ -5011,9 +5038,12 @@ const InteriorGLB = {
     pi: {
       shell: 'assets/pi_interior_shell.glb', props: 'assets/pi_interior_props.glb',
       wajib: ['rak_buku', 'meja_rendah_1', 'meja_rendah_8'],
+      aksi: { int_papan_jawi: ['Aktiviti Jawi', 'Aktiviti Jawi di papan putih', () => PapanJawi.buka(), 1.4] },   // v94: satu anchor; menu: Aktiviti Jawi / Lihat papan putih
       selepas(r, def, A) {
         r.papanPutih = A.wall('n', 0, 1.65, 3.8, 1.4, boardTex(PapanPutih.baris('pi')));
-        A.act(0, -3.0, 'Lihat', 'Lihat papan putih', () => PapanPutih.lihat('pi'), 1.2);
+        const G0 = InteriorGLB.hasil.pi, adaJawi = !!(G0 && G0.props.children.some((c) => c.name === 'int_papan_jawi'));
+        if (adaJawi) { try { PapanJawi.sediakan(r); } catch (err) { console.warn('Papan Jawi tidak dapat disediakan:', err && err.message); } }
+        else A.act(0, -3.0, 'Lihat', 'Lihat papan putih', () => PapanPutih.lihat('pi'), 1.2);   // GLB PI lama tanpa anchor Jawi
         A.wall('e', -1.2, 1.65, 1.0, 1.25, posterTex('Adab menuntut ilmu', '#9BE37A', '🌙'));
         A.act(-4.1, 1.6, 'Baca', 'Baca buku kisah teladan', () => Peralatan.kisah(), 1.3);
         A.wall('e', -3.0, 1.65, 1.5, 1.1, boardTex([{ t: 'Hadis Pilihan', s: 34, c: '#1D6B37' }, { t: 'Baca setiap hari', s: 24 }], '#FFFDF2'));
@@ -5027,7 +5057,7 @@ const InteriorGLB = {
         const seats = [];
         [-0.9, 1.1].forEach((z) => [-3.2, -1.7, 1.7, 3.2].forEach((x) => { seats.push([x, z + 0.55]); }));
         shuffleWith(r.rnd, seats.filter(([x, z]) => !(Math.abs(x - 1.7) < 0.01 && Math.abs(z - 1.65) < 0.01))).slice(0, def.murid || 6).forEach(([x, z]) => A.murid(x, z, Math.PI, 'lantai'));
-        A.act(0, -3.3, 'Lihat', 'Lihat papan putih', () => Dialog.show('Papan putih', ['Huruf Jawi: alif, ba, ta, sa, jim.', 'ا  ب  ت  ث  ج']));
+        if (!adaJawi) A.act(0, -3.3, 'Lihat', 'Lihat papan putih', () => Dialog.show('Papan putih', ['Huruf Jawi: alif, ba, ta, sa, jim.', 'ا  ب  ت  ث  ج']));
       }
     },
     spbt: {
@@ -7497,6 +7527,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'litar') { if (!Fokus.kunci(e, k, 'litar')) Litar.kunci(e, k); return; }
   if (State.uiLock === 'magnet') { if (!Fokus.kunci(e, k, 'magnet')) Magnet.kunci(e, k); return; }
   if (State.uiLock === 'terapung') { if (!Fokus.kunci(e, k, 'terapung')) Terapung.kunci(e, k); return; }
+  if (State.uiLock === 'jawi') { if (!Fokus.kunci(e, k, 'jawi')) PapanJawi.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7691,7 +7722,8 @@ const Cam = {
     if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria
     if (Litar.k > 0.002) Litar.kamera();   // v91: kamera dekat litar elektrik
     if (Magnet.k > 0.002) Magnet.kamera();   // v92: kamera dekat eksperimen magnet
-    if (Terapung.k > 0.002) Terapung.kamera();   // v93: kamera dekat eksperimen terapung/tenggelam   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Terapung.k > 0.002) Terapung.kamera();   // v93: kamera dekat eksperimen terapung/tenggelam
+    if (PapanJawi.k > 0.002) PapanJawi.kamera();   // v94: kamera dekat papan Jawi   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11454,7 +11486,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.3] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -11487,7 +11519,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung', 'jawi'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -12618,6 +12650,161 @@ const Terapung = {
     $('tpKeluar').addEventListener('click', () => Terapung.tutup()); $('tpSemula').addEventListener('click', () => Terapung.ulang()); $('tpUlang').addEventListener('click', () => Terapung.ulang()); $('tpSiap').addEventListener('click', () => Terapung.tutup());
     $('tpTerapung').addEventListener('click', () => Terapung.buatRamal('terapung')); $('tpTenggelam').addEventListener('click', () => Terapung.buatRamal('tenggelam')); $('tpJatuh').addEventListener('click', () => Terapung.jatuhAuto());
     ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!Terapung.aktif || (e.target !== canvas && !Terapung.drag)) return; if (Terapung.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
+/* ===================== Papan Jawi magnet: fasa 1, padanan huruf tunggal (v94) ===================== */
+const PapanJawi = {
+  Z: -3.978, YT: 1.29, YS: 1.8, XS: [-1.4, -0.7, 0, 0.7, 1.4], BAWA: -3.9,     // koordinat bilik: pangsi ubin, ketinggian dulang / petak, satah semasa diangkat
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], huruf: [], pilihU: null, betul: 0, drag: null, sorot: -1, diberi: false, tT: 0, lepas: false,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  cari() { const r = Rooms.list && Rooms.list.pi; if (!r || !r.group.userData.papanJawi) return null; const P = r.group.userData.papanJawi; const o = []; for (let i = 1; i <= 5; i++) { const g = r.group.getObjectByName('lalu_jawi_ubin_' + i); if (!g) return null; o.push(g); } return { r, o, P }; },
+  // dipanggil semasa bilik dibina (DEF.pi.selepas): lapisan papan, glif pada ubin
+  sediakan(r) {
+    const o = []; for (let i = 1; i <= 5; i++) { const g = r.group.getObjectByName('lalu_jawi_ubin_' + i); if (!g) return; o.push(g); } if (r.group.userData.papanJawi) return;
+    const cv = document.createElement('canvas'); cv.width = 1520; cv.height = 560; const tex = new THREE.CanvasTexture(cv); tex.anisotropy = ANISO;
+    const lap = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 1.4), new THREE.MeshBasicMaterial({ map: tex })); lap.position.set(0, 1.65, -4.0 + 0.016); lap.visible = false; lap.renderOrder = 1; r.group.add(lap);
+    const P = { cv, tex, lap, glif: [] };
+    o.forEach((g, i) => { const gc = document.createElement('canvas'); gc.width = 256; gc.height = 256; const gt = new THREE.CanvasTexture(gc); gt.anisotropy = ANISO; const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), new THREE.MeshBasicMaterial({ map: gt, transparent: true })); pl.position.set(0, 0, 0.0141); g.add(pl); P.glif.push({ gc, gt }); g.userData.dasar = g.position.clone(); });
+    r.group.userData.papanJawi = P; this.glifIdle(P); try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.glifIdle(P)); } catch (err) {}
+  },
+  glif(P, i, h) { const { gc, gt } = P.glif[i], c = gc.getContext('2d'); c.clearRect(0, 0, 256, 256); c.fillStyle = '#1F4E8C'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl'; c.font = '700 190px "Noto Naskh Arabic", serif'; c.fillText(h, 128, 136); gt.needsUpdate = true; },
+  glifIdle(P) { CONTENT.jawi.huruf.slice(0, 5).forEach((x, i) => this.glif(P, i, x.j)); },
+  buka() {   // pintu masuk daripada int_papan_jawi: menu (Aktiviti Jawi / Lihat papan putih)
+    if (this.aktif || State.uiLock) return; const N = Rooms.current === 'pi' ? this.cari() : null; if (!N) { PapanPutih.lihat('pi'); return; }
+    this.penutup = false; this.tunggu = false;
+    this.nod = N; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.aktif = true; this.diberi = false; this.tahap = 0; this.drag = null; this.pilihU = null;
+    $('jwMenu').hidden = false; $('jwL1').hidden = true; $('jwUlang').hidden = true; $('jwSiap').hidden = true; $('jwMaklum').textContent = '';
+    $('jwArahan').textContent = 'Papan putih Pendidikan Islam. Pilih: padankan huruf Jawi dengan nama, atau lihat pelajaran di papan.';
+    $('jawi').hidden = false; setLock('jawi'); this.ke = 1; if (this.kurang()) this.k = 1; this.lukisLapisan(false); this.mula(); try { $('jwMula').focus({ preventScroll: true }); } catch (err) {}
+  },
+  lihatPapan() { this.tutup(); PapanPutih.lihat('pi'); },
+  mulaAktiviti() {
+    if (!this.aktif) return; const J = CONTENT.jawi.huruf, sebelum = this.huruf.map((x) => x.n).join();
+    let pil, cuba = 0; do { pil = shuffle(J.slice(0, 12)).slice(0, 5); cuba++; } while (pil.map((x) => x.n).join() === sebelum && cuba < 8);   // had percubaan: tidak boleh tergantung
+    this.huruf = pil; this.susun = shuffle(pil.slice());   // susun = huruf pada setiap ubin (campur-aduk)
+    this.tahap = 1; this.betul = 0; this.pilihU = null; this.sorot = -1; this.drag = null; this.sel = [null, null, null, null, null];
+    this.tt = this.susun.map((h, i) => { const g = this.nod.o[i], d = g.userData.dasar; return { p: g.position.clone(), tx: d.x, ty: d.y, tz: d.z, rz: 0, mode: 'rehat', h, slot: null, t: 0, pulang: 0 }; });
+    this.susun.forEach((h, i) => this.glif(this.nod.P, i, h.j)); $('jwMenu').hidden = true; $('jwL1').hidden = false; $('jwUlang').hidden = true; $('jwSiap').hidden = true; $('jwMaklum').textContent = '';
+    $('jwArahan').textContent = 'Seret setiap ubin huruf Jawi ke petak yang betul. Atau pilih ubin, kemudian pilih petak.'; this.binaUI(); this.lukisLapisan(true); Sound.play('pick'); this.mula();
+  },
+  binaUI() {
+    const U = $('jwUbin'), S = $('jwSlot'); U.innerHTML = ''; S.innerHTML = '';
+    this.susun.forEach((h, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.u = String(i); bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Ubin ' + (i + 1)); bt.textContent = h.j; bt.addEventListener('click', () => this.ambil(i)); U.appendChild(bt); });
+    this.huruf.forEach((h, j) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.s = String(j); bt.textContent = (j + 1) + '. ' + h.n[0].toUpperCase() + h.n.slice(1); bt.addEventListener('click', () => this.letakDi(j)); S.appendChild(bt); });
+    this.segar();
+  },
+  segar() {
+    Array.from($('jwUbin').querySelectorAll('button')).forEach((bt) => { const i = +bt.dataset.u, t = this.tt[i]; bt.disabled = t.slot !== null; bt.setAttribute('aria-pressed', this.pilihU === i ? 'true' : 'false'); });
+    Array.from($('jwSlot').querySelectorAll('button')).forEach((bt) => { const j = +bt.dataset.s; bt.className = 'btn' + (this.sel[j] !== null ? ' betul' : ''); bt.disabled = this.sel[j] !== null; });
+    $('jwBar').style.width = (this.betul / 5 * 100) + '%';
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat() || Fokus.sedia('jawi')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  belumRehat() { return this.tt.some((t) => t.mode === 'seret' || t.mode === 'pulang' || t.mode === 'lekat' && t.t < 0.7); },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('jawi').hidden = true; if (State.uiLock === 'jawi') setLock(null); this.drag = null; this.tahap = 0;
+    if (this.nod) { this.lukisLapisan(false); this.tunggu = false; if (this.tt.length) { this.tt.forEach((t, i) => { t.slot = null; this.pulangkan(i); }); this.penutup = true; } }   // lapisan disorok; ubin pulang beransur ke dulang
+    this.mula(); if (this.kurang()) this.k = 0;
+  },
+  // ----- lapisan papan (kod): tajuk, petak nama huruf, kemajuan -----
+  lukisLapisan(papar) {
+    const N = this.nod; if (!N) return; const P = N.P; P.lap.visible = papar; if (!papar) return; const c = P.cv.getContext('2d'), W = 1520, H = 560;
+    c.clearRect(0, 0, W, H); c.fillStyle = '#B07444'; roundRectPath(c, 0, 0, W, H, 18); c.fill(); c.fillStyle = '#FFFFFF'; roundRectPath(c, 10, 10, W - 20, H - 20, 12); c.fill();
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillStyle = '#2F8F4E'; fitFont(c, 'Padankan huruf Jawi dengan namanya', 400, '"Bakso Daging", "Kurland", sans-serif', 46, W - 80); c.fillText('Padankan huruf Jawi dengan namanya', W / 2, 62);
+    c.fillStyle = '#7A8594'; c.font = '400 26px "Bakso Daging", "Kurland", sans-serif'; c.textAlign = 'left'; c.fillText(this.betul + '/5', 40, 62); c.textAlign = 'center';
+    this.huruf.forEach((h, j) => {
+      const cx = (this.XS[j] + 1.9) * 400, cy = (2.35 - this.YS) * 400, ok = this.sel && this.sel[j] !== null, lit = this.sorot === j;
+      c.fillStyle = ok ? '#E6F7EC' : (lit ? '#FFF1C9' : '#F7F3E8'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.fill(); c.lineWidth = lit ? 8 : 5; c.setLineDash(ok ? [] : [16, 10]); c.strokeStyle = ok ? '#2F9E5B' : (lit ? '#E8A317' : '#9AA5B1'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.stroke(); c.setLineDash([]);
+      c.fillStyle = ok ? '#1D6B37' : '#17325A'; fitFont(c, h.n, 700, '"Bakso Daging", "Kurland", sans-serif', 54, 180); c.fillText(h.n[0].toUpperCase() + h.n.slice(1), cx, 134);
+      if (!ok) { c.fillStyle = '#B9C2CC'; c.font = '400 30px sans-serif'; c.fillText('?', cx, cy + 20); }
+    });
+    c.fillStyle = '#7A8594'; c.font = '400 28px "Bakso Daging", "Kurland", sans-serif'; c.fillText('Ubin magnet di dulang kayu: seret ke petak yang betul', W / 2, H - 44); P.tex.needsUpdate = true;
+  },
+  // ----- pilih ubin & petak (ketik) -----
+  ambil(i) { if (!this.aktif || this.tahap !== 1) return; const t = this.tt[i]; if (t.slot !== null || t.mode === 'seret') return; this.pilihU = this.pilihU === i ? null : i; Sound.play('pick'); this.segar(); },
+  letakDi(j) {
+    if (!this.aktif || this.tahap !== 1 || this.sel[j] !== null) return; if (this.pilihU === null) { $('jwMaklum').textContent = 'Pilih ubin huruf dahulu.'; return; }
+    const i = this.pilihU; this.pilihU = null; this.cuba(i, j, true);
+  },
+  cuba(i, j, ketik) {   // ubin i dilepas pada petak j (j = -1: bukan pada petak)
+    const t = this.tt[i], h = t.h;
+    if (j >= 0 && this.huruf[j].n === h.n) {
+      t.mode = 'lekat'; t.t = 0; t.slot = j; t.tx = this.XS[j]; t.ty = this.YS; t.tz = this.Z; this.sel[j] = i; this.betul++; this.sorot = -1; Sound.play('ok');
+      $('jwMaklum').textContent = '✓ ' + h.j + ' ialah ' + h.n + '. (' + this.betul + '/5)'; this.segar(); this.lukisLapisan(true);
+      if (this.betul === 5) this.berjaya();
+    } else {
+      t.mode = 'pulang'; t.tx = t.p.x; this.pulangkan(i); this.sorot = -1; this.lukisLapisan(true);
+      if (j >= 0) { Sound.play('wrong'); $('jwMaklum').textContent = 'Belum tepat. Huruf itu bukan "' + this.huruf[j].n + '". Cuba lagi.'; const bt = $('jwUbin').querySelectorAll('button')[i]; if (bt) { bt.className += ' goyang'; setTimeout(() => { bt.className = bt.className.replace(' goyang', ''); }, 400); } }
+      else if (!ketik) $('jwMaklum').textContent = 'Lepaskan ubin tepat pada petak nama huruf.';
+      this.segar();
+    }
+    this.mula();
+  },
+  pulangkan(i) { const t = this.tt[i], d = this.nod.o[i].userData.dasar; t.mode = 'pulang'; t.tx = d.x; t.ty = d.y; t.tz = d.z; t.pulang = 0; },
+  berjaya() {
+    this.tahap = 2; $('jwL1').hidden = true; $('jwArahan').textContent = 'Tahniah! Semua huruf Jawi telah dipadankan dengan betul.'; $('jwMaklum').textContent = this.huruf.map((h) => h.j + ' = ' + h.n).join('   ·   ');
+    $('jwUlang').hidden = false; $('jwSiap').hidden = false; Sound.play('done'); this.meriah = 1.2;
+    if (!this.diberi) { this.diberi = true; const d = State.data, sebelum = d && d.alat ? d.alat.jawi_papan_pi : undefined; Peralatan.ganjaran('jawi_papan_pi', { ilmu: 1 }, '🕌 Huruf Jawi dipadankan! +1 Ilmu'); if (d && d.alat && d.alat.jawi_papan_pi === sebelum) toast('🕌 Hebat! Huruf Jawi dipadankan.'); }   // ganjaran sedia ada, sekali sehari
+    try { $('jwSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  ulang() {   // Cuba Lagi: ubin pulang ke dulang dahulu (beransur), kemudian huruf baharu
+    if (!this.aktif || this.tahap < 1 || this.tunggu) return; this.tt.forEach((t, i) => { t.slot = null; this.pulangkan(i); }); this.tunggu = true; this.tahap = 3; this.pilihU = null; this.drag = null; this.sorot = -1; this.sel = [null, null, null, null, null]; this.betul = 0;
+    $('jwUlang').hidden = true; $('jwSiap').hidden = true; $('jwL1').hidden = true; $('jwArahan').textContent = 'Ubin dikembalikan ke dulang…'; $('jwMaklum').textContent = ''; this.lukisLapisan(true); this.mula();
+  },
+  // ----- seret pada kanvas -----
+  titikPlane(e) {
+    const V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); const r = this.nod.r; pl.constant = -(r.oz + this.BAWA);   // satah menegak z = BAWA (di hadapan papan)
+    if (!rc.ray.intersectPlane(pl, V)) return null; return [Math.max(-1.9, Math.min(1.9, V.x - r.ox)), Math.max(1.0, Math.min(2.3, V.y))];
+  },
+  ubinDekat(px, py) {
+    const N = this.nod, W = window.innerWidth, H = window.innerHeight, V = this.V, r = N.r; let best = -1, bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 80 : 60);
+    this.tt.forEach((t, i) => { if (t.slot !== null || t.mode === 'lekat') return; V.set(r.ox + t.p.x, t.p.y, r.oz + t.p.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = i; } });
+    return best;
+  },
+  petakDekat(x, y) { let best = -1, bd = 0.3; this.huruf.forEach((h, j) => { if (this.sel[j] !== null) return; const d = Math.hypot(this.XS[j] - x, this.YS - y); if (d < bd) { bd = d; best = j; } }); return best; },
+  kanvas(e, fasa) {
+    if (!this.aktif || this.tahap !== 1) return false;
+    if (fasa === 'turun') { const i = this.ubinDekat(e.clientX, e.clientY); if (i < 0) return false; const t = this.tt[i]; t.mode = 'seret'; this.drag = { id: e.pointerId, i }; this.pilihU = null; const q = this.titikPlane(e); if (q) { t.tx = q[0]; t.ty = q[1]; } t.tz = this.BAWA + 0.0; Sound.play('pick'); this.segar(); this.mula(); return true; }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false; const t = this.tt[d.i];
+    if (fasa === 'gerak') { const q = this.titikPlane(e); if (q) { t.tx = q[0]; t.ty = q[1]; const j = this.petakDekat(q[0], q[1]); if (j !== this.sorot) { this.sorot = j; this.lukisLapisan(true); } } return true; }
+    if (fasa === 'naik') { this.drag = null; const j = this.petakDekat(t.tx, t.ty); this.cuba(d.i, j, false); return true; }
+    return false;
+  },
+  // ----- animasi -----
+  tick(dt) {
+    const kur = this.kurang(), N = this.nod; Fokus.urus('jawi', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!N) return; const f = (r) => (kur ? 1 : 1 - Math.exp(-dt * r));
+    this.tt.forEach((t, i) => {
+      const g = N.o[i]; let r = 8;
+      if (t.mode === 'seret') { r = 16; const lx = t.p.x; t.p.x += (t.tx - t.p.x) * f(r); t.p.y += (t.ty - t.p.y) * f(r); t.p.z += (t.tz - t.p.z) * f(10); t.rz += (Math.max(-0.3, Math.min(0.3, (lx - t.p.x) * 14)) - t.rz) * f(8); }
+      else if (t.mode === 'pulang') { t.pulang += dt; t.p.x += (t.tx - t.p.x) * f(6); t.p.y += (t.ty - t.p.y) * f(6); t.p.z += (t.tz - t.p.z) * f(6); t.rz += (0 - t.rz) * f(8); if (Math.hypot(t.p.x - t.tx, t.p.y - t.ty) < 0.003 && Math.abs(t.p.z - t.tz) < 0.003 || kur) { t.p.set(t.tx, t.ty, t.tz); t.mode = 'rehat'; t.rz = 0; } }
+      else if (t.mode === 'lekat') { t.t += dt; t.p.x += (t.tx - t.p.x) * f(11); t.p.y += (t.ty - t.p.y) * f(11); t.p.z += (t.tz - t.p.z) * f(12); t.rz += (0 - t.rz) * f(9); }
+      g.position.set(t.p.x, t.p.y, t.p.z); g.rotation.z = t.rz;
+    });
+    if (this.tunggu && this.tt.every((t) => t.mode === 'rehat')) { this.tunggu = false; this.mulaAktiviti(); }
+    if (this.penutup && this.tt.every((t) => t.mode === 'rehat')) { this.penutup = false; this.tt = []; this.glifIdle(N.P); }
+    if (this.meriah > 0) { this.meriah -= dt; this.tt.forEach((t, i) => { if (t.slot !== null) N.o[i].position.y = t.p.y + 0.03 * Math.abs(Math.sin(Math.max(0, 1.2 - this.meriah) * 7 + i * 0.7)) * Math.min(1, this.meriah); }); }
+  },
+  kamera() {
+    const r = Rooms.list.pi; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V;
+    camera.position.lerp(V.set(r.ox, 1.5, r.oz - 1.45), e); V.copy(Cam.look).lerp(this.V2.set(r.ox, 1.5, r.oz - 4.0), e); camera.lookAt(V);
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.tahap === 0) { if (!butang && (k === 'enter' || k === ' ')) { this.mulaAktiviti(); e.preventDefault(); } return; }
+    if (this.tahap === 1) {
+      if (/^[1-5]$/.test(k)) { this.ambil(+k - 1); e.preventDefault(); return; }
+      const sl = ['q', 'w', 'e', 'r', 't'].indexOf(k); if (sl >= 0) { this.letakDi(sl); e.preventDefault(); return; }
+    }
+    if (k === 'c' && !e.repeat && this.tahap >= 1) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara
+  const on = () => {
+    $('jwKeluar').addEventListener('click', () => PapanJawi.tutup()); $('jwMula').addEventListener('click', () => PapanJawi.mulaAktiviti()); $('jwLihat').addEventListener('click', () => PapanJawi.lihatPapan()); $('jwUlang').addEventListener('click', () => PapanJawi.ulang()); $('jwSiap').addEventListener('click', () => PapanJawi.tutup());
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!PapanJawi.aktif || (e.target !== canvas && !PapanJawi.drag)) return; if (PapanJawi.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
