@@ -4346,6 +4346,7 @@ const LAYOUT = {
     A.act(-0.8, -4.1, 'Baca', 'Baca buku', () => Rooms.baca());
   },
   makmal(r, def, A) {
+    { const G = InteriorGLB.sedia('makmal'); if (G) { try { InteriorGLB.pasang(r, def, A, G, InteriorGLB.DEF.makmal); return; } catch (e) { console.warn('Dalaman GLB makmal gagal dipasang, guna susun atur asal:', e && e.message); } } }   // v85
     A.wall('n', 0, 1.7, 3.6, 1.3, boardTex([{ t: 'Sains', s: 46, c: '#1D6B37' }, { t: 'Perhati  •  Ramal  •  Uji', s: 30 }]));
     A.piece('mejaMakmal', 0, -3.0);
     if (def.watak && def.watak[0]) A.person(0, -3.95, 0, null, 0, def.watak[0]);
@@ -4847,6 +4848,39 @@ const InteriorGLB = {
         if (def.watak && def.watak[0]) A.person(0, -2.8, 0, null, 0, def.watak[0]);
         A.wall('e', -0.8, 1.6, 0.9, 1.15, posterTex('Warna-warni', '#FF8FB1', '🎨'));
       }
+    },
+    makmal: {
+      shell: 'assets/makmal_interior_shell.glb', props: 'assets/makmal_interior_props.glb', sauh: true,
+      wajib: ['meja_guru', 'meja_makmal_1', 'meja_makmal_2', 'meja_makmal_3', 'meja_makmal_4', 'rak_balang', 'rak_kot', 'model_suria',
+        'lalu_mikroskop', 'lalu_bikar_warna', 'lalu_litar', 'lalu_magnet', 'lalu_tumbuhan', 'lalu_tangki_air',
+        'int_mikroskop', 'int_warna', 'int_suria', 'int_kot', 'int_terapung', 'int_magnet', 'int_litar', 'int_tumbuhan', 'int_keselamatan'],
+      tugas: () => Makmal,   // sauh dengan elemen ke-7 = nama aksi tugasan: syarat = Makmal.boleh(aksi), keutamaan = Makmal.langkah(aksi) ? 2 : 0
+      aksi: {
+        int_mikroskop: ['Guna', 'Guna mikroskop', () => Peralatan.mikroskop(), 1.3],
+        int_warna: ['Uji', 'Buat eksperimen warna', () => Peralatan.warna(), 1.3],
+        int_suria: ['Lihat', 'Lihat model Sistem Suria', () => Peralatan.suria(), 1.4],
+        int_kot: ['Pakai', 'Pakai kot makmal & cermin mata keselamatan', () => Makmal.pakaiKot(), 1.3],
+        int_terapung: ['Uji', 'Eksperimen terapung atau tenggelam', () => Makmal.terapung(), 1.2, 'terapung'],
+        int_magnet: ['Uji', 'Eksperimen magnet', () => Makmal.magnet(), 1.2, 'magnet'],
+        int_litar: ['Uji', 'Bina litar elektrik ringkas', () => Makmal.litar(), 1.2, 'litar'],
+        int_tumbuhan: ['Uji', 'Eksperimen tumbuhan perlukan cahaya', () => Makmal.tumbuhan(), 1.2, 'tumbuhan'],
+        int_keselamatan: ['Kemas', 'Keselamatan makmal & kemas radas', () => Makmal.keselamatan(), 1.2, 'keselamatan']
+      },
+      selepas(r, def, A) {
+        A.wall('n', 0, 1.7, 3.6, 1.3, boardTex([{ t: 'Sains', s: 46, c: '#1D6B37' }, { t: 'Perhati  •  Ramal  •  Uji', s: 30 }]));
+        if (def.watak && def.watak[0]) A.person(0, -3.95, 0, null, 0, def.watak[0]);
+        const seats = [];
+        [[-3, -0.3], [3, -0.3], [-3, 2.2], [3, 2.2]].forEach(([x, z]) => [-0.7, 0, 0.7].forEach((dx) => seats.push([x + dx, z + 0.85])));
+        shuffleWith(r.rnd, seats).slice(0, def.murid || 4).forEach(([x, z]) => A.murid(x, z, Math.PI, 'duduk', 0.62));
+        A.wall('w', 1.8, 1.6, 0.9, 1.15, posterTex('Utamakan keselamatan', '#FFB4A2', '🥽'));
+        A.wall('e', 2.4, 1.6, 0.9, 1.15, posterTex('Kitaran hidup tumbuhan', '#9BE37A', '🌱'));
+        // Hanya objek yang mesti dikawal kod kekal di sini (lut sinar / bahan diubah semasa eksperimen); selebihnya dalam GLB
+        const kotak = (x, y, z, w, h, d, c, op) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: op, depthWrite: false })); m.position.set(x, y, z); r.group.add(m); return m; };
+        const T = 0.935;   // permukaan meja makmal
+        kotak(-3.6, T + 0.16, 2.0, 0.55, 0.3, 0.32, '#7FC8F8', 0.38);   // air dalam tangki (eksperimen terapung atau tenggelam)
+        kotak(2.6, T + 0.16, -0.55, 0.28, 0.32, 0.26, '#2B2F38', 0.55); // kotak gelap menutup pasu B (eksperimen tumbuhan)
+        { const m = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), mat('#E8EEF4')); m.position.set(-1.95, T + 0.14, -0.55); r.group.add(m); Makmal.mentol = m; }   // mentol litar (bahan ditukar oleh Makmal.litar)
+      }
     }
   },
   mati() { try { return localStorage.getItem('lotong.glbDalam') === '0' || ShellGLB.mati(); } catch (e) { return false; } },
@@ -4892,7 +4926,13 @@ const InteriorGLB = {
     G.dipakai = true;
     ubah.forEach((f) => f());
     kotak.forEach((b) => { const sx = Math.max(0.05, b.max.x - b.min.x - 0.04), sz = Math.max(0.05, b.max.z - b.min.z - 0.04); A.block((b.min.x + b.max.x) / 2, (b.min.z + b.max.z) / 2, sx, sz); });
-    act.forEach(([x, z, verb, kata, fn, jarak]) => A.act(x, z, verb, kata, fn, jarak));
+    act.forEach(([x, z, verb, kata, fn, jarak, tugas]) => {
+      A.act(x, z, verb, kata, fn, jarak);
+      if (tugas && D.tugas) {   // v85: sifat tugasan (syarat & keutamaan) sama seperti A.act asal dalam LAYOUT
+        const a = r.inter[r.inter.length - 1], M = D.tugas();
+        a.syarat = () => M.boleh(tugas); Object.defineProperty(a, 'keutamaan', { get: () => (M.langkah(tugas) ? 2 : 0) });
+      }
+    });
     tanda.forEach((o) => {
       const t = (D.tanda || {})[o.name]; if (!t) return;
       const pl = new THREE.Mesh(new THREE.PlaneGeometry(t[2], t[3]), new THREE.MeshBasicMaterial({ map: plateTex(t[0]) }));
@@ -12752,7 +12792,7 @@ async function boot() {
     scene.add(extRoot); scene.add(Rooms.root);
     bakeStatic(extRoot);
     try { ShellGLB.muatSemua(); } catch (e) {}
-    ['pss', 'pi', 'spbt', 'susu', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
+    ['pss', 'pi', 'spbt', 'susu', 'makmal', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
     NPCs.build(); Pejalan.bina(); Iring.bina(); Kesan.init(); Sukan.bina(); Missions.init();
     Pasca.init(); Pasca.resize(); Grafik.init(); Cam.initMod(); Tetapan.muat();
     Player.setLook('L'); Player.m.group.visible = false;

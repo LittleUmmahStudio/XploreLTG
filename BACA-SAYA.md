@@ -181,3 +181,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Dijana oleh `tools/gen_pra_rumah.py`: `python3 tools/gen_pra_rumah.py lotong/assets --png-luar luar.png --png-dalam dalam.png`.
 - Tempat letak mainan (di atas rak), meja bekas air dan semua sasaran tugasan Prasekolah dan Rumah Guru kekal pada kedudukan asal.
 - Interaksi baharu: kabinet di Rumah Guru.
+
+## Makmal Sains (GLB, v85)
+- Dalaman: `assets/makmal_interior_shell.glb` dan `assets/makmal_interior_props.glb`, dijana oleh `tools/gen_makmal.py`: `python3 tools/gen_makmal.py lotong/assets --png pratonton.png --png-dekat dekat.png`.
+- Semua 9 interaksi, 5 tugasan eksperimen (syarat dan keutamaan misi), keperluan kot makmal, mikroskop, eksperimen warna dan fakta Sistem Suria kekal seperti asal. Sauh GLB bernama `int_*`; hiasan tanpa perlanggaran bernama `lalu_*`.
+- Kod permainan masih menjana: mentol litar (`Makmal.mentol`), air dalam tangki dan kotak gelap tumbuhan (kedua-duanya lut sinar), papan Sains, poster, Cikgu Shahrul dan murid.
+- Jika fail GLB makmal gagal dimuat, susun atur asal `LAYOUT.makmal` digunakan secara automatik.
