@@ -224,3 +224,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Makmal.siap('magnet', ...)` dipanggil sekali sahaja apabila panel ditutup selepas berjaya.
 - GLB: `lalu_magnet` (alas ujian), `lalu_magnet_ladam` (pangsi di tapak), `lalu_magnet_klip/paku/skru/pemadam/pensel/sudu` (pangsi di pusat objek).
 - Kawalan: seret/sentuh magnet, butang ◀▲▼▶, anak panah/WASD, 1-6 (bawa magnet ke objek / pilih objek), L (lepaskan), D/T (kelaskan), R (semula), H (kecilkan), Esc.
+
+## Terapung atau tenggelam interaktif (v93)
+- `Makmal.terapung()` (selepas semakan kot makmal) membuka `Terapung.buka()`: pilih objek, ramal (terapung/tenggelam), seret ke atas tangki dan lepaskan. Percikan dan riak ringan, objek terapung mencelup lalu menetap di permukaan, objek tenggelam menurun ke dasar. Pemerhatian dibandingkan dengan ramalan. Kuiz asal kekal sebagai `Makmal.terapungLama()` (fallback tanpa GLB).
+- `Makmal.siap('terapung', ...)` dipanggil sekali sahaja apabila panel ditutup selepas keenam-enam objek diuji.
+- GLB: `lalu_tangki_air` (bingkai tangki + dulang), `lalu_terapung_pingpong/gabus/kayu/batu/syiling/skru` (pangsi di pusat objek). Isi air lut sinar kekal dijana kod.
+- Kawalan: seret/sentuh, butang Jatuhkan ke air, 1-6 (objek), F/T (ramalan), Space/Enter/E (jatuhkan), R (semula), H (kecilkan), Esc.

@@ -272,6 +272,14 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #mgObjek .btn.sudah{background:#EAF7EE}#mgObjek .btn.tidak{background:#F4F4F4}
 #mgBar{height:100%;width:0;background:#58C27C;transition:width .25s}
 #mgToken .btn.goyang,#mgDitarik.goyang,#mgTidak.goyang{animation:suGoyang .35s}
+#terapung{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#terapung .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#terapung header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+#tpArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#tpMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+#tpObjek .btn{min-height:42px;padding:0 9px;font-size:13px}#tpObjek .btn.apung{background:#E6F3FF}#tpObjek .btn.tenggelam{background:#EDEAF7}
+#tpRamal .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px}#tpRamal .btn[disabled]{opacity:.45}
 /* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
 .dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
 .wnAtas .dokTogol{margin:0}
@@ -279,10 +287,11 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .dokKecil .kertas{padding-bottom:6px}
 body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
 @media (max-height:520px){
-  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas{padding:4px 10px 6px}
+  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas,#terapung .kertas{padding:4px 10px 6px}
+  #tpMaklum{margin:0 0 3px;min-height:0}#tpObjek .btn{min-height:34px;padding:0 6px;font-size:12px}
   #mgMaklum{margin:0 0 3px;min-height:0}#mgObjek .btn,#mgToken .btn{min-height:34px;padding:0 6px;font-size:12px}
   #liMaklum{margin:0 0 3px;min-height:0}
-  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan,#tpArahan{font-size:13px;margin:2px 0 3px;min-height:0}
   .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
   #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
   .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
@@ -889,6 +898,17 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       </div>
       <p id="mgMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="mgUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="mgSiap" class="btn" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="terapung" class="panel-fokus" hidden role="dialog" aria-label="Eksperimen terapung atau tenggelam">
+    <div class="kertas">
+      <header><strong>Terapung atau Tenggelam?</strong><span class="wnAtas"><button id="tpSemula" class="btn" type="button">Set Semula</button><button id="tpKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="tpArahan" aria-live="polite"></p>
+      <div id="tpObjek" class="wnBaris" role="group" aria-label="Pilih objek untuk diuji"></div>
+      <div id="tpRamal" class="wnBaris" hidden role="group" aria-label="Ramalan dan tindakan"><button id="tpTerapung" class="btn" type="button" aria-pressed="false">Ramal: Terapung <small>(F)</small></button><button id="tpTenggelam" class="btn" type="button" aria-pressed="false">Ramal: Tenggelam <small>(T)</small></button><button id="tpJatuh" class="btn" type="button" disabled>Jatuhkan ke air</button></div>
+      <p id="tpMaklum" aria-live="polite"></p>
+      <div class="wnBaris"><button id="tpUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="tpSiap" class="btn" type="button" hidden>Selesai</button></div>
     </div>
   </section>
 
@@ -7476,6 +7496,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'suria') { if (!Fokus.kunci(e, k, 'suria')) Suria.kunci(e, k); return; }
   if (State.uiLock === 'litar') { if (!Fokus.kunci(e, k, 'litar')) Litar.kunci(e, k); return; }
   if (State.uiLock === 'magnet') { if (!Fokus.kunci(e, k, 'magnet')) Magnet.kunci(e, k); return; }
+  if (State.uiLock === 'terapung') { if (!Fokus.kunci(e, k, 'terapung')) Terapung.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7669,7 +7690,8 @@ const Cam = {
     if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna
     if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria
     if (Litar.k > 0.002) Litar.kamera();   // v91: kamera dekat litar elektrik
-    if (Magnet.k > 0.002) Magnet.kamera();   // v92: kamera dekat eksperimen magnet   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Magnet.k > 0.002) Magnet.kamera();   // v92: kamera dekat eksperimen magnet
+    if (Terapung.k > 0.002) Terapung.kamera();   // v93: kamera dekat eksperimen terapung/tenggelam   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11432,7 +11454,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -11465,7 +11487,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria', 'litar', 'magnet'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -12411,6 +12433,195 @@ const Magnet = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
 
+/* ===================== Terapung atau tenggelam: aktiviti praktikal (v93) ===================== */
+const Terapung = {
+  TOP: 0.935, SURF: 1.245, LANTAI: 0.95, HOLD: 1.33, G: 2.0,
+  TANGKI: { x: -3.6, z: 2.0, hx: 0.25, hz: 0.13 }, BATAS: { x: [-4.1, -2.4], z: [1.75, 2.65] }, DALAM: { x: [-3.84, -3.36], z: [1.87, 2.13] },
+  SLOT: [[-3.72, 1.97], [-3.60, 2.05], [-3.48, 1.97]],
+  O: {
+    pingpong: { nama: 'Bola pingpong', hasil: 'terapung', hh: 0.022, rest: [-3.12, 1.93], eq: 0.008, fakta: 'Bola pingpong berongga dan sangat ringan untuk saiznya, jadi purata ketumpatannya kurang daripada air.' },
+    gabus: { nama: 'Gabus', hasil: 'terapung', hh: 0.017, rest: [-2.93, 1.93], eq: 0.006, fakta: 'Gabus ringan kerana ada banyak ruang udara kecil di dalamnya.' },
+    kayu: { nama: 'Blok kayu ringan', hasil: 'terapung', hh: 0.015, rest: [-2.74, 1.93], eq: 0.005, fakta: 'Blok kayu ringan ini kurang tumpat daripada air. Tetapi tidak semua kayu terapung: kayu yang sangat padat boleh tenggelam.' },
+    batu: { nama: 'Batu', hasil: 'tenggelam', hh: 0.017, rest: [-3.12, 2.11], vt: 0.2, fakta: 'Batu padat dan berat untuk saiznya, jadi ia lebih tumpat daripada air.' },
+    syiling: { nama: 'Syiling logam', hasil: 'tenggelam', hh: 0.004, rest: [-2.93, 2.11], vt: 0.1, fakta: 'Syiling ini lebih tumpat daripada air, jadi ia tenggelam perlahan-lahan.' },
+    skru: { nama: 'Skru besi', hasil: 'tenggelam', hh: 0.006, rest: [-2.74, 2.11], vt: 0.18, fakta: 'Skru besi padat, jadi purata ketumpatannya lebih besar daripada air.' } },
+  K: ['pingpong', 'gabus', 'kayu', 'batu', 'syiling', 'skru'],
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, st: {}, pilihO: null, sibuk: null, drag: null, rip: [], per: [], diberi: false, siapTunggu: false, tT: 0, tunggu: 0,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  yRehat(c) { return this.TOP + 0.006 + this.O[c].hh; },
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null; const N = { r, o: {} };
+    for (const c of this.K) { N.o[c] = r.group.getObjectByName('lalu_terapung_' + c); if (!N.o[c]) return null; }
+    if (!r.group.userData.terapungSiap) {   // sekali sahaja: kolam riak dan percikan (kod, ringan)
+      const P = { rip: [], per: [] };
+      for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.RingGeometry(0.88, 1, 28), new THREE.MeshBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide })); m.rotation.x = -Math.PI / 2; m.visible = false; m.renderOrder = 3; r.group.add(m); P.rip.push({ m, t: 0, dur: 1, r: 0.1, h: false }); }
+      for (let i = 0; i < 10; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(0.0045, 5, 4), new THREE.MeshBasicMaterial({ color: '#D5ECFF', transparent: true, opacity: 0.9 })); m.visible = false; r.group.add(m); P.per.push({ m, v: new THREE.Vector3(), t: 0, h: false }); }
+      r.group.userData.terapungSiap = P;
+    }
+    const P = r.group.userData.terapungSiap; this.rip = P.rip; this.per = P.per; return N;
+  },
+  inisial() {
+    const V3 = THREE.Vector3; this.K.forEach((c) => { const d = this.O[c]; this.st[c] = { p: new V3(d.rest[0], this.yRehat(c), d.rest[1]), rx: 0, ry: 0, rz: 0, mode: 'rehat', ramal: null, ujian: false, hasil: null, yv: 0, t: 0, tx: d.rest[0], tz: d.rest[1], fasa: 0, spin: [0, 0, 0], slot: 0, oto: false }; });
+  },
+  buka() {   // true jika dibuka; false -> kuiz asal
+    if (this.aktif || State.uiLock) return true; const N = Rooms.current === 'makmal' ? this.cari() : null; if (!N) return false;
+    this.nod = N; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.aktif = true; this.diberi = false; this.siapTunggu = false;
+    if (!this.st.pingpong) this.inisial(); this.mulaSemula(true); $('terapung').hidden = false; setLock('terapung'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); return true;
+  },
+  mulaSemula(awal) {   // semua objek naik dari air / meja, bergerak ke dulang dan turun semula (beranimasi)
+    this.K.forEach((c) => { const s = this.st[c]; const d = this.O[c]; Object.assign(s, { ramal: null, ujian: false, hasil: null, tx: d.rest[0], tz: d.rest[1], oto: false, slot: 0 }); if (!(s.mode === 'rehat' && Math.hypot(s.p.x - d.rest[0], s.p.z - d.rest[1]) < 0.003)) { s.mode = 'pulang'; s.fasa = s.p.y > 1.31 ? 1 : 0; } });
+    this.tahap = 0; this.pilihO = null; this.sibuk = null; this.drag = null; this.tunggu = 0; this.nF = 0; this.nS = 0; this.hint = ''; this.bina(); this.mula();
+  },
+  bina() {
+    const O = $('tpObjek'); O.innerHTML = ''; this.K.forEach((c, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.o = c; bt.setAttribute('aria-pressed', 'false'); bt.innerHTML = this.O[c].nama + ' <small>(' + (i + 1) + ')</small>'; bt.addEventListener('click', () => this.pilih(c)); O.appendChild(bt); });
+    $('tpRamal').hidden = true; $('tpUlang').hidden = true; $('tpSiap').hidden = true; $('tpMaklum').textContent = '';
+    $('tpArahan').textContent = 'Pilih satu objek, ramal sama ada ia terapung atau tenggelam, kemudian jatuhkan ke dalam air.';
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat() || Fokus.sedia('terapung')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  belumRehat() { return this.K.some((c) => { const m = this.st[c] && this.st[c].mode; return m === 'pulang' || m === 'jatuh' || m === 'pegang'; }) || this.rip.some((r) => r.h) || this.per.some((q) => q.h); },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('terapung').hidden = true; if (State.uiLock === 'terapung') setLock(null); this.drag = null; this.mulaSemula(); this.mula(); if (this.kurang()) this.k = 0;
+    if (this.siapTunggu && !this.diberi) { this.siapTunggu = false; this.diberi = true; Makmal.siap('terapung', 'Eksperimen terapung dan tenggelam selesai!'); }
+  },
+  ulang() { if (!this.aktif) return; this.mulaSemula(); },
+  // ----- pilih & ramal -----
+  segar() {
+    Array.from($('tpObjek').querySelectorAll('button')).forEach((bt) => { const c = bt.dataset.o, s = this.st[c]; bt.setAttribute('aria-pressed', this.pilihO === c ? 'true' : 'false');
+      bt.className = 'btn' + (s.ujian ? (s.hasil === 'terapung' ? ' apung' : ' tenggelam') : ''); bt.innerHTML = this.O[c].nama + (s.ujian ? (s.hasil === 'terapung' ? ' ✓ terapung' : ' ✓ tenggelam') : ' <small>(' + (this.K.indexOf(c) + 1) + ')</small>'); });
+    const c = this.pilihO, s = c && this.st[c]; $('tpRamal').hidden = !c || this.tahap !== 0;
+    if (s) { $('tpTerapung').setAttribute('aria-pressed', s.ramal === 'terapung' ? 'true' : 'false'); $('tpTenggelam').setAttribute('aria-pressed', s.ramal === 'tenggelam' ? 'true' : 'false'); $('tpJatuh').disabled = !s.ramal || !!this.sibuk && this.sibuk !== c; }
+  },
+  pilih(c) {
+    if (!this.aktif || this.tahap !== 0) return; const s = this.st[c]; if (s.ujian) { $('tpMaklum').textContent = this.O[c].nama + ' sudah diuji.'; return; }
+    if (this.sibuk && this.sibuk !== c) { $('tpMaklum').textContent = 'Tunggu sebentar, objek sedang diuji.'; return; }
+    this.pilihO = c; Sound.play('pick'); this.segar(); $('tpArahan').textContent = s.ramal ? 'Ramalan kamu: ' + s.ramal + '. Seret ' + this.O[c].nama.toLowerCase() + ' ke atas tangki, atau tekan Jatuhkan ke air.' : this.O[c].nama + ': adakah ia akan terapung atau tenggelam? Buat ramalan dahulu.'; this.mula();
+  },
+  buatRamal(j) {
+    if (!this.aktif || this.tahap !== 0 || !this.pilihO || this.sibuk) return; const c = this.pilihO, s = this.st[c]; s.ramal = j; Sound.play('pick'); this.segar();
+    $('tpArahan').textContent = 'Ramalan kamu: ' + j + '. Sekarang seret ' + this.O[c].nama.toLowerCase() + ' ke atas tangki dan lepaskan, atau tekan Jatuhkan ke air.';
+  },
+  // ----- pegang / seret / lepas -----
+  titikPlane(e) {
+    const V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); pl.constant = -this.HOLD; const r = this.nod.r;
+    if (!rc.ray.intersectPlane(pl, V)) return null; return [Math.max(this.BATAS.x[0], Math.min(this.BATAS.x[1], V.x - r.ox)), Math.max(this.BATAS.z[0], Math.min(this.BATAS.z[1], V.z - r.oz))];
+  },
+  objekDekat(px, py) {
+    const N = this.nod, W = window.innerWidth, H = window.innerHeight, V = this.V, r = N.r; let best = null, bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 56 : 40);
+    this.K.forEach((c) => { const s = this.st[c]; if (s.ujian || !(s.mode === 'rehat' || s.mode === 'pegang')) return; V.set(r.ox + s.p.x, s.p.y, r.oz + s.p.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = c; } });
+    return best;
+  },
+  kanvas(e, fasa) {
+    if (!this.aktif || this.tahap !== 0) return false;
+    if (fasa === 'turun') {
+      const c = this.objekDekat(e.clientX, e.clientY); if (!c) return false; if (this.sibuk && this.sibuk !== c) { $('tpMaklum').textContent = 'Tunggu sebentar, objek sedang diuji.'; return true; }
+      if (this.pilihO !== c) this.pilih(c); const s = this.st[c];
+      if (!s.ramal) { $('tpMaklum').textContent = 'Buat ramalan dahulu: terapung atau tenggelam?'; return true; }
+      this.sibuk = c; s.mode = 'pegang'; s.oto = false; this.drag = { id: e.pointerId, c }; const t = this.titikPlane(e); if (t) { s.tx = t[0]; s.tz = t[1]; } Sound.play('pick'); this.segar(); this.mula(); return true;
+    }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false; const s = this.st[d.c];
+    if (fasa === 'gerak') { const t = this.titikPlane(e); if (t) { s.tx = t[0]; s.tz = t[1]; } return true; }
+    if (fasa === 'naik') { this.drag = null; this.lepasObjek(d.c); return true; }
+    return false;
+  },
+  atasTangki(x, z) { const T = this.TANGKI; return Math.abs(x - T.x) <= T.hx && Math.abs(z - T.z) <= T.hz; },
+  lepasObjek(c) {
+    const s = this.st[c]; if (s.mode !== 'pegang') return;
+    if (this.atasTangki(s.tx, s.tz)) this.jatuhkan(c); else { s.mode = 'pulang'; s.fasa = 1; s.oto = false; this.sibuk = null; $('tpMaklum').textContent = 'Lepaskan objek tepat di atas tangki air.'; this.segar(); }
+  },
+  jatuhAuto() {   // alternatif ketik: objek naik, bergerak ke atas tangki dan dijatuhkan sendiri
+    if (!this.aktif || this.tahap !== 0 || !this.pilihO) return; const c = this.pilihO, s = this.st[c]; if (!s.ramal) { $('tpMaklum').textContent = 'Buat ramalan dahulu.'; return; } if (this.sibuk && this.sibuk !== c) return;
+    this.sibuk = c; s.mode = 'pegang'; s.oto = true; s.fasa = 0; this.segar(); this.mula();
+  },
+  jatuhkan(c) {
+    const s = this.st[c], D = this.DALAM; s.mode = 'jatuh'; s.yv = 0; s.t = 0; s.spin = [(Math.random() - 0.5) * 5, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 4]; s.tx = Math.max(D.x[0], Math.min(D.x[1], s.p.x)); s.tz = Math.max(D.z[0], Math.min(D.z[1], s.p.z)); this.segar();
+  },
+  // ----- percikan dan riak -----
+  riak(x, z, r, dur, op) { const q = this.rip.find((v) => !v.h) || this.rip[0]; q.h = true; q.t = 0; q.dur = dur; q.r = r; q.op = op; q.x = x; q.z = z; q.m.visible = true; },
+  percik(x, z, kuat) { let n = 0; this.per.forEach((q) => { if (q.h || n >= Math.round(4 + 6 * kuat)) return; n++; q.h = true; q.t = 0; const a = Math.random() * Math.PI * 2, v = 0.05 + Math.random() * 0.06 * kuat; q.v.set(Math.cos(a) * v, 0.28 + Math.random() * 0.22 * kuat, Math.sin(a) * v); q.m.position.set(x, this.SURF, z); q.m.visible = true; }); },
+  // ----- animasi (setiap bingkai) -----
+  tick(dt) {
+    const kur = this.kurang(), N = this.nod; Fokus.urus('terapung', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!N || !this.st.pingpong) return;
+    const f = (r) => (kur ? 1 : 1 - Math.exp(-dt * r));
+    this.K.forEach((c) => {
+      const s = this.st[c], d = this.O[c], o = N.o[c];
+      if (s.mode === 'pegang') {
+        let tx = s.tx, tz = s.tz; const ty = this.HOLD;
+        if (s.oto) { if (s.fasa === 0) { tx = s.p.x; tz = s.p.z; if (s.p.y > this.HOLD - 0.012) s.fasa = 1; } else { const sl = this.SLOT[(this.nF + this.nS) % 3]; tx = this.TANGKI.x; tz = this.TANGKI.z; s.tx = tx; s.tz = tz; if (Math.hypot(tx - s.p.x, tz - s.p.z) < 0.012) { this.jatuhkan(c); return; } } }
+        const r = s.oto ? 5 : 14, px = s.p.x; s.p.x += (tx - s.p.x) * f(r); s.p.z += (tz - s.p.z) * f(r); s.p.y += (ty - s.p.y) * f(8);
+        const sway = Math.max(-0.35, Math.min(0.35, -(s.p.x - px) * 25)); s.rz += (sway - s.rz) * f(8); s.ry += dt * 0.6;
+      } else if (s.mode === 'jatuh') {
+        s.t += dt; s.yv += this.G * dt; s.p.y -= s.yv * dt; s.p.x += (s.tx - s.p.x) * f(4); s.p.z += (s.tz - s.p.z) * f(4); s.rx += s.spin[0] * dt; s.ry += s.spin[1] * dt; s.rz += s.spin[2] * dt;
+        if (s.p.y <= this.SURF + d.hh * 0.3 || kur) {   // sentuh air
+          const tenggelam = d.hasil === 'tenggelam'; s.mode = 'air'; s.t = 0; s.fasaAir = tenggelam ? 'tenggelam' : 'apung'; s.yv = tenggelam ? -Math.min(0.12, s.yv * 0.4) : -Math.min(0.14, s.yv * 0.6);
+          if (!kur) { this.percik(s.p.x, s.p.z, tenggelam ? 1 : 0.6); this.riak(s.p.x, s.p.z, 0.2, 1.1, 0.55); this.riak(s.p.x, s.p.z, 0.13, 0.8, 0.4); Sound.play('pick'); }
+          if (kur) { if (tenggelam) { s.p.y = this.LANTAI + d.hh; } else s.p.y = this.SURF - d.eq; const sl = this.SLOT[(tenggelam ? this.nS : this.nF) % 3]; s.p.x = sl[0]; s.p.z = sl[1]; s.rx = s.rz = 0; s.mode = 'air'; s.t = 9; }
+          s.slot = tenggelam ? this.nS++ : this.nF++; s.rt = 0;
+        }
+      } else if (s.mode === 'air') {
+        s.t += dt; const sl = this.SLOT[s.slot % 3], vx = f(2.2);
+        s.p.x += (sl[0] - s.p.x) * vx; s.p.z += (sl[1] - s.p.z) * vx;
+        if (s.fasaAir === 'apung') {
+          const eq = this.SURF - d.eq, sub = Math.max(1, Math.ceil(dt / 0.008)), h = dt / sub; for (let i = 0; i < sub; i++) { const a = -70 * (s.p.y - eq) - 6.5 * s.yv; s.yv += a * h; s.p.y += s.yv * h; }
+          s.rz += (0.1 * Math.sin(s.t * 6) * Math.exp(-s.t * 1.8) - s.rz) * f(6); s.rx += (0 - s.rx) * f(4); s.ry += dt * 0.15;
+          s.rt += dt; if (s.rt > 0.5 && Math.abs(s.yv) > 0.012 && !kur) { s.rt = 0; this.riak(s.p.x, s.p.z, 0.07, 0.8, 0.3); }
+          if (!s.ujian && s.t > 1.2 && Math.abs(s.p.y - eq) < 0.0008 && Math.abs(s.yv) < 0.004) this.catatHasil(c); if (kur && !s.ujian) this.catatHasil(c);
+        } else {
+          const dasar = this.LANTAI + d.hh; if (s.fasaAir === 'tenggelam') { s.yv += (-d.vt - s.yv) * f(5); s.p.y += s.yv * dt; s.rx += s.spin[0] * 0.3 * dt; s.ry += s.spin[1] * 0.4 * dt; if (c === 'syiling') s.rz = 0.45 * Math.sin(s.t * 5); if (s.p.y <= dasar) { s.p.y = dasar; s.fasaAir = 'dasar'; s.t = 0; s.yv = 0; } }
+          else { s.p.y = dasar + 0.004 * Math.exp(-s.t * 9) * Math.abs(Math.sin(s.t * 24)); s.rx += (0 - s.rx) * f(5); s.rz += (0 - s.rz) * f(5); if (!s.ujian && s.t > 0.55) this.catatHasil(c); }
+          if (kur && !s.ujian) { s.p.y = dasar; this.catatHasil(c); }
+        }
+      } else if (s.mode === 'pulang') {
+        const rest = this.O[c].rest, ry = this.yRehat(c);
+        if (s.fasa === 0) { s.p.y += (this.HOLD - s.p.y) * f(7); if (s.p.y > this.HOLD - 0.02 || kur) s.fasa = 1; }
+        else if (s.fasa === 1) { s.p.y += (Math.max(s.p.y, this.HOLD) - s.p.y) * f(7); s.p.x += (rest[0] - s.p.x) * f(5); s.p.z += (rest[1] - s.p.z) * f(5); if (Math.hypot(rest[0] - s.p.x, rest[1] - s.p.z) < 0.01 || kur) s.fasa = 2; }
+        else { s.p.x += (rest[0] - s.p.x) * f(8); s.p.z += (rest[1] - s.p.z) * f(8); s.p.y += (ry - s.p.y) * f(7); if (Math.abs(s.p.y - ry) < 0.0007 || kur) { s.p.set(rest[0], ry, rest[1]); s.mode = 'rehat'; s.rx = s.ry = s.rz = 0; if (this.sibuk === c) { this.sibuk = null; this.segar(); } } }
+        if (s.fasa < 2) { s.rx += (0 - s.rx) * f(4); s.rz += (0 - s.rz) * f(4); }
+      }
+      o.position.set(s.p.x, s.p.y, s.p.z); o.rotation.x = s.rx; o.rotation.y = s.ry; o.rotation.z = s.rz;
+    });
+    this.rip.forEach((q) => { if (!q.h) return; q.t += dt; const u = q.t / q.dur; if (u >= 1) { q.h = false; q.m.visible = false; return; } q.m.position.set(q.x, this.SURF + 0.0015, q.z); q.m.scale.setScalar(0.02 + q.r * (1 - Math.pow(1 - u, 2))); q.m.material.opacity = q.op * (1 - u); });
+    this.per.forEach((q) => { if (!q.h) return; q.t += dt; q.v.y -= 1.6 * dt; q.m.position.x += q.v.x * dt; q.m.position.y += q.v.y * dt; q.m.position.z += q.v.z * dt; if (q.t > 0.6 || q.m.position.y < this.SURF) { q.h = false; q.m.visible = false; } else q.m.material.opacity = 0.9 * (1 - q.t / 0.6); });
+    if (this.tunggu > 0) { this.tunggu -= dt; if (this.tunggu <= 0) this.berjaya(); }
+  },
+  catatHasil(c) {   // objek telah diuji melalui tindakan pemain: bandingkan ramalan dengan pemerhatian
+    const s = this.st[c], d = this.O[c]; s.ujian = true; s.hasil = d.hasil; this.sibuk = null; this.pilihO = null; const betul = s.ramal === d.hasil;
+    const n = this.K.filter((x) => this.st[x].ujian).length;
+    $('tpMaklum').textContent = 'Pemerhatian: ' + d.nama.toLowerCase() + ' ' + d.hasil + '. Ramalan kamu: ' + s.ramal + (betul ? ' ✓ betul!' : ' (berbeza, tidak mengapa; itulah gunanya eksperimen). ') + ' ' + d.fakta;
+    $('tpArahan').textContent = n < 6 ? 'Sudah diuji: ' + n + '/6. Pilih objek seterusnya.' : 'Semua objek sudah diuji!'; if (betul) Sound.play('ok'); else Sound.play('pick'); this.segar();
+    if (n === 6) this.tunggu = 2.2;
+  },
+  berjaya() {
+    if (!this.aktif || this.tahap !== 0) return; this.tahap = 2; $('tpRamal').hidden = true; const n = this.K.filter((c) => this.st[c].ramal === this.O[c].hasil).length;
+    const tp = this.K.filter((c) => this.O[c].hasil === 'terapung').map((c) => this.O[c].nama.toLowerCase()), tg = this.K.filter((c) => this.O[c].hasil === 'tenggelam').map((c) => this.O[c].nama.toLowerCase());
+    $('tpArahan').textContent = 'Tahniah! Eksperimen selesai. Ramalan betul: ' + n + '/6.';
+    $('tpMaklum').textContent = 'Terapung: ' + tp.join(', ') + '. Tenggelam: ' + tg.join(', ') + '. Objek terapung jika purata ketumpatannya kurang daripada air, dan tenggelam jika lebih tumpat. Jangan meneka daripada jenis bahan sahaja: cuba dan perhatikan!';
+    Sound.play('done'); $('tpUlang').hidden = false; $('tpSiap').hidden = false; this.siapTunggu = !this.diberi; try { $('tpSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, mx = r.ox - 3.2, mz = r.oz + 2.0;
+    camera.position.lerp(V.set(mx, 1.5, mz + 0.74), e); V.copy(Cam.look).lerp(this.V2.set(mx, 1.06, mz), e); camera.lookAt(V);
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.tahap === 0) {
+      if (/^[1-6]$/.test(k)) { this.pilih(this.K[+k - 1]); e.preventDefault(); return; }
+      if (k === 'f') { this.buatRamal('terapung'); e.preventDefault(); return; } if (k === 't') { this.buatRamal('tenggelam'); e.preventDefault(); return; }
+      if ((k === ' ' || k === 'enter' || k === 'e') && !butang) { this.jatuhAuto(); e.preventDefault(); return; }
+    }
+    if (k === 'r' && !e.repeat) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('tpKeluar').addEventListener('click', () => Terapung.tutup()); $('tpSemula').addEventListener('click', () => Terapung.ulang()); $('tpUlang').addEventListener('click', () => Terapung.ulang()); $('tpSiap').addEventListener('click', () => Terapung.tutup());
+    $('tpTerapung').addEventListener('click', () => Terapung.buatRamal('terapung')); $('tpTenggelam').addEventListener('click', () => Terapung.buatRamal('tenggelam')); $('tpJatuh').addEventListener('click', () => Terapung.jatuhAuto());
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!Terapung.aktif || (e.target !== canvas && !Terapung.drag)) return; if (Terapung.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
 const Makmal = {
   pakai: false, kotMesh: null, mentol: null,
   langkah(a) { const st = Missions.step(); return !!(st && st.jenis === 'aksi' && st.aksi === a); },
@@ -12451,6 +12662,10 @@ const Makmal = {
   q(soalan, betul, salah) { return { soalan, betul, pilihan: shuffle([betul].concat(salah)) }; },
   terapung() {
     if (!this.perluKot()) return;
+    if (Terapung.buka()) return;   // v93: aktiviti praktikal (GLB); jika tiada, kuiz asal di bawah
+    this.terapungLama();
+  },
+  terapungLama() {
     const O = shuffle([['batu', 'Tenggelam'], ['daun kering', 'Terapung'], ['paku besi', 'Tenggelam'], ['gabus', 'Terapung'], ['syiling', 'Tenggelam'], ['kayu aiskrim', 'Terapung']]).slice(0, 4);
     Mini.openSoalan('Terapung atau Tenggelam?', O.map(([o, j]) => this.q('Ramal: adakah ' + o + ' terapung atau tenggelam apabila dimasukkan ke dalam air?', j, [j === 'Terapung' ? 'Tenggelam' : 'Terapung'])), () => this.siap('terapung', 'Eksperimen terapung dan tenggelam selesai!'));
   },
