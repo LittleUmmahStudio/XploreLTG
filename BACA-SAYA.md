@@ -192,3 +192,8 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Peralatan.mikroskop()` kini membuka `Mikroskop.buka()`: letak slaid, laras fokus, lihat sel kulit bawang, Catat Pemerhatian. Dialog lama kekal sebagai `Peralatan.mikroskopLama()` (fallback di luar Makmal).
 - GLB: nod bergerak `lalu_mikroskop_slaid` (pangsi di pentas) dan `lalu_mikroskop_tombol` (pangsi pada paksi tombol). Dijana oleh `tools/gen_makmal.py`.
 - Ganjaran +1 Ilmu sekali sehari menggunakan kunci `mikroskop` yang sama seperti sebelum ini.
+
+## Eksperimen warna interaktif (v87)
+- `Peralatan.warna()` kini membuka `Warna.buka()`: pilih dua bikar, bawa dan condongkan bikar ke atas bekas, tuangan cecair beranimasi dengan pusaran, jawab warna yang terhasil. Soalan, teks maklum balas dan ganjaran (+1 Ilmu sekali sehari, kunci `warna`) sama seperti dahulu. Dialog lama kekal sebagai `Peralatan.warnaLama()` dan digunakan jika GLB tiada.
+- GLB (`tools/gen_makmal.py`): nod `lalu_warna_bikar_*`, `lalu_warna_cecair_*` (anak bikar), `lalu_warna_bekas`, `lalu_warna_cecair_bekas`, `lalu_warna_pusaran`, `lalu_warna_aliran`. Warna cecair diwarnakan oleh kod; dinding kaca lut sinar dijana oleh kod.
+- Kawalan: seretan, butang ◀▶ −+, anak panah / WASD, kekunci 1-2-3, R = Set Semula, Esc = Keluar.

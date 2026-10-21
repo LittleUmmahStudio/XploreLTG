@@ -208,6 +208,25 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 @media (max-height:430px){#mkLihat{width:clamp(96px,34vh,140px)}#mikroskop .kertas{padding:4px 10px 8px}#mkArahan{font-size:13px;margin-bottom:3px}#mkJalur{height:44px;margin-bottom:4px}#mkSlaid{top:8px}}
 @media (max-width:520px) and (orientation:portrait){.mkIsi{flex-direction:column}}
 @media (prefers-reduced-motion: reduce){#mkSel{transition:none}}
+#warna{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#warna .kertas{pointer-events:auto;width:min(720px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#warna header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+.wnAtas{display:flex;gap:6px}.wnAtas .btn{min-height:36px;padding:0 10px;font-size:14px}
+#wnArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+.wnBaris{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:2px 0 6px}
+.wnBaris .btn{min-height:46px;padding:0 14px;display:inline-flex;align-items:center;gap:8px}
+.wnBaris .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px;transform:translateY(-2px)}
+.wnBaris .btn[disabled]{opacity:.45}
+.wnDot{width:20px;height:20px;border-radius:50%;border:3px solid #2B2F38;display:inline-block}
+.wnTr{display:flex;align-items:center;gap:8px;max-width:520px;margin:0 auto 6px}
+.wnTr span{flex:0 0 66px;text-align:right;font-weight:700;font-size:14px}
+.wnTr .btn{min-width:44px;min-height:44px;padding:0 8px;font-size:18px}
+.wnTrek{position:relative;flex:1;height:44px;border:3px solid var(--garis-luar);border-radius:22px;background:linear-gradient(90deg,#E9F4EC,#FFF5D6);touch-action:none;cursor:ew-resize}
+.wnTrek[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.wnTrek i{position:absolute;top:2px;left:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;border:3px solid #2B2F38;background:#fff}
+#wnMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+@media (max-height:430px){#warna .kertas{padding:4px 10px 8px}#wnArahan{font-size:13px;margin:2px 0 3px;min-height:2.4em}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:40px;height:40px}.wnBaris .btn{min-height:40px}}
 #mini .kertas{width:min(560px,100%);max-height:100%;overflow:auto;touch-action:pan-y;text-align:center}
 #mini header{display:flex;justify-content:space-between;align-items:center;line-height:30px}
 #miniTajuk{font-size:19px}
@@ -728,6 +747,28 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
           <p id="mkCatat" hidden></p>
           <button id="mkSiap" class="btn" type="button" hidden>Catat Pemerhatian</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="warna" class="panel-fokus" hidden role="dialog" aria-label="Eksperimen warna">
+    <div class="kertas">
+      <header><strong>Eksperimen Warna</strong><span class="wnAtas"><button id="wnSemula" class="btn" type="button">Set Semula</button><button id="wnKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="wnArahan" aria-live="polite"></p>
+      <div id="wnL0" class="wnBaris" role="group" aria-label="Pilih dua bikar"></div>
+      <div id="wnL1" hidden>
+        <div id="wnAktif" class="wnBaris" role="group" aria-label="Bikar yang sedang digerakkan"></div>
+        <div class="wnTr"><span>Bawa</span><button id="wnKiri" class="btn" type="button" aria-label="Gerak bikar ke belakang">◀</button>
+          <div id="wnTrekP" class="wnTrek" role="slider" tabindex="0" aria-label="Gerakkan bikar ke atas bekas" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+          <button id="wnKanan" class="btn" type="button" aria-label="Gerak bikar ke atas bekas">▶</button></div>
+        <div class="wnTr"><span>Condong</span><button id="wnTegak" class="btn" type="button" aria-label="Tegakkan bikar">−</button>
+          <div id="wnTrekT" class="wnTrek" role="slider" tabindex="0" aria-label="Condongkan bikar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+          <button id="wnCondong" class="btn" type="button" aria-label="Condongkan bikar">+</button></div>
+      </div>
+      <div id="wnL2" hidden>
+        <div id="wnJawab" class="wnBaris" role="group" aria-label="Pilih warna yang terhasil"></div>
+        <p id="wnMaklum" aria-live="polite"></p>
+        <div class="wnBaris"><button id="wnUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="wnSiap" class="btn" type="button" hidden>Selesai</button></div>
       </div>
     </div>
   </section>
@@ -6574,12 +6615,13 @@ const Peralatan = {
   mikroskop() { Mikroskop.buka(); },   // v86: aktiviti praktikal; dialog lama kekal sebagai mikroskopLama()
   mikroskopLama() { Dialog.show('Mikroskop', ['Kamu melaraskan kanta dan melihat dengan teliti...', this.pilih(CONTENT.alat.mikroskop)], { onDone: () => this.ganjaran('mikroskop', { ilmu: 1 }) }); },
   suria() { this.fakta('Model Sistem Suria', CONTENT.alat.suria, 'suria'); },
-  warna() {
+  warna() { Warna.buka(); },   // v87: aktiviti praktikal (dialog asal kekal sebagai warnaLama(), digunakan jika GLB tiada)
+  warnaLama() {
     const e = this.pilih(CONTENT.alat.warna);
     Dialog.show('Eksperimen warna', ['Campurkan air berwarna ' + e.a + ' dengan ' + e.b + '.', 'Apakah warna yang terhasil?'], { tag: 'Uji kaji', wajibPilih: true,
       choices: shuffle(e.pilihan.slice()).map((x) => ({ label: x, fn: () => {
         if (x === e.hasil) { Sound.play('ok'); Dialog.show('Eksperimen warna', ['Betul! ' + e.a + ' + ' + e.b + ' = ' + e.hasil + '.'], { onDone: () => this.ganjaran('warna', { ilmu: 1 }) }); }
-        else { Sound.play('wrong'); Dialog.show('Eksperimen warna', ['Hmm, warnanya tidak jadi begitu. Cuba sekali lagi.'], { onDone: () => this.warna() }); }
+        else { Sound.play('wrong'); Dialog.show('Eksperimen warna', ['Hmm, warnanya tidak jadi begitu. Cuba sekali lagi.'], { onDone: () => this.warnaLama() }); }
       } })) });
   },
   komputer() { this.fakta('Komputer', CONTENT.alat.komputer, 'komputer'); },
@@ -7307,6 +7349,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'sukan') { if (aksi && !e.repeat) { Sukan.pukul(); e.preventDefault(); } else if (k === 'escape') Sukan.henti(); return; }
   if (State.uiLock === 'makan') return;
   if (State.uiLock === 'mikroskop') { Mikroskop.kunci(e, k); return; }
+  if (State.uiLock === 'warna') { Warna.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7496,7 +7539,8 @@ const Cam = {
     camera.position.copy(pos);
     this.look.copy(this.tgt); if (!atas) this.look.y += Math.max(0, 0.15 - this.pAktif) * 3;   // pandang ke atas
     camera.lookAt(this.look);
-    if (Mikroskop.k > 0.002) Mikroskop.kamera();   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Mikroskop.k > 0.002) Mikroskop.kamera();
+    if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11383,6 +11427,251 @@ const Mikroskop = {
     $('mkSlaid').addEventListener('pointerdown', (e) => Mikroskop.seretSlaid(e)); $('mkTrek').addEventListener('pointerdown', (e) => Mikroskop.seretTrek(e));
     $('mkKurang').addEventListener('pointerdown', (e) => Mikroskop.tekan(-1, e.currentTarget)); $('mkTambah').addEventListener('pointerdown', (e) => Mikroskop.tekan(1, e.currentTarget));
     window.addEventListener('resize', () => { if (Mikroskop.aktif) { Mikroskop.letakChip(Mikroskop.langkah ? 1 : Mikroskop.p); Mikroskop.tombolUI(); } });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
+/* ===================== Eksperimen warna: aktiviti praktikal (v87) ===================== */
+const Warna = {
+  KUNCI: ['merah', 'kuning', 'biru'],
+  HEX: { merah: '#E8503F', kuning: '#FFD84D', biru: '#4F8FE8', hijau: '#58C27C', oren: '#FF9A3D', ungu: '#9B6BD6' },
+  G: { x0: 3.5, bz: -0.52, wy: 0.949, bx: 3.5, bzc: -0.2, by: 0.945, R: 0.05, H: 0.12, RB: 0.075, HB: 0.14, CAIR: 0.1, CAIRB: 0.13, MAKS: 1.75 },   // sama dengan tools/gen_makmal.py
+  aktif: false, langkah: 0, e: null, sel: [], B: {}, aktifB: null, urutan: [], k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, C: null,
+  fl: 0, mc: 0, campur: 0, lcv: 0, omega: 1, tunggu: 0, tunggu2: 0, diberi: false, hint: '', pulse: 0, buf: null, tT: 0,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null;
+    const g = (n) => r.group.getObjectByName(n), N = { r, bikar: {}, cecair: {} };
+    for (const c of this.KUNCI) { N.bikar[c] = g('lalu_warna_bikar_' + c); N.cecair[c] = g('lalu_warna_cecair_' + c); if (!N.bikar[c] || !N.cecair[c]) return null; }
+    N.bekas = g('lalu_warna_bekas'); N.cb = g('lalu_warna_cecair_bekas'); N.pus = g('lalu_warna_pusaran'); N.ali = g('lalu_warna_aliran');
+    if (!N.bekas || !N.cb || !N.pus || !N.ali) return null;
+    if (!N.ali.userData.siap) {   // sekali sahaja: dasar, bahan cecair berwarna, dinding kaca lut sinar, cecair menjadi anak bikar
+      const kaca = (induk, rt, rb, h) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 14, 1, true), new THREE.MeshBasicMaterial({ color: '#DDF3FF', transparent: true, opacity: 0.3, depthWrite: false, side: THREE.DoubleSide })); m.position.y = h / 2 + 0.004; m.renderOrder = 2; induk.add(m); };
+      for (const c of this.KUNCI) { N.bikar[c].userData.dasar = N.bikar[c].position.clone(); N.bikar[c].add(N.cecair[c]); N.cecair[c].position.set(0, 0, 0); N.cecair[c].material = N.cecair[c].material.clone(); N.cecair[c].material.color.set(this.HEX[c]); kaca(N.bikar[c], this.G.R + 0.004, this.G.R, this.G.H); }
+      kaca(N.bekas, this.G.RB + 0.004, this.G.RB, this.G.HB);
+      [N.cb, N.pus, N.ali].forEach((o) => { o.material = o.material.clone(); });
+      N.ali.userData.siap = true;
+    }
+    return N;
+  },
+  // ----- buka / tutup -----
+  buka() {
+    if (this.aktif || State.uiLock) return;
+    this.nod = Rooms.current === 'makmal' ? this.cari() : null;
+    if (!this.nod) { Peralatan.warnaLama(); return; }   // susun atur asal (tanpa GLB) atau di luar makmal: eksperimen lama
+    this.aktif = true; this.V = this.V || new THREE.Vector3(); this.C = this.C || [new THREE.Color(), new THREE.Color(), new THREE.Color()];
+    this.diberi = false; this.selesaiJawab = false; this.baru(null); this.bina(); $('warna').hidden = false; setLock('warna'); this.ke = 1;
+    if (this.kurang()) this.k = 1;
+    this.mula();
+  },
+  baru(lama) {   // eksperimen baharu: soalan sama seperti Peralatan.warna asal (CONTENT.alat.warna)
+    const semua = CONTENT.alat.warna; let e; for (let i = 0; i < 6; i++) { e = Peralatan.pilih(semua); if (!lama || e !== lama || semua.length < 2) break; }
+    this.e = e; this.semula(); this.langkah = 0; this.sel = []; this.aktifB = null;
+  },
+  semula() {   // kembalikan bikar, cecair dan bekas (beranimasi, tiada lompatan)
+    for (const c of this.KUNCI) { const b = this.B[c] = this.B[c] || { lvl: 1, lv: 1, p: 0, pv: 0, u: 0, thv: 0, sel: 0, sv: 0 }; Object.assign(b, { lvl: 1, p: 0, u: 0, th: 0, sel: 0, done: false, oto: false }); }
+    this.urutan = []; this.mc = 0; this.campur = 0; this.hint = ''; this.tunggu = 0; this.tunggu2 = 0; this.bunyi(0);
+  },
+  bina() {   // UI mengikut langkah
+    const L0 = $('wnL0'); L0.innerHTML = '';
+    this.KUNCI.forEach((c, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.w = c; bt.setAttribute('aria-pressed', 'false'); bt.innerHTML = '<i class="wnDot" style="background:' + this.HEX[c] + '"></i>' + c[0].toUpperCase() + c.slice(1) + ' <small>(' + (i + 1) + ')</small>'; bt.addEventListener('click', () => this.pilih(c)); L0.appendChild(bt); });
+    $('wnL0').hidden = false; $('wnL1').hidden = true; $('wnL2').hidden = true; $('wnUlang').hidden = true; $('wnSiap').hidden = true; $('wnMaklum').textContent = '';
+    $('wnArahan').textContent = 'Campurkan air berwarna ' + this.e.a + ' dengan ' + this.e.b + '. Pilih dua bikar yang betul.';
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat()) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  belumRehat() { return this.KUNCI.some((c) => { const b = this.B[c]; return b && (Math.abs(b.pv - b.p) > 0.003 || Math.abs(b.lv - b.lvl) > 0.004 || b.thv > 0.01 || b.sv > 0.01); }) || this.fl > 0.01 || this.lcv > 0.004; },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('warna').hidden = true; if (State.uiLock === 'warna') setLock(null);
+    this.semula(); this.langkah = 0; this.sel = []; this.bunyi(0); this.mula(); if (this.kurang()) this.k = 0;
+  },
+  // ----- langkah 0: pilih dua bikar -----
+  pilih(c) {
+    if (!this.aktif || this.langkah !== 0 || this.tunggu > 0) return;
+    const i = this.sel.indexOf(c); if (i >= 0) this.sel.splice(i, 1); else { if (this.sel.length >= 2) this.sel.shift(); this.sel.push(c); }
+    this.KUNCI.forEach((k) => { this.B[k].sel = this.sel.includes(k) ? 1 : 0; }); this.segarPilih(); Sound.play('pick'); this.mula();
+    if (this.sel.length === 2) {
+      const betul = this.sel.includes(this.e.a) && this.sel.includes(this.e.b);
+      if (betul) { this.tunggu = 0.7; this.tindak = 'mula'; $('wnArahan').textContent = 'Bagus! Bikar ' + this.e.a + ' dan ' + this.e.b + ' dipilih.'; }
+      else { this.tunggu = 1.3; this.tindak = 'salah'; $('wnArahan').textContent = 'Pasangan itu bukan untuk eksperimen ini. Pilih bikar ' + this.e.a + ' dan ' + this.e.b + '.'; }
+    } else $('wnArahan').textContent = 'Campurkan air berwarna ' + this.e.a + ' dengan ' + this.e.b + '. Pilih dua bikar yang betul.';
+  },
+  segarPilih() { $('wnL0').querySelectorAll('button').forEach((bt) => bt.setAttribute('aria-pressed', this.sel.includes(bt.dataset.w) ? 'true' : 'false')); },
+  mulaTuang() {
+    this.langkah = 1; this.aktifB = this.e.a; $('wnL0').hidden = true; $('wnL1').hidden = false; this.segarAktif(); this.uiTrek(); this.hint = '';
+    try { $('wnTrekP').focus({ preventScroll: true }); } catch (err) {}
+  },
+  // ----- langkah 1: bawa & condongkan -----
+  segarAktif() {
+    const A = $('wnAktif'); A.innerHTML = '';
+    [this.e.a, this.e.b].forEach((c) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.w = c; bt.disabled = this.B[c].done; bt.setAttribute('aria-pressed', c === this.aktifB ? 'true' : 'false'); bt.innerHTML = '<i class="wnDot" style="background:' + this.HEX[c] + '"></i>' + c[0].toUpperCase() + c.slice(1) + (this.B[c].done ? ' ✓' : ''); bt.addEventListener('click', () => this.tukarAktif(c)); A.appendChild(bt); });
+  },
+  tukarAktif(c) {
+    if (!this.aktif || this.langkah !== 1 || c === this.aktifB || this.B[c].done) return;
+    const b = this.B[this.aktifB]; if (b && !b.done && (b.pv > 0.03 || b.p > 0.01)) { $('wnArahan').textContent = 'Pulangkan bikar semasa ke dulang dahulu (seret “Bawa” ke kiri).'; return; }
+    this.aktifB = c; this.hint = ''; this.segarAktif(); this.uiTrek();
+  },
+  b() { return this.aktifB ? this.B[this.aktifB] : null; },
+  tetapP(v) {
+    const b = this.b(); if (!this.aktif || this.langkah !== 1 || !b || b.done || b.oto) return; b.p = Math.max(0, Math.min(1, v));
+    if (b.p < 0.9) { b.u = 0; b.th = 0; } this.uiTrek(); this.mula();
+  },
+  tetapU(v) {
+    const b = this.b(); if (!this.aktif || this.langkah !== 1 || !b || b.done || b.oto) return;
+    if (b.pv < 0.88 || b.p < 0.9) { if (v > 0.02) $('wnArahan').textContent = 'Bawa bikar ke atas bekas dahulu, kemudian condongkan.'; return; }
+    b.u = Math.max(0, Math.min(1, v)); b.th = b.u * this.G.MAKS; this.uiTrek(); this.mula();
+  },
+  uiTrek() {
+    const b = this.b(); if (!b) return;
+    [['wnTrekP', b.p], ['wnTrekT', b.u]].forEach(([id, v]) => { const tr = $(id), tb = tr.firstElementChild; tb.style.left = (17 + v * Math.max(0, tr.clientWidth - 6 - 34)) + 'px'; tr.setAttribute('aria-valuenow', Math.round(v * 100)); });
+    $('wnTrekT').setAttribute('aria-disabled', (b.pv < 0.88 || b.done) ? 'true' : 'false');
+  },
+  seret(id, tetap) {
+    const tr = $(id); tr.addEventListener('pointerdown', (e) => {
+      if (!this.aktif || this.langkah !== 1) return; e.preventDefault(); tr.setPointerCapture(e.pointerId); try { tr.focus({ preventScroll: true }); } catch (err) {}
+      const gerak = (ev) => { const bb = tr.getBoundingClientRect(); tetap((ev.clientX - bb.left - 20) / Math.max(1, bb.width - 40)); };
+      const tamat = () => { tr.removeEventListener('pointermove', gerak); tr.removeEventListener('pointerup', tamat); tr.removeEventListener('pointercancel', tamat); };
+      tr.addEventListener('pointermove', gerak); tr.addEventListener('pointerup', tamat); tr.addEventListener('pointercancel', tamat); gerak(e);
+    });
+  },
+  tahan(el, fn) {   // butang +/- : tekan dan tahan untuk ulang
+    el.addEventListener('pointerdown', () => { fn(); const id = setInterval(fn, 70); const henti = () => { clearInterval(id); el.removeEventListener('pointerup', henti); el.removeEventListener('pointerleave', henti); el.removeEventListener('pointercancel', henti); }; el.addEventListener('pointerup', henti); el.addEventListener('pointerleave', henti); el.addEventListener('pointercancel', henti); });
+  },
+  // ----- fizik tuangan ringan + penjelmaan 3D (setiap bingkai) -----
+  tick(dt) {
+    const kur = this.kurang(), sm = kur ? 1 : 1 - Math.exp(-dt * 8), N = this.nod, G = this.G;
+    this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5));
+    if (this.tunggu > 0 && this.aktif) { this.tunggu -= dt; if (this.tunggu <= 0) { const t = this.tindak; this.tindak = ''; if (t === 'mula') this.mulaTuang(); else if (t === 'salah') { this.sel = []; this.KUNCI.forEach((c) => { this.B[c].sel = 0; }); this.segarPilih(); $('wnArahan').textContent = 'Campurkan air berwarna ' + this.e.a + ' dengan ' + this.e.b + '. Pilih dua bikar yang betul.'; } } }
+    let alir = 0; const ak = this.aktif && this.langkah === 1 ? this.b() : null;
+    for (const c of this.KUNCI) {
+      const b = this.B[c];
+      b.pv += (b.p - b.pv) * sm; b.thv += ((b.oto ? 0 : b.th) - b.thv) * sm; b.sv += (b.sel - b.sv) * sm;
+      if (b.oto) { if (b.thv < 0.06) b.p = 0; if (b.p === 0 && b.pv < 0.02) { b.oto = false; this.selepasPulang(); } }
+    }
+    if (ak && !ak.done && ak.pv > 0.92 && ak.thv > 0.05 && ak.lvl > 0) {   // tuangan: sudut condong mesti melebihi sudut permukaan cecair mencapai bibir bikar
+      const L = ak.lvl * G.CAIR, tp = Math.atan((G.H - L) / (2 * G.R)), lebih = ak.thv - tp;
+      if (lebih > 0.02) { alir = 0.08 + 0.5 * Math.max(0, Math.min(1, lebih / 0.8)); ak.lvl = Math.max(0, ak.lvl - alir * dt); if (ak.lvl <= 0.03) { ak.lvl = 0; this.habis(this.aktifB); alir = 0; } }
+    }
+    for (const c of this.KUNCI) { const b = this.B[c]; b.lv += (b.lvl - b.lv) * (kur ? 1 : 1 - Math.exp(-dt * 12)); }
+    this.fl += ((alir > 0 ? 1 : 0) - this.fl) * (kur ? 1 : 1 - Math.exp(-dt * 10));
+    // isi padu bekas + warna campuran
+    const tu = (c) => (this.urutan.includes(c) ? 1 - this.B[c].lvl : 0), jum = tu(this.e ? this.e.a : 'x') + tu(this.e ? this.e.b : 'x');
+    if (this.e) { this.KUNCI.forEach((c) => { if (c === this.e.a || c === this.e.b) { if (!this.urutan.includes(c) && 1 - this.B[c].lvl > 0.02) this.urutan.push(c); } }); }
+    const sasaranPadu = this.e ? ((this.urutan.includes(this.e.a) ? 1 - this.B[this.e.a].lvl : 0) + (this.urutan.includes(this.e.b) ? 1 - this.B[this.e.b].lvl : 0)) / 2 * 0.72 : 0;
+    this.lcv += (sasaranPadu - this.lcv) * (kur ? 1 : 1 - Math.exp(-dt * 8));
+    const sek = this.urutan[1], p2 = sek ? 1 - this.B[sek].lvl : 0, sasaranMc = this.langkah >= 2 ? 1 : p2 * 0.85;
+    this.mc += (sasaranMc - this.mc) * (kur ? 1 : 1 - Math.exp(-dt * (this.langkah >= 2 ? 2.2 : 5)));
+    if (this.langkah === 2) { this.campur += dt; if (this.campur > 1.8 && !$('wnL2').dataset.soal) this.soalan(); }
+    this.omega = (this.langkah >= 2 ? 1.0 + 3 * Math.max(0, 1 - this.campur / 3) : 1.2) + 7 * this.fl;
+    if (N) this.lukis(N, dt, alir);
+    this.bunyi(alir > 0 ? Math.min(1, alir / 0.4) : 0, dt);
+    if (ak) { this.uiTrek(); this.petunjuk(alir); }
+  },
+  lukis(N, dt, alir) {
+    const G = this.G, t = this.tT += dt, V = this.V;
+    for (const c of this.KUNCI) {
+      const b = this.B[c], o = N.bikar[c], h = o.userData.dasar, s = G.bx - h.x >= 0 ? 1 : -1, th = b.thv, e = b.pv * b.pv * (3 - 2 * b.pv);
+      const ox = s * (G.R * Math.cos(th) + G.H * Math.sin(th)), oy = G.H * Math.cos(th) - G.R * Math.sin(th);
+      const tx = G.bx - s * 0.02, ty = G.by + G.HB + 0.045, tz = G.bzc;   // titik bibir di atas bekas
+      const px = tx - ox, py = ty - oy;
+      o.position.set(h.x + (px - h.x) * e, h.y + (py - h.y) * e + 0.11 * Math.sin(Math.PI * b.pv) * (1 - b.pv * 0.0) + 0.02 * b.sv, h.z + (tz - h.z) * e);
+      o.rotation.z = -s * th; const L = N.cecair[c]; L.scale.y = Math.max(0.001, b.lv); L.visible = b.lv > 0.006;
+      b.bibir = { x: o.position.x + ox, y: o.position.y + oy, z: o.position.z };
+    }
+    const hasil = this.HEX[this.e.hasil], perm = this.urutan[0], sek = this.urutan[1], ease = (v) => v * v * (3 - 2 * v), m = ease(Math.min(1, this.mc));
+    const [c1, c2, c3] = this.C;
+    if (perm) c1.set(this.HEX[perm]).lerp(c3.set(hasil), m); N.cb.material.color.copy(c1);
+    const surf = G.by + 0.0 + Math.max(0.001, this.lcv * G.CAIRB), pad = this.lcv;
+    N.cb.scale.set(1 + 0.01 * Math.sin(t * 18) * this.fl, Math.max(0.001, this.lcv), 1 + 0.01 * Math.sin(t * 18) * this.fl); N.cb.visible = pad > 0.004;
+    N.pus.visible = !!sek && pad > 0.004; N.pus.scale.y = Math.max(0.001, this.lcv); N.pus.rotation.y += this.omega * dt;
+    if (sek) { c2.set(this.HEX[sek]).lerp(c3.set(hasil), m).lerp(c3.set('#FFFFFF'), 0.12 * (1 - m)); N.pus.material.color.copy(c2); }
+    const A = N.ali, ak = this.aktifB && this.B[this.aktifB], bb = ak && ak.bibir;
+    if (bb && this.fl > 0.03) { const top = bb.y, bot = surf + 0.002; A.visible = top > bot + 0.01; A.position.set(bb.x + 0.002 * Math.sin(t * 25), top, bb.z); A.scale.set(0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2), Math.max(0.01, top - bot), 0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2)); A.material.color.set(this.HEX[this.aktifB]); } else A.visible = false;
+  },
+  petunjuk(alir) {
+    const b = this.b(), G = this.G; if (!b) return; const nama = this.aktifB;
+    let h; if (b.done) h = 'Bikar ' + nama + ' sudah dituang. Tunggu bikar itu dipulangkan.';
+    else if (alir > 0) h = 'Cecair ' + nama + ' mengalir… ' + Math.round((1 - b.lvl) * 100) + '%';
+    else if (b.pv < 0.88) h = 'Seret “Bawa” ke kanan untuk membawa bikar ' + nama + ' ke atas bekas.';
+    else if (b.thv < 0.05) h = 'Sekarang condongkan bikar perlahan-lahan.';
+    else h = 'Condongkan lagi supaya cecair mengalir.';
+    if (this.hint !== h) { this.hint = h; $('wnArahan').textContent = h; }
+  },
+  habis(c) {   // bikar kosong sepenuhnya: pulang sendiri ke dulang
+    const b = this.B[c]; b.done = true; b.oto = true; b.u = 0; b.th = 0; Sound.play('pick'); this.segarAktif(); this.uiTrek();
+  },
+  selepasPulang() {
+    if (this.langkah !== 1) return; const A = this.B[this.e.a], Bb = this.B[this.e.b];
+    if (A.done && Bb.done) { this.langkah = 2; this.campur = 0; $('wnL1').hidden = true; $('wnL2').hidden = false; $('wnL2').dataset.soal = ''; $('wnArahan').textContent = 'Perhatikan cecair berpusar dan warnanya bercampur…'; $('wnJawab').innerHTML = ''; return; }
+    const lain = A.done ? this.e.b : this.e.a; this.aktifB = lain; this.hint = ''; this.segarAktif(); this.uiTrek();
+  },
+  // ----- langkah 2: jawab -----
+  soalan() {
+    $('wnL2').dataset.soal = '1'; $('wnArahan').textContent = 'Apakah warna yang terhasil daripada ' + this.e.a + ' dan ' + this.e.b + '?';
+    const J = $('wnJawab'); J.innerHTML = '';
+    shuffle(this.e.pilihan.slice()).forEach((x, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.j = x; bt.innerHTML = '<i class="wnDot" style="background:' + (this.HEX[x] || '#ccc') + '"></i>' + x[0].toUpperCase() + x.slice(1) + ' <small>(' + (i + 1) + ')</small>'; bt.addEventListener('click', () => this.jawab(x)); J.appendChild(bt); });
+    try { J.firstChild.focus({ preventScroll: true }); } catch (err) {}
+  },
+  jawab(x) {
+    if (!this.aktif || this.langkah !== 2 || !$('wnL2').dataset.soal || this.selesaiJawab) return;
+    const J = $('wnJawab'); $('wnUlang').hidden = false; $('wnSiap').hidden = false;
+    if (x === this.e.hasil) {
+      this.selesaiJawab = true; Sound.play('ok'); J.querySelectorAll('button').forEach((bt) => { bt.disabled = true; });
+      $('wnMaklum').textContent = 'Betul! ' + this.e.a + ' + ' + this.e.b + ' = ' + this.e.hasil + '.'; $('wnArahan').textContent = 'Tahniah! Kamu telah mencampur warna dengan betul.';
+      this.beri();
+    } else {
+      Sound.play('wrong'); J.querySelectorAll('button').forEach((bt) => { if (bt.dataset.j === x) bt.disabled = true; });
+      $('wnMaklum').textContent = 'Hmm, warnanya tidak jadi begitu. Lihat semula warna dalam bekas, atau tekan “Cuba Lagi”.';
+    }
+  },
+  beri() {   // ganjaran sedia ada (kunci 'warna', sekali sehari); tidak diulang dalam sesi yang sama
+    if (this.diberi) return; this.diberi = true; const d = State.data, sebelum = d && d.alat ? d.alat.warna : undefined;
+    Peralatan.ganjaran('warna', { ilmu: 1 }, '🎨 Eksperimen warna selesai! +1 Ilmu');
+    if (d && d.alat && d.alat.warna === sebelum) toast('🎨 Betul! Eksperimen warna dicatat.');
+  },
+  ulang() {   // Cuba Lagi: eksperimen baharu
+    if (!this.aktif) return; this.selesaiJawab = false; this.baru(this.e); this.bina(); $('wnL2').dataset.soal = ''; this.mula();
+  },
+  reset() {   // Set Semula: eksperimen sama dari awal
+    if (!this.aktif) return; this.selesaiJawab = false; this.diberi = this.diberi; this.semula(); this.langkah = 0; this.sel = []; this.aktifB = null; this.bina(); $('wnL2').dataset.soal = ''; this.mula();
+  },
+  // ----- kamera, bunyi, papan kekunci -----
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, G = this.G, mx = r.ox + G.bx, mz = r.oz - 0.36;
+    camera.position.lerp(V.set(mx + 0.03, 1.5, mz + 0.82), e); V.copy(Cam.look).lerp(new THREE.Vector3(mx, 0.93, mz - 0.04), e); camera.lookAt(V);
+  },
+  bunyi(kuat, dt) {   // bunyi tuangan lembut: denyut hingar bertapis, hanya semasa mengalir
+    if (!kuat) { this.pulse = 0; return; }
+    const S = Sound; if (!S.ctx || !S.on || !Tetapan.s.sfx) return; this.pulse -= dt || 0; if (this.pulse > 0) return; this.pulse = 0.2;
+    try {
+      const c = S.ctx; if (!this.buf) { this.buf = c.createBuffer(1, Math.floor(c.sampleRate * 0.3), c.sampleRate); const d = this.buf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length); }
+      const src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(), t = c.currentTime; src.buffer = this.buf; f.type = 'lowpass'; f.frequency.value = 650 + Math.random() * 350; f.Q.value = 0.5;
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.05 * kuat * Tetapan.s.vSfx), t + 0.04); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.26);
+      src.connect(f); f.connect(g); g.connect(c.destination); src.start(t); src.stop(t + 0.3);
+    } catch (err) {}
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.langkah === 0 && ['1', '2', '3'].includes(k)) { this.pilih(this.KUNCI[+k - 1]); e.preventDefault(); return; }
+    if (this.langkah === 2 && ['1', '2', '3'].includes(k)) { const bt = $('wnJawab').querySelectorAll('button')[+k - 1]; if (bt && !bt.disabled) this.jawab(bt.dataset.j); e.preventDefault(); return; }
+    if (this.langkah === 1) {
+      const b = this.b(), kec = e.shiftKey ? 0.01 : 0.04; if (!b) return;
+      if (k === 'arrowright' || k === 'd') { this.tetapP(b.p + kec); e.preventDefault(); return; }
+      if (k === 'arrowleft' || k === 'a') { this.tetapP(b.p - kec); e.preventDefault(); return; }
+      if (k === 'arrowdown' || k === 's') { this.tetapU(b.u + kec); e.preventDefault(); return; }
+      if (k === 'arrowup' || k === 'w') { this.tetapU(b.u - kec); e.preventDefault(); return; }
+    }
+    if (k === 'r' && !e.repeat) { this.reset(); e.preventDefault(); return; }
+    if ((k === 'enter' || k === ' ' || k === 'e') && butang) return;   // biarkan butang yang difokus menjalankan klik sendiri
+  }
+};
+{ // pendengar acara (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('wnKeluar').addEventListener('click', () => Warna.tutup()); $('wnSemula').addEventListener('click', () => Warna.reset()); $('wnUlang').addEventListener('click', () => Warna.ulang()); $('wnSiap').addEventListener('click', () => Warna.tutup());
+    Warna.seret('wnTrekP', (v) => Warna.tetapP(v)); Warna.seret('wnTrekT', (v) => Warna.tetapU(v));
+    Warna.tahan($('wnKiri'), () => { const b = Warna.b(); if (b) Warna.tetapP(b.p - 0.04); }); Warna.tahan($('wnKanan'), () => { const b = Warna.b(); if (b) Warna.tetapP(b.p + 0.04); });
+    Warna.tahan($('wnTegak'), () => { const b = Warna.b(); if (b) Warna.tetapU(b.u - 0.04); }); Warna.tahan($('wnCondong'), () => { const b = Warna.b(); if (b) Warna.tetapU(b.u + 0.04); });
+    window.addEventListener('resize', () => { if (Warna.aktif && Warna.langkah === 1) Warna.uiTrek(); });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
