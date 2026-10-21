@@ -1,6 +1,6 @@
 // LO:TONG: service worker untuk main tanpa internet.
 // Tukar VERSI setiap kali index.html atau fail lain dikemas kini supaya peranti memuat turun versi baharu.
-const VERSI = 'lotong-v87';
+const VERSI = 'lotong-v88';
 const TERAS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 // Bunyi suasana & muzik (folder bunyi/): disimpan untuk main tanpa internet
 const BUNYI = ['muzikMula', 'dewan', 'kelas', 'luar', 'muzik-pss', 'perpustakaan', 'rumahGuru', 'suasana-bilikguru', 'suasana-prasekolah', 'suasana-rmt']
@@ -18,10 +18,11 @@ const HOS_STATIK = ['cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstat
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
     const c = await caches.open(VERSI);
-    await c.addAll(TERAS);
+    // cache:'reload' = ambil terus daripada pelayan (bukan salinan cache HTTP pelayar), supaya cache versi baharu tidak berisi fail lama
+    await Promise.all(TERAS.map((u) => c.add(new Request(u, { cache: 'reload' }))));
     // Bunyi & fail luar disimpan jika ada internet; kegagalan tidak menghalang pemasangan
-    await Promise.all(BUNYI.map((u) => c.add(u).catch(() => {})));
-    await Promise.all(ASET.map((u) => c.add(u).catch(() => {})));
+    await Promise.all(BUNYI.map((u) => c.add(new Request(u, { cache: 'reload' })).catch(() => {})));
+    await Promise.all(ASET.map((u) => c.add(new Request(u, { cache: 'reload' })).catch(() => {})));
     await Promise.all(LUAR.map((u) => fetch(u, { mode: 'no-cors' }).then((r) => c.put(u, r)).catch(() => {})));
     await self.skipWaiting();
   })());
@@ -44,7 +45,7 @@ self.addEventListener('fetch', (e) => {
   if (req.mode === 'navigate') {
     e.respondWith((async () => {
       try {
-        const r = await fetch(req);
+        const r = await fetch(req, { cache: 'no-cache' });   // sentiasa semak versi terkini (elak index.html lama daripada cache HTTP)
         if (r.ok) { const c = await caches.open(VERSI); c.put('./index.html', r.clone()); return r; }
         return (await caches.match('./index.html')) || r;
       } catch (err) {

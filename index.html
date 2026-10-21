@@ -5234,7 +5234,8 @@ const Rooms = {
     const sb = (this.pintu[id] && this.pintu[id].bilik) || id, terus = () => this.fade(() => { this.enterNow(id); if (selepas) selepas(); });
     if (this.list[sb] || InteriorGLB.selesai(sb)) { terus(); return; }
     if (this.menunggu) return; this.menunggu = true;   // v82: aset GLB dalaman belum siap: tunggu sebentar, kemudian masuk (guna susun atur asal jika lewat)
-    Promise.race([InteriorGLB.muat(sb), new Promise((ok) => setTimeout(ok, 2500))]).then(() => { this.menunggu = false; terus(); });
+    if (!this.list[sb]) toast('Memuatkan bilik…');
+    Promise.race([InteriorGLB.muat(sb), new Promise((ok) => setTimeout(ok, 8000))]).then(() => { this.menunggu = false; terus(); });
   },
   exit(kunci) {
     Sound.play('pintuTutup');
@@ -11445,11 +11446,14 @@ const Warna = {
     for (const c of this.KUNCI) { N.bikar[c] = g('lalu_warna_bikar_' + c); N.cecair[c] = g('lalu_warna_cecair_' + c); if (!N.bikar[c] || !N.cecair[c]) return null; }
     N.bekas = g('lalu_warna_bekas'); N.cb = g('lalu_warna_cecair_bekas'); N.pus = g('lalu_warna_pusaran'); N.ali = g('lalu_warna_aliran');
     if (!N.bekas || !N.cb || !N.pus || !N.ali) return null;
+    const isi = (o) => (o.isMesh ? o : (o.children || []).find((x) => x.isMesh));   // GLBMini: nod = Group, dengan Mesh anak (bahan terletak pada Mesh)
+    for (const c of this.KUNCI) { N.cecairM = N.cecairM || {}; N.cecairM[c] = isi(N.cecair[c]); if (!N.cecairM[c]) return null; }
+    N.cbM = isi(N.cb); N.pusM = isi(N.pus); N.aliM = isi(N.ali); if (!N.cbM || !N.pusM || !N.aliM) return null;
     if (!N.ali.userData.siap) {   // sekali sahaja: dasar, bahan cecair berwarna, dinding kaca lut sinar, cecair menjadi anak bikar
       const kaca = (induk, rt, rb, h) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 14, 1, true), new THREE.MeshBasicMaterial({ color: '#DDF3FF', transparent: true, opacity: 0.3, depthWrite: false, side: THREE.DoubleSide })); m.position.y = h / 2 + 0.004; m.renderOrder = 2; induk.add(m); };
-      for (const c of this.KUNCI) { N.bikar[c].userData.dasar = N.bikar[c].position.clone(); N.bikar[c].add(N.cecair[c]); N.cecair[c].position.set(0, 0, 0); N.cecair[c].material = N.cecair[c].material.clone(); N.cecair[c].material.color.set(this.HEX[c]); kaca(N.bikar[c], this.G.R + 0.004, this.G.R, this.G.H); }
+      for (const c of this.KUNCI) { N.bikar[c].userData.dasar = N.bikar[c].position.clone(); N.bikar[c].add(N.cecair[c]); N.cecair[c].position.set(0, 0, 0); N.cecairM[c].material = N.cecairM[c].material.clone(); N.cecairM[c].material.color.set(this.HEX[c]); kaca(N.bikar[c], this.G.R + 0.004, this.G.R, this.G.H); }
       kaca(N.bekas, this.G.RB + 0.004, this.G.RB, this.G.HB);
-      [N.cb, N.pus, N.ali].forEach((o) => { o.material = o.material.clone(); });
+      [N.cbM, N.pusM, N.aliM].forEach((m) => { m.material = m.material.clone(); });
       N.ali.userData.siap = true;
     }
     return N;
@@ -11579,13 +11583,13 @@ const Warna = {
     }
     const hasil = this.HEX[this.e.hasil], perm = this.urutan[0], sek = this.urutan[1], ease = (v) => v * v * (3 - 2 * v), m = ease(Math.min(1, this.mc));
     const [c1, c2, c3] = this.C;
-    if (perm) c1.set(this.HEX[perm]).lerp(c3.set(hasil), m); N.cb.material.color.copy(c1);
+    if (perm) c1.set(this.HEX[perm]).lerp(c3.set(hasil), m); N.cbM.material.color.copy(c1);
     const surf = G.by + 0.0 + Math.max(0.001, this.lcv * G.CAIRB), pad = this.lcv;
     N.cb.scale.set(1 + 0.01 * Math.sin(t * 18) * this.fl, Math.max(0.001, this.lcv), 1 + 0.01 * Math.sin(t * 18) * this.fl); N.cb.visible = pad > 0.004;
     N.pus.visible = !!sek && pad > 0.004; N.pus.scale.y = Math.max(0.001, this.lcv); N.pus.rotation.y += this.omega * dt;
-    if (sek) { c2.set(this.HEX[sek]).lerp(c3.set(hasil), m).lerp(c3.set('#FFFFFF'), 0.12 * (1 - m)); N.pus.material.color.copy(c2); }
+    if (sek) { c2.set(this.HEX[sek]).lerp(c3.set(hasil), m).lerp(c3.set('#FFFFFF'), 0.12 * (1 - m)); N.pusM.material.color.copy(c2); }
     const A = N.ali, ak = this.aktifB && this.B[this.aktifB], bb = ak && ak.bibir;
-    if (bb && this.fl > 0.03) { const top = bb.y, bot = surf + 0.002; A.visible = top > bot + 0.01; A.position.set(bb.x + 0.002 * Math.sin(t * 25), top, bb.z); A.scale.set(0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2), Math.max(0.01, top - bot), 0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2)); A.material.color.set(this.HEX[this.aktifB]); } else A.visible = false;
+    if (bb && this.fl > 0.03) { const top = bb.y, bot = surf + 0.002; A.visible = top > bot + 0.01; A.position.set(bb.x + 0.002 * Math.sin(t * 25), top, bb.z); A.scale.set(0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2), Math.max(0.01, top - bot), 0.55 + 0.9 * this.fl * Math.min(1, alir / 0.3 + 0.2)); N.aliM.material.color.set(this.HEX[this.aktifB]); } else A.visible = false;
   },
   petunjuk(alir) {
     const b = this.b(), G = this.G; if (!b) return; const nama = this.aktifB;

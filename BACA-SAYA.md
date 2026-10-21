@@ -197,3 +197,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Peralatan.warna()` kini membuka `Warna.buka()`: pilih dua bikar, bawa dan condongkan bikar ke atas bekas, tuangan cecair beranimasi dengan pusaran, jawab warna yang terhasil. Soalan, teks maklum balas dan ganjaran (+1 Ilmu sekali sehari, kunci `warna`) sama seperti dahulu. Dialog lama kekal sebagai `Peralatan.warnaLama()` dan digunakan jika GLB tiada.
 - GLB (`tools/gen_makmal.py`): nod `lalu_warna_bikar_*`, `lalu_warna_cecair_*` (anak bikar), `lalu_warna_bekas`, `lalu_warna_cecair_bekas`, `lalu_warna_pusaran`, `lalu_warna_aliran`. Warna cecair diwarnakan oleh kod; dinding kaca lut sinar dijana oleh kod.
 - Kawalan: seretan, butang ◀▶ −+, anak panah / WASD, kekunci 1-2-3, R = Set Semula, Esc = Keluar.
+
+## Pembetulan v88
+- Eksperimen warna: bahan cecair kini diambil daripada Mesh anak (GLBMini membungkus setiap nod sebagai Group + Mesh). Sebelum ini `Warna.buka()` ralat dalam susun atur GLB.
+- `sw.js`: fail yang dipasang ke cache baharu diambil terus daripada pelayan (`cache: 'reload'`) dan halaman utama disemak semula setiap kali (`no-cache`), supaya cache versi baharu tidak berisi fail lama daripada cache HTTP GitHub Pages.
+- Bilik menunggu aset GLB sehingga 8 saat (dahulu 2.5 saat) sebelum guna susun atur asal, dan memaparkan "Memuatkan bilik…".
+- Semakan dalam konsol pelayar: `Object.keys(InteriorGLB.hasil).map(k => k + ': ' + (InteriorGLB.hasil[k] ? 'OK' : 'GAGAL'))`
