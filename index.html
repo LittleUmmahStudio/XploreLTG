@@ -254,6 +254,22 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #suMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
 @media (max-height:430px){#suria .kertas{padding:4px 10px 8px;max-height:58vh;max-height:58dvh}#suArahan{font-size:13px;margin:2px 0 3px;min-height:2.2em}.suBaris{margin-bottom:3px}.suBaris .btn,.suSudut .btn{min-height:38px}#suSlot .slot{min-height:38px}}
 @media (prefers-reduced-motion: reduce){#suSlot .slot.goyang,#suPool .btn.goyang{animation:none}#suBar{transition:none}}
+/* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
+.dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
+.wnAtas .dokTogol{margin:0}
+.dokKecil .kertas>*:not(header){display:none !important}
+.dokKecil .kertas{padding-bottom:6px}
+body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
+@media (max-height:520px){
+  #mikroskop .kertas,#warna .kertas,#suria .kertas{padding:4px 10px 6px}
+  #mkArahan,#wnArahan,#suArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
+  #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
+  .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
+  #suPlanet{gap:4px;flex-wrap:nowrap;overflow-x:auto}#suPlanet .btn{min-height:34px;padding:0 6px;font-size:12px;flex:0 0 auto}
+  .suBaris{margin:0 0 3px}.suBaris .btn,.suSudut .btn{min-height:36px}#suInfo{min-height:0;font-size:13px;margin:0 0 3px}
+  #suSlot .slot{min-height:34px;min-width:54px}#suria .kertas{max-height:50vh;max-height:50dvh}
+}
 #mini .kertas{width:min(560px,100%);max-height:100%;overflow:auto;touch-action:pan-y;text-align:center}
 #mini header{display:flex;justify-content:space-between;align-items:center;line-height:30px}
 #miniTajuk{font-size:19px}
@@ -7401,9 +7417,9 @@ window.addEventListener('keydown', (e) => {
   const aksi = k === 'e' || k === ' ' || k === 'enter';
   if (State.uiLock === 'sukan') { if (aksi && !e.repeat) { Sukan.pukul(); e.preventDefault(); } else if (k === 'escape') Sukan.henti(); return; }
   if (State.uiLock === 'makan') return;
-  if (State.uiLock === 'mikroskop') { Mikroskop.kunci(e, k); return; }
-  if (State.uiLock === 'warna') { Warna.kunci(e, k); return; }
-  if (State.uiLock === 'suria') { Suria.kunci(e, k); return; }
+  if (State.uiLock === 'mikroskop') { if (!Fokus.kunci(e, k, 'mikroskop')) Mikroskop.kunci(e, k); return; }
+  if (State.uiLock === 'warna') { if (!Fokus.kunci(e, k, 'warna')) Warna.kunci(e, k); return; }
+  if (State.uiLock === 'suria') { if (!Fokus.kunci(e, k, 'suria')) Suria.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -11354,6 +11370,52 @@ window.addEventListener('resize', () => HudRingkas.guna());
 if (/[?&]dbg/.test(location.search)) document.body.classList.add('modDebug');
 $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
 /* ===================== Makmal Sains: 5 eksperimen (Perhati • Ramal • Uji) ===================== */
+/* ===================== Fokus: paparan item yang lapang (v90) =====================
+   Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
+   (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
+const Fokus = {
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
+  kumpul(r, id) {
+    const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
+    const tambah = (o, p) => { if (o && o.scale && p && Math.hypot(p.x - wx, p.z - wz) <= this.J && !senarai.some((s) => s.o === o)) senarai.push({ o, b: o.scale.clone(), s: 1 }); };
+    (r.npcs || []).forEach((n) => tambah(n.obj, n.pos));
+    try { NPCs.list.forEach((n) => { if (n.room === 'makmal') tambah(n.obj, n.pos); }); } catch (err) {}
+    try { if (Player.m) tambah(Player.m.group, Player.pos); } catch (err) {}
+    this.rec = senarai;
+  },
+  urus(id, k, aktif, dt, kur) {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return; const mahu = aktif && k > 0.35;
+    if (mahu && !this.id) { this.id = id; this.kumpul(r, id); document.body.classList.add('fokusItem'); }
+    if (this.id === id) {
+      const f = kur ? 1 : 1 - Math.exp(-dt * 9); let semua = true;
+      this.rec.forEach((s) => { s.s += ((mahu ? 0.001 : 1) - s.s) * f; s.o.scale.set(s.b.x * s.s, s.b.y * s.s, s.b.z * s.s); if (!mahu && s.s < 0.995) semua = false; });
+      if (!mahu && semua) { this.rec.forEach((s) => s.o.scale.copy(s.b)); this.rec = []; this.id = null; document.body.classList.remove('fokusItem'); }
+    }
+    this.pandang(id, k, aktif, dt, kur);
+  },
+  pandang(id, k, aktif, dt, kur) {   // pusatkan pandangan dalam ruang bebas di atas panel (tanpa mengubah kedudukan kamera)
+    if (this.dhId && this.dhId !== id && this.dh > 0.5) return;
+    const el = $(id), kk = el && el.firstElementChild, tinggi = (aktif && el && !el.hidden && kk) ? (kk.offsetHeight || 0) + 8 : 0, sasar = tinggi * Math.min(1, k);
+    this.dhId = id; this.dh += (sasar - this.dh) * (kur ? 1 : 1 - Math.exp(-dt * 8));
+    if (this.dh > 0.5) { camera.setViewOffset(window.innerWidth, window.innerHeight, 0, this.dh / 2, window.innerWidth, window.innerHeight); this.ada = true; }
+    else if (this.ada) { camera.clearViewOffset(); camera.updateProjectionMatrix(); this.ada = false; this.dh = 0; this.dhId = null; }
+  },
+  togol(id) {
+    const el = $(id); if (!el) return; const kecil = el.classList.toggle('dokKecil'); const bt = el.querySelector('.dokTogol');
+    if (bt) { bt.textContent = kecil ? 'Besarkan' : 'Kecilkan'; bt.setAttribute('aria-pressed', kecil ? 'true' : 'false'); }
+  },
+  kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
+  init() {
+    ['mikroskop', 'warna', 'suria'].forEach((id) => {
+      const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
+      const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
+      bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
+    });
+  }
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => Fokus.init()); else Fokus.init();
+
 /* ===================== Mikroskop: aktiviti praktikal (v86) ===================== */
 const Mikroskop = {
   aktif: false, langkah: 0, f: 0.5, t: 0.5, fv: 0.5, p: 1, pv: 1, k: 0, ke: 0, tahan: 0, jaya: false, raf: 0, last: 0, nod: null, V: null,
@@ -11379,8 +11441,9 @@ const Mikroskop = {
     if (this.kurang()) { this.k = 1; this.pv = 0; }
     this.mula();
   },
-  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || Math.abs(this.pv - this.p) > 0.002) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || Math.abs(this.pv - this.p) > 0.002 || Fokus.sedia('mikroskop')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
   tick(dt) {
+    Fokus.urus('mikroskop', this.k, this.aktif, dt, this.kurang());
     const sm = this.kurang() ? 1 : 1 - Math.exp(-dt * 9);
     this.k += (this.ke - this.k) * (this.kurang() ? 1 : 1 - Math.exp(-dt * 4.5));
     this.pv += (this.p - this.pv) * sm; this.fv += (this.f - this.fv) * sm;
@@ -11398,7 +11461,7 @@ const Mikroskop = {
     const r = Rooms.list.makmal; if (!r || this.k < 0.002) return;
     const e = this.k * this.k * (3 - 2 * this.k), mx = r.ox - 3.6, mz = r.oz - 0.45, V = this.V;
     camera.position.lerp(V.set(mx + 0.1, 1.55, mz + 0.78), e);
-    V.copy(Cam.look).lerp(new THREE.Vector3(mx, 0.86, mz), e); camera.lookAt(V);
+    V.copy(Cam.look).lerp(new THREE.Vector3(mx, 1.05, mz), e);   // v90: paparan dialihkan ke atas panel oleh Fokus.pandang camera.lookAt(V);
   },
   // ----- langkah 1: slaid -----
   letakChip(p) { const j = $('mkJalur'), c = $('mkSlaid'); c.style.left = (6 + p * Math.max(0, j.clientWidth - 6 - 6 - 58 - 6)) + 'px'; },
@@ -11537,7 +11600,7 @@ const Warna = {
     $('wnArahan').textContent = 'Campurkan air berwarna ' + this.e.a + ' dengan ' + this.e.b + '. Pilih dua bikar yang betul.';
   },
   mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat()) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
-  belumRehat() { return this.KUNCI.some((c) => { const b = this.B[c]; return b && (Math.abs(b.pv - b.p) > 0.003 || Math.abs(b.lv - b.lvl) > 0.004 || b.thv > 0.01 || b.sv > 0.01); }) || this.fl > 0.01 || this.lcv > 0.004; },
+  belumRehat() { return this.KUNCI.some((c) => { const b = this.B[c]; return b && (Math.abs(b.pv - b.p) > 0.003 || Math.abs(b.lv - b.lvl) > 0.004 || b.thv > 0.01 || b.sv > 0.01); }) || this.fl > 0.01 || this.lcv > 0.004 || Fokus.sedia('warna'); },
   tutup() {
     if (!this.aktif) return; this.aktif = false; this.ke = 0; $('warna').hidden = true; if (State.uiLock === 'warna') setLock(null);
     this.semula(); this.langkah = 0; this.sel = []; this.bunyi(0); this.mula(); if (this.kurang()) this.k = 0;
@@ -11597,6 +11660,7 @@ const Warna = {
   // ----- fizik tuangan ringan + penjelmaan 3D (setiap bingkai) -----
   tick(dt) {
     const kur = this.kurang(), sm = kur ? 1 : 1 - Math.exp(-dt * 8), N = this.nod, G = this.G;
+    Fokus.urus('warna', this.k, this.aktif, dt, kur);
     this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5));
     if (this.tunggu > 0 && this.aktif) { this.tunggu -= dt; if (this.tunggu <= 0) { const t = this.tindak; this.tindak = ''; if (t === 'mula') this.mulaTuang(); else if (t === 'salah') { this.sel = []; this.KUNCI.forEach((c) => { this.B[c].sel = 0; }); this.segarPilih(); $('wnArahan').textContent = 'Campurkan air berwarna ' + this.e.a + ' dengan ' + this.e.b + '. Pilih dua bikar yang betul.'; } } }
     let alir = 0; const ak = this.aktif && this.langkah === 1 ? this.b() : null;
@@ -11695,7 +11759,7 @@ const Warna = {
   // ----- kamera, bunyi, papan kekunci -----
   kamera() {
     const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, G = this.G, mx = r.ox + G.bx, mz = r.oz - 0.36;
-    camera.position.lerp(V.set(mx + 0.03, 1.5, mz + 0.82), e); V.copy(Cam.look).lerp(new THREE.Vector3(mx, 0.93, mz - 0.04), e); camera.lookAt(V);
+    camera.position.lerp(V.set(mx + 0.03, 1.5, mz + 0.82), e); V.copy(Cam.look).lerp(new THREE.Vector3(mx, 1.0, mz - 0.04), e); camera.lookAt(V);
   },
   bunyi(kuat, dt) {   // bunyi tuangan lembut: denyut hingar bertapis, hanya semasa mengalir
     if (!kuat) { this.pulse = 0; return; }
@@ -11785,7 +11849,7 @@ const Suria = {
     ['matahari'].concat(this.NAMA).forEach((k) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.p = k; bt.setAttribute('aria-pressed', 'false'); bt.innerHTML = '<i class="suDot" style="background:' + this.WARNA[k] + '"></i>' + this.LABEL[k]; bt.addEventListener('click', () => this.pilih(k)); P.appendChild(bt); });
     $('suNama').textContent = ''; $('suFakta').textContent = 'Sentuh planet pada model, atau pilih daripada senarai.'; this.uiTrek();
   },
-  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.mv > 0.002 || Math.abs(this.fok) > 0.002 || this.skalaBaki()) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.mv > 0.002 || Math.abs(this.fok) > 0.002 || this.skalaBaki() || Fokus.sedia('suria')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
   skalaBaki() { return Object.keys(this.sv).some((k) => Math.abs(this.sv[k] - 1) > 0.003); },
   tutup() {
     if (!this.aktif) return; this.aktif = false; this.ke = 0; this.mt = 0; this.sel = null; $('suria').hidden = true; if (State.uiLock === 'suria') setLock(null); this.drag = null;
@@ -11866,6 +11930,7 @@ const Suria = {
   // ----- animasi (setiap bingkai) -----
   tick(dt) {
     const kur = this.kurang(), ex = (r) => (kur ? 1 : 1 - Math.exp(-dt * r)), N = this.nod, O = this.O;
+    Fokus.urus('suria', this.k, this.aktif, dt, kur);
     this.k += (this.ke - this.k) * ex(4.5); this.mv += (this.mt - this.mv) * ex(2.6); this.sp += (this.spt - this.sp) * ex(3.5);
     this.az += (this.azt - this.az) * ex(6); this.el += (this.elt - this.el) * ex(6); this.R += (this.Rt - this.R) * ex(5);
     const sasaranFok = this.sel ? 1 : 0; this.fok += (sasaranFok - this.fok) * ex(5); this.Rt = this.sel ? 0.78 : 0.95;

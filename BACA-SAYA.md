@@ -208,3 +208,7 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Peralatan.suria()` kini membuka `Suria.buka()`: Mula, orbit lapan planet (laju berbeza, tidak mengikut skala), Jeda/Sambung, sudut pandangan, pilih planet (nama + fakta) dan Cabaran Susun. Ganjaran +1 Ilmu (kunci `suria`, sekali sehari) hanya selepas cabaran berjaya. Fakta asal kekal sebagai `Peralatan.suriaLama()` jika GLB tiada.
 - GLB: `model_suria` (pelantar, tetap, berperlanggaran) dipisahkan daripada nod `lalu_suria_matahari`, `lalu_suria_<planet>` (pangsi di pusat planet) dan `lalu_suria_batang`. Papan nama `tanda_suria` menyatakan "Tidak mengikut skala".
 - Kawalan: ketik/seret kanvas, butang, anak panah/WASD, kekunci 0-8, Space = Jeda, Esc = Keluar.
+
+## Paparan item yang lapang (v90)
+- Modul `Fokus` (dikongsi oleh Mikroskop, Eksperimen Warna dan Sistem Suria): watak dalam jarak 1.7 m daripada model (murid, guru, pemain) mengecil perlahan semasa kamera dekat dan pulih selepas ditutup; paparan 3D dialihkan ke ruang bebas di atas panel (`camera.setViewOffset`); panel boleh dikecilkan (butang Kecilkan atau kekunci H); HUD tidak penting (objektif, ringkasan tugas, peta mini) disorok semasa aktiviti (`body.fokusItem`).
+- Tiada perubahan pada fail GLB.
