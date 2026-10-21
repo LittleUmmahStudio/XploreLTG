@@ -227,6 +227,33 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .wnTrek i{position:absolute;top:2px;left:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;border:3px solid #2B2F38;background:#fff}
 #wnMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
 @media (max-height:430px){#warna .kertas{padding:4px 10px 8px}#wnArahan{font-size:13px;margin:2px 0 3px;min-height:2.4em}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:40px;height:40px}.wnBaris .btn{min-height:40px}}
+#suria{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#suria .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;text-align:center;max-height:52vh;max-height:52dvh;overflow:auto;user-select:none;-webkit-user-select:none}
+#suria header{display:flex;justify-content:space-between;align-items:center;gap:8px;line-height:28px;text-align:left}
+#suria header .btn{min-height:36px;padding:0 10px;font-size:14px}
+.suSkala{flex:1;text-align:center;font-weight:700;font-size:12px;color:#7A5200;background:#FFF1C9;border:2px solid #2B2F38;border-radius:12px;padding:0 8px;max-width:190px;line-height:22px}
+#suArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+.suBaris{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:2px 0 6px;align-items:center}
+.suBaris .btn,.suSudut .btn{min-height:44px;min-width:44px;padding:0 12px}
+.suSudut{display:inline-flex;gap:6px;align-items:center;font-weight:700;font-size:14px}
+.suSudut .btn{min-width:40px;padding:0 6px}
+#suTrek{position:relative;width:min(160px,28vw);height:40px;border:3px solid var(--garis-luar);border-radius:20px;background:linear-gradient(90deg,#E9F4EC,#E1ECFA);touch-action:none;cursor:ew-resize}
+#suTrek i{position:absolute;top:2px;left:0;width:30px;height:30px;margin-left:-15px;border-radius:50%;border:3px solid #2B2F38;background:#fff}
+#suPlanet .btn,#suPool .btn{min-height:42px;padding:0 9px;font-size:13px;display:inline-flex;align-items:center;gap:5px}
+#suPlanet .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px;transform:translateY(-2px)}
+.suDot{width:16px;height:16px;border-radius:50%;border:2px solid #2B2F38;display:inline-block}
+#suInfo{min-height:2.8em;font-size:14px;line-height:1.35;margin:2px 0 6px}
+#suSlot .slot{width:calc(12.5% - 6px);min-width:62px;min-height:46px;border:3px dashed #7C8794;border-radius:10px;font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;cursor:pointer}
+#suSlot .slot[aria-pressed="true"]{border-color:#E8684F;background:#FFF1EC}
+#suSlot .slot.betul{border-style:solid;border-color:#2F9E5B;background:#E6F7EC}
+#suSlot .slot.goyang,#suPool .btn.goyang{animation:suGoyang .35s}
+@keyframes suGoyang{20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+#suPool .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px}
+.suProg{height:10px;border:2px solid #2B2F38;border-radius:6px;background:#fff;margin:2px auto 6px;max-width:420px;overflow:hidden}#suBar{height:100%;width:0;background:#58C27C;transition:width .25s}
+#suMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+@media (max-height:430px){#suria .kertas{padding:4px 10px 8px;max-height:58vh;max-height:58dvh}#suArahan{font-size:13px;margin:2px 0 3px;min-height:2.2em}.suBaris{margin-bottom:3px}.suBaris .btn,.suSudut .btn{min-height:38px}#suSlot .slot{min-height:38px}}
+@media (prefers-reduced-motion: reduce){#suSlot .slot.goyang,#suPool .btn.goyang{animation:none}#suBar{transition:none}}
 #mini .kertas{width:min(560px,100%);max-height:100%;overflow:auto;touch-action:pan-y;text-align:center}
 #mini header{display:flex;justify-content:space-between;align-items:center;line-height:30px}
 #miniTajuk{font-size:19px}
@@ -769,6 +796,29 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
         <div id="wnJawab" class="wnBaris" role="group" aria-label="Pilih warna yang terhasil"></div>
         <p id="wnMaklum" aria-live="polite"></p>
         <div class="wnBaris"><button id="wnUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="wnSiap" class="btn" type="button" hidden>Selesai</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="suria" class="panel-fokus" hidden role="dialog" aria-label="Teroka Sistem Suria">
+    <div class="kertas">
+      <header><strong>Sistem Suria</strong><small class="suSkala">Tidak mengikut skala</small><button id="suKeluar" class="btn" type="button">Keluar</button></header>
+      <p id="suArahan" aria-live="polite"></p>
+      <div id="suT0" class="suBaris"><button id="suMula" class="btn" type="button">Mula</button></div>
+      <div id="suT1" hidden>
+        <div class="suBaris"><button id="suJeda" class="btn" type="button">Jeda</button>
+          <span class="suSudut">Sudut <button id="suNaik" class="btn" type="button" aria-label="Sudut lebih tinggi">▲</button><div id="suTrek" role="slider" tabindex="0" aria-label="Sudut pandangan" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i></i></div><button id="suTurun" class="btn" type="button" aria-label="Sudut lebih rendah">▼</button>
+          <button id="suKiri" class="btn" type="button" aria-label="Putar ke kiri">⟲</button><button id="suKanan" class="btn" type="button" aria-label="Putar ke kanan">⟳</button></span></div>
+        <div id="suPlanet" class="suBaris" role="group" aria-label="Pilih planet"></div>
+        <div id="suInfo" aria-live="polite"><strong id="suNama"></strong> <span id="suFakta"></span></div>
+        <div class="suBaris"><button id="suCabar" class="btn" type="button">Cabaran Susun</button></div>
+      </div>
+      <div id="suT2" hidden>
+        <div id="suSlot" class="suBaris" role="group" aria-label="Susunan planet dari Matahari"></div>
+        <div id="suPool" class="suBaris" role="group" aria-label="Planet untuk disusun"></div>
+        <div class="suProg"><div id="suBar"></div></div>
+        <p id="suMaklum" aria-live="polite"></p>
+        <div class="suBaris"><button id="suUlang" class="btn" type="button">Cuba Lagi</button><button id="suBalik" class="btn" type="button">Kembali Teroka</button><button id="suSiap" class="btn" type="button" hidden>Selesai</button></div>
       </div>
     </div>
   </section>
@@ -4945,11 +4995,12 @@ const InteriorGLB = {
       wajib: ['meja_guru', 'meja_makmal_1', 'meja_makmal_2', 'meja_makmal_3', 'meja_makmal_4', 'rak_balang', 'rak_kot', 'model_suria',
         'lalu_mikroskop', 'lalu_bikar_warna', 'lalu_litar', 'lalu_magnet', 'lalu_tumbuhan', 'lalu_tangki_air',
         'int_mikroskop', 'int_warna', 'int_suria', 'int_kot', 'int_terapung', 'int_magnet', 'int_litar', 'int_tumbuhan', 'int_keselamatan'],
+      tanda: { tanda_suria: ['Tidak mengikut skala', -Math.PI / 2, 0.5, 0.14] },
       tugas: () => Makmal,   // sauh dengan elemen ke-7 = nama aksi tugasan: syarat = Makmal.boleh(aksi), keutamaan = Makmal.langkah(aksi) ? 2 : 0
       aksi: {
         int_mikroskop: ['Guna', 'Guna mikroskop', () => Peralatan.mikroskop(), 1.3],
         int_warna: ['Uji', 'Buat eksperimen warna', () => Peralatan.warna(), 1.3],
-        int_suria: ['Lihat', 'Lihat model Sistem Suria', () => Peralatan.suria(), 1.4],
+        int_suria: ['Teroka', 'Teroka model Sistem Suria', () => Peralatan.suria(), 1.4],
         int_kot: ['Pakai', 'Pakai kot makmal & cermin mata keselamatan', () => Makmal.pakaiKot(), 1.3],
         int_terapung: ['Uji', 'Eksperimen terapung atau tenggelam', () => Makmal.terapung(), 1.2, 'terapung'],
         int_magnet: ['Uji', 'Eksperimen magnet', () => Makmal.magnet(), 1.2, 'magnet'],
@@ -6615,7 +6666,8 @@ const Peralatan = {
   fakta(tajuk, senarai, kunci) { Dialog.show(tajuk, [this.pilih(senarai)], { onDone: () => this.ganjaran(kunci, { ilmu: 1 }) }); },
   mikroskop() { Mikroskop.buka(); },   // v86: aktiviti praktikal; dialog lama kekal sebagai mikroskopLama()
   mikroskopLama() { Dialog.show('Mikroskop', ['Kamu melaraskan kanta dan melihat dengan teliti...', this.pilih(CONTENT.alat.mikroskop)], { onDone: () => this.ganjaran('mikroskop', { ilmu: 1 }) }); },
-  suria() { this.fakta('Model Sistem Suria', CONTENT.alat.suria, 'suria'); },
+  suria() { Suria.buka(); },   // v88: aktiviti praktikal; fakta asal kekal sebagai suriaLama() (digunakan jika GLB tiada)
+  suriaLama() { this.fakta('Model Sistem Suria', CONTENT.alat.suria, 'suria'); },
   warna() { Warna.buka(); },   // v87: aktiviti praktikal (dialog asal kekal sebagai warnaLama(), digunakan jika GLB tiada)
   warnaLama() {
     const e = this.pilih(CONTENT.alat.warna);
@@ -7351,6 +7403,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'makan') return;
   if (State.uiLock === 'mikroskop') { Mikroskop.kunci(e, k); return; }
   if (State.uiLock === 'warna') { Warna.kunci(e, k); return; }
+  if (State.uiLock === 'suria') { Suria.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7541,7 +7594,8 @@ const Cam = {
     this.look.copy(this.tgt); if (!atas) this.look.y += Math.max(0, 0.15 - this.pAktif) * 3;   // pandang ke atas
     camera.lookAt(this.look);
     if (Mikroskop.k > 0.002) Mikroskop.kamera();
-    if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna
+    if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11676,6 +11730,197 @@ const Warna = {
     Warna.tahan($('wnKiri'), () => { const b = Warna.b(); if (b) Warna.tetapP(b.p - 0.04); }); Warna.tahan($('wnKanan'), () => { const b = Warna.b(); if (b) Warna.tetapP(b.p + 0.04); });
     Warna.tahan($('wnTegak'), () => { const b = Warna.b(); if (b) Warna.tetapU(b.u - 0.04); }); Warna.tahan($('wnCondong'), () => { const b = Warna.b(); if (b) Warna.tetapU(b.u + 0.04); });
     window.addEventListener('resize', () => { if (Warna.aktif && Warna.langkah === 1) Warna.uiTrek(); });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
+/* ===================== Teroka Sistem Suria: aktiviti praktikal (v88) ===================== */
+const Suria = {
+  NAMA: ['utarid', 'zuhrah', 'bumi', 'marikh', 'musytari', 'zuhal', 'uranus', 'neptun'],   // susunan betul dari Matahari
+  LABEL: { matahari: 'Matahari', utarid: 'Utarid', zuhrah: 'Zuhrah', bumi: 'Bumi', marikh: 'Marikh', musytari: 'Musytari', zuhal: 'Zuhal', uranus: 'Uranus', neptun: 'Neptun' },
+  WARNA: { matahari: '#FFC93C', utarid: '#A9A39B', zuhrah: '#E8C477', bumi: '#4F9BE0', marikh: '#D8603F', musytari: '#E1A66D', zuhal: '#E7D29A', uranus: '#9ADBE3', neptun: '#4A63D6' },
+  FAKTA: {
+    matahari: 'Bintang yang memberi cahaya dan haba kepada semua planet.',
+    utarid: 'Planet paling dekat dengan Matahari dan paling kecil.',
+    zuhrah: 'Sangat terang di langit, dikenali sebagai bintang pagi atau petang. Awannya tebal dan sangat panas.',
+    bumi: 'Planet tempat kita tinggal. Ada air, udara dan kehidupan. Bulan mengelilingi Bumi.',
+    marikh: 'Dipanggil planet merah kerana tanahnya berwarna merah.',
+    musytari: 'Planet paling besar dalam Sistem Suria. Ada ribut besar yang dipanggil Bintik Merah Besar.',
+    zuhal: 'Terkenal dengan cincinnya yang cantik, daripada ais dan batu.',
+    uranus: 'Planet biru kehijauan yang sangat sejuk. Ia berputar dalam keadaan condong.',
+    neptun: 'Planet paling jauh daripada Matahari. Anginnya kuat dan warnanya biru pekat.' },
+  O: { cx: 5.2, cy: 1.02, cz: 3.23, a: [0.09, 0.145, 0.2, 0.255, 0.31, 0.355, 0.395, 0.43], bk: 0.5, T: [5, 8, 11, 15, 24, 32, 44, 56], kecil: [1, 1, 1, 1, 1, 1, 1, 1] },   // orbit ilustrasi (tidak mengikut skala)
+  aktif: false, tahap: 0, mt: 0, mv: 0, sp: 1, spt: 1, jeda: false, th: [], sel: null, sv: {}, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null,
+  az: 0, azt: 0, el: 0.65, elt: 0.65, R: 0.95, Rt: 0.95, fok: 0, tT: 0, diberi: false, hint: '', slot: [], pool: [], pilihT: null, betul: 0, salah: 0, drag: null,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null; const g = (n) => r.group.getObjectByName(n), N = { r, b: {} };
+    for (const k of ['matahari'].concat(this.NAMA)) { const o = g('lalu_suria_' + k); if (!o) return null; N.b[k] = o; }
+    N.batang = g('lalu_suria_batang'); if (!N.batang) return null;
+    if (!N.batang.userData.siap) {   // sekali sahaja: kedudukan paparan asal, panduan orbit (garis), penanda pilihan
+      for (const k in N.b) N.b[k].userData.dasar = N.b[k].position.clone();
+      const garis = new THREE.Group(); garis.name = 'suria_panduan'; garis.visible = false;
+      this.O.a.forEach((a) => { const P = []; for (let i = 0; i <= 48; i++) { const t = i / 48 * Math.PI * 2; P.push(new THREE.Vector3(Math.cos(t) * a, 0, Math.sin(t) * a * this.O.bk)); } const gm = new THREE.BufferGeometry().setFromPoints(P); garis.add(new THREE.Line(gm, new THREE.LineBasicMaterial({ color: '#BFD6F5', transparent: true, opacity: 0.55 }))); });
+      garis.position.set(this.O.cx, this.O.cy, this.O.cz); r.group.add(garis); N.batang.userData.garis = garis;
+      const cincin = new THREE.Mesh(new THREE.TorusGeometry(1, 0.07, 6, 24), new THREE.MeshBasicMaterial({ color: '#FFE08A', transparent: true, opacity: 0.9, depthTest: false })); cincin.renderOrder = 5; cincin.visible = false; r.group.add(cincin); N.batang.userData.cincin = cincin;
+      N.batang.userData.siap = true;
+    }
+    N.garis = N.batang.userData.garis; N.cincin = N.batang.userData.cincin; return N;
+  },
+  buka() {
+    if (this.aktif || State.uiLock) return;
+    this.nod = Rooms.current === 'makmal' ? this.cari() : null;
+    if (!this.nod) { Peralatan.suriaLama(); return; }   // tanpa GLB / di luar makmal: fakta asal
+    this.aktif = true; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.diberi = false;
+    this.tahap = 0; this.mt = 0; this.jeda = this.kurang(); this.spt = this.jeda ? 0 : 1; this.sel = null; this.hint = '';
+    this.th = this.NAMA.map((_, i) => i * 0.9 + 0.3); this.az = this.azt = 0; this.el = this.elt = 0.65; this.R = this.Rt = 0.95; this.fok = 0;
+    this.sv = {}; ['matahari'].concat(this.NAMA).forEach((k) => { this.sv[k] = 1; });
+    $('suT0').hidden = false; $('suT1').hidden = true; $('suT2').hidden = true; this.bina();
+    $('suArahan').textContent = 'Teroka Sistem Suria. ' + Peralatan.pilih(CONTENT.alat.suria) + ' Tekan Mula untuk menggerakkan planet.';
+    $('suria').hidden = false; setLock('suria'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula();
+    try { $('suMula').focus({ preventScroll: true }); } catch (err) {}
+  },
+  bina() {
+    const P = $('suPlanet'); P.innerHTML = '';
+    ['matahari'].concat(this.NAMA).forEach((k) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.p = k; bt.setAttribute('aria-pressed', 'false'); bt.innerHTML = '<i class="suDot" style="background:' + this.WARNA[k] + '"></i>' + this.LABEL[k]; bt.addEventListener('click', () => this.pilih(k)); P.appendChild(bt); });
+    $('suNama').textContent = ''; $('suFakta').textContent = 'Sentuh planet pada model, atau pilih daripada senarai.'; this.uiTrek();
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.mv > 0.002 || Math.abs(this.fok) > 0.002 || this.skalaBaki()) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  skalaBaki() { return Object.keys(this.sv).some((k) => Math.abs(this.sv[k] - 1) > 0.003); },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; this.mt = 0; this.sel = null; $('suria').hidden = true; if (State.uiLock === 'suria') setLock(null); this.drag = null;
+    if (this.kurang()) { this.k = 0; this.mv = 0; } this.mula();
+  },
+  // ----- Mula / Jeda / sudut -----
+  mulakan() { if (!this.aktif || this.tahap !== 0) return; this.tahap = 1; this.mt = 1; $('suT0').hidden = true; $('suT1').hidden = false; Sound.play('pick'); this.segarJeda();
+    $('suArahan').textContent = 'Planet mengorbit Matahari dengan laju yang berbeza. Sentuh planet untuk tahu lebih lanjut.'; this.mula(); },
+  togolJeda() { if (!this.aktif || this.tahap < 1) return; this.jeda = !this.jeda; this.spt = this.jeda ? 0 : 1; this.segarJeda(); this.mula(); },
+  segarJeda() { $('suJeda').textContent = this.jeda ? 'Sambung' : 'Jeda'; $('suJeda').setAttribute('aria-pressed', this.jeda ? 'true' : 'false'); },
+  sudut(d) { this.elt = Math.max(0.2, Math.min(1.35, this.elt + d)); this.uiTrek(); this.mula(); },
+  putar(d) { this.azt = Math.max(-0.9, Math.min(0.9, this.azt + d)); this.mula(); },
+  uiTrek() { const tr = $('suTrek'), v = (this.elt - 0.2) / 1.15; tr.firstElementChild.style.left = (15 + v * Math.max(0, tr.clientWidth - 6 - 30)) + 'px'; tr.setAttribute('aria-valuenow', Math.round(v * 100)); },
+  seretTrek(e) {
+    if (!this.aktif) return; e.preventDefault(); const tr = $('suTrek'); tr.setPointerCapture(e.pointerId); try { tr.focus({ preventScroll: true }); } catch (err) {}
+    const gerak = (ev) => { const bb = tr.getBoundingClientRect(); this.elt = 0.2 + 1.15 * Math.max(0, Math.min(1, (ev.clientX - bb.left - 18) / Math.max(1, bb.width - 36))); this.uiTrek(); this.mula(); };
+    const tamat = () => { tr.removeEventListener('pointermove', gerak); tr.removeEventListener('pointerup', tamat); tr.removeEventListener('pointercancel', tamat); };
+    tr.addEventListener('pointermove', gerak); tr.addEventListener('pointerup', tamat); tr.addEventListener('pointercancel', tamat); gerak(e);
+  },
+  // ----- pilih planet (butang, kanvas sentuh/tetikus, kekunci) -----
+  pilih(k) {
+    if (!this.aktif || this.tahap < 1) return; const sama = this.sel === k; this.sel = sama ? null : k;
+    $('suPlanet').querySelectorAll('button').forEach((bt) => bt.setAttribute('aria-pressed', bt.dataset.p === this.sel ? 'true' : 'false'));
+    $('suNama').textContent = this.sel ? this.LABEL[k] + ':' : ''; $('suFakta').textContent = this.sel ? this.FAKTA[k] : 'Sentuh planet pada model, atau pilih daripada senarai.';
+    if (this.sel) Sound.play('pick'); this.mula();
+  },
+  kanvas(e, fasa) {   // seret = ubah sudut pandangan; ketik = pilih planet terdekat (dalam piksel skrin)
+    if (!this.aktif || this.tahap < 1) return false;
+    if (fasa === 'turun') { this.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, mx: e.clientX, my: e.clientY, jauh: false }; return true; }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false;
+    if (fasa === 'gerak') { const dx = e.clientX - d.mx, dy = e.clientY - d.my; d.mx = e.clientX; d.my = e.clientY; if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 8) d.jauh = true; if (d.jauh) { this.azt = Math.max(-0.9, Math.min(0.9, this.azt - dx * 0.006)); this.elt = Math.max(0.2, Math.min(1.35, this.elt + dy * 0.005)); this.uiTrek(); this.mula(); } return true; }
+    if (fasa === 'naik') { this.drag = null; if (!d.jauh) { const k = this.terdekat(e.clientX, e.clientY); if (k) this.pilih(k); } return true; }
+    return false;
+  },
+  terdekat(px, py) {
+    const N = this.nod; if (!N) return null; let best = null, bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 44 : 30); const W = window.innerWidth, H = window.innerHeight, V = this.V2;
+    for (const k in N.b) { N.b[k].getWorldPosition(V); V.project(camera); if (V.z > 1) continue; const dx = (V.x * 0.5 + 0.5) * W - px, dy = (-V.y * 0.5 + 0.5) * H - py, d = Math.hypot(dx, dy); if (d < bd) { bd = d; best = k; } }
+    return best;
+  },
+  // ----- cabaran: susun planet mengikut urutan -----
+  cabar() {
+    if (!this.aktif || this.tahap < 1) return; this.tahap = 2; $('suT1').hidden = true; $('suT2').hidden = false; this.sel = null; this.mulaCabar(); this.mula();
+  },
+  mulaCabar() {
+    this.slot = this.NAMA.map(() => null); this.pool = shuffle(this.NAMA.slice()); if (this.pool.join() === this.NAMA.join()) this.pool.reverse(); this.pilihT = null; this.betul = 0; this.salah = 0; this.selesaiC = false;
+    $('suSiap').hidden = true; $('suMaklum').textContent = ''; $('suArahan').textContent = 'Susun planet mengikut urutan dari Matahari. Pilih planet, kemudian pilih petak.'; this.lukisCabar();
+  },
+  lukisCabar() {
+    const S = $('suSlot'), Pp = $('suPool'); S.innerHTML = ''; Pp.innerHTML = '';
+    this.NAMA.forEach((k, i) => { const d = document.createElement('div'); d.className = 'slot' + (this.slot[i] ? ' betul' : ''); d.dataset.i = String(i); d.setAttribute('role', 'button'); d.tabIndex = 0; d.setAttribute('aria-label', 'Petak ' + (i + 1)); d.setAttribute('aria-pressed', 'false');
+      d.innerHTML = '<span>' + (i + 1) + '</span>' + (this.slot[i] ? '<span><i class="suDot" style="background:' + this.WARNA[this.slot[i]] + '"></i> ' + this.LABEL[this.slot[i]] + '</span>' : ''); d.addEventListener('click', () => this.letakDi(i)); d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); this.letakDi(i); } }); S.appendChild(d); });
+    this.pool.forEach((k) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.p = k; bt.setAttribute('aria-pressed', this.pilihT === k ? 'true' : 'false'); bt.innerHTML = '<i class="suDot" style="background:' + this.WARNA[k] + '"></i>' + this.LABEL[k]; bt.addEventListener('click', () => this.ambil(k)); Pp.appendChild(bt); });
+    $('suBar').style.width = (this.betul / 8 * 100) + '%';
+  },
+  ambil(k) { if (!this.aktif || this.tahap !== 2 || this.selesaiC) return; this.pilihT = this.pilihT === k ? null : k; Sound.play('pick'); this.lukisCabar(); },
+  letakDi(i) {
+    if (!this.aktif || this.tahap !== 2 || this.selesaiC || this.slot[i]) return;
+    if (!this.pilihT) { $('suMaklum').textContent = 'Pilih planet dahulu.'; return; }
+    const k = this.pilihT;
+    if (this.NAMA[i] === k) {
+      this.slot[i] = k; this.pool = this.pool.filter((x) => x !== k); this.pilihT = null; this.betul++; this.denyut = { k, t: 0 }; Sound.play('ok'); $('suMaklum').textContent = '✓ ' + this.LABEL[k] + ' betul, planet ke-' + (i + 1) + ' dari Matahari. (' + this.betul + '/8)';
+      this.lukisCabar(); if (this.betul === 8) this.berjaya(); this.mula();
+    } else {
+      this.salah++; Sound.play('wrong'); $('suMaklum').textContent = 'Belum tepat. ' + this.LABEL[k] + ' bukan planet ke-' + (i + 1) + '. Cuba petak lain.'; this.pilihT = null; this.lukisCabar();
+      const sl = $('suSlot').children[i]; if (sl) sl.classList.add('goyang'); const pb = $('suPool').querySelector('[data-p="' + k + '"]'); if (pb) pb.classList.add('goyang');
+    }
+  },
+  berjaya() {
+    this.selesaiC = true; $('suArahan').textContent = 'Tahniah! Semua planet tersusun dengan betul: Utarid, Zuhrah, Bumi, Marikh, Musytari, Zuhal, Uranus, Neptun.'; $('suSiap').hidden = false; Sound.play('done');
+    if (!this.diberi) {   // ganjaran sedia ada (kunci 'suria', sekali sehari), hanya selepas cabaran berjaya
+      this.diberi = true; const d = State.data, sebelum = d && d.alat ? d.alat.suria : undefined;
+      Peralatan.ganjaran('suria', { ilmu: 1 }, '🪐 Sistem Suria selesai! +1 Ilmu');
+      if (d && d.alat && d.alat.suria === sebelum) toast('🪐 Hebat! Susunan planet betul.');
+    }
+    try { $('suSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  balikTeroka() { if (!this.aktif || this.tahap !== 2) return; this.tahap = 1; $('suT2').hidden = true; $('suT1').hidden = false; $('suArahan').textContent = 'Planet mengorbit Matahari dengan laju yang berbeza. Sentuh planet untuk tahu lebih lanjut.'; this.mula(); },
+  // ----- animasi (setiap bingkai) -----
+  tick(dt) {
+    const kur = this.kurang(), ex = (r) => (kur ? 1 : 1 - Math.exp(-dt * r)), N = this.nod, O = this.O;
+    this.k += (this.ke - this.k) * ex(4.5); this.mv += (this.mt - this.mv) * ex(2.6); this.sp += (this.spt - this.sp) * ex(3.5);
+    this.az += (this.azt - this.az) * ex(6); this.el += (this.elt - this.el) * ex(6); this.R += (this.Rt - this.R) * ex(5);
+    const sasaranFok = this.sel ? 1 : 0; this.fok += (sasaranFok - this.fok) * ex(5); this.Rt = this.sel ? 0.78 : 0.95;
+    if (this.aktif && !(this.tahap === 0)) { for (let i = 0; i < 8; i++) this.th[i] += dt * this.sp * 2 * Math.PI / O.T[i]; }
+    this.tT += dt * this.sp;
+    for (const k in this.sv) { const t = this.sel === k ? 1.7 : 1; this.sv[k] += (t - this.sv[k]) * ex(7); }
+    if (this.denyut) { this.denyut.t += dt; if (this.denyut.t > 0.9) this.denyut = null; }
+    if (N) this.lukis(N, dt);
+  },
+  lukis(N, dt) {
+    const O = this.O, e = this.mv * this.mv * (3 - 2 * this.mv), b = N.b, V = this.V;
+    const bt = N.batang; const ts = 1 - Math.min(1, e * 2.2); bt.scale.y = Math.max(0.001, ts); bt.visible = ts > 0.01;
+    N.garis.visible = e > 0.05; N.garis.children.forEach((l) => { l.material.opacity = 0.55 * Math.min(1, e); });
+    const matP = b.matahari.userData.dasar; b.matahari.position.set(matP.x + (O.cx - matP.x) * e, matP.y + (O.cy - matP.y) * e + 0.03 * Math.sin(Math.PI * e), matP.z + (O.cz - matP.z) * e); b.matahari.rotation.y += dt * 0.4 * this.sp; b.matahari.scale.setScalar(this.sv.matahari);
+    this.NAMA.forEach((k, i) => {
+      const o = b[k], d = o.userData.dasar, a = O.a[i], th = this.th[i];
+      const tx = O.cx + Math.cos(th) * a, ty = O.cy, tz = O.cz + Math.sin(th) * a * O.bk;
+      o.position.set(d.x + (tx - d.x) * e, d.y + (ty - d.y) * e + 0.05 * Math.sin(Math.PI * e), d.z + (tz - d.z) * e);
+      o.rotation.y += dt * (0.8 + i * 0.1) * this.sp; o.scale.setScalar(this.sv[k]);
+    });
+    const c = N.cincin, s = this.sel; if (s && this.aktif) { const o = b[s]; c.visible = true; c.position.copy(o.position); const r0 = ({ matahari: 0.075, utarid: 0.016, zuhrah: 0.026, bumi: 0.028, marikh: 0.02, musytari: 0.056, zuhal: 0.045, uranus: 0.03, neptun: 0.029 })[s]; c.scale.setScalar((r0 * this.sv[s] + 0.018) * (1 + 0.06 * Math.sin(this.tT * 6))); c.lookAt(camera.position); } else c.visible = false;   // lookAt: koordinat dunia
+    if (this.denyut) { const o = b[this.denyut.k]; if (o) { const q = 1 + 0.6 * Math.sin(Math.PI * Math.min(1, this.denyut.t / 0.9)); o.scale.setScalar(this.sv[this.denyut.k] * q); } }
+  },
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, O = this.O, N = this.nod;
+    let tx = r.ox + O.cx, ty = 1.0, tz = r.oz + O.cz;
+    if (N && this.fok > 0.002) { const sel = this.sel ? this.sel : this.selTerakhir; if (this.sel) this.selTerakhir = this.sel; if (sel && N.b[sel]) { N.b[sel].getWorldPosition(V); const f = this.fok * 0.55; tx += (V.x - tx) * f; ty += (V.y - ty) * f; tz += (V.z - tz) * f; } }
+    const ce = Math.cos(this.el), px = tx + this.R * Math.sin(this.az) * ce, py = ty + this.R * Math.sin(this.el), pz = tz + this.R * Math.cos(this.az) * ce;
+    camera.position.lerp(V.set(px, py, pz), e); V.copy(Cam.look).lerp(this.V2.set(tx, ty, tz), e); camera.lookAt(V);
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON', slotEl = tgt.classList && tgt.classList.contains && tgt.classList.contains('slot');
+    if (this.tahap === 1) {
+      if (k === ' ' && !butang) { this.togolJeda(); e.preventDefault(); return; }
+      if (k === 'arrowup' || k === 'w') { this.sudut(e.shiftKey ? 0.03 : 0.08); e.preventDefault(); return; }
+      if (k === 'arrowdown' || k === 's') { this.sudut(e.shiftKey ? -0.03 : -0.08); e.preventDefault(); return; }
+      if (k === 'arrowleft' || k === 'a') { this.putar(-0.1); e.preventDefault(); return; }
+      if (k === 'arrowright' || k === 'd') { this.putar(0.1); e.preventDefault(); return; }
+      if (/^[1-8]$/.test(k)) { this.pilih(this.NAMA[+k - 1]); e.preventDefault(); return; }
+      if (k === '0') { this.pilih('matahari'); e.preventDefault(); return; }
+    }
+    if (this.tahap === 2 && /^[1-8]$/.test(k) && !this.selesaiC) { this.letakDi(+k - 1); e.preventDefault(); return; }
+    if (this.tahap === 0 && (k === 'enter' || k === ' ' || k === 'e') && !butang) { this.mulakan(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('suKeluar').addEventListener('click', () => Suria.tutup()); $('suMula').addEventListener('click', () => Suria.mulakan()); $('suJeda').addEventListener('click', () => Suria.togolJeda());
+    $('suCabar').addEventListener('click', () => Suria.cabar()); $('suUlang').addEventListener('click', () => { Suria.mulaCabar(); Suria.mula(); }); $('suBalik').addEventListener('click', () => Suria.balikTeroka()); $('suSiap').addEventListener('click', () => Suria.tutup());
+    $('suNaik').addEventListener('click', () => Suria.sudut(0.1)); $('suTurun').addEventListener('click', () => Suria.sudut(-0.1)); $('suKiri').addEventListener('click', () => Suria.putar(-0.15)); $('suKanan').addEventListener('click', () => Suria.putar(0.15));
+    $('suTrek').addEventListener('pointerdown', (e) => Suria.seretTrek(e));
+    // kanvas: fasa tangkap pada window supaya pengendali kamera/joystik game tidak turut bertindak semasa aktiviti
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!Suria.aktif || (e.target !== canvas && !Suria.drag)) return; if (Suria.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+    window.addEventListener('resize', () => { if (Suria.aktif) Suria.uiTrek(); });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }

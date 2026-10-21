@@ -203,3 +203,8 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `sw.js`: fail yang dipasang ke cache baharu diambil terus daripada pelayan (`cache: 'reload'`) dan halaman utama disemak semula setiap kali (`no-cache`), supaya cache versi baharu tidak berisi fail lama daripada cache HTTP GitHub Pages.
 - Bilik menunggu aset GLB sehingga 8 saat (dahulu 2.5 saat) sebelum guna susun atur asal, dan memaparkan "Memuatkan bilik…".
 - Semakan dalam konsol pelayar: `Object.keys(InteriorGLB.hasil).map(k => k + ': ' + (InteriorGLB.hasil[k] ? 'OK' : 'GAGAL'))`
+
+## Teroka Sistem Suria (v89)
+- `Peralatan.suria()` kini membuka `Suria.buka()`: Mula, orbit lapan planet (laju berbeza, tidak mengikut skala), Jeda/Sambung, sudut pandangan, pilih planet (nama + fakta) dan Cabaran Susun. Ganjaran +1 Ilmu (kunci `suria`, sekali sehari) hanya selepas cabaran berjaya. Fakta asal kekal sebagai `Peralatan.suriaLama()` jika GLB tiada.
+- GLB: `model_suria` (pelantar, tetap, berperlanggaran) dipisahkan daripada nod `lalu_suria_matahari`, `lalu_suria_<planet>` (pangsi di pusat planet) dan `lalu_suria_batang`. Papan nama `tanda_suria` menyatakan "Tidak mengikut skala".
+- Kawalan: ketik/seret kanvas, butang, anak panah/WASD, kekunci 0-8, Space = Jeda, Esc = Keluar.
