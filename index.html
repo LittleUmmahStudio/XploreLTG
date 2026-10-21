@@ -4328,7 +4328,7 @@ function boardTex(lines, bg) {
     lines.forEach((L, i) => {
       c.fillStyle = L.c || '#2B3A55';
       fitFont(c, L.t, L.jawi ? 700 : 400, L.jawi ? '"Noto Naskh Arabic", serif' : '"Bakso Daging", "Kurland", sans-serif', L.s || 34, W - 40);
-      c.fillText(L.t, W / 2, 12 + (H - 24) * (i + 0.5) / lines.length);
+      c.fillText(L.t, W / 2, L.y !== undefined ? L.y : 12 + (H - 24) * (i + 0.5) / lines.length);
     });
   });
 }
@@ -10243,7 +10243,7 @@ const PapanPutih = {
       const nama = CONTENT.subjek[P.sid].nama;
       return [{ t: nama + (n ? ' · Tahun ' + n : ''), s: 30, c: '#1F4E8C' }, { t: P.tajuk, s: 40, c: '#C9571E' }].concat(P.baris.map((t) => ({ t, s: P.jawi ? 56 : 28, jawi: P.jawi })));
     }
-    if (id === 'pi') return [{ t: 'Pendidikan Islam', s: 36, c: '#2F8F4E' }, { t: 'ا   ب   ت   ث   ج', jawi: true, s: 58 }];
+    if (id === 'pi') return [{ t: 'Pendidikan Islam', s: 28, c: '#2F8F4E', y: 38 }, { t: 'ڤنديديقن إسلام', jawi: true, s: 42, y: 82 }];   // v95: ringkas, di bahagian atas (ubin magnet di bawah)
     const J = CONTENT.jadualKelas.tahun[n] || [];
     return [{ t: 'Selamat datang ke Kelas Tahun ' + n, s: 34, c: '#1F4E8C' }, { t: 'Jadual: ' + J.map((s) => (CONTENT.subjek[s === 'pi' ? 'pi' : s] || {}).nama).join(' · '), s: 22 }, { t: 'Rajin belajar, pasti berjaya!', s: 30, c: '#C9571E' }];
   },
@@ -12666,7 +12666,7 @@ const PapanJawi = {
     const cv = document.createElement('canvas'); cv.width = 1520; cv.height = 560; const tex = new THREE.CanvasTexture(cv); tex.anisotropy = ANISO;
     const lap = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 1.4), new THREE.MeshBasicMaterial({ map: tex })); lap.position.set(0, 1.65, -4.0 + 0.016); lap.visible = false; lap.renderOrder = 1; r.group.add(lap);
     const P = { cv, tex, lap, glif: [] };
-    o.forEach((g, i) => { const gc = document.createElement('canvas'); gc.width = 256; gc.height = 256; const gt = new THREE.CanvasTexture(gc); gt.anisotropy = ANISO; const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), new THREE.MeshBasicMaterial({ map: gt, transparent: true })); pl.position.set(0, 0, 0.0141); g.add(pl); P.glif.push({ gc, gt }); g.userData.dasar = g.position.clone(); });
+    o.forEach((g, i) => { const gc = document.createElement('canvas'); gc.width = 256; gc.height = 256; const gt = new THREE.CanvasTexture(gc); gt.anisotropy = ANISO; const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), new THREE.MeshBasicMaterial({ map: gt, transparent: true })); pl.position.set(0, 0, 0.0158); pl.renderOrder = 2; g.add(pl); P.glif.push({ gc, gt }); g.userData.dasar = g.position.clone(); });
     r.group.userData.papanJawi = P; this.glifIdle(P); try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.glifIdle(P)); } catch (err) {}
   },
   glif(P, i, h) { const { gc, gt } = P.glif[i], c = gc.getContext('2d'); c.clearRect(0, 0, 256, 256); c.fillStyle = '#1F4E8C'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl'; c.font = '700 190px "Noto Naskh Arabic", serif'; c.fillText(h, 128, 136); gt.needsUpdate = true; },

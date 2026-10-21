@@ -236,3 +236,7 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Aktiviti: lima huruf tunggal daripada `CONTENT.jawi.huruf` (12 pertama); seret ubin magnet ke petak nama huruf yang betul (betul: melekap; salah: pulang ke dulang). Alternatif ketik, dan kekunci 1-5 (ubin) dengan Q/W/E/R/T (petak). Ganjaran sedia ada sekali sehari (`jawi_papan_pi`, +1 Ilmu) hanya selepas selesai.
 - GLB (`tools/gen_bilik.py`, `bilik_pi()`): bingkai kayu papan, `lalu_jawi_dulang`, `lalu_jawi_ubin_1..5` (pangsi di pusat ubin). Glif Jawi dilukis oleh kod permainan pada kanvas (fon Jawi sedia ada, huruf tunggal).
 - Hanya `pi_interior_props.glb` berubah; GLB bilik lain tidak disentuh.
+
+## Pembetulan papan putih PI (v95)
+- Papan putih Bilik PI (tiada kelas): hanya "Pendidikan Islam" dan tulisan Jawi (ڤنديديقن إسلام), lebih kecil dan di bahagian atas. `boardTex` menyokong `y` pilihan (piksel) pada baris.
+- Huruf Jawi pada ubin magnet kini kelihatan (satah huruf dialihkan ke hadapan muka ubin).
