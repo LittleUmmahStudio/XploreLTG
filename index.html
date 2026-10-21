@@ -262,6 +262,16 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #liMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
 #liStatus{font-weight:700;font-size:14px;margin-left:6px}
 #liWayar .btn small,#liTerm .btn small{font-weight:700;opacity:.8}
+#magnet{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#magnet .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#magnet header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+#mgArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#mgMaklum{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;min-height:1.4em}
+#mgObjek .btn,#mgToken .btn{min-height:42px;padding:0 9px;font-size:13px}
+#mgObjek .btn.sudah{background:#EAF7EE}#mgObjek .btn.tidak{background:#F4F4F4}
+#mgBar{height:100%;width:0;background:#58C27C;transition:width .25s}
+#mgToken .btn.goyang,#mgDitarik.goyang,#mgTidak.goyang{animation:suGoyang .35s}
 /* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
 .dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
 .wnAtas .dokTogol{margin:0}
@@ -269,9 +279,10 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .dokKecil .kertas{padding-bottom:6px}
 body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
 @media (max-height:520px){
-  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas{padding:4px 10px 6px}
+  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas{padding:4px 10px 6px}
+  #mgMaklum{margin:0 0 3px;min-height:0}#mgObjek .btn,#mgToken .btn{min-height:34px;padding:0 6px;font-size:12px}
   #liMaklum{margin:0 0 3px;min-height:0}
-  #mkArahan,#wnArahan,#suArahan,#liArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan{font-size:13px;margin:2px 0 3px;min-height:0}
   .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
   #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
   .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
@@ -860,6 +871,24 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <div id="liL2" hidden><div id="liJawab" class="wnBaris" role="group" aria-label="Pilih jawapan"></div></div>
       <p id="liMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="liUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="liSiap" class="btn" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="magnet" class="panel-fokus" hidden role="dialog" aria-label="Eksperimen magnet">
+    <div class="kertas">
+      <header><strong>Uji Magnet</strong><span class="wnAtas"><button id="mgSemula" class="btn" type="button">Set Semula</button><button id="mgKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="mgArahan" aria-live="polite"></p>
+      <div id="mgL0">
+        <div id="mgObjek" class="wnBaris" role="group" aria-label="Objek ujian: ketik untuk membawa magnet ke objek itu"></div>
+        <div class="wnBaris"><button id="mgKiri" class="btn" type="button" aria-label="Gerak magnet ke kiri">◀</button><button id="mgAtas" class="btn" type="button" aria-label="Gerak magnet ke belakang">▲</button><button id="mgBawah" class="btn" type="button" aria-label="Gerak magnet ke hadapan">▼</button><button id="mgKanan" class="btn" type="button" aria-label="Gerak magnet ke kanan">▶</button><button id="mgLepas" class="btn" type="button">Lepaskan objek</button></div>
+      </div>
+      <div id="mgL1" hidden>
+        <div id="mgToken" class="wnBaris" role="group" aria-label="Objek untuk dikelaskan"></div>
+        <div class="wnBaris"><button id="mgDitarik" class="btn" type="button">Ditarik Magnet <small>(D)</small></button><button id="mgTidak" class="btn" type="button">Tidak Ditarik Magnet <small>(T)</small></button></div>
+        <div class="suProg"><div id="mgBar"></div></div>
+      </div>
+      <p id="mgMaklum" aria-live="polite"></p>
+      <div class="wnBaris"><button id="mgUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="mgSiap" class="btn" type="button" hidden>Selesai</button></div>
     </div>
   </section>
 
@@ -7446,6 +7475,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'warna') { if (!Fokus.kunci(e, k, 'warna')) Warna.kunci(e, k); return; }
   if (State.uiLock === 'suria') { if (!Fokus.kunci(e, k, 'suria')) Suria.kunci(e, k); return; }
   if (State.uiLock === 'litar') { if (!Fokus.kunci(e, k, 'litar')) Litar.kunci(e, k); return; }
+  if (State.uiLock === 'magnet') { if (!Fokus.kunci(e, k, 'magnet')) Magnet.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7638,7 +7668,8 @@ const Cam = {
     if (Mikroskop.k > 0.002) Mikroskop.kamera();
     if (Warna.k > 0.002) Warna.kamera();   // v87: kamera dekat eksperimen warna
     if (Suria.k > 0.002) Suria.kamera();   // v88: kamera dekat Sistem Suria
-    if (Litar.k > 0.002) Litar.kamera();   // v91: kamera dekat litar elektrik   // v86: kamera dekat semasa aktiviti mikroskop
+    if (Litar.k > 0.002) Litar.kamera();   // v91: kamera dekat litar elektrik
+    if (Magnet.k > 0.002) Magnet.kamera();   // v92: kamera dekat eksperimen magnet   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11401,7 +11432,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -11434,7 +11465,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria', 'litar'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar', 'magnet'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -12212,6 +12243,174 @@ const Litar = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
 
+/* ===================== Uji magnet: aktiviti praktikal (v92) ===================== */
+const Magnet = {
+  Y0: 0.935, LIFT: 0.035, R: 0.08, DEKAT: 0.06, MASA_UJI: 0.5,
+  M0: [3.5, 2.0], TIP: [[-0.15, 0.12], [0.15, 0.12]], SEMPADAN: { x: [2.75, 4.15], z: [1.78, 2.62] },
+  O: {
+    klip: { nama: 'Klip kertas besi', besi: true, rest: [3.08, 2.22], y: 0.9406, rot: 0.3, rotL: 0, pj: 0.028 }, paku: { nama: 'Paku besi', besi: true, rest: [3.50, 2.22], y: 0.9406, rot: -0.5, rotL: Math.PI / 2, pj: 0.065 },
+    skru: { nama: 'Skru besi', besi: true, rest: [3.92, 2.22], y: 0.942, rot: 0.9, rotL: Math.PI / 2, pj: 0.045 }, pemadam: { nama: 'Pemadam getah', besi: false, rest: [3.08, 2.40], y: 0.9448, rot: 0.2 },
+    pensel: { nama: 'Pensel kayu', besi: false, rest: [3.50, 2.40], y: 0.942, rot: -0.15 }, sudu: { nama: 'Sudu plastik', besi: false, rest: [3.92, 2.40], y: 0.9406, rot: 0.45 } },
+  K: ['klip', 'paku', 'skru', 'pemadam', 'pensel', 'sudu'],
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, mg: null, st: {}, drag: null, pilihT: null, kelas: {}, betul: 0, diberi: false, siapTunggu: false, tT: 0, tunggu: 0, kiraTukar: 0, tujuan: null,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null; const g = (n) => r.group.getObjectByName(n), N = { r, o: {} };
+    N.m = g('lalu_magnet_ladam'); if (!N.m) return null; for (const c of this.K) { N.o[c] = g('lalu_magnet_' + c); if (!N.o[c]) return null; } return N;
+  },
+  inisial() {
+    const V3 = THREE.Vector3; this.mg = { x: this.M0[0], z: this.M0[1], y: this.Y0, tx: this.M0[0], tz: this.M0[1], ty: this.Y0, vx: 0, vz: 0, pegang: false };
+    this.K.forEach((c) => { const d = this.O[c]; this.st[c] = { p: new V3(d.rest[0], d.y, d.rest[1]), rot: d.rot, mode: 'rehat', tip: -1, slot: 0, ujian: false, hasil: null, dekat: 0, hop: 0, jatuhY: d.y, tx: d.rest[0], tz: d.rest[1], ty: d.y, rt: d.rot }; });
+  },
+  buka() {   // true jika dibuka; false -> kuiz asal (tanpa GLB / bukan di makmal)
+    if (this.aktif || State.uiLock) return true; const N = Rooms.current === 'makmal' ? this.cari() : null; if (!N) return false;
+    this.nod = N; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.aktif = true; this.diberi = false; this.siapTunggu = false;
+    this.inisial(); this.mulaSemula(); $('magnet').hidden = false; setLock('magnet'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); return true;
+  },
+  mulaSemula() {   // semua kembali ke tempat asal (beranimasi); kemajuan dikosongkan
+    const mg = this.mg; mg.tx = this.M0[0]; mg.tz = this.M0[1]; mg.ty = this.Y0; mg.pegang = false; this.drag = null;
+    this.K.forEach((c) => { const s = this.st[c], d = this.O[c]; s.mode = s.mode === 'lekat' || s.mode === 'tarik' ? 'jatuh' : s.mode; s.tip = -1; s.ujian = false; s.hasil = null; s.dekat = 0; s.pulang = true; s.tx = d.rest[0]; s.tz = d.rest[1]; s.ty = d.y; s.rt = d.rot; s.mode = 'pulang'; });
+    this.tahap = 0; this.pilihT = null; this.kelas = {}; this.betul = 0; this.tunggu = 0; this.hint = ''; this.bina(); this.mula();
+  },
+  bina() {
+    const O = $('mgObjek'); O.innerHTML = ''; this.K.forEach((c, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.o = c; bt.innerHTML = this.O[c].nama + ' <small>(' + (i + 1) + ')</small> ?'; bt.addEventListener('click', () => this.kePadaObjek(c)); O.appendChild(bt); });
+    $('mgL0').hidden = false; $('mgL1').hidden = true; $('mgUlang').hidden = true; $('mgSiap').hidden = true; $('mgMaklum').textContent = ''; $('mgBar').style.width = '0%';
+    $('mgArahan').textContent = 'Seret magnet ke setiap objek dan perhatikan: adakah ia ditarik? Uji kesemua enam objek.';
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat() || Fokus.sedia('magnet')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  belumRehat() { const mg = this.mg; if (!mg) return false; return Math.hypot(mg.x - mg.tx, mg.z - mg.tz) > 0.0008 || Math.abs(mg.y - mg.ty) > 0.0008 || this.K.some((c) => { const m = this.st[c].mode; return m === 'tarik' || m === 'jatuh' || m === 'pulang'; }); },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('magnet').hidden = true; if (State.uiLock === 'magnet') setLock(null); this.drag = null; this.mulaSemula(); this.mula(); if (this.kurang()) this.k = 0;
+    if (this.siapTunggu && !this.diberi) { this.siapTunggu = false; this.diberi = true; Makmal.siap('magnet', 'Eksperimen magnet selesai! Bahan besi ditarik oleh magnet.'); }
+  },
+  ulang() { if (!this.aktif) return; this.mulaSemula(); },
+  // ----- magnet: gerak -----
+  ketuk(dx, dz) { if (!this.aktif || this.tahap !== 0) return; const mg = this.mg; mg.tx = Math.max(this.SEMPADAN.x[0], Math.min(this.SEMPADAN.x[1], mg.tx + dx)); mg.tz = Math.max(this.SEMPADAN.z[0], Math.min(this.SEMPADAN.z[1], mg.tz + dz)); mg.ty = this.Y0 + this.LIFT; this.tujuan = 'ketuk'; this.mula(); },
+  gz(c, slot) { return 0.012 + this.O[c].pj + slot * 0.09; },   // jarak dari hujung kutub: separuh panjang objek supaya tidak menembusi magnet
+  kePadaObjek(c) {   // alternatif ketik: magnet bergerak licin ke objek, kutub berhenti kira-kira 3 cm di belakangnya
+    if (!this.aktif || this.tahap !== 0) return; const s = this.st[c], mg = this.mg; if (s.mode === 'lekat') { $('mgArahan').textContent = this.O[c].nama + ' sudah melekat pada magnet.'; return; }
+    const tip = s.p.x <= 3.5 ? this.TIP[0] : this.TIP[1]; mg.tx = Math.max(this.SEMPADAN.x[0], Math.min(this.SEMPADAN.x[1], s.p.x - tip[0])); mg.tz = Math.max(this.SEMPADAN.z[0], Math.min(this.SEMPADAN.z[1], s.p.z - tip[1] - 0.03)); mg.ty = this.Y0 + this.LIFT; this.mula();
+  },
+  lepas() {   // lepaskan semua objek yang melekat: jatuh licin ke meja
+    if (!this.aktif) return; let n = 0; this.K.forEach((c) => { const s = this.st[c]; if (s.mode === 'lekat') { s.mode = 'jatuh'; s.tip = -1; s.jatuhY = this.O[c].y; s.tx = s.p.x; s.tz = s.p.z; s.tahan = true; n++; } });
+    if (n) { const mg = this.mg; mg.tz = Math.max(this.SEMPADAN.z[0], mg.tz - 0.1); this.tujuan = null; Sound.play('pick'); $('mgMaklum').textContent = 'Objek dilepaskan ke atas meja.'; } else $('mgMaklum').textContent = 'Tiada objek yang melekat pada magnet.'; this.mula();
+  },
+  // ----- seret pada kanvas -----
+  titikPlane(e) {
+    const V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); pl.constant = -(this.Y0 + 0.05); const r = this.nod.r;
+    if (!rc.ray.intersectPlane(pl, V)) return null; return [V.x - r.ox, V.z - r.oz];
+  },
+  dekatMagnet(px, py) {
+    const N = this.nod, mg = this.mg, V = this.V, W = window.innerWidth, H = window.innerHeight; const r = N.r; let bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 70 : 52);
+    const uji = (x, z) => { V.set(r.ox + x, this.Y0 + 0.05, r.oz + z); V.project(camera); if (V.z > 1) return Infinity; return Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); };
+    return Math.min(uji(mg.x, mg.z), uji(mg.x - 0.15, mg.z + 0.05), uji(mg.x + 0.15, mg.z + 0.05)) < bd;
+  },
+  kanvas(e, fasa) {
+    if (!this.aktif || this.tahap !== 0) return false; const mg = this.mg;
+    if (fasa === 'turun') { if (!this.dekatMagnet(e.clientX, e.clientY)) return false; const t = this.titikPlane(e); if (!t) return false; this.drag = { id: e.pointerId, ox: t[0] - mg.tx, oz: t[1] - mg.tz }; mg.pegang = true; mg.ty = this.Y0 + this.LIFT; Sound.play('pick'); this.mula(); return true; }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false;
+    if (fasa === 'gerak') { const t = this.titikPlane(e); if (t) { mg.tx = Math.max(this.SEMPADAN.x[0], Math.min(this.SEMPADAN.x[1], t[0] - d.ox)); mg.tz = Math.max(this.SEMPADAN.z[0], Math.min(this.SEMPADAN.z[1], t[1] - d.oz)); } return true; }
+    if (fasa === 'naik') { this.drag = null; mg.pegang = false; mg.ty = this.Y0 + (this.K.some((c) => this.st[c].mode === 'lekat') ? this.LIFT : 0); return true; }
+    return false;
+  },
+  // ----- animasi dan penarikan (setiap bingkai) -----
+  tick(dt) {
+    const kur = this.kurang(), N = this.nod; Fokus.urus('magnet', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!N || !this.mg) return;
+    const mg = this.mg, f = (r) => (kur ? 1 : 1 - Math.exp(-dt * r)), px0 = mg.x, pz0 = mg.z;
+    const adaLekat = this.K.some((c) => this.st[c].mode === 'lekat'); if (!mg.pegang && !this.drag && this.tujuan !== 'ketuk') mg.ty = this.Y0 + (adaLekat ? this.LIFT : 0);
+    mg.x += (mg.tx - mg.x) * f(mg.pegang ? 16 : 7); mg.z += (mg.tz - mg.z) * f(mg.pegang ? 16 : 7); mg.y += (mg.ty - mg.y) * f(9); mg.vx = (mg.x - px0) / Math.max(dt, 1e-3); mg.vz = (mg.z - pz0) / Math.max(dt, 1e-3);
+    if (Math.hypot(mg.x - mg.tx, mg.z - mg.tz) < 0.002 && this.tujuan === 'ketuk') this.tujuan = null;
+    if (Math.hypot(mg.x - mg.tx, mg.z - mg.tz) < 0.003 && !mg.pegang && !adaLekat) mg.ty = this.Y0;
+    N.m.position.set(mg.x, mg.y, mg.z);
+    const tipPos = this.TIP.map((t) => [mg.x + t[0], mg.z + t[1]]), kiraTip = [0, 0]; this.K.forEach((c) => { const s = this.st[c]; if (s.mode === 'lekat') kiraTip[s.tip]++; });
+    this.K.forEach((c) => {
+      const s = this.st[c], d = this.O[c], o = N.o[c];
+      let dm = Infinity, ti = 0; tipPos.forEach((t, i) => { const dd = Math.hypot(s.p.x - t[0], s.p.z - t[1]); if (dd < dm) { dm = dd; ti = i; } });
+      if (this.aktif && this.tahap === 0) {
+        if (s.tahan && dm > this.R * 1.3) s.tahan = false;   // objek yang baru dilepaskan tidak ditarik semula sehingga magnet beralih
+        if (s.mode === 'rehat' || s.mode === 'bebas') {
+          if (d.besi && dm < this.R && !s.tahan) { s.mode = 'tarik'; s.tip = ti; s.jarak0 = dm; s.slot = kiraTip[ti]; Sound.play('pick'); }
+          else if (!d.besi) { if (dm < this.DEKAT) { s.dekat += dt; if (s.dekat >= this.MASA_UJI && !s.ujian) this.catat(c, false); } else s.dekat = Math.max(0, s.dekat - dt); }
+        }
+      }
+      if (s.mode === 'tarik') {
+        const T = tipPos[s.tip], gz = this.gz(c, s.slot), tx = T[0], tz = T[1] + gz, ty = mg.y + 0.045, dist = Math.hypot(tx - s.p.x, tz - s.p.z), pr = 1 - Math.min(1, dist / Math.max(0.02, s.jarak0 || this.R));
+        const rate = 3.5 + 12 * pr; s.p.x += (tx - s.p.x) * f(rate); s.p.z += (tz - s.p.z) * f(rate); s.p.y += (ty + 0.012 * Math.sin(Math.PI * Math.min(1, pr)) - s.p.y) * f(rate); s.rot += (d.rotL - s.rot) * f(6);
+        if (dist < 0.006 && !kur || (kur && dist < 0.02)) { s.mode = 'lekat'; kiraTip[s.tip]++; Sound.play('ok'); if (!s.ujian) this.catat(c, true); }
+      } else if (s.mode === 'lekat') {
+        const T = tipPos[s.tip], gz = this.gz(c, s.slot); s.p.x += (T[0] - s.p.x) * f(30); s.p.z += (T[1] + gz - s.p.z) * f(30); s.p.y += (mg.y + 0.045 - s.p.y) * f(30); s.rot += (d.rotL - s.rot) * f(6);
+      } else if (s.mode === 'jatuh') {
+        s.p.y += (s.jatuhY - s.p.y) * f(8); s.p.x += (s.tx - s.p.x) * f(8); s.p.z += (s.tz - s.p.z) * f(8); if (Math.abs(s.p.y - s.jatuhY) < 0.0008) { s.p.y = s.jatuhY; s.mode = 'bebas'; }
+      } else if (s.mode === 'pulang') {
+        s.p.x += (s.tx - s.p.x) * f(5); s.p.z += (s.tz - s.p.z) * f(5); s.p.y += (s.ty - s.p.y) * f(5); s.rot += (s.rt - s.rot) * f(5);
+        if (Math.hypot(s.p.x - s.tx, s.p.z - s.tz) < 0.0015 && Math.abs(s.p.y - s.ty) < 0.001) { s.p.set(s.tx, s.ty, s.tz); s.rot = s.rt; s.mode = 'rehat'; }
+      }
+      o.position.set(s.p.x, s.p.y, s.p.z); o.rotation.y = s.rot;
+    });
+    if (this.tunggu > 0) { this.tunggu -= dt; if (this.tunggu <= 0) this.keKelas(); }
+  },
+  catat(c, tarik) {   // objek telah diuji melalui tindakan pemain
+    const s = this.st[c]; s.ujian = true; s.hasil = tarik ? 'tarik' : 'tidak'; const bt = Array.from($('mgObjek').querySelectorAll('button')).find((b) => b.dataset.o === c);
+    if (bt) { bt.className = 'btn ' + (tarik ? 'sudah' : 'tidak'); bt.innerHTML = this.O[c].nama + ' ' + (tarik ? '✓ ditarik' : '✗ tidak ditarik'); }
+    $('mgMaklum').textContent = tarik ? 'Magnet menarik ' + this.O[c].nama.toLowerCase() + '!' : this.O[c].nama + ' tidak ditarik oleh magnet.';
+    const n = this.K.filter((x) => this.st[x].ujian).length; $('mgArahan').textContent = n < 6 ? 'Sudah diuji: ' + n + '/6. Teruskan menguji objek yang lain.' : 'Semua objek sudah diuji! Sebentar lagi kamu akan mengelaskannya.';
+    if (n === 6) this.tunggu = 1.6;
+  },
+  // ----- kelaskan -----
+  keKelas() {
+    if (!this.aktif || this.tahap !== 0) return; this.tahap = 1; this.K.forEach((c) => { const s = this.st[c]; if (s.mode === 'lekat') { s.mode = 'jatuh'; s.tip = -1; s.jatuhY = this.O[c].y; s.tx = s.p.x; s.tz = s.p.z; } });
+    const mg = this.mg; mg.tx = this.M0[0]; mg.tz = this.M0[1]; mg.ty = this.Y0; mg.pegang = false; this.drag = null; this.tujuan = null;
+    $('mgL0').hidden = true; $('mgL1').hidden = false; this.pilihT = null; this.kelas = {}; this.betul = 0; this.susunToken = shuffle(this.K.slice()); this.lukisToken();
+    $('mgArahan').textContent = 'Berdasarkan pemerhatian kamu, kelaskan setiap objek: pilih objek, kemudian pilih kumpulannya.'; $('mgMaklum').textContent = ''; $('mgBar').style.width = '0%'; this.mula();
+  },
+  lukisToken() {
+    const T = $('mgToken'); T.innerHTML = ''; this.susunToken.forEach((c) => { if (this.kelas[c]) return; const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.o = c; bt.setAttribute('aria-pressed', this.pilihT === c ? 'true' : 'false'); bt.innerHTML = this.O[c].nama + ' <small>(' + (this.K.indexOf(c) + 1) + ')</small>'; bt.addEventListener('click', () => this.ambil(c)); T.appendChild(bt); });
+    $('mgBar').style.width = (this.betul / 6 * 100) + '%'; $('mgDitarik').setAttribute('aria-disabled', this.pilihT ? 'false' : 'true'); $('mgTidak').setAttribute('aria-disabled', this.pilihT ? 'false' : 'true');
+  },
+  ambil(c) { if (!this.aktif || this.tahap !== 1 || this.kelas[c]) return; this.pilihT = this.pilihT === c ? null : c; Sound.play('pick'); this.lukisToken(); },
+  letakKe(kumpulan) {   // kumpulan: 'tarik' | 'tidak'
+    if (!this.aktif || this.tahap !== 1) return; const c = this.pilihT; if (!c) { $('mgMaklum').textContent = 'Pilih objek dahulu.'; return; } const s = this.st[c];
+    if (s.hasil === kumpulan) {
+      this.kelas[c] = kumpulan; this.pilihT = null; this.betul++; Sound.play('ok'); $('mgMaklum').textContent = '✓ ' + this.O[c].nama + ' ' + (kumpulan === 'tarik' ? 'ditarik' : 'tidak ditarik') + ' oleh magnet. (' + this.betul + '/6)'; this.lukisToken();
+      if (this.betul === 6) this.berjaya();
+    } else {
+      Sound.play('wrong'); $('mgMaklum').textContent = 'Belum tepat. Ingat apa yang kamu perhatikan: adakah ' + this.O[c].nama.toLowerCase() + ' ditarik oleh magnet?'; const bt = $(kumpulan === 'tarik' ? 'mgDitarik' : 'mgTidak'); bt.className += ' goyang'; setTimeout(() => { bt.className = bt.className.replace(' goyang', ''); }, 400);
+    }
+  },
+  berjaya() {
+    this.tahap = 2; Sound.play('done'); $('mgL1').hidden = true; const tar = this.K.filter((c) => this.O[c].besi).map((c) => this.O[c].nama.toLowerCase()), tid = this.K.filter((c) => !this.O[c].besi).map((c) => this.O[c].nama.toLowerCase());
+    $('mgArahan').textContent = 'Tahniah! Eksperimen magnet selesai.';
+    $('mgMaklum').textContent = 'Ditarik magnet: ' + tar.join(', ') + '. Tidak ditarik: ' + tid.join(', ') + '. Magnet menarik objek yang diperbuat daripada besi. Bukan semua bahan ditarik oleh magnet.';
+    $('mgUlang').hidden = false; $('mgSiap').hidden = false; this.siapTunggu = !this.diberi; try { $('mgSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, mx = r.ox + 3.5, mz = r.oz + 2.2;
+    camera.position.lerp(V.set(mx, 1.4, mz + 0.66), e); V.copy(Cam.look).lerp(this.V2.set(mx, 0.97, mz), e); camera.lookAt(V);
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    if (this.tahap === 0) {
+      const st = e.shiftKey ? 0.015 : 0.04;
+      if (k === 'arrowleft' || k === 'a') { this.ketuk(-st, 0); e.preventDefault(); return; } if (k === 'arrowright' || k === 'd') { this.ketuk(st, 0); e.preventDefault(); return; }
+      if (k === 'arrowup' || k === 'w') { this.ketuk(0, -st); e.preventDefault(); return; } if (k === 'arrowdown' || k === 's') { this.ketuk(0, st); e.preventDefault(); return; }
+      if (/^[1-6]$/.test(k)) { this.kePadaObjek(this.K[+k - 1]); e.preventDefault(); return; } if (k === 'l') { this.lepas(); e.preventDefault(); return; }
+    }
+    if (this.tahap === 1) { if (/^[1-6]$/.test(k)) { this.ambil(this.K[+k - 1]); e.preventDefault(); return; } if (k === 'd') { this.letakKe('tarik'); e.preventDefault(); return; } if (k === 't') { this.letakKe('tidak'); e.preventDefault(); return; } }
+    if (k === 'r' && !e.repeat) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('mgKeluar').addEventListener('click', () => Magnet.tutup()); $('mgSemula').addEventListener('click', () => Magnet.ulang()); $('mgUlang').addEventListener('click', () => Magnet.ulang()); $('mgSiap').addEventListener('click', () => Magnet.tutup()); $('mgLepas').addEventListener('click', () => Magnet.lepas());
+    $('mgDitarik').addEventListener('click', () => Magnet.letakKe('tarik')); $('mgTidak').addEventListener('click', () => Magnet.letakKe('tidak'));
+    const tahan = (el, dx, dz) => el.addEventListener('pointerdown', () => { Magnet.ketuk(dx, dz); const id = setInterval(() => Magnet.ketuk(dx, dz), 90); const henti = () => { clearInterval(id); el.removeEventListener('pointerup', henti); el.removeEventListener('pointerleave', henti); el.removeEventListener('pointercancel', henti); }; el.addEventListener('pointerup', henti); el.addEventListener('pointerleave', henti); el.addEventListener('pointercancel', henti); });
+    tahan($('mgKiri'), -0.03, 0); tahan($('mgKanan'), 0.03, 0); tahan($('mgAtas'), 0, -0.03); tahan($('mgBawah'), 0, 0.03);
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!Magnet.aktif || (e.target !== canvas && !Magnet.drag)) return; if (Magnet.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
 const Makmal = {
   pakai: false, kotMesh: null, mentol: null,
   langkah(a) { const st = Missions.step(); return !!(st && st.jenis === 'aksi' && st.aksi === a); },
@@ -12257,6 +12456,10 @@ const Makmal = {
   },
   magnet() {
     if (!this.perluKot()) return;
+    if (Magnet.buka()) return;   // v92: aktiviti praktikal (GLB); jika tiada, kuiz asal di bawah
+    this.magnetLama();
+  },
+  magnetLama() {
     const O = shuffle([['klip kertas besi', 'Ditarik magnet'], ['paku besi', 'Ditarik magnet'], ['skru besi', 'Ditarik magnet'], ['pemadam getah', 'Tidak ditarik'], ['pensel kayu', 'Tidak ditarik'], ['sudu plastik', 'Tidak ditarik']]).slice(0, 4);
     Mini.openSoalan('Uji Magnet', O.map(([o, j]) => this.q('Adakah ' + o + ' ditarik oleh magnet?', j, [j === 'Ditarik magnet' ? 'Tidak ditarik' : 'Ditarik magnet'])), () => this.siap('magnet', 'Eksperimen magnet selesai! Bahan besi ditarik oleh magnet.'));
   },

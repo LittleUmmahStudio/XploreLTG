@@ -218,3 +218,9 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - `Makmal.siap('litar', ...)` dipanggil sekali sahaja apabila panel ditutup selepas berjaya (misi dan ganjaran sedia ada).
 - GLB: `lalu_litar` kini hanya papan, bateri, soket dan terminal. Nod bergerak `lalu_litar_suis` (pangsi di terminal kiri) dan `lalu_litar_klip_merah/kuning/biru` (pangsi di hujung sentuh). Wayar dijana kod supaya mengikuti klip.
 - Kawalan: seret/sentuh, butang, kekunci 1-3 (wayar), 4-6 (terminal), T atau Space (suis), R (semula), H (kecilkan), Esc.
+
+## Uji magnet interaktif (v92)
+- `Makmal.magnet()` (selepas semakan kot makmal) membuka `Magnet.buka()`: seret magnet ladam merah-biru ke enam objek (klip, paku, skru, pemadam, pensel, sudu). Objek besi ditarik dalam jarak 8 cm dan melekat pada kutub; objek lain kekal. Selepas semua diuji, murid mengelaskan ke "Ditarik Magnet" / "Tidak Ditarik Magnet". Kuiz asal kekal sebagai `Makmal.magnetLama()` (fallback tanpa GLB).
+- `Makmal.siap('magnet', ...)` dipanggil sekali sahaja apabila panel ditutup selepas berjaya.
+- GLB: `lalu_magnet` (alas ujian), `lalu_magnet_ladam` (pangsi di tapak), `lalu_magnet_klip/paku/skru/pemadam/pensel/sudu` (pangsi di pusat objek).
+- Kawalan: seret/sentuh magnet, butang ◀▲▼▶, anak panah/WASD, 1-6 (bawa magnet ke objek / pilih objek), L (lepaskan), D/T (kelaskan), R (semula), H (kecilkan), Esc.
