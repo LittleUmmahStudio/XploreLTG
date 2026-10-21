@@ -181,6 +181,33 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #dlgTeks{margin:2px 0 8px;font-size:17px;font-weight:700;line-height:1.45;max-height:30vh;max-height:30dvh;overflow:auto;color:#1E2B4A}
 #dlgButang{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 
+#mikroskop{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#mikroskop .kertas{pointer-events:auto;width:min(720px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none}
+#mikroskop header{display:flex;justify-content:space-between;align-items:center;line-height:28px}
+.mkIsi{display:flex;gap:14px;align-items:center;margin-top:4px}
+#mkLihat{position:relative;flex:0 0 auto;width:clamp(120px,30vh,190px);width:clamp(120px,30dvh,190px);aspect-ratio:1;border-radius:50%;overflow:hidden;
+  border:5px solid #2B2F38;box-shadow:inset 0 0 18px rgba(0,0,0,.45),3px 3px 0 var(--garis-luar);background:radial-gradient(circle,#FFFDF4 0,#F4EDD6 70%,#E2D8B8 100%)}
+#mkSel{position:absolute;inset:-6%;transition:filter .08s linear,opacity .35s;opacity:0}
+#mkSel svg{width:100%;height:100%;display:block}
+#mkLihat.ada #mkSel{opacity:1}
+#mkTanda{position:absolute;left:0;right:0;bottom:8%;text-align:center;font-size:11px;font-weight:700;color:#7A2E66;text-shadow:0 0 3px #fff,0 0 3px #fff}
+.mkKawal{flex:1;min-width:0;text-align:center}
+#mkArahan{margin:0 0 6px;font-weight:600;font-size:15px;line-height:1.35}
+#mkJalur{position:relative;height:52px;border:3px solid var(--garis-luar);border-radius:10px;background:repeating-linear-gradient(90deg,#EEF4F8 0 14px,#E3ECF2 14px 28px);margin:0 auto 8px;max-width:420px;touch-action:none}
+#mkJalur .mkUjung{position:absolute;top:2px;font-size:11px;font-weight:700;opacity:.65}
+#mkJalur .mkUjung:first-child{left:6px}#mkJalur .mkUjung:nth-child(2){right:6px}
+#mkSlaid{position:absolute;top:14px;left:6px;width:58px;height:30px;border-radius:5px;border:3px solid #2B2F38;background:#CFE8F7;font-style:normal;font-size:18px;line-height:24px;text-align:center;cursor:grab;touch-action:none;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+#mkSlaid.seret{cursor:grabbing}
+.mkFokus{display:flex;gap:8px;align-items:center;justify-content:center;max-width:460px;margin:0 auto 4px}
+.mkFokus .btn{min-width:46px;min-height:46px;padding:0 10px;font-size:22px}
+#mkTrek{position:relative;flex:1;height:46px;border:3px solid var(--garis-luar);border-radius:23px;background:linear-gradient(90deg,#E9F4EC,#FFF5D6);touch-action:none;cursor:ew-resize}
+#mkTombol{position:absolute;top:2px;left:0;width:36px;height:36px;margin-left:-18px;border-radius:50%;border:3px solid #2B2F38;background:conic-gradient(#F6C453 0 25%,#E3A92A 0 50%,#F6C453 0 75%,#E3A92A 0)}
+#mkCatat{margin:2px 0 6px;font-size:14px;font-weight:600;line-height:1.35;color:#1D6B37}
+#mkSiap{min-height:46px}
+@media (max-height:430px){#mkLihat{width:clamp(96px,34vh,140px)}#mikroskop .kertas{padding:4px 10px 8px}#mkArahan{font-size:13px;margin-bottom:3px}#mkJalur{height:44px;margin-bottom:4px}#mkSlaid{top:8px}}
+@media (max-width:520px) and (orientation:portrait){.mkIsi{flex-direction:column}}
+@media (prefers-reduced-motion: reduce){#mkSel{transition:none}}
 #mini .kertas{width:min(560px,100%);max-height:100%;overflow:auto;touch-action:pan-y;text-align:center}
 #mini header{display:flex;justify-content:space-between;align-items:center;line-height:30px}
 #miniTajuk{font-size:19px}
@@ -679,6 +706,29 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       <p id="miniJawi" class="jawi" lang="ms-Arab"></p>
       <div id="miniPilihan"></div>
       <p id="miniMaklum" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="mikroskop" class="panel-fokus" hidden role="dialog" aria-label="Aktiviti mikroskop">
+    <div class="kertas">
+      <header><strong>Mikroskop</strong><button id="mkKeluar" class="btn" type="button">Keluar</button></header>
+      <div class="mkIsi">
+        <div id="mkLihat" role="img" aria-label="Kawasan pandangan mikroskop"><div id="mkSel"></div><span id="mkTanda" hidden></span></div>
+        <div class="mkKawal">
+          <p id="mkArahan" aria-live="polite"></p>
+          <div id="mkLangkah1">
+            <div id="mkJalur" aria-hidden="true"><span class="mkUjung">Dulang</span><span class="mkUjung">Pentas</span><i id="mkSlaid" tabindex="-1">🧫</i></div>
+            <button id="mkLetak" class="btn" type="button">Letak slaid</button>
+          </div>
+          <div id="mkLangkah2" hidden>
+            <div class="mkFokus"><button id="mkKurang" class="btn" type="button" aria-label="Putar tombol fokus ke kiri">−</button>
+              <div id="mkTrek" role="slider" tabindex="0" aria-label="Tombol fokus" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i id="mkTombol"></i></div>
+              <button id="mkTambah" class="btn" type="button" aria-label="Putar tombol fokus ke kanan">+</button></div>
+          </div>
+          <p id="mkCatat" hidden></p>
+          <button id="mkSiap" class="btn" type="button" hidden>Catat Pemerhatian</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -6521,7 +6571,8 @@ const Peralatan = {
     HUD.stats(g); Kesan.letup(Player.pos, '#FFCC33', 8); toast(mesej || ('+' + (g.ilmu || g.kebaikan || 1) + (g.ilmu ? ' Ilmu' : ' Kebaikan'))); Save.save();
   },
   fakta(tajuk, senarai, kunci) { Dialog.show(tajuk, [this.pilih(senarai)], { onDone: () => this.ganjaran(kunci, { ilmu: 1 }) }); },
-  mikroskop() { Dialog.show('Mikroskop', ['Kamu melaraskan kanta dan melihat dengan teliti...', this.pilih(CONTENT.alat.mikroskop)], { onDone: () => this.ganjaran('mikroskop', { ilmu: 1 }) }); },
+  mikroskop() { Mikroskop.buka(); },   // v86: aktiviti praktikal; dialog lama kekal sebagai mikroskopLama()
+  mikroskopLama() { Dialog.show('Mikroskop', ['Kamu melaraskan kanta dan melihat dengan teliti...', this.pilih(CONTENT.alat.mikroskop)], { onDone: () => this.ganjaran('mikroskop', { ilmu: 1 }) }); },
   suria() { this.fakta('Model Sistem Suria', CONTENT.alat.suria, 'suria'); },
   warna() {
     const e = this.pilih(CONTENT.alat.warna);
@@ -7255,6 +7306,7 @@ window.addEventListener('keydown', (e) => {
   const aksi = k === 'e' || k === ' ' || k === 'enter';
   if (State.uiLock === 'sukan') { if (aksi && !e.repeat) { Sukan.pukul(); e.preventDefault(); } else if (k === 'escape') Sukan.henti(); return; }
   if (State.uiLock === 'makan') return;
+  if (State.uiLock === 'mikroskop') { Mikroskop.kunci(e, k); return; }
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7444,6 +7496,7 @@ const Cam = {
     camera.position.copy(pos);
     this.look.copy(this.tgt); if (!atas) this.look.y += Math.max(0, 0.15 - this.pAktif) * 3;   // pandang ke atas
     camera.lookAt(this.look);
+    if (Mikroskop.k > 0.002) Mikroskop.kamera();   // v86: kamera dekat semasa aktiviti mikroskop
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11202,6 +11255,138 @@ window.addEventListener('resize', () => HudRingkas.guna());
 if (/[?&]dbg/.test(location.search)) document.body.classList.add('modDebug');
 $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
 /* ===================== Makmal Sains: 5 eksperimen (Perhati • Ramal • Uji) ===================== */
+/* ===================== Mikroskop: aktiviti praktikal (v86) ===================== */
+const Mikroskop = {
+  aktif: false, langkah: 0, f: 0.5, t: 0.5, fv: 0.5, p: 1, pv: 1, k: 0, ke: 0, tahan: 0, jaya: false, raf: 0, last: 0, nod: null, V: null,
+  DULANG: [0.22, 0.1],            // ofset slaid dari pentas ke dulang (m, x/z), sama dengan gen_makmal.py
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r) return null;
+    const a = ['lalu_mikroskop_slaid', 'lalu_mikroskop_tombol'].map((n) => r.group.getObjectByName(n));
+    if (!a[0] || !a[1]) return null;
+    a.forEach((o) => { if (!o.userData.dasar) o.userData.dasar = o.position.clone(); });
+    return { r, slaid: a[0], tombol: a[1] };
+  },
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  buka() {
+    if (this.aktif) return;
+    if (!(Rooms.current === 'makmal')) { Peralatan.mikroskopLama(); return; }
+    this.aktif = true; this.langkah = 0; this.jaya = false; this.tahan = 0; this.hint = ''; this.nod = this.cari(); this.V = this.V || new THREE.Vector3();
+    this.t = 0.24 + Math.random() * 0.52; do { this.f = Math.random(); } while (Math.abs(this.f - this.t) < 0.3); this.fv = this.f;
+    this.p = 0; this.pv = 1; this.mkSel();
+    $('mkLihat').classList.remove('ada'); $('mkTanda').hidden = true; $('mkCatat').hidden = true; $('mkSiap').hidden = true;
+    $('mkLangkah1').hidden = false; $('mkLangkah2').hidden = true;
+    $('mkArahan').textContent = 'Seret slaid ke pentas mikroskop, atau tekan “Letak slaid”.';
+    this.letakChip(0); this.tombolUI(); $('mikroskop').hidden = false; setLock('mikroskop'); this.ke = 1;
+    if (this.kurang()) { this.k = 1; this.pv = 0; }
+    this.mula();
+  },
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || Math.abs(this.pv - this.p) > 0.002) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  tick(dt) {
+    const sm = this.kurang() ? 1 : 1 - Math.exp(-dt * 9);
+    this.k += (this.ke - this.k) * (this.kurang() ? 1 : 1 - Math.exp(-dt * 4.5));
+    this.pv += (this.p - this.pv) * sm; this.fv += (this.f - this.fv) * sm;
+    const N = this.nod;
+    if (N) {
+      const q = this.pv, b = N.slaid.userData.dasar, tray = this.DULANG;
+      N.slaid.position.set(b.x + (1 - q) * tray[0], b.y - 0.037 * (1 - q) + 0.05 * 4 * q * (1 - q), b.z + (1 - q) * tray[1]);
+      N.slaid.rotation.y = (1 - q) * 0.25;
+      N.tombol.rotation.x = this.fv * 6.0;
+    }
+    if (this.aktif && this.langkah === 1) this.kemas(dt);
+  },
+  // Kamera dekat: dipanggil daripada Cam.update selepas kedudukan biasa dikira
+  kamera() {
+    const r = Rooms.list.makmal; if (!r || this.k < 0.002) return;
+    const e = this.k * this.k * (3 - 2 * this.k), mx = r.ox - 3.6, mz = r.oz - 0.45, V = this.V;
+    camera.position.lerp(V.set(mx + 0.1, 1.55, mz + 0.78), e);
+    V.copy(Cam.look).lerp(new THREE.Vector3(mx, 0.86, mz), e); camera.lookAt(V);
+  },
+  // ----- langkah 1: slaid -----
+  letakChip(p) { const j = $('mkJalur'), c = $('mkSlaid'); c.style.left = (6 + p * Math.max(0, j.clientWidth - 6 - 6 - 58 - 6)) + 'px'; },
+  seretSlaid(e) {
+    if (!this.aktif || this.langkah !== 0) return; e.preventDefault(); const j = $('mkJalur'), c = $('mkSlaid'); c.setPointerCapture(e.pointerId); c.classList.add('seret');
+    const lebar = () => Math.max(1, j.clientWidth - 12 - 58 - 6), x0 = j.getBoundingClientRect().left + 6 + 29;
+    const gerak = (ev) => { const p = Math.max(0, Math.min(1, (ev.clientX - x0) / lebar())); this.p = p; this.pv = p; this.letakChip(p); };
+    const tamat = () => { c.classList.remove('seret'); c.removeEventListener('pointermove', gerak); c.removeEventListener('pointerup', tamat); c.removeEventListener('pointercancel', tamat); if (this.p >= 0.85) this.letak(); else { this.p = 0; this.letakChip(0); } };
+    c.addEventListener('pointermove', gerak); c.addEventListener('pointerup', tamat); c.addEventListener('pointercancel', tamat); gerak(e); this.mula();
+  },
+  letak() {
+    if (!this.aktif || this.langkah !== 0) return; this.langkah = 1; this.p = 1; this.letakChip(1); Sound.play('pick');
+    $('mkLangkah1').hidden = true; $('mkLangkah2').hidden = false; $('mkLihat').classList.add('ada');
+    $('mkArahan').textContent = 'Putar tombol fokus perlahan-lahan sehingga gambar menjadi jelas.'; this.kemas(0); this.tombolUI(); this.mula();
+    try { $('mkTrek').focus({ preventScroll: true }); } catch (e) {}
+  },
+  // ----- langkah 2: fokus -----
+  tetap(f) { if (!this.aktif || this.langkah < 1) return; this.f = Math.max(0, Math.min(1, f)); this.tombolUI(); this.mula(); },
+  tombolUI() { const tb = $('mkTombol'), tr = $('mkTrek'); tb.style.left = (18 + this.f * Math.max(0, tr.clientWidth - 6 - 36)) + 'px'; tb.style.transform = 'rotate(' + Math.round(this.f * 720) + 'deg)'; tr.setAttribute('aria-valuenow', Math.round(this.f * 100)); },
+  seretTrek(e) {
+    if (!this.aktif || this.langkah < 1) return; e.preventDefault(); const tr = $('mkTrek'); tr.setPointerCapture(e.pointerId); tr.focus({ preventScroll: true });
+    const gerak = (ev) => { const b = tr.getBoundingClientRect(); this.tetap((ev.clientX - b.left - 21) / Math.max(1, b.width - 42)); };
+    const tamat = () => { tr.removeEventListener('pointermove', gerak); tr.removeEventListener('pointerup', tamat); tr.removeEventListener('pointercancel', tamat); };
+    tr.addEventListener('pointermove', gerak); tr.addEventListener('pointerup', tamat); tr.addEventListener('pointercancel', tamat); gerak(e);
+  },
+  tekan(arah, el) {   // butang +/-: tekan dan tahan untuk ulang
+    let id = 0; const langkah = () => this.tetap(this.f + arah * 0.012);
+    const henti = () => { clearInterval(id); el.removeEventListener('pointerup', henti); el.removeEventListener('pointerleave', henti); el.removeEventListener('pointercancel', henti); };
+    el.addEventListener('pointerup', henti); el.addEventListener('pointerleave', henti); el.addEventListener('pointercancel', henti); langkah(); id = setInterval(langkah, 60);
+  },
+  kemas(dt) {
+    const d = Math.abs(this.f - this.t), kabur = Math.max(0, d - 0.02) * 48;
+    $('mkSel').style.filter = kabur > 0.15 ? 'blur(' + Math.min(14, kabur).toFixed(1) + 'px)' : 'none';
+    if (this.jaya) return;
+    const hint = d <= 0.045 ? 'Hampir tepat! Tahan di sini…' : kabur > 8 ? 'Gambar masih sangat kabur. Putar lagi.' : kabur > 3 ? 'Semakin jelas. Teruskan.' : 'Hampir jelas. Laraskan sedikit.';
+    if (this.hint !== hint) { this.hint = hint; $('mkArahan').textContent = hint; }
+    this.tahan = d <= 0.045 ? this.tahan + dt : 0;
+    if (this.tahan >= 0.4) this.berjaya();
+  },
+  berjaya() {
+    this.jaya = true; this.f = this.t; this.tombolUI(); Sound.play('ok');
+    $('mkSel').style.filter = 'none'; $('mkArahan').textContent = 'Fokus tepat! Lihat sel kulit bawang.';
+    $('mkTanda').hidden = false; $('mkTanda').textContent = 'dinding sel  •  nukleus';
+    $('mkCatat').hidden = false; $('mkCatat').textContent = 'Pemerhatian: kulit bawang tersusun daripada banyak sel kecil seperti bata. Setiap sel ada satu titik gelap di dalamnya yang dipanggil nukleus.';
+    $('mkSiap').hidden = false; try { $('mkSiap').focus({ preventScroll: true }); } catch (e) {}
+  },
+  siap() {
+    if (!this.aktif || !this.jaya) return; this.tutup();
+    const d = State.data, sebelum = d && d.alat ? d.alat.mikroskop : undefined;
+    Peralatan.ganjaran('mikroskop', { ilmu: 1 }, '🔬 Pemerhatian dicatat! +1 Ilmu');   // ganjaran sekali sehari (kunci 'mikroskop' sama seperti asal)
+    if (d && d.alat && d.alat.mikroskop === sebelum) toast('🔬 Pemerhatian dicatat.');
+  },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; this.p = 1; $('mikroskop').hidden = true; if (State.uiLock === 'mikroskop') setLock(null); this.mula();
+    if (this.kurang()) { this.k = 0; this.pv = 1; }
+  },
+  kunci(e, k) {   // papan kekunci semasa aktiviti
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
+    const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (k === 'arrowleft' || k === 'a' || k === 'arrowright' || k === 'd') { this.tetap(this.f + ((k === 'arrowleft' || k === 'a') ? -1 : 1) * (e.shiftKey ? 0.004 : 0.015)); e.preventDefault(); return; }
+    if ((k === 'enter' || k === ' ' || k === 'e') && !e.repeat) {
+      if (butang) return;   // biarkan butang yang difokus menjalankan klik sendiri
+      if (this.langkah === 0) this.letak(); else if (this.jaya) this.siap();
+      e.preventDefault();
+    }
+  },
+  mkSel() {   // lukisan sel epidermis bawang (SVG kecil, deterministik; tiada aset luaran)
+    let n = 0x9E3779B1; const rnd = () => ((n = Math.imul(n ^ (n >>> 15), 2246822507) + 0x6D2B79F5 | 0), ((n >>> 0) % 1000) / 1000);
+    const W = 46, H = 27; let g = '';
+    for (let j = -1; j < 8; j++) for (let i = -1; i < 6; i++) {
+      const x = i * W + (j % 2 ? W / 2 : 0) + (rnd() - 0.5) * 4, y = j * H + (rnd() - 0.5) * 3, w = W - 2 + (rnd() - 0.5) * 5, h = H - 1.5 + (rnd() - 0.5) * 3;
+      g += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="5" fill="#F9E4EE" stroke="#C57BAA" stroke-width="2.2"/>';
+      g += '<ellipse cx="' + (x + w * (0.3 + rnd() * 0.4)).toFixed(1) + '" cy="' + (y + h * (0.35 + rnd() * 0.3)).toFixed(1) + '" rx="4.6" ry="3.6" fill="#B2559A"/><circle cx="' + (x + w * 0.5).toFixed(1) + '" cy="' + (y + h * 0.5).toFixed(1) + '" r="1.2" fill="#7A2E66"/>';
+    }
+    $('mkSel').innerHTML = '<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + g + '</svg>';
+  }
+};
+{ // pendengar acara sekali sahaja (elemen sentiasa wujud dalam HTML)
+  const on = () => {
+    $('mkKeluar').addEventListener('click', () => Mikroskop.tutup()); $('mkLetak').addEventListener('click', () => Mikroskop.letak()); $('mkSiap').addEventListener('click', () => Mikroskop.siap());
+    $('mkSlaid').addEventListener('pointerdown', (e) => Mikroskop.seretSlaid(e)); $('mkTrek').addEventListener('pointerdown', (e) => Mikroskop.seretTrek(e));
+    $('mkKurang').addEventListener('pointerdown', (e) => Mikroskop.tekan(-1, e.currentTarget)); $('mkTambah').addEventListener('pointerdown', (e) => Mikroskop.tekan(1, e.currentTarget));
+    window.addEventListener('resize', () => { if (Mikroskop.aktif) { Mikroskop.letakChip(Mikroskop.langkah ? 1 : Mikroskop.p); Mikroskop.tombolUI(); } });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
 const Makmal = {
   pakai: false, kotMesh: null, mentol: null,
   langkah(a) { const st = Missions.step(); return !!(st && st.jenis === 'aksi' && st.aksi === a); },

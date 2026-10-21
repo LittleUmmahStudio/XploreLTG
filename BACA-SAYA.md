@@ -187,3 +187,8 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 - Semua 9 interaksi, 5 tugasan eksperimen (syarat dan keutamaan misi), keperluan kot makmal, mikroskop, eksperimen warna dan fakta Sistem Suria kekal seperti asal. Sauh GLB bernama `int_*`; hiasan tanpa perlanggaran bernama `lalu_*`.
 - Kod permainan masih menjana: mentol litar (`Makmal.mentol`), air dalam tangki dan kotak gelap tumbuhan (kedua-duanya lut sinar), papan Sains, poster, Cikgu Shahrul dan murid.
 - Jika fail GLB makmal gagal dimuat, susun atur asal `LAYOUT.makmal` digunakan secara automatik.
+
+## Aktiviti mikroskop (v86)
+- `Peralatan.mikroskop()` kini membuka `Mikroskop.buka()`: letak slaid, laras fokus, lihat sel kulit bawang, Catat Pemerhatian. Dialog lama kekal sebagai `Peralatan.mikroskopLama()` (fallback di luar Makmal).
+- GLB: nod bergerak `lalu_mikroskop_slaid` (pangsi di pentas) dan `lalu_mikroskop_tombol` (pangsi pada paksi tombol). Dijana oleh `tools/gen_makmal.py`.
+- Ganjaran +1 Ilmu sekali sehari menggunakan kunci `mikroskop` yang sama seperti sebelum ini.
