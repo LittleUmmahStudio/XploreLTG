@@ -1,6 +1,6 @@
 // LO:TONG: service worker untuk main tanpa internet.
 // Tukar VERSI setiap kali index.html atau fail lain dikemas kini supaya peranti memuat turun versi baharu.
-const VERSI = 'lotong-v95';
+const VERSI = 'lotong-v96';
 const TERAS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 // Bunyi suasana & muzik (folder bunyi/): disimpan untuk main tanpa internet
 const BUNYI = ['muzikMula', 'dewan', 'kelas', 'luar', 'muzik-pss', 'perpustakaan', 'rumahGuru', 'suasana-bilikguru', 'suasana-prasekolah', 'suasana-rmt']
