@@ -11489,18 +11489,18 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.3] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.5] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
     const tambah = (o, p) => { if (o && o.scale && p && Math.hypot(p.x - wx, p.z - wz) <= this.J && !senarai.some((s) => s.o === o)) senarai.push({ o, b: o.scale.clone(), s: 1 }); };
     (r.npcs || []).forEach((n) => tambah(n.obj, n.pos));
-    try { NPCs.list.forEach((n) => { if (n.room === 'makmal') tambah(n.obj, n.pos); }); } catch (err) {}
+    try { NPCs.list.forEach((n) => { if (n.room === r.id) tambah(n.obj, n.pos); }); } catch (err) {}   // v97: bilik mengikut r (jawi = Bilik PI)
     try { if (Player.m) tambah(Player.m.group, Player.pos); } catch (err) {}
     this.rec = senarai;
   },
   urus(id, k, aktif, dt, kur) {
-    const r = Rooms.list && Rooms.list.makmal; if (!r) return; const mahu = aktif && k > 0.35;
+    const r = Rooms.list && Rooms.list[id === 'jawi' ? 'pi' : 'makmal']; if (!r) return; const mahu = aktif && k > 0.35;   // v97: papan Jawi di Bilik PI (dahulu sentiasa Makmal)
     if (mahu && !this.id) { this.id = id; this.kumpul(r, id); document.body.classList.add('fokusItem'); }
     if (this.id === id) {
       const f = kur ? 1 : 1 - Math.exp(-dt * 9); let semua = true;
@@ -12659,7 +12659,7 @@ const Terapung = {
 
 /* ===================== Papan Jawi magnet: fasa 1, padanan huruf tunggal (v94) ===================== */
 const PapanJawi = {
-  Z: -4.478, YT: 1.29, YS: 1.8, XS: [-1.4, -0.7, 0, 0.7, 1.4], BAWA: -4.4,     // koordinat bilik: pangsi ubin, ketinggian dulang / petak, satah semasa diangkat
+  Z: -4.478, YT: 1.29, YS: 1.75, XS: [-1.4, -0.7, 0, 0.7, 1.4], BAWA: -4.4,     // koordinat bilik: pangsi ubin, ketinggian dulang / petak, satah semasa diangkat
   aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], huruf: [], pilihU: null, betul: 0, drag: null, sorot: -1, diberi: false, tT: 0, lepas: false,
   kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
   cari() { const r = Rooms.list && Rooms.list.pi; if (!r || !r.group.userData.papanJawi) return null; const P = r.group.userData.papanJawi; const o = []; for (let i = 1; i <= 5; i++) { const g = r.group.getObjectByName('lalu_jawi_ubin_' + i); if (!g) return null; o.push(g); } return { r, o, P }; },
@@ -12667,9 +12667,9 @@ const PapanJawi = {
   sediakan(r) {
     const o = []; for (let i = 1; i <= 5; i++) { const g = r.group.getObjectByName('lalu_jawi_ubin_' + i); if (!g) return; o.push(g); } if (r.group.userData.papanJawi) return;
     const cv = document.createElement('canvas'); cv.width = 1520; cv.height = 560; const tex = new THREE.CanvasTexture(cv); tex.anisotropy = ANISO;
-    const lap = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 1.4), new THREE.MeshBasicMaterial({ map: tex })); lap.position.set(0, 1.65, -r.d / 2 + 0.016); this.Z = -r.d / 2 + 0.022; this.BAWA = -r.d / 2 + 0.1;   // v96: ikut kedalaman bilik (dinding utara) lap.visible = false; lap.renderOrder = 1; r.group.add(lap);
+    const lap = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 1.4), new THREE.MeshBasicMaterial({ map: tex })); lap.position.set(0, 1.65, -r.d / 2 + 0.02); this.Z = -r.d / 2 + 0.022; this.BAWA = -r.d / 2 + 0.1; lap.visible = false; lap.renderOrder = 1; r.group.add(lap);   // v97: ikut kedalaman bilik (dinding utara); lapisan 8 mm di hadapan papan (elak z-fighting)
     const P = { cv, tex, lap, glif: [] };
-    o.forEach((g, i) => { const gc = document.createElement('canvas'); gc.width = 256; gc.height = 256; const gt = new THREE.CanvasTexture(gc); gt.anisotropy = ANISO; const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), new THREE.MeshBasicMaterial({ map: gt, transparent: true })); pl.position.set(0, 0, 0.0158); pl.renderOrder = 2; g.add(pl); P.glif.push({ gc, gt }); g.userData.dasar = g.position.clone(); });
+    o.forEach((g, i) => { const gc = document.createElement('canvas'); gc.width = 256; gc.height = 256; const gt = new THREE.CanvasTexture(gc); gt.anisotropy = ANISO; const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 0.34), new THREE.MeshBasicMaterial({ map: gt, transparent: true, depthWrite: false })); pl.position.set(0, 0, 0.0185); pl.renderOrder = 2; g.add(pl); P.glif.push({ gc, gt }); g.userData.dasar = g.position.clone(); });
     r.group.userData.papanJawi = P; this.glifIdle(P); try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.glifIdle(P)); } catch (err) {}
   },
   glif(P, i, h) { const { gc, gt } = P.glif[i], c = gc.getContext('2d'); c.clearRect(0, 0, 256, 256); c.fillStyle = '#1F4E8C'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'rtl'; c.font = '700 190px "Noto Naskh Arabic", serif'; c.fillText(h, 128, 136); gt.needsUpdate = true; },
@@ -12718,9 +12718,9 @@ const PapanJawi = {
     c.fillStyle = '#7A8594'; c.font = '400 26px "Bakso Daging", "Kurland", sans-serif'; c.textAlign = 'left'; c.fillText(this.betul + '/5', 40, 62); c.textAlign = 'center';
     this.huruf.forEach((h, j) => {
       const cx = (this.XS[j] + 1.9) * 400, cy = (2.35 - this.YS) * 400, ok = this.sel && this.sel[j] !== null, lit = this.sorot === j;
-      c.fillStyle = ok ? '#E6F7EC' : (lit ? '#FFF1C9' : '#F7F3E8'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.fill(); c.lineWidth = lit ? 8 : 5; c.setLineDash(ok ? [] : [16, 10]); c.strokeStyle = ok ? '#2F9E5B' : (lit ? '#E8A317' : '#9AA5B1'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.stroke(); c.setLineDash([]);
-      c.fillStyle = ok ? '#1D6B37' : '#17325A'; fitFont(c, h.n, 700, '"Bakso Daging", "Kurland", sans-serif', 54, 180); c.fillText(h.n[0].toUpperCase() + h.n.slice(1), cx, 134);
-      if (!ok) { c.fillStyle = '#B9C2CC'; c.font = '400 30px sans-serif'; c.fillText('?', cx, cy + 20); }
+      c.fillStyle = ok ? '#E6F7EC' : (lit ? '#FFF1C9' : '#F7F3E8'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.fill(); c.lineWidth = lit ? 8 : 6; c.setLineDash(ok ? [] : [16, 10]); c.strokeStyle = ok ? '#2F9E5B' : (lit ? '#E8A317' : '#6F86A3'); roundRectPath(c, cx - 98, cy - 98, 196, 196, 20); c.stroke(); c.setLineDash([]);
+      c.fillStyle = ok ? '#1D6B37' : '#17325A'; fitFont(c, h.n, 700, '"Bakso Daging", "Kurland", sans-serif', 50, 180); c.fillText(h.n[0].toUpperCase() + h.n.slice(1), cx, cy - 128);   // v97: nama di atas petak, kekal kelihatan selepas ubin dilekatkan
+      if (!ok) { c.fillStyle = '#8FA0B5'; c.font = '400 30px sans-serif'; c.fillText('?', cx, cy + 20); }
     });
     c.fillStyle = '#7A8594'; c.font = '400 28px "Bakso Daging", "Kurland", sans-serif'; c.fillText('Ubin magnet di dulang kayu: seret ke petak yang betul', W / 2, H - 44); P.tex.needsUpdate = true;
   },
@@ -12766,7 +12766,7 @@ const PapanJawi = {
     this.tt.forEach((t, i) => { if (t.slot !== null || t.mode === 'lekat') return; V.set(r.ox + t.p.x, t.p.y, r.oz + t.p.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = i; } });
     return best;
   },
-  petakDekat(x, y) { let best = -1, bd = 0.3; this.huruf.forEach((h, j) => { if (this.sel[j] !== null) return; const d = Math.hypot(this.XS[j] - x, this.YS - y); if (d < bd) { bd = d; best = j; } }); return best; },
+  petakDekat(x, y) { let best = -1, bd = 0.34; this.huruf.forEach((h, j) => { if (this.sel[j] !== null) return; const d = Math.hypot(this.XS[j] - x, this.YS - y); if (d < bd) { bd = d; best = j; } }); return best; },
   kanvas(e, fasa) {
     if (!this.aktif || this.tahap !== 1) return false;
     if (fasa === 'turun') { const i = this.ubinDekat(e.clientX, e.clientY); if (i < 0) return false; const t = this.tt[i]; t.mode = 'seret'; this.drag = { id: e.pointerId, i }; this.pilihU = null; const q = this.titikPlane(e); if (q) { t.tx = q[0]; t.ty = q[1]; } t.tz = this.BAWA + 0.0; Sound.play('pick'); this.segar(); this.mula(); return true; }
@@ -12782,16 +12782,30 @@ const PapanJawi = {
       const g = N.o[i]; let r = 8;
       if (t.mode === 'seret') { r = 16; const lx = t.p.x; t.p.x += (t.tx - t.p.x) * f(r); t.p.y += (t.ty - t.p.y) * f(r); t.p.z += (t.tz - t.p.z) * f(10); t.rz += (Math.max(-0.3, Math.min(0.3, (lx - t.p.x) * 14)) - t.rz) * f(8); }
       else if (t.mode === 'pulang') { t.pulang += dt; t.p.x += (t.tx - t.p.x) * f(6); t.p.y += (t.ty - t.p.y) * f(6); t.p.z += (t.tz - t.p.z) * f(6); t.rz += (0 - t.rz) * f(8); if (Math.hypot(t.p.x - t.tx, t.p.y - t.ty) < 0.003 && Math.abs(t.p.z - t.tz) < 0.003 || kur) { t.p.set(t.tx, t.ty, t.tz); t.mode = 'rehat'; t.rz = 0; } }
-      else if (t.mode === 'lekat') { t.t += dt; t.p.x += (t.tx - t.p.x) * f(11); t.p.y += (t.ty - t.p.y) * f(11); t.p.z += (t.tz - t.p.z) * f(12); t.rz += (0 - t.rz) * f(9); }
+      else if (t.mode === 'lekat') { t.t += dt; t.p.x += (t.tx - t.p.x) * f(9); t.p.y += (t.ty - t.p.y) * f(9); t.p.z += (t.tz - t.p.z) * f(10); t.rz += (0 - t.rz) * f(8); }
       g.position.set(t.p.x, t.p.y, t.p.z); g.rotation.z = t.rz;
+      // v97: ubin sedikit membesar semasa diangkat; selepas melekat 'menetap' dengan denyut lembut (1.00 -> 1.07 -> 1.00)
+      { const sk = t.mode === 'seret' ? 1.08 : (t.mode === 'lekat' ? 1 + 0.07 * Math.sin(Math.min(1, t.t / 0.4) * Math.PI) : 1), sn = kur ? sk : g.scale.x + (sk - g.scale.x) * f(14); g.scale.set(sn, sn, sn); }
     });
+    if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }   // v97: pulihkan fov asal selepas kamera kembali
     if (this.tunggu && this.tt.every((t) => t.mode === 'rehat')) { this.tunggu = false; this.mulaAktiviti(); }
     if (this.penutup && this.tt.every((t) => t.mode === 'rehat')) { this.penutup = false; this.tt = []; this.glifIdle(N.P); }
     if (this.meriah > 0) { this.meriah -= dt; this.tt.forEach((t, i) => { if (t.slot !== null) N.o[i].position.y = t.p.y + 0.03 * Math.abs(Math.sin(Math.max(0, 1.2 - this.meriah) * 7 + i * 0.7)) * Math.min(1, this.meriah); }); }
   },
   kamera() {
     const r = Rooms.list.pi; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V;
-    camera.position.lerp(V.set(r.ox, 1.5, r.oz - r.d / 2 + 2.55), e); V.copy(Cam.look).lerp(this.V2.set(r.ox, 1.5, r.oz - r.d / 2), e); camera.lookAt(V);
+    if (!this.fovUbah) { this.fov0 = camera.fov; this.fovUbah = true; }
+    const M = this.muatKamera(), hz = r.d / 2;   // v97: jarak & fov ikut saiz skrin dan tinggi panel supaya seluruh papan muat
+    camera.position.lerp(V.set(r.ox, 1.65, r.oz - hz + M.dist), e); V.copy(Cam.look).lerp(this.V2.set(r.ox, 1.65, r.oz - hz), e); camera.lookAt(V);
+    const fv = this.fov0 + (M.fov - this.fov0) * e; if (Math.abs(camera.fov - fv) > 0.01) { camera.fov = fv; camera.updateProjectionMatrix(); }
+  },
+  // Jarak (m dari papan) dan fov supaya papan 3.9 m x 1.55 m (termasuk dulang ubin) muat dalam ruang bebas di atas panel (Fokus.dh); jarak maks 5.2 m, kemudian fov dilebarkan (maks 82 darjah) untuk skrin sempit
+  muatKamera() {
+    const W = window.innerWidth || 1, H = window.innerHeight || 1, asp = W / H, dh = Fokus.dhId === 'jawi' ? Fokus.dh : 0, bebas = Math.max(0.4 * H, H - dh);
+    const f0 = this.fov0 || camera.fov, tv0 = Math.tan(f0 * Math.PI / 360), LB = 3.9, TB = 1.55, M = 0.94;
+    let dist = Math.max(2.5, TB * H / (2 * tv0 * bebas * M), LB / (2 * tv0 * asp * M)), fov = f0;
+    if (dist > 5.2) { dist = 5.2; const tv = Math.max(LB / (2 * dist * asp * M), TB * H / (2 * dist * bebas * M)); fov = Math.max(f0, Math.min(82, 2 * Math.atan(tv) * 180 / Math.PI)); }
+    return { dist, fov };
   },
   kunci(e, k) {
     if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
