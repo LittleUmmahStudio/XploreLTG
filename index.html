@@ -984,7 +984,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     </div>
   </section>
 
-  <section id="sudutSolat" class="panel-fokus" hidden role="dialog" aria-label="Sudut latihan solat: Takbiratul Ihram, Ruku' dan I'tidal">
+  <section id="sudutSolat" class="panel-fokus" hidden role="dialog" aria-label="Sudut latihan solat: Takbiratul Ihram hingga Salam">
     <div class="kertas">
       <header><strong>Sudut Latihan Solat</strong><span class="wnAtas"><button id="slKeluar" class="btn" type="button">Keluar</button></span></header>
       <p id="slArahan" aria-live="polite"></p>
@@ -13137,8 +13137,86 @@ const BlokRukun = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
 
+/*SB-MULA*/
+/* v100: enjin badan penuh SudutSolat (FK / IK / tanah / pengesan tembusan). Salinan tepat tools/solat_badan.js (diuji oleh tools/test_solat.js). */
+const SolatBadan = (() => {
+const M = {
+  Rx: (a) => [[1, 0, 0], [0, Math.cos(a), -Math.sin(a)], [0, Math.sin(a), Math.cos(a)]], Ry: (a) => [[Math.cos(a), 0, Math.sin(a)], [0, 1, 0], [-Math.sin(a), 0, Math.cos(a)]], Rz: (a) => [[Math.cos(a), -Math.sin(a), 0], [Math.sin(a), Math.cos(a), 0], [0, 0, 1]],
+  mul: (a, b) => [0, 1, 2].map((i) => [0, 1, 2].map((j) => a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j])), ap: (m, v) => [m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2], m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2], m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2]],
+  tp: (m) => [[m[0][0], m[1][0], m[2][0]], [m[0][1], m[1][1], m[2][1]], [m[0][2], m[1][2], m[2][2]]], add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], sk: (a, k) => [a[0] * k, a[1] * k, a[2] * k],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], cr: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], len: (a) => Math.hypot(a[0], a[1], a[2]), nrm: (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1e-9; return [a[0] / l, a[1] / l, a[2] / l]; }, cl: (v, a, b) => Math.max(a, Math.min(b, v)),
+  eulM(x, y, z) { return this.mul(this.Rx(x), this.mul(this.Ry(y), this.Rz(z))); },
+  eul(R) { const y = Math.asin(this.cl(R[0][2], -1, 1)); if (Math.abs(R[0][2]) < 0.9999) return [Math.atan2(-R[1][2], R[2][2]), y, Math.atan2(-R[0][1], R[0][0])]; return [Math.atan2(R[2][1], R[1][1]), y, 0]; }
+};
+const B = {
+  M, HIP: 0.32, TH: 0.15, SH: 0.12, KX: 0.095, KEP: [0.4576, 0.4224, 0.44], R_BADAN: 0.19, R_PAHA: 0.07, R_BETIS: 0.065, R_KAKI: 0.062, RC_KAKI: 0.05, R_LENGAN: 0.052, R_TANGAN: [0.065, 0.074, 0.034], K: 1.3,
+  // IK dua-segmen: bahu (+-0.21, 0.70, 0) -> siku -> pusat tapak tangan T (bingkai inner); q = arah siku; KA = faktor panjang lengan. Mengembalikan RA (putaran bahu), e (lenturan siku), RE = RA*Rx(e).
+  ik(sx, T, q, KA) {
+    const m = M, K = KA || this.K, U = 0.11 * K, HH = 0.14 * K, S = [sx * 0.21, 0.70, 0], v = m.sub(T, S), vl = m.len(v) || 1e-6, vh = m.sk(v, 1 / vl), dd = m.cl(vl, Math.abs(U - HH) + 0.01, (U + HH) * 0.999);
+    const a = (U * U - HH * HH + dd * dd) / (2 * dd), h = Math.sqrt(Math.max(0, U * U - a * a)), pole = q || [sx * 0.35, -1, -0.15], pr = m.sub(pole, m.sk(vh, m.dot(pole, vh))), pp = m.len(pr) < 1e-4 ? [0, -1, 0] : m.nrm(pr);
+    const el = m.add(S, m.add(m.sk(vh, a), m.sk(pp, h))), Tn = m.add(S, m.sk(vh, dd)), u = m.nrm(m.sub(el, S)), f = m.nrm(m.sub(Tn, el)), ce = m.cl(m.dot(u, f), -1, 1), e = -Math.acos(ce), fp = m.sub(f, m.sk(u, ce));
+    const z = m.len(fp) < 1e-5 ? m.sk(pp, -1) : m.nrm(fp), y = m.sk(u, -1), x = m.cr(y, z), RA = [[x[0], y[0], z[0]], [x[1], y[1], z[1]], [x[2], y[2], z[2]]];
+    return { RA, e, RE: m.mul(RA, m.Rx(e)), el, hd: Tn, S, ralat: m.len(m.sub(T, Tn)), U, HH };
+  },
+  // sasaran tangan (dunia 'w' atau badan 't') -> bingkai inner
+  sasarInner(po, py, h) { if (h.f === 't') return h.p; const c = Math.cos(po.th), s = Math.sin(po.th), dy = h.p[1] - (this.HIP + py), dz = h.p[2] - po.pz; return [h.p[0], this.HIP + dy * c + dz * s, -dy * s + dz * c]; },
+  dunia(po, py, h) { if (h.f !== 't') return h.p; const c = Math.cos(po.th), s = Math.sin(po.th), y = h.p[1] - this.HIP; return [h.p[0], this.HIP + py + y * c - h.p[2] * s, po.pz + y * s + h.p[2] * c]; },
+  // rangka bukan-lengan pada ketinggian py: kepala, batang badan, kaki. Semua titik dalam bingkai dunia (lantai y=0), unit inner.
+  bentuk(po, py) {
+    const m = M, H = this.HIP, KL = po.KL || 1, KH = po.KH || 1, KT = po.KT || 1, hip0 = [0, H + py, po.pz], Rt = m.Rx(po.th), P = [], o = { hip0, Rt, py };
+    const pt = (v) => m.add(hip0, m.ap(Rt, v));
+    const a = pt([0, 0.06, 0]), b = pt([0, 0.40, 0]); P.push({ n: 'badan', t: 'k', a, b, r: this.R_BADAN, rc: this.R_BADAN }, { n: 'pinggul', t: 's', a: hip0, r: 0.10, rc: 0.10 }); o.bahuT = b;
+    o.leher = pt([0, 0.48, 0]); o.Rh = m.mul(Rt, m.mul(m.Rx(po.hn || 0), m.Ry(po.hy || 0))); o.kepala = m.add(o.leher, m.ap(o.Rh, [0, 0.30 * KH, 0])); o.radKep = this.KEP.map((r) => r * KH);
+    P.push({ n: 'kepala', t: 'e', a: o.kepala, R: o.Rh, rad: o.radKep }); o.kaki = {};
+    [['L', -1], ['R', 1]].forEach(([n, sx]) => {
+      const g = po.lg[n], pv = [sx * this.KX, H + py, po.pz], RL = m.eulM(g[0], g[1], g[2]), lutut = m.add(pv, m.ap(RL, [0, -this.TH * KL, 0])), Rs = m.mul(RL, m.Rx(g[3])), buku = m.add(lutut, m.ap(Rs, [0, -this.SH * KL, 0])), Rf = m.mul(Rs, m.Rx(g[4]));
+      const tumit = m.add(buku, m.ap(Rf, [0, 0, -0.035])), jari = m.add(buku, m.ap(Rf, [0, 0, 0.095]));
+      P.push({ n: 'paha' + n, t: 'c', a: pv, b: lutut, r: this.R_PAHA * KT, rc: this.R_PAHA * KT }, { n: 'betis' + n, t: 'c', a: lutut, b: buku, r: this.R_BETIS * KT, rc: Math.min(this.RC_KAKI, this.R_BETIS * KT) }, { n: 'kaki' + n, t: 'c', a: tumit, b: jari, r: this.R_KAKI * Math.max(KT, 0.85), rc: this.RC_KAKI * Math.max(KT, 0.85) }, { n: 'lutut' + n, t: 's', a: lutut, r: this.R_PAHA * KT, rc: this.R_PAHA * KT });
+      o.kaki[n] = { pv, lutut, buku, tumit, jari, Rf, Rs, RL };
+    });
+    o.P = P; return o;
+  },
+
+  // ---- pengesan tembusan antara anggota (sampel pada paksi kapsul) ----
+  sdfKep(p, c, R, rad) { const l = M.ap(M.tp(R), M.sub(p, c)), f = Math.hypot(l[0] / rad[0], l[1] / rad[1], l[2] / rad[2]); return (f - 1) * Math.min(rad[0], rad[1], rad[2]); },
+  sdfSil(p, a, b, r) { const ax = M.sub(b, a), L = M.len(ax), u = M.sk(ax, 1 / L), d = M.sub(p, a), t = M.dot(d, u), rad = M.len(M.sub(d, M.sk(u, t))); const dx = rad - r, dz = Math.abs(t - L / 2) - L / 2; return Math.min(Math.max(dx, dz), 0) + Math.hypot(Math.max(dx, 0), Math.max(dz, 0)); },
+  segJarak(a, b, c, d) { const m = M; let best = 1e9; for (let i = 0; i <= 8; i++) { const p = m.add(a, m.sk(m.sub(b, a), i / 8)); const e = m.sub(d, c), t = m.cl(m.dot(m.sub(p, c), e) / (m.dot(e, e) || 1), 0, 1); best = Math.min(best, m.len(m.sub(p, m.add(c, m.sk(e, t))))); } for (let i = 0; i <= 8; i++) { const p = m.add(c, m.sk(m.sub(d, c), i / 8)); const e = m.sub(b, a), t = m.cl(m.dot(m.sub(p, a), e) / (m.dot(e, e) || 1), 0, 1); best = Math.min(best, m.len(m.sub(p, m.add(a, m.sk(e, t))))); } return best; },
+  // mengembalikan senarai tembusan > toleransi: [pasangan, kedalaman]
+  tembus(S, tol) {
+    tol = tol == null ? 0.008 : tol; const P = Object.fromEntries(S.P.map((p) => [p.n, p])), out = []; const kap = S.P.filter((p) => p.t === 'c'), bdn = P.badan, kep = P.kepala;
+    const pts = (p, skip) => { const r = []; for (let i = 0; i <= 6; i++) { const t = i / 6; if (t < skip) continue; r.push(M.add(p.a, M.sk(M.sub(p.b, p.a), t))); } return r; };
+    kap.forEach((p) => { const zon = /^paha/.test(p.n) ? 0.45 : /^lenganAtas/.test(p.n) ? 0.35 : 0; const bd = /^betis|^kaki/.test(p.n) ? 0 : zon; pts(p, bd).forEach((q) => { const d = p.r - this.sdfSil(q, bdn.a, bdn.b, bdn.r); if (d > tol + (/^lengan/.test(p.n) ? 0.02 : 0)) out.push([p.n + '~badan', d]); }); pts(p, /^paha/.test(p.n) ? 0.3 : /^lenganAtas/.test(p.n) ? 0.5 : 0).forEach((q) => { const d = p.r - this.sdfKep(q, kep.a, kep.R, kep.rad); if (d > tol + (/^lengan/.test(p.n) ? 0.01 : 0)) out.push([p.n + '~kepala', d]); }); });
+    ['L', 'R'].forEach((n) => { const h = P['tangan' + n]; [['badan', this.sdfSil(h.a, bdn.a, bdn.b, bdn.r)], ['kepala', this.sdfKep(h.a, kep.a, kep.R, kep.rad)]].forEach(([k, sd]) => { const d = 0.03 - sd; if (d > tol) out.push(['tangan' + n + '~' + k, d]); }); kap.filter((p) => /^paha|^betis|^kaki/.test(p.n)).forEach((p) => { const d = p.r + 0.04 - this.segJarak(h.a, h.a, p.a, p.b); if (d > tol + 0.01) out.push(['tangan' + n + '~' + p.n, d]); }); });
+    const L = (n) => P[n + 'L'], R = (n) => P[n + 'R']; [['paha', 'paha'], ['paha', 'betis'], ['betis', 'paha'], ['betis', 'betis'], ['kaki', 'betis'], ['betis', 'kaki'], ['kaki', 'kaki'], ['kaki', 'paha'], ['paha', 'kaki']].forEach(([x, y]) => { const a = L(x), b = R(y); let aa = a.a, bb = b.a; if (x === 'paha' || y === 'paha') { /* abaikan zon pinggul */ const sa = x === 'paha' ? M.add(a.a, M.sk(M.sub(a.b, a.a), 0.45)) : a.a, sb = y === 'paha' ? M.add(b.a, M.sk(M.sub(b.b, b.a), 0.45)) : b.a; aa = sa; bb = sb; } const d = a.r + b.r - this.segJarak(aa, a.b, bb, b.b); if (d > tol) out.push([x + 'L~' + y + 'R', d]); });
+    S.P.filter((p) => /^lengan/.test(p.n)).forEach((p) => kap.filter((q) => /^paha|^betis|^kaki/.test(q.n)).forEach((q) => { const d = p.r + q.r - this.segJarak(p.a, p.b, /^paha/.test(q.n) ? M.add(q.a, M.sk(M.sub(q.b, q.a), 0.2)) : q.a, q.b); if (d > tol) out.push([p.n + '~' + q.n, d]); }));
+    return out;
+  },
+  paras(p) { const m = Math; if (p.t === 's') return p.a[1] - p.rc; if (p.t === 'c') return m.min(p.a[1], p.b[1]) - p.rc; if (p.t === 'k') { const u = M.nrm(M.sub(p.b, p.a)), f = p.r * m.sqrt(Math.max(0, 1 - u[1] * u[1])); return m.min(p.a[1], p.b[1]) - f; } if (p.t === 'e') return p.a[1] - m.hypot(p.R[1][0] * p.rad[0], p.R[1][1] * p.rad[1], p.R[1][2] * p.rad[2]); return 1e9; },
+  tanah(po, g) { const o = this.bentuk(po, 0); let lo = 1e9; o.P.forEach((p) => { lo = Math.min(lo, this.paras(p)); }); return g - lo; },
+  // keadaan penuh: py (tinggi pinggul dinamik), rangka, lengan (IK + orientasi pergelangan), primitif
+  lengkap(po, g) {
+    const sh = (h) => (h.f === 'w' ? Object.assign({}, h, { p: [h.p[0], h.p[1] + g, h.p[2]] }) : h); po = Object.assign({}, po, { L: sh(po.L), R: sh(po.R) });   // sasaran dunia 'w' = tinggi relatif lantai/sejadah (g)
+    const m = M, H = this.HIP, py = po.py != null ? po.py : this.tanah(po, g), o = this.bentuk(po, py), KA = po.KA || this.K, Rt = o.Rt, hip0 = o.hip0; o.lengan = {};
+    const toW = (p) => m.add(hip0, m.ap(Rt, [p[0], p[1] - H, p[2]]));
+    [['L', -1], ['R', 1]].forEach(([n, sx]) => {
+      const h = po[n], T = this.sasarInner(po, py, h), a = this.ik(sx, T, h.q, KA), sh = toW([sx * 0.21, 0.70, 0]), el = toW(a.el), hd = toW(a.hd); let Rw = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+      const RE_i = a.RE; let Rdes = null;
+      if (h.d && h.n) { const d = m.nrm(h.d), n0 = m.nrm(m.sub(h.n, m.sk(d, m.dot(h.n, d)))); let dI = d, nI = n0; if (h.f === 'w') { const Tt = m.tp(Rt); dI = m.ap(Tt, d); nI = m.ap(Tt, n0); } const y = m.sk(dI, -1), x = m.cr(y, nI); Rdes = [[x[0], y[0], nI[0]], [x[1], y[1], nI[1]], [x[2], y[2], nI[2]]]; Rw = m.mul(m.tp(RE_i), Rdes); }
+      const Rhand = m.mul(Rt, m.mul(RE_i, Rw)); const PL = m.add(hip0, m.ap(Rt, [0, 0, 0]));
+      o.lengan[n] = { sx, ik: a, bahu: sh, siku: el, tangan: hd, Rw, Rhand, RE: m.mul(Rt, RE_i), RA: a.RA };
+      o.P.push({ n: 'lenganAtas' + n, t: 'c', a: sh, b: el, r: this.R_LENGAN, rc: this.R_LENGAN }, { n: 'lenganBawah' + n, t: 'c', a: el, b: m.add(el, m.ap(m.mul(Rt, RE_i), [0, -0.12 * KA, 0])), r: this.R_LENGAN, rc: this.R_LENGAN }, { n: 'tangan' + n, t: 'e', a: hd, R: Rhand, rad: this.R_TANGAN });
+    });
+    o.py = py; return o;
+  }
+};
+
+
+return B;
+})();
+/*SB-TAMAT*/
+
 /* ===================== Sudut Latihan Solat (v99) =====================
-   Latihan tiga gerakan solat (Takbiratul Ihram, Ruku', I'tidal) di sudut sejadah Bilik PI (dinding barat = arah kiblat).
+   Latihan gerakan solat (Takbiratul Ihram, Ruku', I'tidal, Sujud, Duduk antara dua sujud, Tahiyat akhir, Salam) di sudut sejadah Bilik PI (dinding barat = arah kiblat).
    GLB (pi_interior_props.glb): rak_sejadah + 3 gulungan 'lalu_sejadah_1..3' + sauh int_solat / tanda_kiblat. Tikar dibentang oleh kod ini.
    SISTEM ANIMASI WATAK (disemak): watak ialah makeHuman(): kaki & lengan = kumpulan berpangsi (legL/legR/armL/armR), badan + kepala + pakaian terus di bawah m.inner.
    Gelung utama menetapkan semula anggota & m.inner.position.y setiap bingkai semasa State.uiLock kecuali Player.sedangDuduk = true (corak DudukKelas / kantin),
@@ -13148,19 +13226,26 @@ const BlokRukun = {
    (mazhab Syafie), ruku': belakang rata, tangan pada lutut, jari dibuka, tuma'ninah. Kiblat dari Tambunan = 291 darjah (barat-barat laut): dinding barat sebagai anggaran. */
 const SudutSolat = {
   RAK: { x: -5.775, y: 0.525, z: [-0.367, 0, 0.367], depan: -5.33 },   // koordinat bilik (sama seperti tools/gen_bilik.py: SOL); depan: tangan sampai ke gulungan (v99: lengan berpenyiku)
-  ZM: -1.45, X_BELAKANG: -4.10, X_DEPAN: -5.55, LEBAR: 0.85, J0: 0.075, X_TURUN: -3.55, X_SOLAT: -4.35, HIP: 0.32, K: 1.3,   // K = faktor panjang lengan semasa latihan (sendi siku ditambah sementara)
+  ZM: -1.45, X_BELAKANG: -4.10, X_DEPAN: -5.55, LEBAR: 0.85, J0: 0.075, X_TURUN: -3.55, X_SOLAT: -4.45, HIP: 0.32, K: 1.3,   // K = faktor panjang lengan semasa latihan (sendi siku ditambah sementara)
   REKA: [{ nama: 'Hijau', ikon: '🟩', a: '#5FA37B', b: '#86C09C', c: '#F3E6C4' }, { nama: 'Bata', ikon: '🟥', a: '#B8553A', b: '#D58563', c: '#F2D49B' }, { nama: 'Biru', ikon: '🟦', a: '#3A6EA5', b: '#6F9BCB', c: '#E6F0FA' }],
-  // Pose (v99, dikira dengan penyelesai FK/IK tools/solat_fk.js + test_solat.js): th = condong badan (rad) pada pinggul; an = pinggul dianjak ke belakang; ka = kaki condong ke hadapan; nk = anjakan menegak;
-  // sw = ayunan tangan semasa berjalan. Sasaran tangan = pusat tapak tangan (bingkai inner): f 't' = melekat pada badan, 'd' = tetap di dunia (cth. lutut); q = arah siku (pole)
-  // armL ialah tangan KANAN watak (x negatif, kerana watak menghadap +z)
+  // Pose (v100): pose sendi penuh untuk enjin SolatBadan. th = condong badan; pz = pinggul ke hadapan (+) / belakang (-); hn / hy = angguk / toleh kepala; KA / KL / KH = faktor panjang lengan / kaki / saiz kepala (pelarasan dinamik
+  // kerana proporsi chibi tidak membenarkan dahi dan tapak tangan mencecah sejadah serentak); lg = sendi kaki [hx, hy, hz, lutut, buku lali] (L = kaki KANAN watak = legL; R = kiri); L / R = sasaran pusat tapak tangan: f 't' (melekat badan) atau 'w' (dunia);
+  // q = arah siku; d / n = arah jari / normal tapak (orientasi pergelangan). Tinggi pinggul (py) dikira oleh enjin supaya anggota paling bawah tepat pada lantai / sejadah. Nilai sujud/lutut/duduk/tawarruk dikira oleh tools/solat_solve3.js.
   POSE: {
-    sisi: { th: 0, an: 0, ka: 0, nk: 0, sw: 1, L: { f: 't', p: [-0.255, 0.385, 0] }, R: { f: 't', p: [0.255, 0.385, 0] } },
-    angkat: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.30, 0.76, 0.14], q: [0, -1, 0.3] }, R: { f: 't', p: [0.30, 0.76, 0.14], q: [0, -1, 0.3] } },   // setentang bahu, telapak ke hadapan (kiblat), lengan bawah hampir tegak
-    sedekap: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.03, 0.57, 0.225] }, R: { f: 't', p: [0.05, 0.54, 0.205] } },                                   // kanan di atas kiri, di bawah dada & atas pusat, condong ke kiri
-    ruku: { th: 1.38, an: 0.09, ka: 0.30, nk: -0.013, sw: 0, L: { f: 'd', p: [-0.14, 0.185, -0.02], q: [-1, 0, 0] }, R: { f: 'd', p: [0.14, 0.185, -0.02], q: [1, 0, 0] } },   // belakang 79 darjah (hampir rata; kepala chibi tidak menyentuh lantai), tapak kaki kekal di lantai, pinggul ke belakang; tangan di atas lutut (lengan lurus, jangkauan dihadkan oleh IK)
-    raih: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.14, 0.66, 0.30] }, R: { f: 't', p: [0.14, 0.66, 0.30] } },
-    bawa: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.17, 0.55, 0.28] }, R: { f: 't', p: [0.17, 0.55, 0.28] } },
-    letak: { th: 1.1, an: 0.04, ka: 0.15, nk: 0, sw: 0, L: { f: 'd', p: [-0.13, 0.24, 0.40] }, R: { f: 'd', p: [0.13, 0.24, 0.40] } }
+    sisi: { th: 0, pz: 0, hn: 0.14, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 1, lg: { L: [0, 0, 0, 0, 0], R: [0, 0, 0, 0, 0] }, L: { f: 't', p: [-0.255, 0.385, 0] }, R: { f: 't', p: [0.255, 0.385, 0] } },
+    angkat: { th: 0, pz: 0, hn: 0.14, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [0, 0, 0, 0, 0], R: [0, 0, 0, 0, 0] }, L: { f: 't', p: [-0.30, 0.76, 0.14], q: [0, -1, 0.3], d: [0, 1, 0], n: [0, 0, 1] }, R: { f: 't', p: [0.30, 0.76, 0.14], q: [0, -1, 0.3], d: [0, 1, 0], n: [0, 0, 1] } },
+    sedekap: { th: 0, pz: 0, hn: 0.14, hy: 0, KA: 1.46, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [0, 0, 0, 0, 0], R: [0, 0, 0, 0, 0] }, L: { f: 't', p: [-0.046, 0.579, 0.23], q: [-2.379, -0.468, -0.3] }, R: { f: 't', p: [0.048, 0.561, 0.234], q: [2.379, -0.468, -0.3] } },
+    ruku: { th: 1.381, pz: -0.042, hn: 0, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [-0.161, 0, 0, 0, 0], R: [-0.161, 0, 0, 0, 0] }, L: { f: 'w', p: [-0.183, 0.2033, 0.077], q: [-1, 0, 0] }, R: { f: 'w', p: [0.183, 0.2033, 0.077], q: [1, 0, 0] } },
+    raih: { th: 0, pz: 0, hn: 0.14, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [0, 0, 0, 0, 0], R: [0, 0, 0, 0, 0] }, L: { f: 't', p: [-0.14, 0.66, 0.30] }, R: { f: 't', p: [0.14, 0.66, 0.30] } },
+    bawa: { th: 0, pz: 0, hn: 0.14, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [0, 0, 0, 0, 0], R: [0, 0, 0, 0, 0] }, L: { f: 't', p: [-0.17, 0.55, 0.28] }, R: { f: 't', p: [0.17, 0.55, 0.28] } },
+    letak: { th: 1.1, pz: -0.04, hn: 0, hy: 0, KA: 1.3, KL: 1, KH: 1, jr: 0, sw: 0, lg: { L: [-0.15, 0, 0, 0, 0], R: [-0.15, 0, 0, 0, 0] }, L: { f: 'w', p: [-0.13, 0.2253, 0.4] }, R: { f: 'w', p: [0.13, 0.2253, 0.4] } },
+    lutut: { th: 0.0013, pz: 0.088, hn: 0.14, hy: 0, KA: 1.3, KL: 1.0039, KH: 1, jr: 0, sw: 0, lg: { L: [0.166, 0, -0.2297, 1.542, 1.024], R: [0.166, 0, 0.2297, 1.542, 1.024] }, L: { f: 'w', p: [-0.2237, 0.2703, 0.0875] }, R: { f: 'w', p: [0.2237, 0.2703, 0.0875] } },
+    sujud: { th: 1.2063, pz: 0.0543, hn: 0.3184, hy: 0, KA: 1.3131, KL: 1.0119, KH: 0.9222, jr: 0, sw: 0, lg: { L: [0.0115, 0, -0.0562, 1.8142, 0.7497], R: [0.0115, 0, 0.0562, 1.8142, 0.7497] }, L: { f: 'w', p: [-0.2445, 0.034, 0.3657], q: [-2.9558, 1.5854, -0.2], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.2445, 0.034, 0.3657], q: [2.9558, 1.5854, -0.2], d: [0, 0, 1], n: [0, 1, 0] } },
+    duduk: { th: 0.0877, pz: -0.1701, hn: 0.14, hy: 0, KA: 1.3, KL: 1.201, KH: 1, KT: 1, jr: 0, sw: 0, lg: { L: [-1.4031, 0, -0.3, 2.6, 1.4178], R: [-0.6133, -0.1, 0.7059, 2.5366, 0.7234] }, L: { f: 'w', p: [-0.2184, 0.2491, -0.0543], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.2184, 0.2373, -0.1152], d: [0, 0, 1], n: [0, 1, 0] } },
+    tawarruk: { th: -0.1954, pz: 0.344, hn: 0.14, hy: 0, KA: 1.3, KL: 1.05, KH: 1, KT: 0.7256, jr: 0, sw: 0, lg: { L: [-1.8864, 0, 0.1, 0.8713, 1.6296], R: [-0.673, 0.8177, -0.9363, 1.1121, 0.2631] }, L: { f: 'w', p: [-0.222, 0.1933, 0.3794], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.222, 0.1698, 0.3251], d: [0, 0, 1], n: [0, 1, 0] } },
+    tawarrukJ: { th: -0.1954, pz: 0.344, hn: 0.14, hy: 0, KA: 1.3, KL: 1.05, KH: 1, KT: 0.7256, jr: 1, sw: 0, lg: { L: [-1.8864, 0, 0.1, 0.8713, 1.6296], R: [-0.673, 0.8177, -0.9363, 1.1121, 0.2631] }, L: { f: 'w', p: [-0.222, 0.1933, 0.3794], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.222, 0.1698, 0.3251], d: [0, 0, 1], n: [0, 1, 0] } },
+    salamK: { th: -0.1954, pz: 0.344, hn: 0.14, hy: -1.1, KA: 1.3, KL: 1.05, KH: 1, KT: 0.7256, jr: 1, sw: 0, lg: { L: [-1.8864, 0, 0.1, 0.8713, 1.6296], R: [-0.673, 0.8177, -0.9363, 1.1121, 0.2631] }, L: { f: 'w', p: [-0.222, 0.1933, 0.3794], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.222, 0.1698, 0.3251], d: [0, 0, 1], n: [0, 1, 0] } },
+    salamL: { th: -0.1954, pz: 0.344, hn: 0.14, hy: 1.1, KA: 1.3, KL: 1.05, KH: 1, KT: 0.7256, jr: 1, sw: 0, lg: { L: [-1.8864, 0, 0.1, 0.8713, 1.6296], R: [-0.673, 0.8177, -0.9363, 1.1121, 0.2631] }, L: { f: 'w', p: [-0.222, 0.1933, 0.3794], d: [0, 0, 1], n: [0, 1, 0] }, R: { f: 'w', p: [0.222, 0.1698, 0.3251], d: [0, 0, 1], n: [0, 1, 0] } }
   },
   // Langkah: [pose, tempoh peralihan (s), tempoh tahan (s), kapsyen]
   LANGKAH: [
@@ -13175,63 +13260,110 @@ const SudutSolat = {
     { tajuk: "I'tidal", ringkas: 'Bangun, angkat tangan, berdiri tegak, turunkan tangan.', bacaan: [{ ar: 'سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ', rumi: "Sami'allahu liman hamidah", maksud: 'Allah mendengar orang yang memuji-Nya.' }, { ar: 'رَبَّنَا لَكَ الْحَمْدُ', rumi: 'Rabbana lakal hamd', maksud: 'Wahai Tuhan kami, bagi-Mu segala pujian.' }],
       kf: [['ruku', 0.3, 0.1, 'Bersedia untuk bangun.'],
         ['angkat', 1.6, 0.7, "Bangun dari rukuk sambil mengangkat tangan setentang bahu: “Sami'allahu liman hamidah”."],
-        ['sisi', 1.1, 1.3, "Berdiri tegak (i'tidal) dan lepaskan tangan ke sisi. Baca: “Rabbana lakal hamd”. Tenang sebentar (tuma'ninah)."]] }
+        ['sisi', 1.1, 1.3, "Berdiri tegak (i'tidal) dan lepaskan tangan ke sisi. Baca: “Rabbana lakal hamd”. Tenang sebentar (tuma'ninah)."]] },
+    { tajuk: 'Sujud Pertama', ringkas: 'Takbir, turun, tujuh anggota sujud mencecah sejadah.', bacaan: [{ ar: 'اللَّهُ أَكْبَرُ', rumi: 'Allahu Akbar', maksud: 'Allah Maha Besar. (takbir semasa turun)' }, { ar: 'سُبْحَانَ رَبِّيَ الْأَعْلَى وَبِحَمْدِهِ', rumi: "Subhana rabbiyal a'la wa bihamdih", maksud: 'Maha Suci Tuhanku Yang Maha Tinggi dan dengan memuji-Nya. (3 kali)' }],
+      kf: [['lutut', 1.8, 0.2, 'Bertakbir (“Allahu Akbar”) sambil turun tanpa mengangkat tangan: lutut dahulu, kemudian tangan.'],
+        ['sujud', 1.6, 1.8, 'Sujud atas tujuh anggota: dahi bersama hidung, dua telapak tangan, dua lutut dan hujung jari kedua-dua kaki. Jari tangan dirapatkan menghala kiblat, siku diangkat, perut dijauhkan daripada paha. Tuma\'ninah.']] },
+    { tajuk: 'Duduk Antara Dua Sujud', ringkas: 'Takbir, duduk iftirasy, tangan di atas paha.', bacaan: [{ ar: 'رَبِّ اغْفِرْ لِيْ وَارْحَمْنِيْ وَاجْبُرْنِيْ وَارْفَعْنِيْ وَارْزُقْنِيْ وَاهْدِنِيْ وَعَافِنِيْ وَاعْفُ عَنِّيْ', rumi: "Rabbighfirli warhamni wajburni warfa'ni warzuqni wahdini wa 'afini wa'fu 'anni", maksud: 'Ya Allah, ampunilah dosaku, kasihanilah aku, perbaikilah keadaanku, angkatlah darjatku, berilah aku rezeki dan petunjuk, sihatkanlah aku dan maafkanlah aku.' }],
+      kf: [['duduk', 1.7, 1.8, 'Bertakbir dan duduk iftirasy: duduk di atas kaki kiri yang dibentangkan, kaki kanan ditegakkan dengan hujung jari menghala kiblat. Letakkan tangan di atas paha. Tuma\'ninah.']] },
+    { tajuk: 'Sujud Kedua', ringkas: 'Takbir dan sujud sekali lagi.', bacaan: [{ ar: 'اللَّهُ أَكْبَرُ', rumi: 'Allahu Akbar', maksud: 'Allah Maha Besar. (takbir semasa sujud)' }, { ar: 'سُبْحَانَ رَبِّيَ الْأَعْلَى وَبِحَمْدِهِ', rumi: "Subhana rabbiyal a'la wa bihamdih", maksud: 'Maha Suci Tuhanku Yang Maha Tinggi dan dengan memuji-Nya. (3 kali)' }],
+      kf: [['sujud', 1.6, 1.8, 'Bertakbir dan sujud sekali lagi seperti sujud pertama: tujuh anggota mencecah sejadah. Tuma\'ninah.']] },
+    { tajuk: 'Tahiyat Akhir', ringkas: 'Duduk tawarruk, tahiyat, telunjuk kanan diangkat.', bacaan: [{ ar: 'التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ', rumi: "At-tahiyyatul mubarakatus salawatut tayyibatu lillah, assalamu 'alaika ayyuhan nabiyyu wa rahmatullahi wa barakatuh, assalamu 'alaina wa 'ala 'ibadillahis salihin. Asyhadu alla ilaha illallah wa asyhadu anna Muhammadan rasulullah.", maksud: 'Segala penghormatan, keberkatan, selawat dan kebaikan bagi Allah. Salam sejahtera ke atasmu wahai Nabi serta rahmat Allah dan keberkatan-Nya. Salam sejahtera ke atas kami dan hamba-hamba Allah yang soleh. Aku bersaksi tiada tuhan selain Allah dan aku bersaksi Muhammad ialah Rasulullah. (Kemudian diteruskan dengan selawat ke atas Nabi.)' }],
+      kf: [['tawarruk', 1.8, 0.6, 'Duduk tawarruk: kaki kiri dikeluarkan ke sebelah kanan, punggung di atas lantai, kaki kanan ditegakkan dengan hujung jari menghala kiblat. Tangan di atas paha.'], ['tawarrukJ', 0.8, 1.8, 'Semasa menyebut “illallah”, angkat jari telunjuk kanan dan biarkan sehingga salam; jangan digerak-gerakkan.']] },
+    { tajuk: 'Salam', ringkas: 'Toleh ke kanan, kemudian ke kiri, memberi salam.', bacaan: [{ ar: 'السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ', rumi: "Assalamu'alaikum warahmatullah", maksud: 'Selamat sejahtera ke atas kamu dan rahmat Allah.' }],
+      kf: [['salamK', 1.2, 0.9, 'Toleh ke kanan sambil memberi salam: “Assalamu\'alaikum warahmatullah”.'], ['salamL', 1.6, 0.9, 'Toleh ke kiri dan ulang salam. Dengan ini latihan gerakan solat selesai.'], ['tawarrukJ', 1.0, 0.4, '']] }
+
   ],
   aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, dt: 0.016, laju: 1, nod: null, V: null, V2: null, cor: null, keluar: false, langkah: 0, po: null, poKey: 'sisi', jal: 0, fasaJ: 0, asal: null, bawaVis: true, diberi: false, fovUbah: false, fov0: 50,
   kam: { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, tikar: { k: -1, px: 0, py: 0, pz: 0, hd: 0, lay: 0, s: 1, spin: 0, attach: 0, p: 0, lengkung: 0 },
   kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
   e(u) { return u * u * (3 - 2 * u); },
   // ----- pose -----
-  lokal(h, th, an, nk) { if (h.f === 't') return h.p; const dy = h.p[1] - (this.HIP + (nk || 0)), dz = h.p[2] + (an || 0), c = Math.cos(th), s = Math.sin(th); return [h.p[0], this.HIP + dy * c + dz * s, -dy * s + dz * c]; },   // sasaran dunia -> bingkai inner pada sudut th (pinggul di y=HIP+nk, z=-an)
-  qLalai(sx) { return [sx * 0.35, -1, -0.15]; },
-  jarak(A, B) { const f = (x, y) => Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]), a = [this.lokal(A.L, A.th, A.an, A.nk), this.lokal(A.R, A.th, A.an, A.nk)], b = [this.lokal(B.L, A.th, A.an, A.nk), this.lokal(B.R, A.th, A.an, A.nk)]; return Math.max(f(a[0], b[0]), f(a[1], b[1])); },   // anjakan tangan terbesar (m) antara dua pose
-  campur(a, b, u) {
-    const L = (x, y) => x + (y - x) * u, th = L(a.th, b.th), an = L(a.an || 0, b.an || 0), nk = L(a.nk || 0, b.nk || 0), mix = (x, y) => [L(x[0], y[0]), L(x[1], y[1]), L(x[2], y[2])];
-    const pa = [this.lokal(a.L, th, an, nk), this.lokal(a.R, th, an, nk)], pb = [this.lokal(b.L, th, an, nk), this.lokal(b.R, th, an, nk)];
-    const luar = (p) => { if (th < 0.3 && p[1] > 0.30 && p[1] < 0.80) { const q = Math.hypot(p[0], p[2]); if (q < 0.205) return q < 1e-6 ? [0, p[1], 0.205] : [p[0] * 0.205 / q, p[1], p[2] * 0.205 / q]; } return p; };   // peralihan: tapak tangan tidak melalui badan (jejari 0.205); pose akhir tidak berubah
-    return { th, an, nk, ka: L(a.ka || 0, b.ka || 0), sw: L(a.sw, b.sw), L: luar(mix(pa[0], pb[0])), R: luar(mix(pa[1], pb[1])), qL: mix(a.L.q || this.qLalai(-1), b.L.q || this.qLalai(-1)), qR: mix(a.R.q || this.qLalai(1), b.R.q || this.qLalai(1)) };
+  // ===== Enjin pose (v100) — memakai SolatBadan (tools/solat_badan.js): FK + IK + tinggi dinamik; rig diperluas sementara dan dipulihkan sepenuhnya =====
+  EDGE: { sisi: ['angkat', 'sedekap', 'ruku', 'raih', 'letak', 'lutut'], angkat: ['sisi', 'sedekap'], sedekap: ['sisi', 'angkat'], ruku: ['sisi'], raih: ['sisi', 'bawa'], bawa: ['raih', 'letak'], letak: ['bawa', 'sisi'],
+    lutut: ['sisi', 'sujud', 'duduk'], sujud: ['lutut', 'duduk'], duduk: ['sujud', 'lutut', 'tawarruk'], tawarruk: ['duduk', 'tawarrukJ'], tawarrukJ: ['tawarruk', 'salamK', 'salamL'], salamK: ['tawarrukJ', 'salamL'], salamL: ['tawarrukJ', 'salamK'] },
+  klon(o) { return JSON.parse(JSON.stringify(o)); },
+  // tinggi permukaan (unit inner): 0 di lantai; sejadah (0.014 m) hanya apabila sejadah terbentang dan watak berada di atasnya (dengan lereng 0.12 m di tepi)
+  tanahY() { const r = this.nod && this.nod.r, T = this.tikar, s = (Player.m && Player.m.inner.scale.x) || 0.95; if (!r || !T || T.p < 0.98) return 0; const x = Player.pos.x - r.ox, d = Math.min(x - this.X_DEPAN, this.X_BELAKANG - x); return 0.014 / s * Math.max(0, Math.min(1, d / 0.12)); },
+  // sasaran tangan POSE dalam bingkai dunia (+ orientasi dunia): digunakan untuk interpolasi
+  dunia(po, g) {
+    const SB = SolatBadan, M = SB.M, py = SB.tanah(po, g), Rt = M.Rx(po.th || 0), o = {};
+    ['L', 'R'].forEach((n, i) => { const h = po[n], sx = i ? 1 : -1; let d = h.d || null, nn = h.n || null; if (h.f === 't') { if (d) d = M.ap(Rt, d); if (nn) nn = M.ap(Rt, nn); } o[n] = { p: (() => { const q = SB.dunia(po, py, h).slice(); if (h.f === 't') q[1] -= g; return q; })(), q: (h.q || [sx * 0.35, -1, -0.15]).slice(), d: d && d.slice(), n: nn && nn.slice() }; });
+    return o;
   },
-  campurK(ka, kb, u) { return this.campur(this.POSE[ka], this.POSE[kb], u); },
+  jarak(A, B) { const g = this.tanahY(), a = this.dunia(A, g), b = this.dunia(B, g), f = (x, y) => Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]); return Math.max(f(a.L.p, b.L.p), f(a.R.p, b.R.p)); },
+  campur(a, b, u) {
+    const L = (x, y) => x + (y - x) * u, g = this.tanahY(), M = SolatBadan.M, wa = this.dunia(a, g), wb = this.dunia(b, g), o = { lg: {} };
+    ['th', 'pz', 'hn', 'hy', 'jr', 'sw'].forEach((k) => { o[k] = L(a[k] || 0, b[k] || 0); }); o.KA = L(a.KA || 1.3, b.KA || 1.3); o.KL = L(a.KL || 1, b.KL || 1); o.KT = L(a.KT || 1, b.KT || 1); o.KH = L(a.KH || 1, b.KH || 1);
+    ['L', 'R'].forEach((n) => { o.lg[n] = [0, 1, 2, 3, 4].map((i) => L(a.lg[n][i], b.lg[n][i])); });
+    const mix = (x, y) => (x && y ? M.nrm([L(x[0], y[0]), L(x[1], y[1]), L(x[2], y[2])]) : (y || x || null));
+    const wk = 4 * u * (1 - u), py = SolatBadan.tanah(o, g), bb = SolatBadan.bentuk(o, py), bd = bb.P[0], ax = M.sub(bd.b, bd.a), AL = M.len(ax), au = M.sk(ax, 1 / AL);   // wk = 0 pada pose akhir
+    ['L', 'R'].forEach((n, i) => { const ha = wa[n], hb = wb[n], sx = i ? 1 : -1; let p = [0, 1, 2].map((k) => L(ha.p[k], hb.p[k]));
+      const d0 = M.sub(p, bd.a), t = M.dot(d0, au), rad = M.sub(d0, M.sk(au, t)), rl = M.len(rad), sd = rl - bd.r;   // tangan ditolak keluar daripada silinder badan (jarak selamat 0.075) semasa peralihan
+      if (wk > 0 && t > -0.1 && t < AL + 0.1 && sd < 0.075) { const h = rl < 1e-6 ? [sx, 0, 0] : M.sk(rad, 1 / rl); p = M.add(p, M.sk(h, (0.075 - sd) * Math.min(1, wk * 3))); }
+      const kp = bb.P.find((q) => q.n === 'kepala'), sk = SolatBadan.sdfKep(p, kp.a, kp.R, kp.rad); if (wk > 0 && sk < 0.09) { const dv = M.sub(p, kp.a), dl = M.len(dv) || 1; p = M.add(p, M.sk(dv, (0.09 - sk) * Math.min(1, wk * 3) / dl)); }   // dan keluar daripada kepala
+      o[n] = { f: 'w', p, q: [0, 1, 2].map((k) => L(ha.q[k], hb.q[k])), d: mix(ha.d, hb.d), n: mix(hb.n || ha.n, ha.n || hb.n) }; o[n].q[0] += sx * 1.2 * wk; });   // siku mengembang keluar semasa peralihan
+    return o;
+  },
+  campurK(ka, kb, u) { this.poKey = null; return this.campur(this.POSE[ka], this.POSE[kb], u); },   // pose diubah di luar graf: poKey dikosongkan supaya keKunci bermula daripada pose semasa
   tetap(kunci) { return this.campur(this.POSE[kunci], this.POSE[kunci], 0); },
-  snap() { const p = this.po; return { th: p.th, an: p.an, ka: p.ka, nk: p.nk, sw: p.sw, L: { f: 't', p: p.L.slice(), q: p.qL.slice() }, R: { f: 't', p: p.R.slice(), q: p.qR.slice() } }; },
-  // Rig diperluas sementara (dipulihkan sepenuhnya oleh pulihRig): sendi SIKU pada setiap lengan (atas + bawah lengan) dan lengan dipanjangkan K kali supaya tangan sampai ke sasaran tanpa meregang;
-  // bola tangan dipipihkan menjadi tapak tangan (normal = paksi z tempatan lengan bawah).
+  snap() { return this.klon(this.po); },
+  poDekat() { const p = this.po, f = (A) => Math.abs(A.th - p.th) + 0.5 * Math.abs(A.pz - p.pz) + ['L', 'R'].reduce((n, s) => n + [0, 1, 2, 3, 4].reduce((m, i) => m + Math.abs(A.lg[s][i] - p.lg[s][i]), 0), 0) + Math.abs(A.KH - p.KH); let best = 'sisi', bd = 1e9; Object.keys(this.POSE).forEach((k) => { const d = f(this.POSE[k]); if (d < bd) { bd = d; best = k; } }); return best; },
+  jalur(a, b) { if (a === b) return [a]; const prev = { [a]: null }, q = [a]; while (q.length) { const u = q.shift(); if (u === b) break; (this.EDGE[u] || []).forEach((v) => { if (!(v in prev)) { prev[v] = u; q.push(v); } }); } const r = []; for (let u = b; u != null; u = prev[u]) r.unshift(u); return r[0] === a ? r : [a, b]; },
+  // tempoh satu peralihan: tidak lebih laju daripada ~0.8 s/rad (badan & sendi kaki), ~0.8 m/s (tangan)
+  durHop(A, B, min) { let dj = 0; ['L', 'R'].forEach((s) => { for (let i = 0; i < 5; i++) dj = Math.max(dj, Math.abs(A.lg[s][i] - B.lg[s][i])); }); return Math.max(min || 0.35, 0.25 + 0.8 * Math.abs(A.th - B.th), 0.25 + 0.7 * dj, 0.3 + 1.2 * this.jarak(A, B), 0.25 + 1.2 * Math.abs(A.hy - B.hy)); },
+  // peralihan ke pose `kunci` melalui graf pose yang disahkan (tiada tembusan lantai/anggota)
+  *keKunci(kunci, d) {
+    const mula = this.poKey || this.poDekat(), jalur = this.jalur(mula, kunci); let A = this.poKey ? this.POSE[mula] : this.snap();
+    for (let i = 1; i < jalur.length; i++) { const B = this.POSE[jalur[i]], A0 = A, dur = this.durHop(A0, B, i === jalur.length - 1 ? d : 0.35); this.poKey = null; yield* this.tunggu(dur, (u) => { this.po = this.campur(A0, B, this.e(u)); if (u >= 1) this.poKey = jalur[i]; }); A = B; }
+    if (jalur.length === 1 && this.poKey !== kunci) { const A0 = A, B = this.POSE[kunci]; yield* this.tunggu(this.durHop(A0, B, d), (u) => { this.po = this.campur(A0, B, this.e(u)); }); }
+    this.po = this.tetap(kunci); this.poKey = kunci;
+  },
+  // Rig diperluas sementara: siku + pergelangan + bola tangan pipih (telapak); lutut + buku lali; kumpulan kepala (angguk / toleh / saiz); kain disorok dan diganti sarung kaki berwarna kain. pulihRig memulihkan segalanya.
   sediaRig(m) {
-    if (m._solat) return; const K = this.K, tg = (A) => A.children.find((c) => Math.abs(c.position.y + 0.25) < 1e-6) || A.children[1], st = { sk: m.kainBerdiri ? m.kainBerdiri.position.y : 0, tangan: [], lengan: [], E: [] };
-    [m.armL, m.armR].forEach((A) => {
-      const hand = tg(A), arm = A.children.find((c) => c !== hand && c.isMesh) || A.children[0], E = new THREE.Group(); E.position.set(0, -0.11 * K, 0); arm.scale.y = 0.5 * K;
-      const fore = new THREE.Mesh(arm.geometry, arm.material); fore.scale.y = 0.12 * K / 0.22; E.add(fore);
-      const sendi = new THREE.Mesh(geo('sikuSolat', () => new THREE.SphereGeometry(0.056, 10, 8)), arm.material); E.add(sendi);
-      A.add(E); E.add(hand); hand.position.set(0, -0.14 * K, 0); hand.scale.set(1.05, 1.2, 0.55);
-      st.tangan.push(hand); st.lengan.push(arm); st.E.push(E);
+    if (m._solat) return; const K = this.K, TH = 0.15, SH = 0.12, tg = (A) => A.children.find((c) => Math.abs(c.position.y + 0.25) < 1e-6) || A.children[1], sk = m.kainBerdiri, kd = m.kainDuduk;
+    const st = { sk: sk ? sk.position.y : 0, skVis: sk ? sk.visible : true, kdVis: kd ? kd.visible : false, tangan: [], lengan: [], E: [], Wr: [], kaki: [], kep: [], Hd: null, jari: null };
+    const kainMat = sk && (sk.material || (sk.children[0] && sk.children[0].material)), cyl = () => geo('solatSilinder', () => new THREE.CylinderGeometry(1, 0.92, 1, 10).translate(0, -0.5, 0)), bola = () => geo('solatBola', () => new THREE.SphereGeometry(1, 10, 8));
+    [m.legL, m.legR].forEach((Lg) => {
+      const shoe = Lg.children.find((c) => Math.abs(c.position.y + 0.27) < 1e-6), pah = Lg.children.find((c) => c !== shoe && c.isMesh && c.geometry && c.geometry.parameters && c.geometry.parameters.height === 0.24) || null, kain = !pah, mat = kain ? (kainMat || (shoe && shoe.material)) : pah.material, K2 = new THREE.Group(), Aa = new THREE.Group(), cl = [];
+      K2.position.y = -TH; Aa.position.y = -SH; let paha = pah, betis = null;
+      if (kain) { paha = new THREE.Mesh(cyl(), mat); paha.scale.set(0.085, TH, 0.085); Lg.add(paha); cl.push(paha); betis = new THREE.Mesh(cyl(), mat); betis.scale.set(0.078, SH, 0.078); K2.add(betis); cl.push(betis); }
+      else { betis = new THREE.Mesh(pah.geometry, pah.material); K2.add(betis); cl.push(betis); }
+      const lutut = new THREE.Mesh(bola(), mat); lutut.scale.set(kain ? 0.082 : 0.068, kain ? 0.082 : 0.068, kain ? 0.082 : 0.068); K2.add(lutut); cl.push(lutut);
+      Lg.add(K2); K2.add(Aa); if (shoe) { Aa.add(shoe); shoe.position.set(0, 0, 0.03); }
+      st.kaki.push({ Lg, K2, Aa, shoe, paha, betis, lutut, kain, cl, un: kain ? 1 : 0.24 });
+    });
+    if (sk) sk.visible = false; if (kd) kd.visible = false;
+    const Hd = new THREE.Group(); Hd.position.set(0, 0.80, 0); const lain = [m.armL, m.armR, m.legL, m.legR, sk, kd]; m.inner.children.slice().forEach((c) => { if (!lain.includes(c) && c.position.y >= 0.85) st.kep.push([c, c.position.y]); });
+    m.inner.add(Hd); st.kep.forEach(([c]) => { Hd.add(c); c.position.y -= 0.80; }); st.Hd = Hd;
+    [m.armL, m.armR].forEach((A, i) => {
+      const hand = tg(A), arm = A.children.find((c) => c !== hand && c.isMesh) || A.children[0], E = new THREE.Group(), Wr = new THREE.Group(); E.position.set(0, -0.11 * K, 0); arm.scale.y = 0.5 * K;
+      const fore = new THREE.Mesh(arm.geometry, arm.material); fore.scale.y = 0.12 * K / 0.22; E.add(fore); const sendi = new THREE.Mesh(bola(), arm.material); sendi.scale.set(0.056, 0.056, 0.056); E.add(sendi);
+      Wr.position.set(0, -0.14 * K, 0); E.add(Wr); A.add(E); Wr.add(hand); hand.position.set(0, 0, 0); hand.scale.set(1.05, 1.2, 0.55);
+      if (i === 0) { const j = new THREE.Mesh(geo('solatJari', () => new THREE.CylinderGeometry(0.014, 0.012, 1, 6).translate(0, -0.5, 0)), hand.material); j.scale.set(1, 0.10, 1); j.position.set(0, -0.045, 0); j.visible = false; Wr.add(j); st.jari = j; }
+      st.tangan.push(hand); st.lengan.push(arm); st.E.push(E); st.Wr.push(Wr);
     });
     m._solat = st;
   },
   pulihRig(m) {
-    if (!m || !m._solat) return; const st = m._solat; m.inner.rotation.x = 0; m.inner.position.set(0, 0, 0); if (m.legL) { m.legL.rotation.x = 0; m.legR.rotation.x = 0; }
-    if (m.kainBerdiri) { m.kainBerdiri.rotation.x = 0; m.kainBerdiri.position.set(0, st.sk, 0); }
-    [[m.armL, -0.14], [m.armR, 0.14]].forEach(([A, z], i) => { const hand = st.tangan[i], E = st.E[i]; A.add(hand); hand.position.set(0, -0.25, 0); hand.scale.set(1, 1, 1); A.remove(E); st.lengan[i].scale.set(1, 1, 1); A.rotation.set(0, 0, z); A.scale.set(1, 1, 1); });
+    if (!m || !m._solat) return; const st = m._solat; m.inner.rotation.x = 0; m.inner.position.set(0, 0, 0);
+    st.kaki.forEach((k) => { const { Lg } = k; if (k.shoe) { Lg.add(k.shoe); k.shoe.position.set(0, -0.27, 0.03); } Lg.remove(k.K2); if (k.kain) Lg.remove(k.paha); else k.paha.scale.set(1, 1, 1); Lg.rotation.set(0, 0, 0); });
+    if (m.kainBerdiri) { m.kainBerdiri.visible = st.skVis; m.kainBerdiri.rotation.x = 0; m.kainBerdiri.position.set(0, st.sk, 0); } if (m.kainDuduk) m.kainDuduk.visible = st.kdVis;
+    st.kep.forEach(([c, y]) => { m.inner.add(c); c.position.y = y; }); m.inner.remove(st.Hd);
+    [[m.armL, -0.14], [m.armR, 0.14]].forEach(([A, z], i) => { const hand = st.tangan[i], E = st.E[i]; A.add(hand); hand.position.set(0, -0.25, 0); hand.scale.set(1, 1, 1); hand.rotation.set(0, 0, 0); A.remove(E); st.lengan[i].scale.set(1, 1, 1); A.rotation.set(0, 0, z); A.scale.set(1, 1, 1); });
     delete m._solat;
   },
-  // IK dua-segmen analitik: bahu (+-0.21, 0.70, 0) -> siku -> pusat tapak tangan T (bingkai inner). q = arah siku. Mengembalikan sudut Euler XYZ bahu dan lenturan siku (rad).
-  ik(sx, T, q) {
-    const K = this.K, U = 0.11 * K, HH = 0.14 * K, S = [sx * 0.21, 0.70, 0], v = [T[0] - S[0], T[1] - S[1], T[2] - S[2]], vl = Math.hypot(v[0], v[1], v[2]) || 1e-6, vh = [v[0] / vl, v[1] / vl, v[2] / vl];
-    const cl = (x, a, b) => Math.max(a, Math.min(b, x)), dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1e-9; return [a[0] / l, a[1] / l, a[2] / l]; }, cr = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
-    const dd = cl(vl, Math.abs(U - HH) + 0.01, (U + HH) * 0.999), a = (U * U - HH * HH + dd * dd) / (2 * dd), h = Math.sqrt(Math.max(0, U * U - a * a)), pole = q || this.qLalai(sx), pd = dot(pole, vh), pr = [pole[0] - vh[0] * pd, pole[1] - vh[1] * pd, pole[2] - vh[2] * pd];
-    const pp = Math.hypot(pr[0], pr[1], pr[2]) < 1e-4 ? [0, -1, 0] : nrm(pr), el = [S[0] + vh[0] * a + pp[0] * h, S[1] + vh[1] * a + pp[1] * h, S[2] + vh[2] * a + pp[2] * h], Tn = [S[0] + vh[0] * dd, S[1] + vh[1] * dd, S[2] + vh[2] * dd];
-    const u = nrm([el[0] - S[0], el[1] - S[1], el[2] - S[2]]), f = nrm([Tn[0] - el[0], Tn[1] - el[1], Tn[2] - el[2]]), ce = cl(dot(u, f), -1, 1), e = -Math.acos(ce), fp = [f[0] - u[0] * ce, f[1] - u[1] * ce, f[2] - u[2] * ce];
-    const z = Math.hypot(fp[0], fp[1], fp[2]) < 1e-5 ? [-pp[0], -pp[1], -pp[2]] : nrm(fp), y = [-u[0], -u[1], -u[2]], x = cr(y, z), m13 = cl(z[0], -1, 1);   // matriks putaran R = [x y z] (lajur); Euler XYZ (THREE): R = Rx*Ry*Rz
-    const ry = Math.asin(m13); let rx, rz; if (Math.abs(m13) < 0.9999) { rx = Math.atan2(-z[1], z[2]); rz = Math.atan2(-y[0], x[0]); } else { rx = Math.atan2(y[2], y[1]); rz = 0; }
-    return { rx, ry, rz, e, siku: el, ralat: Math.hypot(T[0] - Tn[0], T[1] - Tn[1], T[2] - Tn[2]) };
-  },
-  lengan(A, E, sx, T, q, ayun) { const r = this.ik(sx, T, q); A.rotation.set(r.rx + ayun, r.ry, r.rz); E.rotation.x = r.e; },
   terapPose() {
-    const m = Player.m; if (!m || !m._solat) return; const po = this.po, th = po.th, s = m.inner.scale.x || 1, c = Math.cos(th), sn = Math.sin(th), H = this.HIP, g = th + po.ka;
-    const ayun = Math.sin(this.fasaJ) * 0.6 * this.jal, bob = Math.abs(Math.sin(this.fasaJ)) * 0.04 * this.jal * s;
-    m.inner.rotation.x = th; m.inner.position.set(0, s * H * (1 - c) + s * po.nk + bob, -s * H * sn - s * po.an);   // putar pada pinggul; pinggul dianjak ke belakang (an) dan kaki dicondongkan ke hadapan (ka) supaya tapak kaki kekal
-    if (m.legL) { m.legL.rotation.x = -g + ayun; m.legR.rotation.x = -g - ayun; }
-    if (m.kainBerdiri) { const dy = m._solat.sk - H; m.kainBerdiri.rotation.x = -g; m.kainBerdiri.position.set(0, H + dy * Math.cos(g), -dy * Math.sin(g)); }
-    this.lengan(m.armL, m._solat.E[0], -1, po.L, po.qL, -0.9 * ayun * po.sw); this.lengan(m.armR, m._solat.E[1], 1, po.R, po.qR, 0.9 * ayun * po.sw);
+    const m = Player.m; if (!m || !m._solat) return; const po0 = this.po, st = m._solat, SB = SolatBadan, M = SB.M, s = m.inner.scale.x || 1, H = SB.HIP, ay = Math.sin(this.fasaJ) * 0.55 * (this.jalS || 0);
+    const po = Object.assign({}, po0, { lg: { L: po0.lg.L.slice(), R: po0.lg.R.slice() } }); let dyB = 0; if ((this.jalS || 0) > 0.001) { const g0 = this.tanahY(); dyB = SB.tanah(Object.assign({}, po, { lg: { L: po0.lg.L, R: po0.lg.R } }), g0); po.lg.L[0] += ay; po.lg.R[0] -= ay; dyB = SB.tanah(po, g0) - dyB; po.L = Object.assign({}, po0.L, { p: [po0.L.p[0], po0.L.p[1] + dyB, po0.L.p[2]] }); po.R = Object.assign({}, po0.R, { p: [po0.R.p[0], po0.R.p[1] + dyB, po0.R.p[2]] }); }   // ayunan kaki semasa berjalan; tinggi pinggul dikira semula dan tangan mengikut gerak naik-turun badan
+    const S = SB.lengkap(po, this.tanahY()), th = po.th, KL = po.KL || 1, KH = po.KH || 1, KA = po.KA || this.K;
+    m.inner.rotation.x = th; m.inner.position.set(0, s * (H + S.py) - s * H * Math.cos(th), s * po.pz - s * H * Math.sin(th));   // putar pada pinggul; pinggul diletakkan pada (0, H+py, pz): tinggi dinamik
+    [['L', 0], ['R', 1]].forEach(([n, i]) => { const k = st.kaki[i], g = po.lg[n], e = M.eul(M.mul(M.Rx(-th), M.eulM(g[0], g[1], g[2]))); k.Lg.rotation.set(e[0], e[1], e[2]); k.K2.rotation.x = g[3]; k.Aa.rotation.x = g[4]; k.K2.position.y = -0.15 * KL; k.Aa.position.y = -0.12 * KL;
+      const KT = po.KT || 1, w1 = (k.kain ? 0.085 : 1) * KT, w2 = (k.kain ? 0.078 : 1) * KT, w3 = (k.kain ? 0.082 : 0.068) * KT; k.paha.scale.set(w1, 0.15 * KL / k.un, w1); k.betis.scale.set(w2, 0.12 * KL / k.un, w2); k.lutut.scale.set(w3, w3, w3); });
+    st.Hd.rotation.set(po.hn || 0, po.hy || 0, 0); st.Hd.scale.set(KH, KH, KH);
+    [['L', 0, -0.9], ['R', 1, 0.9]].forEach(([n, i, sg]) => { const a = S.lengan[n], e = M.eul(a.RA), w = M.eul(a.Rw), A = i ? m.armR : m.armL;
+      A.rotation.set(e[0] + sg * ay * po.sw, e[1], e[2]); st.E[i].rotation.set(a.ik.e, 0, 0); st.Wr[i].rotation.set(w[0], w[1], w[2]); st.lengan[i].scale.y = 0.5 * KA; st.E[i].position.y = -0.11 * KA; st.E[i].children[0].scale.y = 0.12 * KA / 0.22; st.Wr[i].position.y = -0.14 * KA; });
+    if (st.jari) { st.jari.visible = (po.jr || 0) > 0.02; st.jari.rotation.x = -0.9 * (po.jr || 0); }
   },
   // ----- penjadual gerakan (penjana: setiap yield = satu bingkai) -----
   *tunggu(d, f) { let t = 0; while (t < d) { t += this.dt * this.laju; f(Math.min(1, t / d)); yield; } f(1); },
@@ -13240,8 +13372,7 @@ const SudutSolat = {
     yield* this.tunggu(Math.max(0.12, d * Math.min(1, Math.abs(da) / 1.5)), (u) => { Player.face = a0 + da * this.e(u); });
   },
   *jalanKe(x, z, hadapan, kunci) {
-    const r = this.nod.r, A = this.snap(), B = this.POSE[kunci], lb = [this.lokal(B.L, A.th, A.an, A.nk), this.lokal(B.R, A.th, A.an, A.nk)], beza = Math.abs(A.th - B.th) + Math.abs(A.an - (B.an || 0)) + Math.abs(A.ka - (B.ka || 0)) + [0, 1, 2].reduce((n, q) => n + Math.abs(A.L.p[q] - lb[0][q]) + Math.abs(A.R.p[q] - lb[1][q]), 0);
-    if (beza > 0.03) yield* this.tunggu(Math.max(0.4, 0.25 + 0.8 * Math.abs(A.th - B.th), 0.3 + 1.2 * this.jarak(A, B)), (u) => { this.po = this.campur(A, B, this.e(u)); });   // peralihan pose yang licin sebelum berjalan (cth. bangun dari ruku')
+    const r = this.nod.r; yield* this.keKunci(kunci, 0.4);   // peralihan pose melalui graf pose (cth. bangun dari sujud/duduk, atau ruku' ke tegak) sebelum berjalan
     this.po = this.tetap(kunci); const x0 = Player.pos.x - r.ox, z0 = Player.pos.z - r.oz, dx = x - x0, dz = z - z0, jarak = Math.hypot(dx, dz);
     if (jarak > 0.06) {
       yield* this.pusing(Math.atan2(dx, dz), 0.3); let lx = x0, lz = z0;
@@ -13317,12 +13448,8 @@ const SudutSolat = {
     this.siapBersih();
   },
   *urutanLangkah(i) {
-    const S = this.LANGKAH[i]; let A = this.poKey ? this.POSE[this.poKey] : this.snap();
-    for (const [kunci, d, h, teks] of S.kf) {
-      const B = this.POSE[kunci], A0 = A; if (teks) $('slMaklum').textContent = teks; this.poKey = null;
-      const dur = Math.max(d, 0.25 + 0.8 * Math.abs(B.th - (A0.th || 0)), 0.3 + 1.2 * this.jarak(A0, B));   // bongkok/bangun tidak lebih laju daripada ~0.8 s setiap radian; tangan tidak lebih laju daripada ~0.8 m/s
-      yield* this.tunggu(dur, (u) => { this.po = this.campur(A0, B, this.e(u)); if (u >= 1) this.poKey = kunci; }); A = B; yield* this.tunggu(h, () => {});
-    }
+    const S = this.LANGKAH[i];
+    for (const [kunci, d, h, teks] of S.kf) { if (teks) $('slMaklum').textContent = teks; yield* this.keKunci(kunci, d); yield* this.tunggu(h, () => {}); }
     this.langkahSiap(i);
   },
   // ----- aliran & UI -----
@@ -13363,8 +13490,8 @@ const SudutSolat = {
   ulangAwal() { if (this.tahap === 3) { this.tahap = 2; this.mainLangkah(0); } },
   langkahSiap(i) {
     this.cor = null; $('slBar').style.width = ((i + 1) / this.LANGKAH.length * 100) + '%'; if (i < this.LANGKAH.length - 1) { Sound.play('ok'); this.segar(); try { $('slSeterus').focus({ preventScroll: true }); } catch (err) {} return; }
-    this.tahap = 3; this.laju = this.lajuAsas(); this.segar(); Sound.play('done'); $('slArahan').textContent = "Tahniah! Takbiratul Ihram, Ruku' dan I'tidal selesai dilatih.";
-    $('slMaklum').textContent = "Ingat: berhenti tenang (tuma'ninah) pada setiap gerakan. Cara meletakkan tangan semasa i'tidal ada perbezaan pendapat dalam kalangan ulama; ikut bimbingan Ustazah. Latihan ini ialah tiga gerakan sahaja; solat penuh bersama sujud dan tahiyat dipelajari bersama Ustazah.";
+    this.tahap = 3; this.laju = this.lajuAsas(); this.segar(); Sound.play('done'); $('slArahan').textContent = "Tahniah! Gerakan solat dari Takbiratul Ihram hingga Salam selesai dilatih.";
+    $('slMaklum').textContent = "Ingat: berhenti tenang (tuma'ninah) pada setiap gerakan. Cara meletakkan tangan semasa i'tidal ada perbezaan pendapat dalam kalangan ulama; ikut bimbingan Ustazah. Latihan ini ialah latihan gerakan, bukan simulasi solat penuh; bacaan lengkap dan solat sebenar dipelajari bersama Ustazah.";
     $('slGulung').hidden = false; $('slMula').hidden = false;
     if (!this.diberi) { this.diberi = true; const d = State.data, sebelum = d && d.alat ? d.alat.solat_latih : undefined; Kiraan.tambah('solatLatih'); Peralatan.ganjaran('solat_latih', { ilmu: 1 }, '🕌 Latihan solat selesai! +1 Ilmu'); if (d && d.alat && d.alat.solat_latih === sebelum) toast('🕌 Hebat! Latihan solat selesai.'); }   // ganjaran sedia ada, sekali sehari
     try { $('slGulung').focus({ preventScroll: true }); } catch (err) {}
@@ -13401,7 +13528,7 @@ const SudutSolat = {
     const kur = this.kurang(); this.dt = dt; Fokus.pandang('sudutSolat', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5));
     if (this.aktif && this.nod) {
       if (this.cor) { try { this.cor.next(); } catch (err) { console.warn('Sudut Solat: ralat urutan', err && err.message); this.cor = null; } }
-      this.fasaJ += dt * 9 * this.jal * Math.min(this.laju, 3); this.terapPose(); this.lukisTikar(); Player.sync();
+      this.jalS = (this.jalS || 0) + (this.jal - (this.jalS || 0)) * (kur ? 1 : 1 - Math.exp(-dt * 8)); this.fasaJ += dt * 9 * this.jalS * Math.min(this.laju, 1.0); this.terapPose();   // amplitud ayunan dilicinkan (tiada lompatan bahu/kaki apabila mula/henti berjalan) this.lukisTikar(); Player.sync();
       const w = (this.tahap === 2 || this.tahap === 3) ? { x: -4.85, z: this.ZM, LB: 2.3, TB: 1.95 } : { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, f = kur ? 1 : 1 - Math.exp(-dt * 3);
       ['x', 'z', 'LB', 'TB'].forEach((q) => { this.kam[q] += (w[q] - this.kam[q]) * f; });
     }
