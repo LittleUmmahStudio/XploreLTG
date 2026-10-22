@@ -13191,6 +13191,23 @@ const B = {
     S.P.filter((p) => /^lengan/.test(p.n)).forEach((p) => kap.filter((q) => /^paha|^betis|^kaki/.test(q.n)).forEach((q) => { const d = p.r + q.r - this.segJarak(p.a, p.b, /^paha/.test(q.n) ? M.add(q.a, M.sk(M.sub(q.b, q.a), 0.2)) : q.a, q.b); if (d > tol) out.push([p.n + '~' + q.n, d]); }));
     return out;
   },
+  // bentuk kain (skirt) yang melitupi kaki: silinder BUJUR tirus daripada pinggang sepanjang arah ke buku lali. Jejari sisi (Rx) melitupi kaki; jejari menegak (Rz) dihadkan supaya hem tidak menembusi lantai (g).
+  kain(S, g) {
+    const m = M, W = m.add(S.hip0, m.ap(S.Rt, [0, 0.07, 0])), pts = []; ['L', 'R'].forEach((n) => { const k = S.kaki[n]; pts.push(k.lutut, k.buku, k.tumit); });
+    const u = m.nrm(m.sub(m.sk(m.add(S.kaki.L.buku, S.kaki.R.buku), 0.5), W)), uy = m.sk(u, -1), xa = m.nrm(m.sub([1, 0, 0], m.sk(uy, m.dot([1, 0, 0], uy)))), za = m.cr(xa, uy); let L = 0, Rx = 0.28, Rz = 0.28;
+    pts.forEach((p) => { const d = m.sub(p, W); L = Math.max(L, m.dot(d, u)); Rx = Math.max(Rx, Math.abs(m.dot(d, xa)) + 0.085); Rz = Math.max(Rz, Math.abs(m.dot(d, za)) + 0.085); });
+    L = Math.max(0.2, L - 0.03); const ujung = (l) => m.add(W, m.sk(u, l)), rim = (l, rz) => { const c = ujung(l); return c[1] - Math.hypot(Rx * xa[1], rz * za[1]); };
+    if (Math.abs(za[1]) > 1e-3) { [W, ujung(L)].forEach((c) => { const t = c[1] - g + 0.003; Rz = Math.min(Rz, Math.sqrt(Math.max(0, t * t - Math.pow(Rx * xa[1], 2))) / Math.abs(za[1])); }); Rz = Math.max(Rz, 0.1); }
+    while (rim(L, Rz) < g - 0.003 && L > 0.15) L -= 0.01;
+    return { W, u, L, Rx, Rz, xa, za, uy };
+  },
+  // watak berkain: tapak tangan yang berada di dalam skirt ditolak keluar ke permukaan kain (+1.5 cm). Skirt tirus (jejari atas 0.68 x bawah); tolakan dibaurkan secara licin di hujung skirt dan jejari, supaya tiada lompatan.
+  tanganKain(po, g) {
+    const m = M, py = this.tanah(po, g), o = this.bentuk(po, py), kn = this.kain(o, g), ss = (x) => { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); };
+    const f = (h) => { if (h.f !== 'w') return h; const q = [h.p[0], h.p[1] + g, h.p[2]], d = m.sub(q, kn.W), t = m.dot(d, kn.u), w = ss((t + 0.04) / 0.1) * ss((kn.L + 0.04 - t) / 0.1); if (w <= 0) return h; const tp = 0.68 + 0.32 * Math.min(1, Math.max(0, t / kn.L)), Rx = kn.Rx * tp, Rz = kn.Rz * tp; let a = m.dot(d, kn.xa), b = m.dot(d, kn.za); const fr = Math.hypot(a / Rx, b / Rz), mg = 1 + 0.015 / Math.min(Rx, Rz); if (fr >= mg) return h;
+      if (fr < 0.08) { a = 0; b = (kn.za[1] >= 0 ? 1 : -1) * Rz * 0.08; } const k = mg / Math.max(Math.hypot(a / Rx, b / Rz), 1e-6), n = m.add(m.add(kn.W, m.sk(kn.u, t)), m.add(m.sk(kn.xa, a * k), m.sk(kn.za, b * k))); const p2 = [h.p[0] + (n[0] - q[0]) * w, h.p[1] + (n[1] - q[1]) * w, h.p[2] + (n[2] - q[2]) * w]; return Object.assign({}, h, { p: p2 }); };
+    return Object.assign({}, po, { L: f(po.L), R: f(po.R) });
+  },
   paras(p) { const m = Math; if (p.t === 's') return p.a[1] - p.rc; if (p.t === 'c') return m.min(p.a[1], p.b[1]) - p.rc; if (p.t === 'k') { const u = M.nrm(M.sub(p.b, p.a)), f = p.r * m.sqrt(Math.max(0, 1 - u[1] * u[1])); return m.min(p.a[1], p.b[1]) - f; } if (p.t === 'e') return p.a[1] - m.hypot(p.R[1][0] * p.rad[0], p.R[1][1] * p.rad[1], p.R[1][2] * p.rad[2]); return 1e9; },
   tanah(po, g) { const o = this.bentuk(po, 0); let lo = 1e9; o.P.forEach((p) => { lo = Math.min(lo, this.paras(p)); }); return g - lo; },
   // keadaan penuh: py (tinggi pinggul dinamik), rangka, lengan (IK + orientasi pergelangan), primitif
@@ -13275,7 +13292,7 @@ const SudutSolat = {
 
   ],
   aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, dt: 0.016, laju: 1, nod: null, V: null, V2: null, cor: null, keluar: false, langkah: 0, po: null, poKey: 'sisi', jal: 0, fasaJ: 0, asal: null, bawaVis: true, diberi: false, fovUbah: false, fov0: 50,
-  kam: { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, tikar: { k: -1, px: 0, py: 0, pz: 0, hd: 0, lay: 0, s: 1, spin: 0, attach: 0, p: 0, lengkung: 0 },
+  kam: { x: -4.85, z: -0.75, LB: 3.8, TB: 2.5 }, tikar: { k: -1, px: 0, py: 0, pz: 0, hd: 0, lay: 0, s: 1, spin: 0, attach: 0, p: 0, lengkung: 0 },
   kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
   e(u) { return u * u * (3 - 2 * u); },
   // ----- pose -----
@@ -13311,7 +13328,7 @@ const SudutSolat = {
   poDekat() { const p = this.po, f = (A) => Math.abs(A.th - p.th) + 0.5 * Math.abs(A.pz - p.pz) + ['L', 'R'].reduce((n, s) => n + [0, 1, 2, 3, 4].reduce((m, i) => m + Math.abs(A.lg[s][i] - p.lg[s][i]), 0), 0) + Math.abs(A.KH - p.KH); let best = 'sisi', bd = 1e9; Object.keys(this.POSE).forEach((k) => { const d = f(this.POSE[k]); if (d < bd) { bd = d; best = k; } }); return best; },
   jalur(a, b) { if (a === b) return [a]; const prev = { [a]: null }, q = [a]; while (q.length) { const u = q.shift(); if (u === b) break; (this.EDGE[u] || []).forEach((v) => { if (!(v in prev)) { prev[v] = u; q.push(v); } }); } const r = []; for (let u = b; u != null; u = prev[u]) r.unshift(u); return r[0] === a ? r : [a, b]; },
   // tempoh satu peralihan: tidak lebih laju daripada ~0.8 s/rad (badan & sendi kaki), ~0.8 m/s (tangan)
-  durHop(A, B, min) { let dj = 0; ['L', 'R'].forEach((s) => { for (let i = 0; i < 5; i++) dj = Math.max(dj, Math.abs(A.lg[s][i] - B.lg[s][i])); }); return Math.max(min || 0.35, 0.25 + 0.8 * Math.abs(A.th - B.th), 0.25 + 0.7 * dj, 0.3 + 1.2 * this.jarak(A, B), 0.25 + 1.2 * Math.abs(A.hy - B.hy)); },
+  durHop(A, B, min) { let dj = 0; ['L', 'R'].forEach((s) => { for (let i = 0; i < 5; i++) dj = Math.max(dj, Math.abs(A.lg[s][i] - B.lg[s][i])); }); return Math.max(min || 0.35, 0.25 + 0.8 * Math.abs(A.th - B.th), 0.25 + 0.7 * dj, 0.3 + 1.5 * this.jarak(A, B), 0.25 + 1.2 * Math.abs(A.hy - B.hy)); },
   // peralihan ke pose `kunci` melalui graf pose yang disahkan (tiada tembusan lantai/anggota)
   *keKunci(kunci, d) {
     const mula = this.poKey || this.poDekat(), jalur = this.jalur(mula, kunci); let A = this.poKey ? this.POSE[mula] : this.snap();
@@ -13322,18 +13339,17 @@ const SudutSolat = {
   // Rig diperluas sementara: siku + pergelangan + bola tangan pipih (telapak); lutut + buku lali; kumpulan kepala (angguk / toleh / saiz); kain disorok dan diganti sarung kaki berwarna kain. pulihRig memulihkan segalanya.
   sediaRig(m) {
     if (m._solat) return; const K = this.K, TH = 0.15, SH = 0.12, tg = (A) => A.children.find((c) => Math.abs(c.position.y + 0.25) < 1e-6) || A.children[1], sk = m.kainBerdiri, kd = m.kainDuduk;
-    const st = { sk: sk ? sk.position.y : 0, skVis: sk ? sk.visible : true, kdVis: kd ? kd.visible : false, tangan: [], lengan: [], E: [], Wr: [], kaki: [], kep: [], Hd: null, jari: null };
+    const st = { sk: sk ? sk.position.y : 0, skVis: sk ? sk.visible : true, kain: false, kdVis: kd ? kd.visible : false, tangan: [], lengan: [], E: [], Wr: [], kaki: [], kep: [], Hd: null, jari: null };
     const kainMat = sk && (sk.material || (sk.children[0] && sk.children[0].material)), cyl = () => geo('solatSilinder', () => new THREE.CylinderGeometry(1, 0.92, 1, 10).translate(0, -0.5, 0)), bola = () => geo('solatBola', () => new THREE.SphereGeometry(1, 10, 8));
     [m.legL, m.legR].forEach((Lg) => {
       const shoe = Lg.children.find((c) => Math.abs(c.position.y + 0.27) < 1e-6), pah = Lg.children.find((c) => c !== shoe && c.isMesh && c.geometry && c.geometry.parameters && c.geometry.parameters.height === 0.24) || null, kain = !pah, mat = kain ? (kainMat || (shoe && shoe.material)) : pah.material, K2 = new THREE.Group(), Aa = new THREE.Group(), cl = [];
       K2.position.y = -TH; Aa.position.y = -SH; let paha = pah, betis = null;
-      if (kain) { paha = new THREE.Mesh(cyl(), mat); paha.scale.set(0.085, TH, 0.085); Lg.add(paha); cl.push(paha); betis = new THREE.Mesh(cyl(), mat); betis.scale.set(0.078, SH, 0.078); K2.add(betis); cl.push(betis); }
-      else { betis = new THREE.Mesh(pah.geometry, pah.material); K2.add(betis); cl.push(betis); }
-      const lutut = new THREE.Mesh(bola(), mat); lutut.scale.set(kain ? 0.082 : 0.068, kain ? 0.082 : 0.068, kain ? 0.082 : 0.068); K2.add(lutut); cl.push(lutut);
+      let lutut = null; if (kain) { paha = new THREE.Group(); betis = new THREE.Group(); lutut = new THREE.Group(); }   // watak berkain: kaki tidak berjasad; kain (skirt asal) diubah bentuk untuk melitupi kaki
+      else { betis = new THREE.Mesh(pah.geometry, pah.material); K2.add(betis); cl.push(betis); lutut = new THREE.Mesh(bola(), mat); lutut.scale.set(0.068, 0.068, 0.068); K2.add(lutut); cl.push(lutut); }
       Lg.add(K2); K2.add(Aa); if (shoe) { Aa.add(shoe); shoe.position.set(0, 0, 0.03); }
       st.kaki.push({ Lg, K2, Aa, shoe, paha, betis, lutut, kain, cl, un: kain ? 1 : 0.24 });
     });
-    if (sk) sk.visible = false; if (kd) kd.visible = false;
+    if (kd) kd.visible = false; st.kain = !!sk;   // kainBerdiri kekal kelihatan
     const Hd = new THREE.Group(); Hd.position.set(0, 0.80, 0); const lain = [m.armL, m.armR, m.legL, m.legR, sk, kd]; m.inner.children.slice().forEach((c) => { if (!lain.includes(c) && c.position.y >= 0.85) st.kep.push([c, c.position.y]); });
     m.inner.add(Hd); st.kep.forEach(([c]) => { Hd.add(c); c.position.y -= 0.80; }); st.Hd = Hd;
     [m.armL, m.armR].forEach((A, i) => {
@@ -13347,8 +13363,8 @@ const SudutSolat = {
   },
   pulihRig(m) {
     if (!m || !m._solat) return; const st = m._solat; m.inner.rotation.x = 0; m.inner.position.set(0, 0, 0);
-    st.kaki.forEach((k) => { const { Lg } = k; if (k.shoe) { Lg.add(k.shoe); k.shoe.position.set(0, -0.27, 0.03); } Lg.remove(k.K2); if (k.kain) Lg.remove(k.paha); else k.paha.scale.set(1, 1, 1); Lg.rotation.set(0, 0, 0); });
-    if (m.kainBerdiri) { m.kainBerdiri.visible = st.skVis; m.kainBerdiri.rotation.x = 0; m.kainBerdiri.position.set(0, st.sk, 0); } if (m.kainDuduk) m.kainDuduk.visible = st.kdVis;
+    st.kaki.forEach((k) => { const { Lg } = k; if (k.shoe) { Lg.add(k.shoe); k.shoe.position.set(0, -0.27, 0.03); } Lg.remove(k.K2); if (!k.kain) k.paha.scale.set(1, 1, 1); Lg.rotation.set(0, 0, 0); });
+    if (m.kainBerdiri) { m.kainBerdiri.visible = st.skVis; m.kainBerdiri.rotation.set(0, 0, 0); m.kainBerdiri.scale.set(1, 1, 1); m.kainBerdiri.position.set(0, st.sk, 0); } if (m.kainDuduk) m.kainDuduk.visible = st.kdVis;
     st.kep.forEach(([c, y]) => { m.inner.add(c); c.position.y = y; }); m.inner.remove(st.Hd);
     [[m.armL, -0.14], [m.armR, 0.14]].forEach(([A, z], i) => { const hand = st.tangan[i], E = st.E[i]; A.add(hand); hand.position.set(0, -0.25, 0); hand.scale.set(1, 1, 1); hand.rotation.set(0, 0, 0); A.remove(E); st.lengan[i].scale.set(1, 1, 1); A.rotation.set(0, 0, z); A.scale.set(1, 1, 1); });
     delete m._solat;
@@ -13356,6 +13372,8 @@ const SudutSolat = {
   terapPose() {
     const m = Player.m; if (!m || !m._solat) return; const po0 = this.po, st = m._solat, SB = SolatBadan, M = SB.M, s = m.inner.scale.x || 1, H = SB.HIP, ay = Math.sin(this.fasaJ) * 0.55 * (this.jalS || 0);
     const po = Object.assign({}, po0, { lg: { L: po0.lg.L.slice(), R: po0.lg.R.slice() } }); let dyB = 0; if ((this.jalS || 0) > 0.001) { const g0 = this.tanahY(); dyB = SB.tanah(Object.assign({}, po, { lg: { L: po0.lg.L, R: po0.lg.R } }), g0); po.lg.L[0] += ay; po.lg.R[0] -= ay; dyB = SB.tanah(po, g0) - dyB; po.L = Object.assign({}, po0.L, { p: [po0.L.p[0], po0.L.p[1] + dyB, po0.L.p[2]] }); po.R = Object.assign({}, po0.R, { p: [po0.R.p[0], po0.R.p[1] + dyB, po0.R.p[2]] }); }   // ayunan kaki semasa berjalan; tinggi pinggul dikira semula dan tangan mengikut gerak naik-turun badan
+    if (st.kain) { const q = SB.tanganKain(po, this.tanahY()), al = this.kurang() ? 1 : 1 - Math.exp(-(this.dt || 0.016) * 5); st.off = st.off || { L: [0, 0, 0], R: [0, 0, 0] };   // tapak tangan di atas kain; anjakan dilicinkan (tiada lompatan bahu)
+      ['L', 'R'].forEach((n) => { for (let i = 0; i < 3; i++) st.off[n][i] += ((q[n].p[i] - po[n].p[i]) - st.off[n][i]) * al; po[n] = Object.assign({}, po[n], { p: [po[n].p[0] + st.off[n][0], po[n].p[1] + st.off[n][1], po[n].p[2] + st.off[n][2]] }); }); }
     const S = SB.lengkap(po, this.tanahY()), th = po.th, KL = po.KL || 1, KH = po.KH || 1, KA = po.KA || this.K;
     m.inner.rotation.x = th; m.inner.position.set(0, s * (H + S.py) - s * H * Math.cos(th), s * po.pz - s * H * Math.sin(th));   // putar pada pinggul; pinggul diletakkan pada (0, H+py, pz): tinggi dinamik
     [['L', 0], ['R', 1]].forEach(([n, i]) => { const k = st.kaki[i], g = po.lg[n], e = M.eul(M.mul(M.Rx(-th), M.eulM(g[0], g[1], g[2]))); k.Lg.rotation.set(e[0], e[1], e[2]); k.K2.rotation.x = g[3]; k.Aa.rotation.x = g[4]; k.K2.position.y = -0.15 * KL; k.Aa.position.y = -0.12 * KL;
@@ -13363,6 +13381,8 @@ const SudutSolat = {
     st.Hd.rotation.set(po.hn || 0, po.hy || 0, 0); st.Hd.scale.set(KH, KH, KH);
     [['L', 0, -0.9], ['R', 1, 0.9]].forEach(([n, i, sg]) => { const a = S.lengan[n], e = M.eul(a.RA), w = M.eul(a.Rw), A = i ? m.armR : m.armL;
       A.rotation.set(e[0] + sg * ay * po.sw, e[1], e[2]); st.E[i].rotation.set(a.ik.e, 0, 0); st.Wr[i].rotation.set(w[0], w[1], w[2]); st.lengan[i].scale.y = 0.5 * KA; st.E[i].position.y = -0.11 * KA; st.E[i].children[0].scale.y = 0.12 * KA / 0.22; st.Wr[i].position.y = -0.14 * KA; });
+    if (st.kain && m.kainBerdiri) { const k = SB.kain(S, this.tanahY()), sk = m.kainBerdiri, Rw = [[k.xa[0], k.uy[0], k.za[0]], [k.xa[1], k.uy[1], k.za[1]], [k.xa[2], k.uy[2], k.za[2]]], e = M.eul(M.mul(M.Rx(-th), Rw)), c = M.add(k.W, M.sk(k.u, k.L / 2)), ci = M.add([0, H, 0], M.ap(M.tp(S.Rt), M.sub(c, S.hip0)));
+      sk.position.set(ci[0], ci[1], ci[2]); sk.rotation.set(e[0], e[1], e[2]); sk.scale.set(k.Rx / 0.28, k.L / 0.32, k.Rz / 0.28); }   // skirt asal: silinder bujur tirus melitupi kaki
     if (st.jari) { st.jari.visible = (po.jr || 0) > 0.02; st.jari.rotation.x = -0.9 * (po.jr || 0); }
   },
   // ----- penjadual gerakan (penjana: setiap yield = satu bingkai) -----
@@ -13528,15 +13548,15 @@ const SudutSolat = {
     const kur = this.kurang(); this.dt = dt; Fokus.pandang('sudutSolat', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5));
     if (this.aktif && this.nod) {
       if (this.cor) { try { this.cor.next(); } catch (err) { console.warn('Sudut Solat: ralat urutan', err && err.message); this.cor = null; } }
-      this.jalS = (this.jalS || 0) + (this.jal - (this.jalS || 0)) * (kur ? 1 : 1 - Math.exp(-dt * 8)); this.fasaJ += dt * 9 * this.jalS * Math.min(this.laju, 1.0); this.terapPose();   // amplitud ayunan dilicinkan (tiada lompatan bahu/kaki apabila mula/henti berjalan) this.lukisTikar(); Player.sync();
-      const w = (this.tahap === 2 || this.tahap === 3) ? { x: -4.85, z: this.ZM, LB: 2.3, TB: 1.95 } : { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, f = kur ? 1 : 1 - Math.exp(-dt * 3);
+      this.jalS = (this.jalS || 0) + (this.jal - (this.jalS || 0)) * (kur ? 1 : 1 - Math.exp(-dt * 8)); this.fasaJ += dt * 9 * this.jalS * Math.min(this.laju, 1.0); this.terapPose(); this.lukisTikar(); Player.sync();   // amplitud ayunan dilicinkan (tiada lompatan bahu/kaki apabila mula/henti berjalan)
+      const w = (this.tahap === 2 || this.tahap === 3) ? { x: -4.75, z: this.ZM, LB: 3.7, TB: 2.5 } : { x: -4.85, z: -0.75, LB: 3.8, TB: 2.5 }, f = kur ? 1 : 1 - Math.exp(-dt * 3);   // v101: tetingkap kamera lebih luas supaya seluruh badan (sujud, duduk) dan sejadah kelihatan
       ['x', 'z', 'LB', 'TB'].forEach((q) => { this.kam[q] += (w[q] - this.kam[q]) * f; });
     }
     if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }
   },
   kamera() {
     const r = Rooms.list.pi; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V; if (!this.fovUbah) { this.fov0 = camera.fov; this.fovUbah = true; }
-    const M = this.muatKamera(this.kam.LB, this.kam.TB), cx = r.ox + this.kam.x, cz = r.oz + this.kam.z, cy = 0.82, pit = 0.17;   // pandangan sisi dari selatan (watak menghadap ke kiri/barat)
+    const M = this.muatKamera(this.kam.LB, this.kam.TB), cx = r.ox + this.kam.x, cz = r.oz + this.kam.z, cy = 0.78, pit = 0.2;   // pandangan sisi dari selatan (watak menghadap ke kiri/barat)
     camera.position.lerp(V.set(cx, cy + M.dist * Math.sin(pit), cz + M.dist * Math.cos(pit)), e); V.copy(Cam.look).lerp(this.V2.set(cx, cy, cz), e); camera.lookAt(V);
     const fv = this.fov0 + (M.fov - this.fov0) * e; if (Math.abs(camera.fov - fv) > 0.01) { camera.fov = fv; camera.updateProjectionMatrix(); }
   },
