@@ -306,6 +306,17 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #bkSlot .btn{min-width:44px;min-height:40px;padding:0 10px;font-size:16px;font-weight:700}#bkSlot .btn.betul{background:#E6F7EC}
 #bkBar{height:100%;width:0;background:#58C27C;transition:width .25s}
 #bkBlok .btn.goyang,#bkSlot .btn.goyang{animation:suGoyang .35s}
+/* v99: Sudut Latihan Solat (panel bawah, sama seperti panel Jawi / Blok Rukun) */
+#sudutSolat{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#sudutSolat .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center}
+#sudutSolat header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}
+#slArahan{margin:4px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#slMenu .btn{min-height:50px;padding:0 14px;font-size:15px;font-weight:700}
+#slBacaan .slBaris{margin:0 0 4px}#slBacaan .slAr{font-family:"Noto Naskh Arabic",serif;font-size:24px;font-weight:700;line-height:1.5;direction:rtl}#slBacaan .slRumi{font-size:13px;font-weight:600;color:#5B6B7F;line-height:1.3}
+#slBar{height:100%;width:0;background:#58C27C;transition:width .3s}
+#slMaklum{margin:4px 0 6px;font-size:13px;font-weight:600;line-height:1.35;min-height:3.9em}
+#slKawal .btn{min-height:46px;padding:0 12px;font-size:15px;font-weight:700}#slKawal .btn[disabled]{opacity:.4}
 /* v90: panel aktiviti item boleh dikecilkan; HUD tidak penting disorok; paparan padat pada skrin pendek */
 .dokTogol{min-height:36px;padding:0 10px;font-size:14px;margin-left:auto;margin-right:6px}
 .wnAtas .dokTogol{margin:0}
@@ -313,13 +324,14 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 .dokKecil .kertas{padding-bottom:6px}
 body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,body.fokusItem #minimap{display:none !important}
 @media (max-height:520px){
-  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas,#terapung .kertas,#jawi .kertas,#blokRukun .kertas{padding:4px 10px 6px}
+  #mikroskop .kertas,#warna .kertas,#suria .kertas,#litar .kertas,#magnet .kertas,#terapung .kertas,#jawi .kertas,#blokRukun .kertas,#sudutSolat .kertas{padding:4px 10px 6px}
+  #slMaklum{margin:0 0 3px;min-height:2.4em;font-size:12px}#slMenu .btn{min-height:40px;font-size:13px}#slKawal .btn{min-height:38px;font-size:13px;padding:0 8px}#slBacaan .slAr{font-size:19px;line-height:1.3}#slBacaan .slRumi{font-size:11px}
   #bkMaklum{margin:0 0 3px;min-height:2.4em;font-size:12px}#bkProg{margin:0 0 3px;font-size:12px}#bkStat{display:none}#bkMenu .btn{min-height:42px;font-size:14px}#bkBlok .btn{min-height:36px;font-size:12px;padding:0 6px}#bkSlot .btn{min-height:34px;font-size:13px;padding:0 6px}
   #jwMaklum{margin:0 0 3px;min-height:0}#jwUbin .btn{min-height:40px;font-size:24px}#jwSlot .btn{min-height:34px;font-size:12px;padding:0 6px}
   #tpMaklum{margin:0 0 3px;min-height:0}#tpObjek .btn{min-height:34px;padding:0 6px;font-size:12px}
   #mgMaklum{margin:0 0 3px;min-height:0}#mgObjek .btn,#mgToken .btn{min-height:34px;padding:0 6px;font-size:12px}
   #liMaklum{margin:0 0 3px;min-height:0}
-  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan,#tpArahan,#jwArahan,#bkArahan{font-size:13px;margin:2px 0 3px;min-height:0}
+  #mkArahan,#wnArahan,#suArahan,#liArahan,#mgArahan,#tpArahan,#jwArahan,#bkArahan,#slArahan{font-size:13px;margin:2px 0 3px;min-height:0}
   .dokTogol,#suria header .btn,.wnAtas .btn{min-height:34px;font-size:13px;padding:0 8px}
   #mkJalur{height:42px;margin-bottom:4px}#mkSlaid{top:6px}
   .wnBaris{margin:0 0 3px}.wnBaris .btn{min-height:38px}.wnTr{margin-bottom:3px}.wnTr .btn,.wnTrek{min-height:38px;height:38px}
@@ -969,6 +981,21 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       </div>
       <p id="bkMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="bkUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="bkTukar" class="btn" type="button" hidden>Aktiviti lain</button><button id="bkSiap" class="btn utama" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="sudutSolat" class="panel-fokus" hidden role="dialog" aria-label="Sudut latihan solat: Takbiratul Ihram, Ruku' dan I'tidal">
+    <div class="kertas">
+      <header><strong>Sudut Latihan Solat</strong><span class="wnAtas"><button id="slKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="slArahan" aria-live="polite"></p>
+      <div id="slMenu" class="wnBaris"><button id="slT0" class="btn" type="button">🟩 Sejadah Hijau</button><button id="slT1" class="btn" type="button">🟥 Sejadah Bata</button><button id="slT2" class="btn" type="button">🟦 Sejadah Biru</button></div>
+      <div id="slL1" hidden>
+        <div id="slBacaan"></div>
+        <div class="suProg"><div id="slBar"></div></div>
+      </div>
+      <p id="slMaklum" aria-live="polite"></p>
+      <div id="slKawal" class="wnBaris" hidden><button id="slSebelum" class="btn" type="button">◀ Sebelum</button><button id="slUlang" class="btn" type="button">↺ Ulang</button><button id="slSeterus" class="btn utama" type="button">Seterusnya ▶</button></div>
+      <div class="wnBaris"><button id="slLangkau" class="btn" type="button" hidden>Langkau animasi</button><button id="slGulung" class="btn utama" type="button" hidden>Gulung &amp; simpan sejadah</button><button id="slMula" class="btn" type="button" hidden>Ulang dari awal</button></div>
     </div>
   </section>
 
@@ -5074,13 +5101,15 @@ const InteriorGLB = {
     pi: {
       shell: 'assets/pi_interior_shell.glb', props: 'assets/pi_interior_props.glb',
       wajib: ['rak_buku', 'meja_rendah_1', 'meja_rendah_8'],
-      aksi: { int_papan_jawi: ['Aktiviti Jawi', 'Aktiviti Jawi di papan putih', () => PapanJawi.buka(), 1.4], int_blok_rukun: ['Susun', 'Susun blok Rukun Islam dan Rukun Iman', () => BlokRukun.buka(), 1.5] },   // v98: stesen blok di jalur timur   // v94: satu anchor; menu: Aktiviti Jawi / Lihat papan putih
+      aksi: { int_papan_jawi: ['Aktiviti Jawi', 'Aktiviti Jawi di papan putih', () => PapanJawi.buka(), 1.4], int_blok_rukun: ['Susun', 'Susun blok Rukun Islam dan Rukun Iman', () => BlokRukun.buka(), 1.5], int_solat: ['Latih', 'Latihan solat di sudut sejadah', () => SudutSolat.buka(), 1.5] },   // v98: stesen blok di jalur timur; v99: sudut solat di dinding barat
+      tanda: { tanda_kiblat: ['Arah Kiblat', Math.PI / 2, 1.0, 0.26] },   // v94: satu anchor; menu: Aktiviti Jawi / Lihat papan putih
       selepas(r, def, A) {
         r.papanPutih = A.wall('n', 0, 1.65, 3.8, 1.4, boardTex(PapanPutih.baris('pi')));
         const G0 = InteriorGLB.hasil.pi, adaJawi = !!(G0 && G0.props.children.some((c) => c.name === 'int_papan_jawi'));
         if (adaJawi) { try { PapanJawi.sediakan(r); } catch (err) { console.warn('Papan Jawi tidak dapat disediakan:', err && err.message); } }
         else A.act(0, -3.5, 'Lihat', 'Lihat papan putih', () => PapanPutih.lihat('pi'), 1.2);   // GLB PI lama tanpa anchor Jawi
         if (G0 && G0.props.children.some((c) => c.name === 'int_blok_rukun')) { try { BlokRukun.sediakan(r); } catch (err) { console.warn('Stesen Blok Rukun tidak dapat disediakan:', err && err.message); } }   // v98
+        if (G0 && G0.props.children.some((c) => c.name === 'int_solat')) { try { SudutSolat.sediakan(r); } catch (err) { console.warn('Sudut Latihan Solat tidak dapat disediakan:', err && err.message); } }   // v99
         A.wall('e', -1.2, 1.65, 1.0, 1.25, posterTex('Adab menuntut ilmu', '#9BE37A', '🌙'));
         A.act(-5.1, 1.6, 'Baca', 'Baca buku kisah teladan', () => Peralatan.kisah(), 1.3);   // v96: semua sauh dinding bergerak bersama dinding baharu (utara z -4.5, barat/timur x +-6)
         A.wall('e', -3.0, 1.65, 1.5, 1.1, boardTex([{ t: 'Hadis Pilihan', s: 34, c: '#1D6B37' }, { t: 'Baca setiap hari', s: 24 }], '#FFFDF2'));
@@ -7566,6 +7595,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'terapung') { if (!Fokus.kunci(e, k, 'terapung')) Terapung.kunci(e, k); return; }
   if (State.uiLock === 'jawi') { if (!Fokus.kunci(e, k, 'jawi')) PapanJawi.kunci(e, k); return; }
   if (State.uiLock === 'blok') { if (!Fokus.kunci(e, k, 'blokRukun')) BlokRukun.kunci(e, k); return; }   // v98
+  if (State.uiLock === 'solat') { if (!Fokus.kunci(e, k, 'sudutSolat')) SudutSolat.kunci(e, k); return; }   // v99
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
   if (State.uiLock === 'reward') { if (aksi && !tombolPanel) { Reward.close(); e.preventDefault(); } return; }
   if (State.uiLock === 'dialog') {
@@ -7763,6 +7793,7 @@ const Cam = {
     if (Terapung.k > 0.002) Terapung.kamera();   // v93: kamera dekat eksperimen terapung/tenggelam
     if (PapanJawi.k > 0.002) PapanJawi.kamera();   // v94: kamera dekat papan Jawi   // v86: kamera dekat semasa aktiviti mikroskop
     if (BlokRukun.k > 0.002) BlokRukun.kamera();   // v98: kamera dekat Stesen Blok Rukun
+    if (SudutSolat.k > 0.002) SudutSolat.kamera();   // v99: kamera sisi Sudut Latihan Solat
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11558,7 +11589,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung', 'jawi', 'blokRukun'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung', 'jawi', 'blokRukun', 'sudutSolat'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -13102,6 +13133,305 @@ const BlokRukun = {
     $('bkKeluar').addEventListener('click', () => BlokRukun.tutup()); $('bkIslam').addEventListener('click', () => BlokRukun.mulaAktiviti('islam')); $('bkIman').addEventListener('click', () => BlokRukun.mulaAktiviti('iman'));
     $('bkUlang').addEventListener('click', () => BlokRukun.ulang()); $('bkTukar').addEventListener('click', () => BlokRukun.tukar()); $('bkSiap').addEventListener('click', () => BlokRukun.tutup());
     ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!BlokRukun.aktif || (e.target !== canvas && !BlokRukun.drag)) return; if (BlokRukun.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
+/* ===================== Sudut Latihan Solat (v99) =====================
+   Latihan tiga gerakan solat (Takbiratul Ihram, Ruku', I'tidal) di sudut sejadah Bilik PI (dinding barat = arah kiblat).
+   GLB (pi_interior_props.glb): rak_sejadah + 3 gulungan 'lalu_sejadah_1..3' + sauh int_solat / tanda_kiblat. Tikar dibentang oleh kod ini.
+   SISTEM ANIMASI WATAK (disemak): watak ialah makeHuman(): kaki & lengan = kumpulan berpangsi (legL/legR/armL/armR), badan + kepala + pakaian terus di bawah m.inner.
+   Gelung utama menetapkan semula anggota & m.inner.position.y setiap bingkai semasa State.uiLock kecuali Player.sedangDuduk = true (corak DudukKelas / kantin),
+   jadi modul ini menggunakan corak yang sama dan memulihkan segalanya semasa keluar. Condong badan (ruku') = m.inner berputar pada pinggul (y=0.32): kaki & kain diputar
+   balik supaya tegak; tangan diselesaikan ke sasaran (lengan boleh memanjang sedikit; bola tangan diskalakan balik supaya kekal bulat).
+   Kandungan disahkan: Pejabat Mufti Wilayah Persekutuan (Al-Kafi #1585: angkat tangan semasa takbiratul ihram, hendak ruku' & i'tidal), tangan kanan di atas kiri di bawah dada
+   (mazhab Syafie), ruku': belakang rata, tangan pada lutut, jari dibuka, tuma'ninah. Kiblat dari Tambunan = 291 darjah (barat-barat laut): dinding barat sebagai anggaran. */
+const SudutSolat = {
+  RAK: { x: -5.775, y: 0.525, z: [-0.367, 0, 0.367], depan: -5.33 },   // koordinat bilik (sama seperti tools/gen_bilik.py: SOL); depan: tangan sampai ke gulungan (v99: lengan berpenyiku)
+  ZM: -1.45, X_BELAKANG: -4.10, X_DEPAN: -5.55, LEBAR: 0.85, J0: 0.075, X_TURUN: -3.55, X_SOLAT: -4.35, HIP: 0.32, K: 1.3,   // K = faktor panjang lengan semasa latihan (sendi siku ditambah sementara)
+  REKA: [{ nama: 'Hijau', ikon: '🟩', a: '#5FA37B', b: '#86C09C', c: '#F3E6C4' }, { nama: 'Bata', ikon: '🟥', a: '#B8553A', b: '#D58563', c: '#F2D49B' }, { nama: 'Biru', ikon: '🟦', a: '#3A6EA5', b: '#6F9BCB', c: '#E6F0FA' }],
+  // Pose (v99, dikira dengan penyelesai FK/IK tools/solat_fk.js + test_solat.js): th = condong badan (rad) pada pinggul; an = pinggul dianjak ke belakang; ka = kaki condong ke hadapan; nk = anjakan menegak;
+  // sw = ayunan tangan semasa berjalan. Sasaran tangan = pusat tapak tangan (bingkai inner): f 't' = melekat pada badan, 'd' = tetap di dunia (cth. lutut); q = arah siku (pole)
+  // armL ialah tangan KANAN watak (x negatif, kerana watak menghadap +z)
+  POSE: {
+    sisi: { th: 0, an: 0, ka: 0, nk: 0, sw: 1, L: { f: 't', p: [-0.255, 0.385, 0] }, R: { f: 't', p: [0.255, 0.385, 0] } },
+    angkat: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.30, 0.76, 0.14], q: [0, -1, 0.3] }, R: { f: 't', p: [0.30, 0.76, 0.14], q: [0, -1, 0.3] } },   // setentang bahu, telapak ke hadapan (kiblat), lengan bawah hampir tegak
+    sedekap: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.03, 0.57, 0.225] }, R: { f: 't', p: [0.05, 0.54, 0.205] } },                                   // kanan di atas kiri, di bawah dada & atas pusat, condong ke kiri
+    ruku: { th: 1.38, an: 0.09, ka: 0.30, nk: -0.013, sw: 0, L: { f: 'd', p: [-0.14, 0.185, -0.02], q: [-1, 0, 0] }, R: { f: 'd', p: [0.14, 0.185, -0.02], q: [1, 0, 0] } },   // belakang 79 darjah (hampir rata; kepala chibi tidak menyentuh lantai), tapak kaki kekal di lantai, pinggul ke belakang; tangan di atas lutut (lengan lurus, jangkauan dihadkan oleh IK)
+    raih: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.14, 0.66, 0.30] }, R: { f: 't', p: [0.14, 0.66, 0.30] } },
+    bawa: { th: 0, an: 0, ka: 0, nk: 0, sw: 0, L: { f: 't', p: [-0.17, 0.55, 0.28] }, R: { f: 't', p: [0.17, 0.55, 0.28] } },
+    letak: { th: 1.1, an: 0.04, ka: 0.15, nk: 0, sw: 0, L: { f: 'd', p: [-0.13, 0.24, 0.40] }, R: { f: 'd', p: [0.13, 0.24, 0.40] } }
+  },
+  // Langkah: [pose, tempoh peralihan (s), tempoh tahan (s), kapsyen]
+  LANGKAH: [
+    { tajuk: 'Takbiratul Ihram', ringkas: 'Angkat tangan, lafaz takbir, letak tangan di dada.', bacaan: [{ ar: 'اللَّهُ أَكْبَرُ', rumi: 'Allahu Akbar', maksud: 'Allah Maha Besar.' }],
+      kf: [['sisi', 0.6, 0.2, 'Berdiri tegak menghadap kiblat, pandang ke tempat sujud, dan berniat di dalam hati.'],
+        ['angkat', 1.1, 0.7, 'Angkat kedua-dua tangan setentang bahu, telapak tangan menghadap kiblat, sambil melafazkan “Allahu Akbar”.'],
+        ['sedekap', 1.1, 1.0, 'Letakkan tangan kanan di atas tangan kiri, di bawah dada dan di atas pusat.']] },
+    { tajuk: "Ruku'", ringkas: 'Takbir, bongkok, belakang rata, tangan pada lutut.', bacaan: [{ ar: 'سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ', rumi: "Subhana rabbiyal 'azimi wa bihamdih", maksud: 'Maha Suci Tuhanku Yang Maha Agung dan dengan memuji-Nya. (3 kali)' }],
+      kf: [['sedekap', 0.3, 0.1, 'Bersedia untuk rukuk.'],
+        ['angkat', 0.9, 0.3, 'Angkat tangan setentang bahu sambil bertakbir: “Allahu Akbar”.'],
+        ['ruku', 1.6, 1.8, "Rukuk: bongkokkan badan, belakang dan kepala lurus (rata), kedua-dua tangan memegang lutut dengan jari dibuka. Tenang sebentar (tuma'ninah)."]] },
+    { tajuk: "I'tidal", ringkas: 'Bangun, angkat tangan, berdiri tegak, turunkan tangan.', bacaan: [{ ar: 'سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ', rumi: "Sami'allahu liman hamidah", maksud: 'Allah mendengar orang yang memuji-Nya.' }, { ar: 'رَبَّنَا لَكَ الْحَمْدُ', rumi: 'Rabbana lakal hamd', maksud: 'Wahai Tuhan kami, bagi-Mu segala pujian.' }],
+      kf: [['ruku', 0.3, 0.1, 'Bersedia untuk bangun.'],
+        ['angkat', 1.6, 0.7, "Bangun dari rukuk sambil mengangkat tangan setentang bahu: “Sami'allahu liman hamidah”."],
+        ['sisi', 1.1, 1.3, "Berdiri tegak (i'tidal) dan lepaskan tangan ke sisi. Baca: “Rabbana lakal hamd”. Tenang sebentar (tuma'ninah)."]] }
+  ],
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, dt: 0.016, laju: 1, nod: null, V: null, V2: null, cor: null, keluar: false, langkah: 0, po: null, poKey: 'sisi', jal: 0, fasaJ: 0, asal: null, bawaVis: true, diberi: false, fovUbah: false, fov0: 50,
+  kam: { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, tikar: { k: -1, px: 0, py: 0, pz: 0, hd: 0, lay: 0, s: 1, spin: 0, attach: 0, p: 0, lengkung: 0 },
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  e(u) { return u * u * (3 - 2 * u); },
+  // ----- pose -----
+  lokal(h, th, an, nk) { if (h.f === 't') return h.p; const dy = h.p[1] - (this.HIP + (nk || 0)), dz = h.p[2] + (an || 0), c = Math.cos(th), s = Math.sin(th); return [h.p[0], this.HIP + dy * c + dz * s, -dy * s + dz * c]; },   // sasaran dunia -> bingkai inner pada sudut th (pinggul di y=HIP+nk, z=-an)
+  qLalai(sx) { return [sx * 0.35, -1, -0.15]; },
+  jarak(A, B) { const f = (x, y) => Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]), a = [this.lokal(A.L, A.th, A.an, A.nk), this.lokal(A.R, A.th, A.an, A.nk)], b = [this.lokal(B.L, A.th, A.an, A.nk), this.lokal(B.R, A.th, A.an, A.nk)]; return Math.max(f(a[0], b[0]), f(a[1], b[1])); },   // anjakan tangan terbesar (m) antara dua pose
+  campur(a, b, u) {
+    const L = (x, y) => x + (y - x) * u, th = L(a.th, b.th), an = L(a.an || 0, b.an || 0), nk = L(a.nk || 0, b.nk || 0), mix = (x, y) => [L(x[0], y[0]), L(x[1], y[1]), L(x[2], y[2])];
+    const pa = [this.lokal(a.L, th, an, nk), this.lokal(a.R, th, an, nk)], pb = [this.lokal(b.L, th, an, nk), this.lokal(b.R, th, an, nk)];
+    const luar = (p) => { if (th < 0.3 && p[1] > 0.30 && p[1] < 0.80) { const q = Math.hypot(p[0], p[2]); if (q < 0.205) return q < 1e-6 ? [0, p[1], 0.205] : [p[0] * 0.205 / q, p[1], p[2] * 0.205 / q]; } return p; };   // peralihan: tapak tangan tidak melalui badan (jejari 0.205); pose akhir tidak berubah
+    return { th, an, nk, ka: L(a.ka || 0, b.ka || 0), sw: L(a.sw, b.sw), L: luar(mix(pa[0], pb[0])), R: luar(mix(pa[1], pb[1])), qL: mix(a.L.q || this.qLalai(-1), b.L.q || this.qLalai(-1)), qR: mix(a.R.q || this.qLalai(1), b.R.q || this.qLalai(1)) };
+  },
+  campurK(ka, kb, u) { return this.campur(this.POSE[ka], this.POSE[kb], u); },
+  tetap(kunci) { return this.campur(this.POSE[kunci], this.POSE[kunci], 0); },
+  snap() { const p = this.po; return { th: p.th, an: p.an, ka: p.ka, nk: p.nk, sw: p.sw, L: { f: 't', p: p.L.slice(), q: p.qL.slice() }, R: { f: 't', p: p.R.slice(), q: p.qR.slice() } }; },
+  // Rig diperluas sementara (dipulihkan sepenuhnya oleh pulihRig): sendi SIKU pada setiap lengan (atas + bawah lengan) dan lengan dipanjangkan K kali supaya tangan sampai ke sasaran tanpa meregang;
+  // bola tangan dipipihkan menjadi tapak tangan (normal = paksi z tempatan lengan bawah).
+  sediaRig(m) {
+    if (m._solat) return; const K = this.K, tg = (A) => A.children.find((c) => Math.abs(c.position.y + 0.25) < 1e-6) || A.children[1], st = { sk: m.kainBerdiri ? m.kainBerdiri.position.y : 0, tangan: [], lengan: [], E: [] };
+    [m.armL, m.armR].forEach((A) => {
+      const hand = tg(A), arm = A.children.find((c) => c !== hand && c.isMesh) || A.children[0], E = new THREE.Group(); E.position.set(0, -0.11 * K, 0); arm.scale.y = 0.5 * K;
+      const fore = new THREE.Mesh(arm.geometry, arm.material); fore.scale.y = 0.12 * K / 0.22; E.add(fore);
+      const sendi = new THREE.Mesh(geo('sikuSolat', () => new THREE.SphereGeometry(0.056, 10, 8)), arm.material); E.add(sendi);
+      A.add(E); E.add(hand); hand.position.set(0, -0.14 * K, 0); hand.scale.set(1.05, 1.2, 0.55);
+      st.tangan.push(hand); st.lengan.push(arm); st.E.push(E);
+    });
+    m._solat = st;
+  },
+  pulihRig(m) {
+    if (!m || !m._solat) return; const st = m._solat; m.inner.rotation.x = 0; m.inner.position.set(0, 0, 0); if (m.legL) { m.legL.rotation.x = 0; m.legR.rotation.x = 0; }
+    if (m.kainBerdiri) { m.kainBerdiri.rotation.x = 0; m.kainBerdiri.position.set(0, st.sk, 0); }
+    [[m.armL, -0.14], [m.armR, 0.14]].forEach(([A, z], i) => { const hand = st.tangan[i], E = st.E[i]; A.add(hand); hand.position.set(0, -0.25, 0); hand.scale.set(1, 1, 1); A.remove(E); st.lengan[i].scale.set(1, 1, 1); A.rotation.set(0, 0, z); A.scale.set(1, 1, 1); });
+    delete m._solat;
+  },
+  // IK dua-segmen analitik: bahu (+-0.21, 0.70, 0) -> siku -> pusat tapak tangan T (bingkai inner). q = arah siku. Mengembalikan sudut Euler XYZ bahu dan lenturan siku (rad).
+  ik(sx, T, q) {
+    const K = this.K, U = 0.11 * K, HH = 0.14 * K, S = [sx * 0.21, 0.70, 0], v = [T[0] - S[0], T[1] - S[1], T[2] - S[2]], vl = Math.hypot(v[0], v[1], v[2]) || 1e-6, vh = [v[0] / vl, v[1] / vl, v[2] / vl];
+    const cl = (x, a, b) => Math.max(a, Math.min(b, x)), dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], nrm = (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1e-9; return [a[0] / l, a[1] / l, a[2] / l]; }, cr = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    const dd = cl(vl, Math.abs(U - HH) + 0.01, (U + HH) * 0.999), a = (U * U - HH * HH + dd * dd) / (2 * dd), h = Math.sqrt(Math.max(0, U * U - a * a)), pole = q || this.qLalai(sx), pd = dot(pole, vh), pr = [pole[0] - vh[0] * pd, pole[1] - vh[1] * pd, pole[2] - vh[2] * pd];
+    const pp = Math.hypot(pr[0], pr[1], pr[2]) < 1e-4 ? [0, -1, 0] : nrm(pr), el = [S[0] + vh[0] * a + pp[0] * h, S[1] + vh[1] * a + pp[1] * h, S[2] + vh[2] * a + pp[2] * h], Tn = [S[0] + vh[0] * dd, S[1] + vh[1] * dd, S[2] + vh[2] * dd];
+    const u = nrm([el[0] - S[0], el[1] - S[1], el[2] - S[2]]), f = nrm([Tn[0] - el[0], Tn[1] - el[1], Tn[2] - el[2]]), ce = cl(dot(u, f), -1, 1), e = -Math.acos(ce), fp = [f[0] - u[0] * ce, f[1] - u[1] * ce, f[2] - u[2] * ce];
+    const z = Math.hypot(fp[0], fp[1], fp[2]) < 1e-5 ? [-pp[0], -pp[1], -pp[2]] : nrm(fp), y = [-u[0], -u[1], -u[2]], x = cr(y, z), m13 = cl(z[0], -1, 1);   // matriks putaran R = [x y z] (lajur); Euler XYZ (THREE): R = Rx*Ry*Rz
+    const ry = Math.asin(m13); let rx, rz; if (Math.abs(m13) < 0.9999) { rx = Math.atan2(-z[1], z[2]); rz = Math.atan2(-y[0], x[0]); } else { rx = Math.atan2(y[2], y[1]); rz = 0; }
+    return { rx, ry, rz, e, siku: el, ralat: Math.hypot(T[0] - Tn[0], T[1] - Tn[1], T[2] - Tn[2]) };
+  },
+  lengan(A, E, sx, T, q, ayun) { const r = this.ik(sx, T, q); A.rotation.set(r.rx + ayun, r.ry, r.rz); E.rotation.x = r.e; },
+  terapPose() {
+    const m = Player.m; if (!m || !m._solat) return; const po = this.po, th = po.th, s = m.inner.scale.x || 1, c = Math.cos(th), sn = Math.sin(th), H = this.HIP, g = th + po.ka;
+    const ayun = Math.sin(this.fasaJ) * 0.6 * this.jal, bob = Math.abs(Math.sin(this.fasaJ)) * 0.04 * this.jal * s;
+    m.inner.rotation.x = th; m.inner.position.set(0, s * H * (1 - c) + s * po.nk + bob, -s * H * sn - s * po.an);   // putar pada pinggul; pinggul dianjak ke belakang (an) dan kaki dicondongkan ke hadapan (ka) supaya tapak kaki kekal
+    if (m.legL) { m.legL.rotation.x = -g + ayun; m.legR.rotation.x = -g - ayun; }
+    if (m.kainBerdiri) { const dy = m._solat.sk - H; m.kainBerdiri.rotation.x = -g; m.kainBerdiri.position.set(0, H + dy * Math.cos(g), -dy * Math.sin(g)); }
+    this.lengan(m.armL, m._solat.E[0], -1, po.L, po.qL, -0.9 * ayun * po.sw); this.lengan(m.armR, m._solat.E[1], 1, po.R, po.qR, 0.9 * ayun * po.sw);
+  },
+  // ----- penjadual gerakan (penjana: setiap yield = satu bingkai) -----
+  *tunggu(d, f) { let t = 0; while (t < d) { t += this.dt * this.laju; f(Math.min(1, t / d)); yield; } f(1); },
+  *pusing(sasar, d) {
+    const a0 = Player.face; let da = sasar - a0; da = Math.atan2(Math.sin(da), Math.cos(da)); if (Math.abs(da) < 0.02) { Player.face = sasar; return; }
+    yield* this.tunggu(Math.max(0.12, d * Math.min(1, Math.abs(da) / 1.5)), (u) => { Player.face = a0 + da * this.e(u); });
+  },
+  *jalanKe(x, z, hadapan, kunci) {
+    const r = this.nod.r, A = this.snap(), B = this.POSE[kunci], lb = [this.lokal(B.L, A.th, A.an, A.nk), this.lokal(B.R, A.th, A.an, A.nk)], beza = Math.abs(A.th - B.th) + Math.abs(A.an - (B.an || 0)) + Math.abs(A.ka - (B.ka || 0)) + [0, 1, 2].reduce((n, q) => n + Math.abs(A.L.p[q] - lb[0][q]) + Math.abs(A.R.p[q] - lb[1][q]), 0);
+    if (beza > 0.03) yield* this.tunggu(Math.max(0.4, 0.25 + 0.8 * Math.abs(A.th - B.th), 0.3 + 1.2 * this.jarak(A, B)), (u) => { this.po = this.campur(A, B, this.e(u)); });   // peralihan pose yang licin sebelum berjalan (cth. bangun dari ruku')
+    this.po = this.tetap(kunci); const x0 = Player.pos.x - r.ox, z0 = Player.pos.z - r.oz, dx = x - x0, dz = z - z0, jarak = Math.hypot(dx, dz);
+    if (jarak > 0.06) {
+      yield* this.pusing(Math.atan2(dx, dz), 0.3); let lx = x0, lz = z0;
+      yield* this.tunggu(Math.max(0.55, jarak / 1.35), (u) => { const e = this.e(u), nx = x0 + dx * e, nz = z0 + dz * e; this.jal = Math.min(1, Math.hypot(nx - lx, nz - lz) / Math.max(1e-3, this.dt * this.laju) / 1.2); lx = nx; lz = nz; Player.pos.set(r.ox + nx, 0, r.oz + nz); });
+      this.jal = 0;
+    }
+    yield* this.pusing(hadapan, 0.35);
+  },
+  // ----- sejadah -----
+  inisTikar(k) { const T = this.tikar; Object.assign(T, { k, px: this.RAK.x, py: this.RAK.y, pz: this.RAK.z[k], hd: 0, lay: 0, s: 1, spin: 0, attach: 0, p: 0, lengkung: 0 }); },
+  setP(p) { const T = this.tikar, p0 = T.p, L = this.X_BELAKANG - this.X_DEPAN; T.p = p; T.s = Math.max(0.2, Math.sqrt(Math.max(0, 1 - p))); T.px = this.X_BELAKANG - p * L; T.py = this.J0 * T.s; T.spin -= (p - p0) * L / Math.max(0.02, this.J0 * T.s); },   // bergolek ke barat: putaran tidak tergelincir
+  sudut(a, b, t) { let d = b - a; d = Math.atan2(Math.sin(d), Math.cos(d)); return a + d * t; },
+  lukisTikar() {
+    const T = this.tikar, B = this.nod && this.nod.B; if (!B || T.k < 0) return; const R = B.roll[T.k], r = this.nod.r, a = T.attach;
+    const ax = Player.pos.x - r.ox + Math.sin(Player.face) * 0.34, az = Player.pos.z - r.oz + Math.cos(Player.face) * 0.34;
+    R.h.position.set(T.px + (ax - T.px) * a, T.py + (0.55 - T.py) * a + T.lengkung, T.pz + (az - T.pz) * a); R.h.rotation.y = this.sudut(T.hd, Player.face, a);
+    R.p.rotation.z = T.lay * Math.PI / 2; R.g.rotation.y = T.spin; R.g.scale.set(T.s, 1, T.s); R.g.visible = T.p < 0.995;
+    const M = B.tikar[T.k]; if (M) { const p = T.p; M.m.visible = p > 0.004; if (p > 0.004) { M.m.scale.x = p; M.m.position.set(this.X_BELAKANG - p * (this.X_BELAKANG - this.X_DEPAN) / 2, 0.012, this.ZM); M.tex.repeat.x = p; M.tex.offset.x = 1 - p; } }
+  },
+  sediakan(r) {   // dipanggil semasa bilik dibina (DEF.pi.selepas): bungkus gulungan GLB supaya boleh diputar & digerakkan
+    if (r.group.userData.sudutSolat) return; const nod = []; for (let i = 1; i <= 3; i++) { const g = r.group.getObjectByName('lalu_sejadah_' + i); if (!g) return; nod.push(g); }
+    const B = { roll: [], tikar: [], rak: nod.map((g) => g.position.clone()) };
+    nod.forEach((g) => { const h = new THREE.Group(), p = new THREE.Group(); r.group.remove(g); h.position.copy(g.position); g.position.set(0, 0, 0); p.add(g); h.add(p); r.group.add(h); B.roll.push({ h, p, g }); });
+    r.group.userData.sudutSolat = B;
+  },
+  binaTikar(k) {   // lapisan tikar rata (tekstur dilukis sekali, kali pertama dipilih)
+    const B = this.nod.B; if (B.tikar[k]) return B.tikar[k]; const D = this.REKA[k], cv = document.createElement('canvas'); cv.width = 512; cv.height = 300; const c = cv.getContext('2d');
+    c.fillStyle = D.a; c.fillRect(0, 0, 512, 300); c.fillStyle = D.c; c.fillRect(0, 0, 512, 14); c.fillRect(0, 286, 512, 14); c.fillRect(0, 0, 14, 300); c.fillRect(498, 0, 14, 300);
+    c.fillStyle = D.b; c.fillRect(30, 30, 452, 240); c.strokeStyle = D.c; c.lineWidth = 3; c.strokeRect(24, 24, 464, 252);
+    for (let i = 0; i < 14; i++) { c.fillStyle = D.c; c.beginPath(); const x = 24 + i * 34 + 10; c.moveTo(x, 7); c.lineTo(x + 8, 14); c.lineTo(x, 21); c.lineTo(x - 8, 14); c.closePath(); c.fill(); c.beginPath(); c.moveTo(x, 279); c.lineTo(x + 8, 286); c.lineTo(x, 293); c.lineTo(x - 8, 286); c.closePath(); c.fill(); }
+    c.strokeStyle = D.c; c.lineWidth = 7; c.fillStyle = D.a; c.beginPath(); c.moveTo(48, 150); c.quadraticCurveTo(110, 62, 250, 62); c.lineTo(250, 238); c.quadraticCurveTo(110, 238, 48, 150); c.closePath(); c.fill(); c.stroke();   // mihrab: hujung runcing ke kiblat (barat)
+    c.fillStyle = D.c; c.beginPath(); for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8, rr = i % 2 ? 16 : 34; c.lineTo(150 + Math.cos(a) * rr, 150 + Math.sin(a) * rr); } c.closePath(); c.fill();   // bintang
+    c.fillStyle = D.b; for (let i = 0; i < 5; i++) { c.beginPath(); c.arc(320 + i * 34, 150, 9, 0, Math.PI * 2); c.fill(); }
+    const tex = new THREE.CanvasTexture(cv); tex.anisotropy = ANISO; const m = new THREE.Mesh(new THREE.PlaneGeometry(this.X_BELAKANG - this.X_DEPAN, this.LEBAR), new THREE.MeshLambertMaterial({ map: tex, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }));
+    m.rotation.x = -Math.PI / 2; m.position.set(this.X_BELAKANG, 0.012, this.ZM); m.visible = false; this.nod.r.group.add(m); return (B.tikar[k] = { m, tex });
+  },
+  // ----- urutan: ambil -> bawa -> letak -> bentang -> naik -----
+  *urutanAmbil(k) {
+    const T = this.tikar, zk = this.RAK.z[k]; this.inisTikar(k); this.binaTikar(k); Sound.play('pick');
+    yield* this.jalanKe(this.RAK.depan, zk, -Math.PI / 2, 'sisi');                                                                                            // ke depan rak, menghadap rak
+    yield* this.tunggu(0.65, (u) => { this.po = this.campurK('sisi', 'raih', this.e(u)); });                                                                    // hulur tangan
+    Sound.play('pick');
+    yield* this.tunggu(1.0, (u) => { const e = this.e(u); T.attach = e; T.lay = e; T.lengkung = 0.14 * Math.sin(Math.PI * u); this.po = this.campurK('raih', 'bawa', e); });   // angkat gulungan
+    T.attach = 1; T.lay = 1; T.lengkung = 0;
+    yield* this.jalanKe(this.X_TURUN, this.ZM, -Math.PI / 2, 'bawa');                                                                                          // bawa ke belakang tikar
+    T.px = this.X_BELAKANG; T.pz = this.ZM; T.py = this.J0; T.hd = -Math.PI / 2;
+    yield* this.tunggu(0.9, (u) => { const e = this.e(u); T.attach = 1 - e; this.po = this.campurK('bawa', 'letak', e); });                                     // letakkan di lantai
+    T.attach = 0; Sound.play('pick');
+    yield* this.tunggu(1.9, (u) => { this.setP(this.e(u)); this.po = this.campurK('letak', 'sisi', this.e(Math.max(0, (u - 0.55) / 0.45))); });                // bentang ke arah kiblat
+    yield* this.jalanKe(this.X_SOLAT, this.ZM, -Math.PI / 2, 'sisi');                                                                                          // naik ke atas sejadah, menghadap kiblat
+    this.siapLatih();
+  },
+  *urutanBersih() {   // turun -> gulung -> angkat -> bawa -> simpan -> pulang ke tempat asal
+    const T = this.tikar, k = T.k, asal = this.asal;
+    if (k >= 0 && (T.p > 0.004 || T.attach > 0 || T.lay > 0)) {
+      if (T.p > 0.004) {
+        yield* this.jalanKe(this.X_TURUN, this.ZM, -Math.PI / 2, 'sisi'); const p0 = T.p; Sound.play('pick');
+        yield* this.tunggu(1.7, (u) => { const e = this.e(u); this.setP(p0 * (1 - e)); this.po = this.campurK('sisi', 'letak', this.e(Math.min(1, u / 0.35))); });   // gulung semula
+        this.setP(0);
+      }
+      if (T.attach < 1) {
+        T.px = this.X_BELAKANG; T.py = this.J0; T.pz = this.ZM; T.hd = -Math.PI / 2; T.lay = 1; yield* this.jalanKe(this.X_TURUN, this.ZM, -Math.PI / 2, 'letak');
+        const a0 = T.attach; yield* this.tunggu(1.0, (u) => { T.attach = a0 + (1 - a0) * this.e(u); this.po = this.campurK('letak', 'bawa', this.e(u)); });                     // angkat gulungan
+        T.attach = 1;
+      }
+      yield* this.jalanKe(this.RAK.depan, this.RAK.z[k], -Math.PI / 2, 'bawa');                                                                                                // bawa ke rak
+      T.px = this.RAK.x; T.py = this.RAK.y; T.pz = this.RAK.z[k]; T.hd = 0;
+      yield* this.tunggu(1.0, (u) => { const e = this.e(u); T.attach = 1 - e; T.lay = 1 - e; T.lengkung = 0.12 * Math.sin(Math.PI * u); this.po = this.campurK('bawa', 'raih', e); });   // simpan dalam rak
+      T.attach = 0; T.lay = 0; T.lengkung = 0; Sound.play('pick');
+      yield* this.tunggu(0.65, (u) => { this.po = this.campurK('raih', 'sisi', this.e(u)); });
+    }
+    yield* this.jalanKe(asal.x, asal.z, asal.face, 'sisi'); T.k = -1;
+    this.siapBersih();
+  },
+  *urutanLangkah(i) {
+    const S = this.LANGKAH[i]; let A = this.poKey ? this.POSE[this.poKey] : this.snap();
+    for (const [kunci, d, h, teks] of S.kf) {
+      const B = this.POSE[kunci], A0 = A; if (teks) $('slMaklum').textContent = teks; this.poKey = null;
+      const dur = Math.max(d, 0.25 + 0.8 * Math.abs(B.th - (A0.th || 0)), 0.3 + 1.2 * this.jarak(A0, B));   // bongkok/bangun tidak lebih laju daripada ~0.8 s setiap radian; tangan tidak lebih laju daripada ~0.8 m/s
+      yield* this.tunggu(dur, (u) => { this.po = this.campur(A0, B, this.e(u)); if (u >= 1) this.poKey = kunci; }); A = B; yield* this.tunggu(h, () => {});
+    }
+    this.langkahSiap(i);
+  },
+  // ----- aliran & UI -----
+  buka() {
+    if (this.aktif || State.uiLock || !Player.m) return; if (Agama.moral()) { Agama.bilikPI(); return; }
+    const r = Rooms.current === 'pi' ? Rooms.list.pi : null, B = r && r.group.userData.sudutSolat;
+    if (!B) { Dialog.show('Sudut Latihan Solat', ['Sudut sejadah belum dapat dimuatkan. Cuba keluar dan masuk bilik ini semula.']); return; }
+    this.nod = { r, B }; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.asal = { x: Player.pos.x - r.ox, z: Player.pos.z - r.oz, face: Player.face };
+    const m = Player.m; this.sediaRig(m); Player.sedangDuduk = !0; if (Player.bawaMesh) { this.bawaVis = Player.bawaMesh.visible; Player.bawaMesh.visible = false; }
+    this.po = this.tetap('sisi'); this.poKey = 'sisi'; this.jal = 0; this.cor = null; this.keluar = false; this.tahap = 0; this.laju = this.lajuAsas(); this.diberi = false; this.langkah = 0; this.tikar.k = -1; this.kam = { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 };
+    this.menu(); $('sudutSolat').hidden = false; setLock('solat'); document.body.classList.add('fokusItem'); this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); try { $('slT0').focus({ preventScroll: true }); } catch (err) {}
+  },
+  lajuAsas() { return this.kurang() ? 40 : 1; },
+  menu() {
+    this.tahap = 0; $('slMenu').hidden = false; $('slL1').hidden = true; $('slKawal').hidden = true; $('slLangkau').hidden = true; $('slGulung').hidden = true; $('slMula').hidden = true; $('slMaklum').textContent = '';
+    $('slArahan').textContent = 'Pilih satu sejadah dari rak (ketik sejadah di rak atau pilih butang). Watak akan mengambil dan membentangnya menghadap kiblat.';
+  },
+  ambilTikar(k) {
+    if (!this.aktif || this.tahap !== 0 || this.keluar) return; this.tahap = 1; this.laju = this.lajuAsas(); $('slMenu').hidden = true; $('slLangkau').hidden = false; $('slMaklum').textContent = '';
+    $('slArahan').textContent = 'Mengambil dan membentang sejadah ' + this.REKA[k].nama.toLowerCase() + '…'; this.cor = this.urutanAmbil(k); this.mula();
+  },
+  langkau() { if (this.tahap === 1 || this.tahap === 4) this.laju = 14; },
+  siapLatih() {
+    this.poKey = 'sisi'; if (this.keluar) { this.laju = 2.2; this.bersih(); return; } this.laju = this.lajuAsas(); $('slLangkau').hidden = true; $('slL1').hidden = false; $('slKawal').hidden = false; this.tahap = 2; this.mainLangkah(0);
+  },
+  mainLangkah(i) {
+    if (!this.aktif || this.keluar || this.tahap < 2 || this.tahap > 3) return; i = Math.max(0, Math.min(this.LANGKAH.length - 1, i)); this.langkah = i; this.tahap = 2; this.laju = this.lajuAsas();
+    const S = this.LANGKAH[i]; $('slArahan').textContent = 'Langkah ' + (i + 1) + '/' + this.LANGKAH.length + ': ' + S.tajuk; $('slMaklum').textContent = ''; $('slGulung').hidden = true; $('slMula').hidden = true;
+    const B = $('slBacaan'); B.innerHTML = ''; S.bacaan.forEach((b) => { const d = document.createElement('div'); d.className = 'slBaris'; const a = document.createElement('div'); a.className = 'slAr'; a.textContent = b.ar; const t = document.createElement('div'); t.className = 'slRumi'; t.textContent = b.rumi + ' — ' + b.maksud; d.appendChild(a); d.appendChild(t); B.appendChild(d); });
+    $('slBar').style.width = (i / this.LANGKAH.length * 100) + '%'; this.segar(); this.cor = this.urutanLangkah(i); this.mula();
+  },
+  segar() {
+    const i = this.langkah, akhir = i === this.LANGKAH.length - 1; $('slSebelum').disabled = i === 0 || this.tahap < 2; $('slSeterus').textContent = akhir ? 'Selesai ✓' : 'Seterusnya ▶'; $('slSeterus').disabled = this.tahap === 3 || this.tahap < 2; $('slUlang').disabled = this.tahap < 2;
+  },
+  sebelum() { if ((this.tahap === 2 || this.tahap === 3) && this.langkah > 0) this.mainLangkah(this.langkah - 1); },
+  seterus() { if (this.tahap !== 2) return; if (this.langkah < this.LANGKAH.length - 1) this.mainLangkah(this.langkah + 1); else this.laju = 6; },   // langkah akhir: pantas ke penghujung
+  ulang() { if (this.tahap === 2 || this.tahap === 3) { this.tahap = 2; this.mainLangkah(this.langkah); } },
+  ulangAwal() { if (this.tahap === 3) { this.tahap = 2; this.mainLangkah(0); } },
+  langkahSiap(i) {
+    this.cor = null; $('slBar').style.width = ((i + 1) / this.LANGKAH.length * 100) + '%'; if (i < this.LANGKAH.length - 1) { Sound.play('ok'); this.segar(); try { $('slSeterus').focus({ preventScroll: true }); } catch (err) {} return; }
+    this.tahap = 3; this.laju = this.lajuAsas(); this.segar(); Sound.play('done'); $('slArahan').textContent = "Tahniah! Takbiratul Ihram, Ruku' dan I'tidal selesai dilatih.";
+    $('slMaklum').textContent = "Ingat: berhenti tenang (tuma'ninah) pada setiap gerakan. Cara meletakkan tangan semasa i'tidal ada perbezaan pendapat dalam kalangan ulama; ikut bimbingan Ustazah. Latihan ini ialah tiga gerakan sahaja; solat penuh bersama sujud dan tahiyat dipelajari bersama Ustazah.";
+    $('slGulung').hidden = false; $('slMula').hidden = false;
+    if (!this.diberi) { this.diberi = true; const d = State.data, sebelum = d && d.alat ? d.alat.solat_latih : undefined; Kiraan.tambah('solatLatih'); Peralatan.ganjaran('solat_latih', { ilmu: 1 }, '🕌 Latihan solat selesai! +1 Ilmu'); if (d && d.alat && d.alat.solat_latih === sebelum) toast('🕌 Hebat! Latihan solat selesai.'); }   // ganjaran sedia ada, sekali sehari
+    try { $('slGulung').focus({ preventScroll: true }); } catch (err) {}
+  },
+  bersih() {   // gulung & simpan sejadah, pulang ke tempat asal
+    if (!this.aktif || this.tahap === 4) return; this.tahap = 4; $('slL1').hidden = true; $('slKawal').hidden = true; $('slGulung').hidden = true; $('slMula').hidden = true; $('slMenu').hidden = true; $('slLangkau').hidden = false;
+    $('slArahan').textContent = 'Menggulung dan menyimpan sejadah…'; $('slMaklum').textContent = ''; this.cor = this.urutanBersih(); this.mula();
+  },
+  gulung() { if (this.tahap === 3) { this.laju = this.lajuAsas(); this.bersih(); } },
+  siapBersih() { this.cor = null; this.poKey = 'sisi'; this.laju = this.lajuAsas(); if (this.keluar) { this.tutupAkhir(); return; } this.menu(); try { $('slT0').focus({ preventScroll: true }); } catch (err) {} },
+  tutup() {   // Keluar: selesaikan animasi yang sedang berjalan dengan pantas, simpan sejadah, kemudian tutup
+    if (!this.aktif || this.keluar) return; this.keluar = true;
+    if (this.tahap === 0) { this.tutupAkhir(); return; }
+    $('slL1').hidden = true; $('slKawal').hidden = true; $('slGulung').hidden = true; $('slMula').hidden = true; $('slMenu').hidden = true; $('slLangkau').hidden = true; $('slMaklum').textContent = '';
+    if (this.tahap === 1) { this.laju = 14; $('slArahan').textContent = 'Menyimpan sejadah…'; return; }   // urutan ambil tamat dahulu (pantas), kemudian siapLatih() terus menyimpan
+    if (this.tahap === 4) { this.laju = 6; return; }
+    this.laju = 2.2; this.bersih();
+  },
+  tutupAkhir() {
+    const r = this.nod && this.nod.r, m = Player.m; this.cor = null; this.pulihRig(m); if (r && this.asal) { Player.pos.set(r.ox + this.asal.x, 0, r.oz + this.asal.z); Player.face = this.asal.face; Player.sync(); }
+    Player.duduk(false); if (Player.bawaMesh) Player.bawaMesh.visible = this.bawaVis !== false;
+    const B = this.nod && this.nod.B; if (B) { B.roll.forEach((R, i) => { R.h.position.copy(B.rak[i]); R.h.rotation.set(0, 0, 0); R.p.rotation.set(0, 0, 0); R.g.rotation.set(0, 0, 0); R.g.scale.set(1, 1, 1); R.g.visible = true; }); B.tikar.forEach((M) => { if (M) M.m.visible = false; }); }
+    this.tikar.k = -1; this.aktif = false; this.keluar = false; this.tahap = 0; this.ke = 0; $('sudutSolat').hidden = true; if (State.uiLock === 'solat') setLock(null); document.body.classList.remove('fokusItem'); this.mula(); if (this.kurang()) this.k = 0;
+  },
+  // ----- seret/ketik pada kanvas: pilih sejadah di rak -----
+  kanvas(e, fasa) {
+    if (!this.aktif || this.tahap !== 0 || fasa !== 'turun' || this.keluar) return false; const N = this.nod, W = window.innerWidth, H = window.innerHeight, V = this.V; let best = -1, bd = (matchMedia && matchMedia('(pointer:coarse)').matches ? 90 : 70);
+    N.B.roll.forEach((R, i) => { V.set(N.r.ox + R.h.position.x, R.h.position.y, N.r.oz + R.h.position.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - e.clientX, (-V.y * 0.5 + 0.5) * H - e.clientY); if (d < bd) { bd = d; best = i; } });
+    if (best < 0) return false; this.ambilTikar(best); return true;
+  },
+  // ----- animasi & kamera -----
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || Fokus.sedia('sudutSolat')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  tick(dt) {
+    const kur = this.kurang(); this.dt = dt; Fokus.pandang('sudutSolat', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5));
+    if (this.aktif && this.nod) {
+      if (this.cor) { try { this.cor.next(); } catch (err) { console.warn('Sudut Solat: ralat urutan', err && err.message); this.cor = null; } }
+      this.fasaJ += dt * 9 * this.jal * Math.min(this.laju, 3); this.terapPose(); this.lukisTikar(); Player.sync();
+      const w = (this.tahap === 2 || this.tahap === 3) ? { x: -4.85, z: this.ZM, LB: 2.3, TB: 1.95 } : { x: -4.85, z: -0.75, LB: 3.1, TB: 2.1 }, f = kur ? 1 : 1 - Math.exp(-dt * 3);
+      ['x', 'z', 'LB', 'TB'].forEach((q) => { this.kam[q] += (w[q] - this.kam[q]) * f; });
+    }
+    if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }
+  },
+  kamera() {
+    const r = Rooms.list.pi; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V; if (!this.fovUbah) { this.fov0 = camera.fov; this.fovUbah = true; }
+    const M = this.muatKamera(this.kam.LB, this.kam.TB), cx = r.ox + this.kam.x, cz = r.oz + this.kam.z, cy = 0.82, pit = 0.17;   // pandangan sisi dari selatan (watak menghadap ke kiri/barat)
+    camera.position.lerp(V.set(cx, cy + M.dist * Math.sin(pit), cz + M.dist * Math.cos(pit)), e); V.copy(Cam.look).lerp(this.V2.set(cx, cy, cz), e); camera.lookAt(V);
+    const fv = this.fov0 + (M.fov - this.fov0) * e; if (Math.abs(camera.fov - fv) > 0.01) { camera.fov = fv; camera.updateProjectionMatrix(); }
+  },
+  muatKamera(LB, TB) {   // jarak & fov supaya kawasan LB x TB (m) muat dalam ruang bebas di atas panel; jarak maks 5.2 m, kemudian fov dilebarkan (maks 82 darjah)
+    const W = window.innerWidth || 1, H = window.innerHeight || 1, asp = W / H, dh = Fokus.dhId === 'sudutSolat' ? Fokus.dh : 0, bebas = Math.max(0.4 * H, H - dh), f0 = this.fov0 || camera.fov, tv0 = Math.tan(f0 * Math.PI / 360), M = 0.94;
+    let dist = Math.max(2.4, TB * H / (2 * tv0 * bebas * M), LB / (2 * tv0 * asp * M)), fov = f0;
+    if (dist > 5.2) { dist = 5.2; const tv = Math.max(LB / (2 * dist * asp * M), TB * H / (2 * dist * bebas * M)); fov = Math.max(f0, Math.min(82, 2 * Math.atan(tv) * 180 / Math.PI)); }
+    return { dist, fov };
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; } const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.tahap === 0) { if (!butang && /^[1-3]$/.test(k)) { this.ambilTikar(+k - 1); e.preventDefault(); } return; }
+    if (this.tahap === 1 || this.tahap === 4) { if (k === 's' && !e.repeat) { this.langkau(); e.preventDefault(); } return; }
+    if (k === 'arrowright' || k === 'n') { this.seterus(); e.preventDefault(); } else if (k === 'arrowleft' || k === 'p') { this.sebelum(); e.preventDefault(); } else if (k === 'r' && !e.repeat) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara
+  const on = () => {
+    $('slKeluar').addEventListener('click', () => SudutSolat.tutup()); [0, 1, 2].forEach((i) => $('slT' + i).addEventListener('click', () => SudutSolat.ambilTikar(i)));
+    $('slSebelum').addEventListener('click', () => SudutSolat.sebelum()); $('slSeterus').addEventListener('click', () => SudutSolat.seterus()); $('slUlang').addEventListener('click', () => SudutSolat.ulang());
+    $('slLangkau').addEventListener('click', () => SudutSolat.langkau()); $('slGulung').addEventListener('click', () => SudutSolat.gulung()); $('slMula').addEventListener('click', () => SudutSolat.ulangAwal());
+    ['pointerdown'].forEach((t) => window.addEventListener(t, (e) => { if (!SudutSolat.aktif || e.target !== canvas) return; if (SudutSolat.kanvas(e, 'turun')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
