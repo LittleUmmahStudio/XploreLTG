@@ -322,6 +322,28 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #khSlot .btn{flex:1 1 128px;max-width:190px;min-height:44px;padding:2px 8px;font-size:12px;font-weight:700;line-height:1.2;text-align:left}#khSlot .btn.betul{background:#E6F7EC}
 #khBar{height:100%;width:0;background:#58C27C;transition:width .25s}
 #khKad .btn.goyang,#khSlot .btn.goyang{animation:suGoyang .35s}
+/* v102: paparan telefon Kad Hadis (skrin penuh): hadis besar di atas, satu kad besar di bawah */
+#khTel{position:fixed;inset:0;z-index:6;background:#EAF6EE;overflow:hidden}
+#khTel .khtK{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;padding:max(8px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));box-sizing:border-box}
+#khTel header{display:flex;align-items:center;gap:8px;line-height:28px}#khTel header strong{flex:1;font-size:17px}#khtStat{font-weight:700;font-size:14px;color:#2F6B45}
+#khtMenu{margin:auto 0;text-align:center}#khtMenuT{font-size:16px;font-weight:600;line-height:1.4}#khtMenu .btn{min-height:54px;padding:0 16px;font-size:16px;font-weight:700;width:100%;max-width:340px}#khtProg{font-size:13px;font-weight:600;color:#5B6B7F}
+#khtMain2{flex:1;display:flex;flex-direction:column;min-height:0}
+#khtArahan{margin:4px 0;font-size:14px;font-weight:600;line-height:1.3}
+#khtBar{height:100%;width:0;background:#58C27C;transition:width .25s}
+#khtHadis{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:2px}
+.khtH{background:#FFF8E6;border:3px solid #2F8F4E;border-radius:12px;padding:6px 9px;font-size:15px;font-weight:600;line-height:1.3;color:#17325A;cursor:pointer;transition:background .15s,border-color .15s}
+.khtH b{color:#2F8F4E}.khtH small{color:#5B6B7F;font-size:12px;font-weight:600}.khtP{margin-top:2px;font-size:13px;font-weight:700;color:#1D6B37}
+.khtH.sorot{background:#FFF1C9;border-color:#E8A317}.khtH.betul{background:#E6F7EC;border-color:#2F9E5B}.khtH.salah{background:#FFE3DF;border-color:#D6453A;animation:suGoyang .4s}
+#khtKadArea{margin:6px 0 2px}
+#khtKad{position:relative;width:100%;max-width:440px;min-height:138px;height:22vh;max-height:190px;margin:0 auto;perspective:900px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;z-index:2}
+#khtKad.seret{cursor:grabbing;filter:drop-shadow(0 8px 8px rgba(0,0,0,.3))}#khtKad.goyang{animation:suGoyang .4s}#khtKad.masuk{animation:khtMasuk .35s ease-out}
+@keyframes khtMasuk{from{opacity:0;transform:translateY(30px) scale(.92)}to{opacity:1;transform:none}}
+#khtDlm{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .5s}#khtDlm.balik{transform:rotateY(180deg)}
+.khtMuka{position:absolute;inset:0;border:4px solid #2F8F4E;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px 12px;box-sizing:border-box}
+.khtBelakang{background:repeating-conic-gradient(from 22.5deg at 50% 50%,#58B07A 0 22.5deg,#2F8F4E 0 45deg);color:#FFF8E6;font-weight:700;font-size:16px;text-shadow:0 1px 2px rgba(0,0,0,.5)}.khtBelakang span{font-size:44px;line-height:1.1}
+.khtDepan{background:#FFF8E6;transform:rotateY(180deg)}#khtNo{font-size:13px;font-weight:700;color:#2F8F4E;margin-bottom:4px}#khtS{font-size:17px;font-weight:700;line-height:1.3;color:#17325A}
+#khtMaklum{margin:4px 0;font-size:13px;font-weight:600;line-height:1.3;min-height:3.9em;max-height:5.2em;overflow-y:auto}
+#khTel .wnBaris .btn{min-height:44px}
 /* v99: Sudut Latihan Solat (panel bawah, sama seperti panel Jawi / Blok Rukun) */
 #sudutSolat{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
   padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
@@ -1005,7 +1027,7 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     <div class="kertas">
       <header><strong>Kad Hadis Akhlak</strong><span class="wnAtas"><button id="khKeluar" class="btn" type="button">Keluar</button></span></header>
       <p id="khArahan" aria-live="polite"></p>
-      <div id="khMenu" class="wnBaris"><button id="khMain" class="btn" type="button">🃏 Main Kad Hadis</button><button id="khBaca" class="btn" type="button">📖 Baca papan hadis</button></div>
+      <div id="khMenu" class="wnBaris"><button id="khMain" class="btn" type="button">🃏 Main Kad Hadis</button><button id="khBaca" class="btn" type="button">📖 Baca papan hadis</button><button id="khTukar" class="btn" type="button">📱 Paparan telefon</button></div>
       <p id="khProg"></p>
       <div id="khL1" hidden>
         <p id="khSituasi" aria-live="polite"></p>
@@ -1016,6 +1038,21 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       </div>
       <p id="khMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="khUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="khSiap" class="btn utama" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="khTel" hidden role="dialog" aria-label="Kad Hadis Akhlak, paparan telefon">
+    <div class="khtK">
+      <header><strong>🃏 Kad Hadis Akhlak</strong><span id="khtStat"></span><button id="khtKeluar" class="btn" type="button">Keluar</button></header>
+      <div id="khtMenu"><p id="khtMenuT"></p><div class="wnBaris" style="flex-direction:column;align-items:center"><button id="khtMain" class="btn utama" type="button">🃏 Main Kad Hadis</button><button id="khtBaca" class="btn" type="button">📖 Baca papan hadis</button><button id="khtTukar" class="btn" type="button">🎲 Paparan 3D</button></div><p id="khtProg"></p></div>
+      <div id="khtMain2" hidden>
+        <p id="khtArahan" aria-live="polite"></p>
+        <div class="suProg"><div id="khtBar"></div></div>
+        <div id="khtHadis" role="group" aria-label="Hadis: seret kad ke hadis yang sesuai"></div>
+        <div id="khtKadArea"><div id="khtKad" aria-label="Kad situasi: ketik untuk membalik, seret ke hadis"><div id="khtDlm"><div class="khtMuka khtBelakang"><span>✦</span>Ketik kad untuk membalik</div><div class="khtMuka khtDepan"><div id="khtNo"></div><div id="khtS"></div></div></div></div></div>
+        <p id="khtMaklum" aria-live="polite"></p>
+        <div class="wnBaris"><button id="khtBalik" class="btn" type="button">🔄 Balik kad</button><button id="khtUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="khtSiap" class="btn utama" type="button" hidden>Selesai</button></div>
+      </div>
     </div>
   </section>
 
@@ -7631,6 +7668,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'terapung') { if (!Fokus.kunci(e, k, 'terapung')) Terapung.kunci(e, k); return; }
   if (State.uiLock === 'jawi') { if (!Fokus.kunci(e, k, 'jawi')) PapanJawi.kunci(e, k); return; }
   if (State.uiLock === 'blok') { if (!Fokus.kunci(e, k, 'blokRukun')) BlokRukun.kunci(e, k); return; }   // v98
+  if (State.uiLock === 'kadHadisTel') { KadHadisTel.kunci(e, k); return; }   // v102: paparan telefon
   if (State.uiLock === 'kadHadis') { if (!Fokus.kunci(e, k, 'kadHadis')) KadHadis.kunci(e, k); return; }   // v102
   if (State.uiLock === 'solat') { if (!Fokus.kunci(e, k, 'sudutSolat')) SudutSolat.kunci(e, k); return; }   // v99
   if (State.uiLock === 'mini') { if (k === '1' || k === '2' || k === '3') Mini.pickIndex(+k - 1); else if (k === 'escape') Mini.close(); return; }
@@ -13293,7 +13331,7 @@ const KadHadis = {
     { awal: 'Tunaikanlah amanah', k: 'B', nilai: 'Amanah', s: ['Wani menjumpai botol air rakannya yang tertinggal di gelanggang, lalu memulangkannya.', 'Cikgu meminta Hafiz mengambil bekas airnya di Rumah Guru. Hafiz mengambilnya sahaja dan tidak mengusik barang lain.'] },
     { awal: 'Tanda orang munafik', k: 'B', nilai: 'Menepati janji', s: ['Ikmal berjanji untuk menemui rakannya di gelanggang waktu rehat, dan dia datang tepat pada masanya.', 'Sarah berjanji memulangkan buku rakannya esok, dan dia memulangkannya seperti yang dijanjikan.'] }
   ],
-  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], slotH: [], pilih: null, betul: 0, salah: 0, sel: [], drag: null, sorot: -1, merah: null, diberi: false, tT: 0, meriah: 0, fovUbah: false, fov0: 50, tunggu: false, penutup: false, sblm: '',
+  paksa: '', aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], slotH: [], pilih: null, betul: 0, salah: 0, sel: [], drag: null, sorot: -1, merah: null, diberi: false, tT: 0, meriah: 0, fovUbah: false, fov0: 50, tunggu: false, penutup: false, sblm: '',
   kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
   zS(i) { return this.G.zc + (i - 2) * this.G.pitch; },
   yStok() { return this.G.yT + this.G.yFelt + this.G.tebal / 2; },
@@ -13375,11 +13413,14 @@ const KadHadis = {
   buka() {   // pintu masuk daripada sauh papan hadis: menu (Main Kad Hadis / Baca papan hadis)
     if (this.aktif || State.uiLock) return; if (Agama.moral()) { Agama.bilikPI(); return; }
     const r = Rooms.current === 'pi' ? Rooms.list.pi : null, K = r && r.group.userData.kadHadis;
-    if (!K || this.entri().length < this.N) { Peralatan.hadis(); return; }   // GLB lama atau hadis tidak mencukupi: papan hadis biasa (fungsi asal)
+    if (!K || this.entri().length < this.N) { Peralatan.hadis(); return; }
+    if (this.telefon()) { KadHadisTel.buka(); return; }   // skrin sempit / potret: papan skrin penuh (teks besar)   // GLB lama atau hadis tidak mencukupi: papan hadis biasa (fungsi asal)
     this.nod = { r, K }; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.rehatSegera();
     this.aktif = true; this.tahap = 0; this.drag = null; this.pilih = null; this.sorot = -1; this.merah = null; this.diberi = false; this.tunggu = false; this.penutup = false; this.meriah = 0; this.tt = []; this.sel = [null, null, null, null, null];
     this.menu(); $('kadHadis').hidden = false; setLock('kadHadis'); this.ke = 1; if (this.kurang()) this.k = 1; this.lukisPad(); this.mula(); try { $('khMain').focus({ preventScroll: true }); } catch (err) {}
   },
+  telefon() { if (this.paksa) return this.paksa === 'tel'; const W = window.innerWidth || 1, H = window.innerHeight || 1; return W < 720 || H > W; },
+  tukarTel() { this.paksa = 'tel'; this.tutup(); KadHadisTel.buka(); },
   menu() {
     $('khMenu').hidden = false; $('khL1').hidden = true; $('khUlang').hidden = true; $('khSiap').hidden = true; $('khMaklum').textContent = ''; $('khProg').hidden = false;
     $('khArahan').textContent = 'Sudut Hadis. Pilih: main Kad Hadis (padankan situasi akhlak dengan hadis) atau baca papan hadis.'; $('khProg').textContent = 'Kemajuan Kad Hadis: ' + this.ringkas();
@@ -13591,9 +13632,109 @@ const KadHadis = {
 };
 { // pendengar acara
   const on = () => {
-    $('khKeluar').addEventListener('click', () => KadHadis.tutup()); $('khMain').addEventListener('click', () => KadHadis.mulaAktiviti()); $('khBaca').addEventListener('click', () => KadHadis.lihatPapan());
+    $('khKeluar').addEventListener('click', () => KadHadis.tutup()); $('khMain').addEventListener('click', () => KadHadis.mulaAktiviti()); $('khBaca').addEventListener('click', () => KadHadis.lihatPapan()); $('khTukar').addEventListener('click', () => KadHadis.tukarTel());
     $('khUlang').addEventListener('click', () => KadHadis.ulang()); $('khSiap').addEventListener('click', () => KadHadis.tutup());
     ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!KadHadis.aktif || (e.target !== canvas && !KadHadis.drag)) return; if (KadHadis.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
+/* ===================== Kad Hadis: paparan telefon (v102) =====================
+   Skrin sempit atau potret (telefon): meja 3D terlalu kecil untuk dibaca, jadi aktiviti yang sama dipaparkan sebagai papan skrin penuh:
+   lima hadis (teks penuh, besar) di atas dan SATU kad situasi besar di bawah. Ketik kad untuk membalik, seret kad ke hadis yang betul (atau ketik hadis itu).
+   Logik, kandungan, kemajuan (State.data.kadHadis), Cuba Lagi dan ganjaran dikongsi dengan KadHadis (3D): KadHadis.SIT / entri / pilihSet / rekod / ringkas.
+   Mod dipilih automatik (lebar < 720 px atau potret); butang "Paparan 3D" / "Paparan telefon" menukar mod pada sesi itu. Teks hadis TIDAK dicipta: CONTENT.hadis. */
+const KadHadisTel = {
+  aktif: false, tahap: 0, kad: [], slotH: [], i: 0, hadap: false, betul: 0, salah: 0, sel: [], drag: null, sibuk: false, diberi: false, gen: 0, sorot: -1, tx: 0, ty: 0,
+  buka() {
+    if (this.aktif || State.uiLock) return; this.aktif = true; this.tahap = 0; this.drag = null; this.sibuk = false; this.gen++;
+    $('khTel').hidden = false; setLock('kadHadisTel'); $('khtMenu').hidden = false; $('khtMain2').hidden = true; $('khtStat').textContent = '';
+    $('khtMenuT').textContent = 'Sudut Hadis. Padankan situasi akhlak dengan hadis yang betul, atau baca papan hadis.'; $('khtProg').textContent = 'Kemajuan Kad Hadis: ' + KadHadis.ringkas();
+    try { $('khtMain').focus({ preventScroll: true }); } catch (err) {}
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.gen++; this.drag = null; this.sibuk = false; $('khTel').hidden = true; if (State.uiLock === 'kadHadisTel') setLock(null); },
+  lihatPapan() { this.tutup(); Peralatan.hadis(); },
+  tukar3D() { KadHadis.paksa = '3d'; this.tutup(); KadHadis.buka(); },
+  mulaSet() {
+    const KH = KadHadis, E = KH.pilihSet(); if (!E) { this.tutup(); Peralatan.hadis(); return; }
+    this.gen++; this.kad = shuffle(E.slice()).map((e) => ({ h: e.h, nilai: e.nilai, s: e.s[Math.floor(Math.random() * e.s.length)], salah: 0 })); this.slotH = shuffle(E.map((e) => e.h)); KH.sblm = E.map((e) => e.h).sort().join();
+    this.i = 0; this.betul = 0; this.salah = 0; this.sel = [null, null, null, null, null]; this.diberi = false; this.sibuk = false; this.tahap = 1; this.drag = null; this.sorot = -1;
+    const d = KH.rekod(); if (d) d.mula = (d.mula || 0) + 1;
+    $('khtMenu').hidden = true; $('khtMain2').hidden = false; $('khtKadArea').hidden = false; $('khtBalik').hidden = false; $('khtUlang').hidden = true; $('khtSiap').hidden = true;
+    $('khtArahan').textContent = 'Ketik kad untuk membalik, kemudian seret kad ke hadis yang sesuai (atau ketik hadis itu).'; $('khtMaklum').textContent = '';
+    this.binaHadis(); this.tunjukKad(); this.segar(); Sound.play('pick');
+  },
+  binaHadis() {
+    const C = $('khtHadis'); C.innerHTML = '';
+    this.slotH.forEach((h, j) => {
+      const H = CONTENT.hadis[h], d = document.createElement('div'), n = document.createElement('b'), t = document.createElement('span'), s = document.createElement('small');
+      d.className = 'khtH'; d.dataset.j = String(j); d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0'); d.setAttribute('aria-label', 'Hadis ' + (j + 1) + ': ' + H.teks);
+      n.textContent = (j + 1) + '. '; t.textContent = '“' + H.teks + '”'; s.textContent = ' (' + H.sumber + ')'; d.appendChild(n); d.appendChild(t); d.appendChild(s);
+      d.addEventListener('click', () => this.jawab(j, false)); d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { this.jawab(j, false); e.preventDefault(); } }); C.appendChild(d);
+    });
+  },
+  kotak(j) { return $('khtHadis').kids ? $('khtHadis').kids[j] : null; },
+  tunjukKad() {
+    const K = $('khtKad'), c = this.kad[this.i]; if (!c) return; K.style.transition = 'none'; K.style.transform = ''; K.style.opacity = '1'; this.tx = 0; this.ty = 0; this.hadap = false;
+    $('khtDlm').classList.remove('balik'); $('khtNo').textContent = 'Kad ' + (this.i + 1) + ' / ' + this.kad.length; $('khtS').textContent = c.s; K.classList.remove('masuk'); void (K.offsetWidth); K.classList.add('masuk');
+  },
+  segar() { $('khtStat').textContent = this.betul + '/5 · salah ' + this.salah; $('khtBar').style.width = (this.betul / 5 * 100) + '%'; },
+  balik(h) { if (!this.aktif || this.tahap !== 1) return; this.hadap = h === undefined ? !this.hadap : h; $('khtDlm').classList.toggle('balik', this.hadap); Sound.play('pick'); },
+  sorotKe(j) {
+    if (j === this.sorot) return; const lama = this.kotak(this.sorot), baru = this.kotak(j); if (lama && lama.classList) lama.classList.remove('sorot'); if (baru && baru.classList) baru.classList.add('sorot'); this.sorot = j;
+  },
+  kotakDi(x, y) {   // hadis di bawah jari (belum dipadankan), dengan sedikit toleransi
+    const L = $('khtHadis').kids || []; for (let j = 0; j < L.length; j++) { if (this.sel[j] !== null) continue; const r = L[j].getBoundingClientRect(); if (x >= r.left - 6 && x <= r.right + 6 && y >= r.top - 4 && y <= r.bottom + 4) return j; } return -1;
+  },
+  pulang() { const K = $('khtKad'); K.style.transition = 'transform .3s ease'; K.style.transform = ''; this.tx = 0; this.ty = 0; },
+  turun(e) { if (!this.aktif || this.tahap !== 1 || this.sibuk) return; this.drag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, mula: false }; try { $('khtKad').setPointerCapture(e.pointerId); } catch (err) {} },
+  gerak(e) {
+    const d = this.drag; if (!d || d.id !== e.pointerId) return; const dx = e.clientX - d.x0, dy = e.clientY - d.y0, K = $('khtKad');
+    if (!d.mula) { if (Math.hypot(dx, dy) < 8) return; d.mula = true; if (!this.hadap) this.balik(true); K.classList.add('seret'); K.style.transition = 'none'; }
+    this.tx = dx; this.ty = dy; K.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.04)'; this.sorotKe(this.kotakDi(e.clientX, e.clientY));
+  },
+  naik(e) {
+    const d = this.drag; if (!d || d.id !== e.pointerId) return; this.drag = null; $('khtKad').classList.remove('seret'); const j = d.mula ? this.kotakDi(e.clientX, e.clientY) : -1; this.sorotKe(-1);
+    if (!d.mula) { this.balik(); return; } if (j >= 0) this.jawab(j, true); else { this.pulang(); $('khtMaklum').textContent = 'Lepaskan kad tepat pada salah satu hadis.'; }
+  },
+  jawab(j, seret) {
+    if (!this.aktif || this.tahap !== 1 || this.sibuk || this.sel[j] !== null) return; const c = this.kad[this.i], gen = this.gen, K = $('khtKad');
+    if (!this.hadap) { $('khtMaklum').textContent = 'Balik kad dahulu: ketik kad untuk membaca situasi.'; if (seret) this.pulang(); return; }
+    const kt = this.kotak(j), H = CONTENT.hadis[c.h];
+    if (this.slotH[j] === c.h) {
+      this.sibuk = true; this.sel[j] = this.i; this.betul++; Sound.play('ok'); try { Kiraan.set('hadis', c.h); } catch (err) {}
+      if (kt) { kt.classList.add('betul'); const p = document.createElement('div'); p.className = 'khtP'; p.textContent = '✓ ' + c.nilai; kt.appendChild(p); try { const kr = K.getBoundingClientRect(), br = kt.getBoundingClientRect(); K.style.transition = 'transform .38s ease-in, opacity .38s'; K.style.transform = 'translate(' + (this.tx + (br.left + br.width / 2) - (kr.left + kr.width / 2)) + 'px,' + (this.ty + (br.top + br.height / 2) - (kr.top + kr.height / 2)) + 'px) scale(.25)'; K.style.opacity = '0'; } catch (err) {} }
+      $('khtMaklum').textContent = '✓ Betul! “' + H.teks + '” (' + H.sumber + '). Pengajaran: ' + c.nilai + '.'; this.segar();
+      setTimeout(() => { if (!this.aktif || gen !== this.gen) return; this.sibuk = false; this.i++; if (this.betul === this.kad.length) this.berjaya(); else { this.tunjukKad(); this.segar(); } }, 420);
+    } else {
+      this.sibuk = true; this.salah++; c.salah++; Sound.play('wrong'); this.segar(); this.pulang(); K.classList.add('goyang'); if (kt) kt.classList.add('salah');
+      $('khtMaklum').textContent = 'Belum tepat. Situasi ini tidak sepadan dengan hadis ' + (j + 1) + '. Baca semula situasi dan hadis, kemudian cuba lagi.' + (c.salah >= 2 ? ' Petunjuk: fikirkan tentang nilai “' + c.nilai + '”.' : '');
+      setTimeout(() => { if (!this.aktif || gen !== this.gen) return; this.sibuk = false; K.classList.remove('goyang'); if (kt) kt.classList.remove('salah'); }, 520);
+    }
+  },
+  berjaya() {
+    this.tahap = 2; const KH = KadHadis, d = KH.rekod(), bint = this.salah === 0 ? 3 : (this.salah <= 2 ? 2 : 1);
+    if (d) { d.siap = (d.siap || 0) + 1; d.terbaik = d.terbaik == null ? this.salah : Math.min(d.terbaik, this.salah); d.bintang = Math.max(d.bintang || 0, bint); }
+    $('khtKadArea').hidden = true; $('khtBalik').hidden = true; $('khtUlang').hidden = false; $('khtSiap').hidden = false;
+    $('khtArahan').textContent = 'Tahniah! Kelima-lima kad dipadankan dengan betul. ' + '★'.repeat(bint) + '☆'.repeat(3 - bint) + (this.salah ? '  (salah ' + this.salah + ')' : '  (tanpa salah!)');
+    $('khtMaklum').textContent = 'Nilai yang dipelajari: ' + this.sel.map((ci) => this.kad[ci].nilai).join('  ·  ');
+    Sound.play('done'); this.segar();
+    if (!this.diberi) { this.diberi = true; const dd = State.data, sebelum = dd && dd.alat ? dd.alat.kad_hadis : undefined; Peralatan.ganjaran('kad_hadis', { ilmu: 1 }, '🃏 Kad hadis dipadankan! +1 Ilmu'); if (dd && dd.alat && dd.alat.kad_hadis === sebelum) toast('🃏 Hebat! Kad hadis dipadankan.'); }   // ganjaran sedia ada, sekali sehari
+    try { Save.save(); } catch (err) {} try { $('khtSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  ulang() { if (!this.aktif || this.tahap < 1) return; this.mulaSet(); },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; } const butang = (e.target || {}).tagName === 'BUTTON';
+    if (this.tahap === 0) { if (!butang && (k === 'enter' || k === ' ' || k === '1')) { this.mulaSet(); e.preventDefault(); } else if (!butang && k === '2') { this.lihatPapan(); e.preventDefault(); } return; }
+    if (this.tahap === 1) { if (/^[1-5]$/.test(k)) { this.jawab(+k - 1, false); e.preventDefault(); return; } if (k === 'f' && !e.repeat) { this.balik(); e.preventDefault(); return; } }
+    if (k === 'c' && !e.repeat && this.tahap >= 1) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara
+  const on = () => {
+    $('khtKeluar').addEventListener('click', () => KadHadisTel.tutup()); $('khtMain').addEventListener('click', () => KadHadisTel.mulaSet()); $('khtBaca').addEventListener('click', () => KadHadisTel.lihatPapan()); $('khtTukar').addEventListener('click', () => KadHadisTel.tukar3D());
+    $('khtBalik').addEventListener('click', () => KadHadisTel.balik()); $('khtUlang').addEventListener('click', () => KadHadisTel.ulang()); $('khtSiap').addEventListener('click', () => KadHadisTel.tutup());
+    const K = $('khtKad'); K.addEventListener('pointerdown', (e) => KadHadisTel.turun(e)); K.addEventListener('pointermove', (e) => KadHadisTel.gerak(e)); K.addEventListener('pointerup', (e) => KadHadisTel.naik(e)); K.addEventListener('pointercancel', (e) => KadHadisTel.naik(e));
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
