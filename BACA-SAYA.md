@@ -240,3 +240,15 @@ Setiap **tab** dalam Google Sheet Papan Anugerah ialah **satu subjek** (contoh: 
 ## Pembetulan papan putih PI (v95)
 - Papan putih Bilik PI (tiada kelas): hanya "Pendidikan Islam" dan tulisan Jawi (ڤنديديقن إسلام), lebih kecil dan di bahagian atas. `boardTex` menyokong `y` pilihan (piksel) pada baris.
 - Huruf Jawi pada ubin magnet kini kelihatan (satah huruf dialihkan ke hadapan muka ubin).
+
+## Kad Hadis Akhlak di Sudut Hadis (v102)
+- **Sauh lama, fungsi baharu:** di Bilik PI, sauh "Baca papan hadis" (dinding timur, di bawah papan *Hadis Pilihan*) kini membuka menu **🃏 Main Kad Hadis** / **📖 Baca papan hadis**. Pilihan kedua menjalankan `Peralatan.hadis()` seperti dahulu (satu hadis, +1 Ilmu sekali sehari).
+- **Cara main:** lima **kad situasi akhlak** 3D berada muka bawah (corak bintang) di dulang berfelt. **Ketik** kad untuk membalik dan membaca situasi, atau **seret** kad (ia terangkat dan terbalik sendiri) ke **petak di hadapan papan hadis** yang sesuai. Betul: kad *snap* melekat, papan hijau dan ✓, hadis penuh + sumber + pengajaran dipaparkan. Salah: kad bergoyang dan pulang ke dulang, papan berkilat merah (tiada jawapan didedahkan; selepas dua kali salah pada kad yang sama, satu petunjuk nilai diberi).
+- **Alternatif tanpa seret:** butang Kad 1-5, **🔄 Balik kad**, dan butang hadis (kekunci `1-5`, `F`, `Q W E R T`, `C` = Cuba Lagi, `H` = kecilkan panel, `Esc` = keluar).
+- **Kemajuan dan ganjaran:** bar kemajuan 0-5, bilangan salah, bintang (3 = tanpa salah), rekod `State.data.kadHadis` (dicuba / siap / terbaik / bintang). Selesai satu pusingan = ganjaran sedia ada `Peralatan.ganjaran('kad_hadis')` (+1 Ilmu, sekali sehari). Setiap hadis yang dipadankan juga dikira dibaca untuk lencana **Pembaca Hadis**. **Cuba Lagi** mengembalikan kad ke dulang dan memulakan set hadis yang berbeza.
+- **Kandungan hadis tidak dicipta:** teks dan sumber hadis dibaca terus daripada `CONTENT.hadis` (sembilan hadis sedia ada). Setiap situasi dipadankan dengan hadis melalui permulaan teks hadis; jika hadis dibuang atau disusun semula, padanan kekal betul atau situasinya dilangkau.
+- **SEMAK GURU:** yang ditulis baharu hanyalah **ayat situasi** (dua bagi setiap hadis) dan **label nilai** dalam `KadHadis.SIT` (`index.html`). Ubah suai di situ jika perlu; kekalkan `awal` (permulaan teks hadis). Kumpulan `k` (A, B, C) menghalang hadis yang hampir sama maksudnya daripada muncul serentak dalam satu pusingan.
+- **GLB:** hanya `assets/pi_interior_props.glb` berubah (8 nod baharu: `meja_kad_hadis`, `lalu_kad_dulang`, `lalu_kad_rak`, `lalu_kad_1..5`; 35 nod asal tidak disentuh). Dijana oleh `tools/gen_bilik.py` (pemalar `KAD`; mesti sama dengan `KadHadis.G` dalam `index.html`). Teks pada kad dan papan hadis dilukis oleh kod permainan.
+- **Selamat:** jika GLB lama dimuat (nod `lalu_kad_*` tiada) atau `localStorage.setItem('lotong.glbDalam','0')`, sauh terus membuka papan hadis lama.
+- **Ujian:** `node tools/test_kad_hadis.js [index.html-lama]` (80 semakan: logik, kandungan hadis tidak berubah, geometri GLB sepadan dengan kod).
+- **Muat naik:** ganti `index.html`, `sw.js` (VERSI `lotong-v102`) dan `assets/pi_interior_props.glb`.
