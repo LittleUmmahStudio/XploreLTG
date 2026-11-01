@@ -340,6 +340,16 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #kdSlot .btn{flex:1 1 140px;max-width:190px;min-height:44px;padding:2px 8px;font-size:14px;font-weight:700;line-height:1.2}#kdSlot .btn.betul{background:#E6F7EC}
 #kdBar{height:100%;width:0;background:#58C27C;transition:width .25s}
 #kdKad .btn.goyang,#kdSlot .btn.goyang{animation:suGoyang .35s}
+/* v112: Keselamatan Makmal (panel bawah, sama seperti panel Eksperimen Tumbuhan) */
+#selamatMakmal{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
+  padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+#selamatMakmal .kertas{pointer-events:auto;width:min(760px,100%);padding:8px 14px 12px;touch-action:none;user-select:none;-webkit-user-select:none;text-align:center;border-top:7px solid #E8684F}
+#selamatMakmal header{display:flex;justify-content:space-between;align-items:center;line-height:28px;text-align:left}#selamatMakmal header strong{color:#C0452F}
+#smLangkah{margin:2px 0 0;font-size:13px;font-weight:700;color:#C0452F;text-align:left}#smPakai{margin:0;font-size:12px;font-weight:700;color:#2E7D32;text-align:left}
+#smArahan{margin:3px 0 6px;font-weight:600;font-size:15px;line-height:1.35;min-height:2.7em}
+#smKawal .btn{min-height:44px;padding:2px 10px;font-size:14px;font-weight:700;line-height:1.2}#smKawal .btn[aria-pressed="true"]{outline:4px solid #FFC93C;outline-offset:1px}#smKawal .btn[disabled]{opacity:.4}
+#smMaklum{margin:4px 0 6px;font-size:13px;font-weight:600;line-height:1.35;min-height:2.7em}
+#smBar{height:100%;width:0;background:#58C27C;transition:width .25s}
 /* v110: Eksperimen Tumbuhan (panel bawah, sama seperti panel Kad Hadis) */
 #tumbuhan{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:center;pointer-events:none;
   padding:0 max(8px,env(safe-area-inset-right,0px)) max(8px,env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
@@ -434,6 +444,7 @@ body.fokusItem #objektif,body.fokusItem #segeraChip,body.fokusItem #ringkasChip,
   #kaMaklum{margin:0 0 3px;min-height:2.4em;font-size:12px}#kaProg{margin:0 0 3px;font-size:12px}#kaStat{display:none}#kaButir{margin:0 0 3px;min-height:0}#kaAr{font-size:23px;line-height:1.5}#kaRumi,#kaMaksud{font-size:12px}#kaMenu .btn{min-height:42px;font-size:14px}#kaKad .btn{min-height:36px;font-size:12px;padding:0 5px}#kaSlot .btn{min-height:36px;font-size:12px}
   #ksMaklum{margin:0 0 3px;min-height:2.4em;font-size:12px}#ksProg{margin:0 0 3px;font-size:12px}#ksStat{display:none}#ksButir{margin:0 0 3px;min-height:0;padding:3px 8px}#ksJudul{font-size:15px}#ksDesc{font-size:12px}#ksMenu .btn{min-height:42px;font-size:14px}#ksBlok .btn{min-height:36px;font-size:11px;padding:0 5px}#ksPetak .btn{min-height:36px;font-size:12px}
   #wpMaklum{margin:0 0 3px;min-height:2.4em;font-size:12px}#wpProg{margin:0 0 3px;font-size:12px}#wpStat{display:none}#wpButir{margin:0 0 3px;min-height:0;padding:3px 8px;font-size:13px}#wpMenu .btn{min-height:42px;font-size:14px}#wpKad .btn{min-height:36px;font-size:11px;padding:0 5px}#wpSlot .btn{min-height:36px;font-size:12px}
+  #smArahan{margin:0 0 3px;min-height:0;font-size:13px}#smLangkah{font-size:11px}#smPakai{font-size:10px}#smMaklum{margin:0 0 3px;min-height:1.4em;font-size:12px}#smKawal .btn{min-height:36px;font-size:12px;padding:0 6px}
   #tbArahan{margin:0 0 3px;min-height:0;font-size:13px}#tbLangkah{font-size:11px}#tbMaklum{margin:0 0 3px;min-height:1.4em;font-size:12px}#tbData{max-height:4.4em;font-size:11px;margin:2px 0}#tbKawal .btn{min-height:36px;font-size:12px;padding:0 6px}
   #jwMaklum{margin:0 0 3px;min-height:0}#jwUbin .btn{min-height:40px;font-size:24px}#jwSlot .btn{min-height:34px;font-size:12px;padding:0 6px}
   #tpMaklum{margin:0 0 3px;min-height:0}#tpObjek .btn{min-height:34px;padding:0 6px;font-size:12px}
@@ -1161,6 +1172,19 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
       </div>
       <p id="ksMaklum" aria-live="polite"></p>
       <div class="wnBaris"><button id="ksUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="ksSiap" class="btn utama" type="button" hidden>Selesai</button></div>
+    </div>
+  </section>
+
+  <section id="selamatMakmal" class="panel-fokus" hidden role="dialog" aria-label="Keselamatan Makmal: aktiviti praktikal">
+    <div class="kertas">
+      <header><strong>Keselamatan Makmal</strong><span class="wnAtas"><button id="smKeluar" class="btn" type="button">Keluar</button></span></header>
+      <p id="smLangkah"></p>
+      <p id="smPakai"></p>
+      <p id="smArahan" aria-live="polite"></p>
+      <div id="smKawal" class="wnBaris"></div>
+      <div class="suProg"><div id="smBar"></div></div>
+      <p id="smMaklum" aria-live="polite"></p>
+      <div class="wnBaris"><button id="smUlang" class="btn" type="button" hidden>Cuba Lagi</button><button id="smSiap" class="btn utama" type="button" hidden>Selesai</button></div>
     </div>
   </section>
 
@@ -7851,6 +7875,7 @@ window.addEventListener('keydown', (e) => {
   if (State.uiLock === 'terapung') { if (!Fokus.kunci(e, k, 'terapung')) Terapung.kunci(e, k); return; }
   if (State.uiLock === 'jawi') { if (!Fokus.kunci(e, k, 'jawi')) PapanJawi.kunci(e, k); return; }
   if (State.uiLock === 'blok') { if (!Fokus.kunci(e, k, 'blokRukun')) BlokRukun.kunci(e, k); return; }   // v98
+  if (State.uiLock === 'selamatMakmal') { if (!Fokus.kunci(e, k, 'selamatMakmal')) SelamatMakmal.kunci(e, k); return; }   // v112
   if (State.uiLock === 'tumbuhan') { if (!Fokus.kunci(e, k, 'tumbuhan')) Tumbuhan.kunci(e, k); return; }   // v110
   if (State.uiLock === 'wudukPI') { if (!Fokus.kunci(e, k, 'wudukPI')) WudukPI.kunci(e, k); return; }   // v111
   if (State.uiLock === 'kadSirah') { if (!Fokus.kunci(e, k, 'kadSirah')) GarisSirah.kunci(e, k); return; }   // v107
@@ -8061,6 +8086,7 @@ const Cam = {
     if (GarisSirah.k > 0.002) GarisSirah.kamera();   // v107: kamera dekat Jalan Masa Sirah
     if (WudukPI.k > 0.002) WudukPI.kamera();   // v111: kamera dekat Papan Langkah Wuduk (Bilik PI)
     if (Tumbuhan.k > 0.002) Tumbuhan.kamera();   // v110: kamera dekat eksperimen tumbuhan
+    if (SelamatMakmal.k > 0.002) SelamatMakmal.kamera();   // v112: kamera dekat sinki dan meja kerja (keselamatan makmal)
     if (SudutSolat.k > 0.002) SudutSolat.kamera();   // v99: kamera sisi Sudut Latihan Solat
     GarajAtap.update(dt);
   },
@@ -11824,7 +11850,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.5], blokRukun: [4.3, 0.9], kadHadis: [4.5, -3.14], kadDoa: [3.2, 3.0], kadAsma: [-4.05, -3.0], kadSirah: [4.1, -2.3], wudukPI: [-5.0, -3.35], tumbuhan: [2.45, -0.35] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.5], blokRukun: [4.3, 0.9], kadHadis: [4.5, -3.14], kadDoa: [3.2, 3.0], kadAsma: [-4.05, -3.0], kadSirah: [4.1, -2.3], wudukPI: [-5.0, -3.35], tumbuhan: [2.45, -0.35], selamatMakmal: [2.5, -2.8] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -11857,7 +11883,7 @@ const Fokus = {
   },
   kunci(e, k, id) { if (k === 'h' && !e.repeat) { this.togol(id); e.preventDefault(); return true; } return false; },
   init() {
-    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung', 'jawi', 'blokRukun', 'kadHadis', 'kadDoa', 'kadAsma', 'kadSirah', 'wudukPI', 'tumbuhan', 'sudutSolat'].forEach((id) => {
+    ['mikroskop', 'warna', 'suria', 'litar', 'magnet', 'terapung', 'jawi', 'blokRukun', 'kadHadis', 'kadDoa', 'kadAsma', 'kadSirah', 'wudukPI', 'tumbuhan', 'selamatMakmal', 'sudutSolat'].forEach((id) => {
       const el = $(id); if (!el || el.querySelector('.dokTogol')) return; const keluar = el.querySelector('header .btn:last-child'); if (!keluar) return;
       const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn dokTogol'; bt.textContent = 'Kecilkan'; bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kecilkan atau besarkan panel (kekunci H)');
       bt.addEventListener('click', () => this.togol(id)); keluar.parentNode.insertBefore(bt, keluar);
@@ -15676,6 +15702,366 @@ const Tumbuhan = {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
 }
 
+
+/* ===================== Keselamatan Makmal: aktiviti praktikal 3D (v112) =====================
+   Menaik taraf Makmal.keselamatan(). GLB Makmal TIDAK diubah: perabot sedia ada digunakan (sinki_makmal dengan pili, sabun cecair dan tuala kertas pada dinding; kabinet bawah sinki; guru Cikgu Shahrul).
+   Radas, meja kerja, rak pengering, kain lap, tumpahan, tangan dan air dijana oleh kod (supaya boleh dianimasikan). Jika Makmal belum bersedia (tiada sinki), kuiz asal kekal (Makmal.keselamatanLama()).
+   Prasyarat: kot makmal dan cermin mata keselamatan WAJIB dipakai (Makmal.perluKot(), seperti sebelum ini); panel menyemak semula Makmal.pakai.
+   Enam langkah (sepadan dengan susunan asal "Kemas Radas": Basuh radas, Keringkan radas, Simpan radas, Lap meja, Basuh tangan, ditambah kenal bahaya):
+   1 BAHAYA: sebuah bikar tumpah (bahan uji kaji); murid memilih (tiga pilihan ASAL): "Beritahu guru dengan segera" (betul), "Lap sendiri dengan tangan" / "Biarkan sahaja dan teruskan" (salah; maklum balas asal).
+     Jika melapor: Cikgu Shahrul (NPC guru sedia ada, atau figura sandaran) berjalan ke meja, meletakkan kon amaran dan membersihkan tumpahan dengan kain pel; murid TIDAK membersihkannya sendiri.
+   2 BASUH radas (seret ke sinki; buka pili; gelembung sabun) 3 KERINGKAN (seret ke rak pengering) 4 SIMPAN (seret ke kabinet; pintu terbuka) 5 LAP MEJA (seret kain lembap menghilangkan kesan lembap)
+   6 BASUH TANGAN di sinki (buka pili, sabun, gosok, bilas, tutup pili, keringkan dengan tuala kertas). Setiap langkah ada butang "Bantu" (animasi automatik) untuk akses tanpa seret.
+   Ganjaran ASAL dikekalkan: Makmal.siap('keselamatan', 'Makmal kembali kemas dan selamat!') dipanggil apabila murid menekan Selesai. Tiada audio baharu. Koordinat bilik makmal (tempatan). */
+const SelamatMakmal = {
+  G: { TOP: 0.85, meja: { x: 3.4, z: -3.12, w: 2.0, d: 0.62 }, hujung: [3.4, 1.08, -4.2], basin: { x: 3.4, z: -4.2, y: 0.9 }, knob: [[3.28, 0.96, -4.38], [3.52, 0.96, -4.38]], sabun: [3.26, 1.33, -4.43], tuala: [3.82, 1.3, -4.44], tangan: [3.4, 1.0, -4.04],
+    kab: { x: [2.72, 4.08], y: [0.12, 0.8], z: -3.94 }, tumpah: [4.12, -3.12], guru: { mula: [0, -3.95], jalan: [[1.55, -3.95], [1.55, -2.5], [4.0, -2.5]] } },
+  SK: 1.3, HARI: 0,
+  RADAS: [{ id: 'bikar', nama: 'Bikar', c: '#7BDAA4' }, { id: 'kelalang', nama: 'Kelalang kon', c: '#F7B538' }, { id: 'tabung', nama: 'Tabung uji', c: '#F06292' }, { id: 'silinder', nama: 'Silinder penyukat', c: '#7E57C2' }],
+  KOTOR: [[2.58, -3.12], [2.77, -3.12], [2.96, -3.12], [3.15, -3.12]], RAK: [[3.38, -3.12], [3.53, -3.12], [3.68, -3.12], [3.83, -3.12]], TOSKAN: [[2.74, -4.06], [2.84, -4.3], [2.94, -4.06], [3.04, -4.3]], SIMPAN: [[3.0, 0.14], [3.25, 0.14], [3.5, 0.14], [3.75, 0.14]],
+  PILIHAN: [{ teks: 'Beritahu guru dengan segera', jenis: 'baik', maklum: 'Betul! Guru tahu cara membersihkannya dengan selamat.' }, { teks: 'Lap sendiri dengan tangan', jenis: 'kurang', maklum: 'Bahaya! Jangan sentuh bahan uji kaji dengan tangan. Cuba lagi.' }, { teks: 'Biarkan sahaja dan teruskan', jenis: 'kurang', maklum: 'Tumpahan boleh membahayakan rakan. Cuba lagi.' }],
+  LANGKAH_TANGAN: [{ id: 'buka', teks: 'Buka pili air', s: 'paip' }, { id: 'sabun', teks: 'Tekan sabun cecair', s: 'sabun' }, { id: 'gosok', teks: 'Gosok tangan: seret ke kiri dan kanan', s: 'tangan' }, { id: 'bilas', teks: 'Bilas tangan di bawah air (tekan tangan)', s: 'tangan' }, { id: 'tutup', teks: 'Tutup pili air', s: 'paip' }, { id: 'kering', teks: 'Keringkan dengan tuala kertas', s: 'tuala' }],
+  FONT: '"Bakso Daging", "Kurland", sans-serif', SLOP: 8,
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, it: [], paip: { buka: false, atas: 0, bawah: 0 }, drag: null, tT: 0, diberi: false, siapTunggu: false, fovUbah: false, fov0: 50, meriah: 0,
+  tumpah: { t: -1, ujung: 0, salah: 0 }, lapor: null, mesej: '', tanganLangkah: 0, gosok: { arah: 0, jarak: 0, pukulan: 0 }, foam: 0, tanganKering: 0, kainP: null, tanda: [], bersih: 0, mejaX: 0, pintu: 0, pintuSasar: 0, bantuan: null, tunggu: 0,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
+  // ----- pemasangan (sekali bagi setiap bilik) -----
+  cari() {
+    const r = Rooms.list && Rooms.list.makmal; if (!r || !r.group.getObjectByName('sinki_makmal')) return null; if (!r.group.userData.selamatSiap) r.group.userData.selamatSiap = this.pasang(r); return { r, ...r.group.userData.selamatSiap };
+  },
+  pasang(r) {
+    const G = this.G, T = G.TOP, canv = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; const t = new THREE.CanvasTexture(c); t.anisotropy = ANISO; return { c, t }; };
+    const bas = (o) => new THREE.MeshBasicMaterial(Object.assign({ transparent: true, depthWrite: false }, o)), lam = (c) => new THREE.MeshLambertMaterial({ color: c });
+    const tambah = (par, g, x, y, z, m) => { const o = new THREE.Mesh(g, m); o.position.set(x, y, z); par.add(o); return o; };
+    // meja kerja bergerak (meluncur masuk semasa aktiviti)
+    const meja = new THREE.Group(); const M = G.meja; tambah(meja, new THREE.BoxGeometry(M.w, 0.04, M.d), 0, T - 0.02, 0, lam('#F5FAFD')); tambah(meja, new THREE.BoxGeometry(M.w - 0.1, 0.1, M.d - 0.08), 0, T - 0.09, 0, lam('#9CCBF0'));
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => tambah(meja, new THREE.BoxGeometry(0.06, T - 0.14, 0.06), a * (M.w / 2 - 0.1), (T - 0.14) / 2, b * (M.d / 2 - 0.08), lam('#7C8794'))); tambah(meja, new THREE.BoxGeometry(M.w - 0.2, 0.03, 0.04), 0, 0.25, M.d / 2 - 0.08, lam('#7C8794')); meja.position.set(M.x + 3.2, 0, M.z); meja.visible = false; r.group.add(meja);
+    // tanda kesan lembap pada permukaan meja (kanvas) + garis rak pengering
+    const K = canv(512, 160), kes = new THREE.Mesh(new THREE.PlaneGeometry(M.w - 0.1, (M.w - 0.1) * 160 / 512), bas({ map: K.t })); kes.rotation.x = -Math.PI / 2; kes.position.set(M.x, T + 0.004, M.z); kes.visible = false; kes.renderOrder = 2; r.group.add(kes); kes.scale.y = (M.d - 0.1) / ((M.w - 0.1) * 160 / 512);
+    const rak = new THREE.Group(); tambah(rak, new THREE.BoxGeometry(0.62, 0.02, 0.17), 0, 0.01, 0, lam('#E3BE92')); this.RAK.forEach(([x]) => tambah(rak, new THREE.CylinderGeometry(0.014, 0.014, 0.05, 8), x - 3.605, 0.045, 0, lam('#C99A6B'))); rak.position.set(3.605, T, M.z); rak.visible = false; r.group.add(rak);
+    // kain lap
+    const kain = new THREE.Group(); tambah(kain, new THREE.BoxGeometry(0.13, 0.016, 0.09), 0, 0.008, 0, lam('#7FC8F8')); tambah(kain, new THREE.BoxGeometry(0.13, 0.004, 0.012), 0, 0.017, 0.03, lam('#FFFFFF')); kain.visible = false; r.group.add(kain);
+    // radas
+    const kaca = () => bas({ color: '#CDEBFF', opacity: 0.5, side: THREE.DoubleSide }), tipis = (c) => new THREE.MeshBasicMaterial({ color: c });
+    const buatRadas = (id, c) => {
+      const g = new THREE.Group(), isi = [];
+      if (id === 'bikar') { tambah(g, new THREE.CylinderGeometry(0.045, 0.04, 0.1, 12, 1, true), 0, 0.05, 0, kaca()); tambah(g, new THREE.CylinderGeometry(0.04, 0.04, 0.006, 12), 0, 0.003, 0, lam('#FFFFFF')); isi.push(tambah(g, new THREE.CylinderGeometry(0.038, 0.036, 0.03, 12), 0, 0.02, 0, tipis(c))); }
+      else if (id === 'kelalang') { tambah(g, new THREE.CylinderGeometry(0.02, 0.06, 0.09, 14, 1, true), 0, 0.045, 0, kaca()); tambah(g, new THREE.CylinderGeometry(0.02, 0.02, 0.04, 10, 1, true), 0, 0.11, 0, kaca()); tambah(g, new THREE.CylinderGeometry(0.058, 0.058, 0.006, 14), 0, 0.003, 0, lam('#FFFFFF')); isi.push(tambah(g, new THREE.CylinderGeometry(0.045, 0.052, 0.025, 12), 0, 0.016, 0, tipis(c))); }
+      else if (id === 'tabung') { tambah(g, new THREE.CylinderGeometry(0.017, 0.017, 0.13, 10, 1, true), 0, 0.075, 0, kaca()); tambah(g, new THREE.SphereGeometry(0.017, 8, 6), 0, 0.012, 0, kaca()); tambah(g, new THREE.CylinderGeometry(0.03, 0.03, 0.01, 10), 0, 0.005, 0, lam('#E3BE92')); isi.push(tambah(g, new THREE.CylinderGeometry(0.014, 0.012, 0.04, 8), 0, 0.03, 0, tipis(c))); }
+      else { tambah(g, new THREE.CylinderGeometry(0.026, 0.026, 0.16, 10, 1, true), 0, 0.085, 0, kaca()); tambah(g, new THREE.CylinderGeometry(0.036, 0.036, 0.008, 10), 0, 0.004, 0, lam('#FFFFFF')); for (let i = 1; i <= 4; i++) tambah(g, new THREE.BoxGeometry(0.02, 0.003, 0.002), 0, 0.02 + i * 0.03, 0.026, tipis('#5A6B80')); isi.push(tambah(g, new THREE.CylinderGeometry(0.022, 0.022, 0.035, 10), 0, 0.025, 0, tipis(c))); }
+      const noda = [[0.03, 0.05, 0.03], [-0.03, 0.07, 0.02], [0.0, 0.035, -0.035]].map(([x, y, z]) => tambah(g, new THREE.CircleGeometry(0.008, 6), x * (id === 'tabung' ? 0.4 : 1), y, z * (id === 'tabung' ? 0.4 : 1) + 0.0, tipis('#6B5B3A')));
+      const titis = [[0.02, 0.06, 0.03], [-0.02, 0.04, 0.03], [0.0, 0.08, -0.03]].map(([x, y, z]) => tambah(g, new THREE.SphereGeometry(0.007, 6, 5), x * (id === 'tabung' ? 0.4 : 1), y, z * (id === 'tabung' ? 0.4 : 1), bas({ color: '#8FD3F4', opacity: 0.85 })));
+      const kilau = tambah(g, new THREE.OctahedronGeometry(0.02), 0, 0.14, 0, bas({ color: '#FFF2A8', opacity: 0.95 })); kilau.visible = false; g.scale.setScalar(this.SK); g.visible = false; r.group.add(g); return { g, isi, noda, titis, kilau };
+    };
+    // kabinet bawah sinki: pintu pelapis (hanya kelihatan semasa dibuka) + bahagian dalam gelap + rak
+    const kab = new THREE.Group(); tambah(kab, new THREE.PlaneGeometry(1.36, 0.68), 3.4, 0.46, -3.92, new THREE.MeshBasicMaterial({ color: '#2B3A33' })); tambah(kab, new THREE.BoxGeometry(1.3, 0.02, 0.1), 3.4, 0.12, -3.87, lam('#E3BE92')); kab.visible = false; r.group.add(kab);
+    const pintuK = [-1, 1].map((s) => { const p = new THREE.Group(), d = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.66, 0.014), lam('#B9E6CF')); d.position.set(s < 0 ? 0.33 : -0.33, 0, 0); p.add(d); p.position.set(s < 0 ? G.kab.x[0] : G.kab.x[1], 0.46, -3.91); p.visible = false; r.group.add(p); return p; });
+    // tumpahan: bikar tumpah, lopak, tanda amaran, kon amaran, kain pel, gelembung percakapan
+    const bt = buatRadas('bikar', '#7BDAA4'); bt.noda.forEach((q) => { q.visible = false; }); bt.titis.forEach((q) => { q.visible = false; }); const lopak = new THREE.Mesh(new THREE.CircleGeometry(0.17, 24), bas({ color: '#6FD7A0', opacity: 0.72 })); lopak.rotation.x = -Math.PI / 2; lopak.position.set(G.tumpah[0], T + 0.005, G.tumpah[1]); lopak.renderOrder = 3; lopak.visible = false; r.group.add(lopak);
+    const tp = new THREE.Group(), tri = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.012, 3), lam('#FFCC33')); tri.rotation.x = Math.PI / 2; tri.rotation.z = Math.PI / 2; tri.position.y = 0.2; tp.add(tri); const TW = canv(64, 64); { const c = TW.c.getContext('2d'); c.fillStyle = '#17325A'; c.font = '700 54px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('!', 32, 36); TW.t.needsUpdate = true; } tambah(tp, new THREE.PlaneGeometry(0.1, 0.1), 0, 0.2, 0.0075, bas({ map: TW.t })); tambah(tp, new THREE.CylinderGeometry(0.008, 0.008, 0.12, 6), 0, 0.06, 0, lam('#7C8794')); tp.position.set(G.tumpah[0] + 0.2, T, G.tumpah[1] + 0.12); tp.visible = false; r.group.add(tp);
+    const kon = new THREE.Group(); tambah(kon, new THREE.ConeGeometry(0.07, 0.2, 12), 0, 0.1, 0, lam('#FF8A3D')); tambah(kon, new THREE.CylinderGeometry(0.045, 0.05, 0.03, 12), 0, 0.1, 0, lam('#FFFFFF')); tambah(kon, new THREE.BoxGeometry(0.17, 0.012, 0.17), 0, 0.006, 0, lam('#E56A25')); kon.visible = false; r.group.add(kon);
+    const pel = new THREE.Group(), pelBatang = tambah(pel, new THREE.CylinderGeometry(0.012, 0.012, 1, 6), 0, 0, 0, lam('#C99A6B')), pelKepala = tambah(pel, new THREE.BoxGeometry(0.22, 0.03, 0.06), 0, 0, 0, lam('#7E57C2')); pel.visible = false; r.group.add(pel);
+    const B = canv(512, 128), bub = new THREE.Mesh(new THREE.PlaneGeometry(0.64, 0.16), bas({ map: B.t })); bub.visible = false; bub.renderOrder = 6; r.group.add(bub);
+    // air: aliran pili, percikan, riak, gelembung basuh
+    const tAlir = (() => { const o = canv(16, 64), c = o.c.getContext('2d'); c.fillStyle = '#7CC8F8'; c.fillRect(0, 0, 16, 64); for (let i = 0; i < 9; i++) { c.fillStyle = i % 2 ? 'rgba(255,255,255,0.75)' : 'rgba(40,140,210,0.5)'; c.fillRect(2 + (i * 5) % 12, (i * 23) % 64, 3, 18); } o.t.wrapS = o.t.wrapT = THREE.RepeatWrapping; o.t.repeat.set(1, 1); o.t.needsUpdate = true; return o.t; })();
+    const H0 = G.hujung[1] - G.basin.y, aliran = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1, 6, 1, true), bas({ map: tAlir, opacity: 0.85, side: THREE.DoubleSide })); aliran.geometry.translate(0, -0.5, 0); aliran.position.set(G.hujung[0], G.hujung[1], G.hujung[2]); aliran.scale.set(0.018, 0.001, 0.018); aliran.visible = false; aliran.renderOrder = 4; r.group.add(aliran);
+    const titisAir = Array.from({ length: 8 }, () => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.006, 5, 4), bas({ color: '#BFE8FF', opacity: 0.9 })); d.visible = false; d.renderOrder = 4; r.group.add(d); return { m: d, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, h: 0 }; });
+    const riak = new THREE.Mesh(new THREE.RingGeometry(0.03, 0.04, 20), bas({ color: '#FFFFFF', opacity: 0, side: THREE.DoubleSide })); riak.rotation.x = -Math.PI / 2; riak.position.set(G.hujung[0], G.basin.y + 0.004, G.hujung[2]); riak.visible = false; riak.renderOrder = 4; r.group.add(riak);
+    const gel = Array.from({ length: 10 }, () => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.012, 7, 5), bas({ color: '#FFFFFF', opacity: 0.85 })); d.visible = false; d.renderOrder = 5; r.group.add(d); return { m: d, t: 0, h: 0, x: 0, y: 0, z: 0, s: 0.6 }; });
+    // tangan (basuh tangan) + buih + helaian tuala + cincin sorot
+    const tangan = new THREE.Group(), kulit = lam('#F3C9A4'), tgn = [-1, 1].map((s) => { const h = new THREE.Group(); tambah(h, new THREE.SphereGeometry(0.05, 10, 8), 0, 0, 0, kulit).scale.set(1, 0.42, 1.25); tambah(h, new THREE.SphereGeometry(0.02, 8, 6), s * 0.04, 0.0, -0.05, kulit); for (let i = 0; i < 4; i++) tambah(h, new THREE.CylinderGeometry(0.009, 0.009, 0.05, 6), (i - 1.5) * 0.02, 0, -0.07, kulit).rotation.x = Math.PI / 2; tambah(h, new THREE.CylinderGeometry(0.036, 0.04, 0.2, 10), 0, 0.0, 0.2, lam('#FFFFFF')).rotation.x = Math.PI / 2; h.position.x = s * 0.07; tangan.add(h); return h; });
+    const buih = Array.from({ length: 9 }, (_, i) => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.02, 8, 6), bas({ color: '#FFFFFF', opacity: 0.92 })); d.position.set(((i % 3) - 1) * 0.05, 0.03 + (i % 2) * 0.015, Math.floor(i / 3) * 0.04 - 0.05); d.visible = false; tangan.add(d); return d; });
+    tangan.position.set(G.tangan[0], G.tangan[1], G.tangan[2]); tangan.visible = false; r.group.add(tangan);
+    const kertas = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.28), bas({ color: '#F4F7FA', opacity: 0.95, side: THREE.DoubleSide })); kertas.visible = false; kertas.renderOrder = 5; r.group.add(kertas);
+    const cincin = new THREE.Mesh(new THREE.RingGeometry(0.06, 0.075, 24), bas({ color: '#FFC93C', opacity: 0.9, side: THREE.DoubleSide })); cincin.visible = false; cincin.renderOrder = 7; r.group.add(cincin);
+    return { meja, rak, kain, kes: { ...K, m: kes }, kab, pintuK, bt, lopak, tp, kon, pel: { g: pel, batang: pelBatang, kepala: pelKepala }, bub: { m: bub, ...B }, aliran, titisAir, riak, gel, tangan, tgn, buih, kertas, cincin, buatRadas, pilihLatar: null };
+  },
+  // ----- buka / tutup -----
+  buka() {   // true jika dibuka; false -> kuiz asal
+    if (this.aktif || State.uiLock) return true; const N = Rooms.current === 'makmal' ? this.cari() : null; if (!N) return false;
+    this.nod = N; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.aktif = true; this.diberi = false; this.siapTunggu = false;
+    if (!N.r.group.userData.selamatRadas) N.r.group.userData.selamatRadas = this.RADAS.map((d) => ({ d, ...N.buatRadas(d.id, d.c) })); this.it = N.r.group.userData.selamatRadas;
+    this.mulaSemula(); $('selamatMakmal').hidden = false; setLock('selamatMakmal'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); return true;
+  },
+  rekod() { const d = State.data; if (!d) return null; return (d.selamatMakmal = d.selamatMakmal || { mula: 0, siap: 0 }); },
+  mulaSemula() {   // keadaan awal: meja kerja meluncur masuk; radas kotor di dulang; bikar tumpah akan terbalik selepas seketika
+    const G = this.G, N = this.nod; this.tahap = 1; this.drag = null; this.mesej = ''; this.lapor = null; this.tumpah = { t: 0, ujung: 0, salah: 0 }; this.tanganLangkah = 0; this.gosok = { arah: 0, jarak: 0, pukulan: 0 }; this.foam = 0; this.tanganKering = 0; this.kainP = null; this.bersih = 0; this.pintu = 0; this.pintuSasar = 0; this.bantuan = null; this.tunggu = 0; this.meriah = 0; this.mejaX = 0;
+    this.paip = { buka: false, atas: 0, bawah: 0, masa: 0 }; N.meja.position.x = G.meja.x + 3.2; N.meja.visible = true; N.rak.visible = false; N.kain.visible = false; N.kes.m.visible = false; N.kab.visible = false; N.pintuK.forEach((p) => { p.visible = false; p.rotation.y = 0; }); N.lopak.visible = false; N.tp.visible = false; N.kon.visible = false; N.pel.g.visible = false; N.bub.m.visible = false; N.tangan.visible = false; N.kertas.visible = false; N.cincin.visible = false; N.aliran.visible = false; N.riak.visible = false; N.titisAir.forEach((d) => { d.m.visible = false; d.h = 0; }); N.gel.forEach((d) => { d.m.visible = false; d.h = 0; });
+    this.it.forEach((o, i) => { o.stage = 0; o.kotor = 1; o.basah = 0; o.basuh = 0; o.kering = 0; o.slot = i; o.mode = 'rehat'; o.u = 1; o.sc = 1; const [x, z] = this.KOTOR[i]; o.p = new THREE.Vector3(x, G.TOP, z); o.fx = x; o.fy = G.TOP; o.fz = z; o.tx = x; o.ty = G.TOP; o.tz = z; o.lengkung = 0; o.goyang = 0; o.dur = 0.5; o.g.visible = true; o.g.position.copy(o.p); o.g.rotation.set(0, 0, 0); o.g.scale.setScalar(this.SK); o.kilau.visible = false; });
+    N.bt.g.visible = true; N.bt.g.position.set(G.tumpah[0] - 0.12, G.TOP, G.tumpah[1] - 0.02); N.bt.g.rotation.set(0, 0, 0); N.bt.g.scale.setScalar(this.SK); N.bt.isi.forEach((q) => { q.visible = true; });
+    const d = this.rekod(); if (d) d.mula = (d.mula || 0) + 1; this.ui(); this.mula();
+  },
+  tutup(selesai) {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('selamatMakmal').hidden = true; if (State.uiLock === 'selamatMakmal') setLock(null); this.drag = null; this.bantuan = null; this.pulihGuru(true); this.paip.buka = false;
+    const N = this.nod; if (N) { N.rak.visible = false; N.kain.visible = false; N.kes.m.visible = false; N.kab.visible = false; N.pintuK.forEach((p) => { p.visible = false; }); N.lopak.visible = false; N.tp.visible = false; N.kon.visible = false; N.pel.g.visible = false; N.bub.m.visible = false; N.tangan.visible = false; N.kertas.visible = false; N.cincin.visible = false; N.meja.visible = false; N.bt.g.visible = false; this.it.forEach((o) => { o.g.visible = false; }); }
+    this.mula(); if (this.kurang()) this.k = 0;
+    if (this.siapTunggu && !this.diberi) { this.siapTunggu = false; this.diberi = true; Makmal.siap('keselamatan', 'Makmal kembali kemas dan selamat!'); }   // ganjaran asal dikekalkan
+  },
+  // ----- UI -----
+  btn(teks, fn, opt) { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (opt && opt.utama ? ' utama' : ''); b.textContent = teks; if (opt && opt.tekan !== undefined) b.setAttribute('aria-pressed', opt.tekan ? 'true' : 'false'); if (opt && opt.label) b.setAttribute('aria-label', opt.label); if (opt && opt.mati) b.disabled = true; b.addEventListener('click', fn); return b; },
+  nama() { return this.guru ? (this.guru.nama || 'Cikgu Shahrul') : 'Cikgu Shahrul'; },
+  jumlah(s) { return this.it.filter((o) => o.stage >= s).length; },
+  ui() {
+    const K = $('smKawal'), A = $('smArahan'), t = this.tahap; K.innerHTML = ''; const LANG = { 1: 'Kenal bahaya', 2: 'Basuh radas', 3: 'Keringkan radas', 4: 'Simpan radas', 5: 'Lap meja', 6: 'Basuh tangan', 7: 'Selesai' }; $('smLangkah').textContent = 'Langkah ' + Math.min(6, t) + '/6: ' + LANG[t]; $('smBar').style.width = (t >= 7 ? 100 : (t - 1) / 6 * 100) + '%';
+    $('smPakai').textContent = (Makmal.pakai ? '✓ Kot makmal dan ✓ cermin mata keselamatan dipakai' : '⚠ Pakai kot makmal dan cermin mata keselamatan dahulu');
+    if (t === 1) {
+      const sedia = this.tumpah.ujung >= 1 && !this.lapor; A.textContent = this.lapor ? 'Guru sedang menguruskan tumpahan. Perhatikan cara yang selamat.' : (this.tumpah.ujung >= 1 ? 'Semasa eksperimen, sedikit bahan uji kaji tertumpah di atas meja. Apakah yang patut kamu buat?' : 'Perhatikan meja kerja…');
+      this.PILIHAN.forEach((p, i) => K.appendChild(this.btn(p.teks, () => this.pilih(i), { mati: !sedia, label: p.teks })));
+      if (this.lapor) K.appendChild(this.btn('Langkau animasi ⏭', () => this.langkau()));
+    } else if (t === 2) { A.textContent = 'Basuh radas: seret setiap radas yang kotor ke sinki, kemudian buka pili air. Radas dibasuh dengan air yang mengalir.'; K.appendChild(this.btn(this.paip.buka ? '🚰 Tutup pili' : '🚰 Buka pili', () => this.togolPaip(), { tekan: this.paip.buka })); K.appendChild(this.btn('Bantu ▶', () => this.bantu(), { label: 'Bantu: pindahkan radas seterusnya' })); this.status(); }
+    else if (t === 3) { A.textContent = 'Keringkan radas: seret radas yang bersih dari sebelah sinki ke rak pengering. Biarkan ia kering.'; K.appendChild(this.btn('Bantu ▶', () => this.bantu(), { label: 'Bantu: keringkan radas seterusnya' })); this.status(); }
+    else if (t === 4) { A.textContent = 'Simpan radas di tempat asal: seret radas kering ke dalam kabinet di bawah sinki.'; K.appendChild(this.btn('Bantu ▶', () => this.bantu(), { label: 'Bantu: simpan radas seterusnya' })); this.status(); }
+    else if (t === 5) { A.textContent = 'Lap meja dengan kain lembap: seret kain di atas kesan lembap sehingga meja bersih. Tumpahan bahan kimia TIDAK dilap sendiri.'; K.appendChild(this.btn('Bantu ▶', () => this.bantu(), { label: 'Bantu: lap meja' })); this.status(); }
+    else if (t === 6) { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; A.textContent = L ? 'Basuh tangan di sinki. Langkah ' + (this.tanganLangkah + 1) + '/6: ' + L.teks : 'Tangan dikeringkan…'; if (L) { K.appendChild(this.btn('▶ ' + L.teks, () => this.langkahTangan(L.id), { utama: true, label: L.teks })); } }
+    $('smKawal').hidden = t >= 7; if ($('smMaklum').textContent !== this.mesej) $('smMaklum').textContent = this.mesej;
+  },
+  progres() { const n = this.tahap, s = { 2: this.jumlah(2), 3: this.jumlah(4), 4: this.jumlah(5), 5: Math.round(this.bersih * 100) }[n]; if (n === 5) return 'Kesan lembap dibersihkan: ' + s + '%'; return s === undefined ? '' : ({ 2: 'Radas dibasuh: ', 3: 'Radas kering: ', 4: 'Radas disimpan: ' }[n]) + s + '/' + this.RADAS.length; },
+  status() { const t = this.progres(); if (t) { this.mesej = t; $('smMaklum').textContent = t; } },
+  maklum(t) { this.mesej = t; $('smMaklum').textContent = t; },
+  // ----- 1: bahaya, laporan, guru -----
+  pilih(i) {
+    const p = this.PILIHAN[i]; if (this.tahap !== 1 || this.lapor || this.tumpah.ujung < 1) return;
+    if (p.jenis === 'baik') { Sound.play('ok'); this.maklum('✓ ' + p.maklum); this.mulaLapor(); }
+    else { this.tumpah.salah++; Sound.play('wrong'); this.maklum('✗ ' + p.maklum); this.goyangTumpah = 0.6; this.mula(); }
+  },
+  cariGuru() {
+    const r = this.nod.r, n = (r.npcs || []).find((q) => !q.generik && !q.hilang && q.obj.visible && /^(Cikgu|Guru)/.test(q.nama || ''));
+    if (n) return { npc: n, obj: n.obj, m: n.m, nama: n.nama, asal: n.obj.position.clone(), arahAsal: n.face, proxy: false };
+    const m = makeHuman(GURU.rupa('shahrul')); m.group.position.set(this.G.guru.mula[0], 0, this.G.guru.mula[1]); r.group.add(m.group); return { npc: null, obj: m.group, m, nama: 'Cikgu Shahrul', asal: m.group.position.clone(), arahAsal: 0, proxy: true };
+  },
+  mulaLapor() {
+    this.guru = this.cariGuru(); const g = this.guru; if (g.npc) g.npc.berdiri = false; const J = this.G.guru.jalan, mula = [g.obj.position.x, g.obj.position.z]; this.titikJalan = [mula].concat(J); this.jarakJalan = []; let tot = 0; for (let i = 1; i < this.titikJalan.length; i++) { const d = Math.hypot(this.titikJalan[i][0] - this.titikJalan[i - 1][0], this.titikJalan[i][1] - this.titikJalan[i - 1][1]); this.jarakJalan.push(d); tot += d; } this.totJalan = tot;
+    this.lapor = { t: 0, fasa: 0 }; g.obj.visible = true; this.ui(); this.mula();
+  },
+  langkau() { if (!this.lapor) return; this.lapor.t = Math.max(this.lapor.t, 9.4); this.lapor.langkau = true; this.mula(); },
+  guruPos(s) {   // kedudukan guru sepanjang laluan (s dalam meter); mengembalikan [x, z, arah]
+    let r = s; for (let i = 0; i < this.jarakJalan.length; i++) { if (r <= this.jarakJalan[i] || i === this.jarakJalan.length - 1) { const a = this.titikJalan[i], b = this.titikJalan[i + 1], u = Math.max(0, Math.min(1, r / Math.max(1e-6, this.jarakJalan[i]))); return [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u, Math.atan2(b[0] - a[0], b[1] - a[1])]; } r -= this.jarakJalan[i]; } return [this.titikJalan[0][0], this.titikJalan[0][1], 0];
+  },
+  gerakGuru(x, z, arah, langkah, kur) {
+    const g = this.guru; if (!g) return; g.obj.position.set(x, 0, z); g.obj.rotation.y = arah; const m = g.m, s = kur ? 0 : Math.sin(langkah * 9) * 0.6; if (m.legL) { m.legL.rotation.x = s; m.legR.rotation.x = -s; } if (m.armL) { m.armL.rotation.x = -s * 0.7; m.armR.rotation.x = s * 0.7; }
+  },
+  pulihGuru(segera) {
+    const g = this.guru; if (!g) return; const m = g.m; if (m.legL) { m.legL.rotation.x = 0; m.legR.rotation.x = 0; } if (m.armL) { m.armL.rotation.x = 0; m.armR.rotation.x = 0; }
+    if (g.proxy) { g.obj.visible = false; if (g.obj.parent) g.obj.parent.remove(g.obj); } else { g.obj.position.copy(g.asal); g.obj.rotation.y = g.arahAsal; if (g.npc) g.npc.berdiri = true; } this.guru = null; this.lapor = null; void segera;
+  },
+  tickLapor(dt, kur) {
+    const L = this.lapor, N = this.nod, G = this.G, T = G.TOP; if (!L) return; L.t += dt * (kur ? 3 : 1); const t = L.t, tg = this.titikJalan[this.titikJalan.length - 1], tx = G.tumpah[0], tz = G.tumpah[1];
+    const A = 0.8, B = A + 3.6, C = B + 1.0, D = C + 3.0, E = D + 1.0, F = E + 3.4;   // laporan, jalan, kon, pel, selesai, balik
+    N.bub.m.visible = t < B && !L.langkau; if (N.bub.m.visible) { N.bub.m.position.set(tx - 0.2, T + 0.5 + Math.sin(this.tT * 4) * 0.01, tz); N.bub.m.quaternion.copy(camera.quaternion); N.bub.m.material.opacity = Math.min(1, t / 0.3) * (t > B - 0.4 ? Math.max(0, (B - t) / 0.4) : 1); if (!L.lukisBub) { L.lukisBub = true; const c = N.bub.c.getContext('2d'); c.clearRect(0, 0, 512, 128); c.fillStyle = '#FFFFFF'; roundRectPath(c, 4, 4, 504, 112, 28); c.fill(); c.strokeStyle = '#E8684F'; c.lineWidth = 6; roundRectPath(c, 4, 4, 504, 112, 28); c.stroke(); c.fillStyle = '#17325A'; c.font = '700 38px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('📣 Cikgu! Ada tumpahan!', 256, 62); N.bub.t.needsUpdate = true; } }
+    if (t >= A && t < B) { const s = (t - A) / (B - A), e = s * s * (3 - 2 * s), p = this.guruPos(e * this.totJalan); this.gerakGuru(p[0], p[1], p[2], t, kur); }
+    if (t >= B) { const g = this.guru; if (g && t < E) { this.gerakGuru(tg[0], tg[1], Math.PI, 0, true); } }
+    if (t >= B && !L.cakap1) { L.cakap1 = true; this.maklum(this.nama() + ': Terima kasih kerana melapor. Jangan sentuh bahan ini dengan tangan.'); }
+    if (t >= B && t < C) { const u = (t - B) / (C - B), y = Math.max(0, (1 - u) * 1.0 - Math.sin(u * Math.PI) * 0.0); N.kon.visible = true; N.kon.position.set(tx - 0.16, T + y * 0.9 + (u > 0.8 ? Math.abs(Math.sin((u - 0.8) * 15)) * 0.03 * (1 - u) * 5 : 0), tz + 0.22); N.tp.visible = true; }
+    if (t >= C && t < D) {
+      const u = (t - C) / (D - C), sapu = Math.sin(u * Math.PI * 6), hx = tx + sapu * 0.13, hz = tz, tgn = [tg[0] + 0.0, 0.95, tg[1] - 0.18]; N.pel.g.visible = true; N.pel.kepala.position.set(hx, T + 0.015, hz); const hv = new THREE.Vector3(hx, T + 0.015, hz), tv = new THREE.Vector3(tgn[0], tgn[1], tgn[2]), mid = hv.clone().add(tv).multiplyScalar(0.5), len = hv.distanceTo(tv); N.pel.batang.position.copy(mid); N.pel.batang.scale.set(1, len, 1); N.pel.batang.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tv.clone().sub(hv).normalize()); N.pel.kepala.parent.updateMatrix && 0;
+      const k = 1 - u * u * (3 - 2 * u); N.lopak.scale.setScalar(Math.max(0.001, k)); N.lopak.material.opacity = 0.72 * Math.max(0.2, k); const m = this.guru && this.guru.m; if (m && m.armR) { m.armR.rotation.x = -0.9 + sapu * 0.25; m.armL.rotation.x = -0.9 - sapu * 0.25; }
+    }
+    if (t >= C && !L.bikarSimpan) { L.bikarSimpan = false; }
+    if (t >= D && !L.selesaiPel) { L.selesaiPel = true; N.pel.g.visible = false; N.lopak.visible = false; N.bt.g.visible = false; N.kon.visible = false; N.tp.visible = false; this.maklum(this.nama() + ': Tumpahan sudah dibersihkan dengan selamat. Sekarang kita kemas radas dengan betul.'); this.sediaKesan(); }
+    if (t >= D && t < E) { const m = this.guru && this.guru.m; if (m && m.armR) { m.armR.rotation.x *= 0.9; m.armL.rotation.x *= 0.9; } }
+    if (t >= E && !L.mulaTahap2) { L.mulaTahap2 = true; this.tahap = 2; N.rak.visible = true; const pesan = this.mesej; this.ui(); this.maklum(pesan); }
+    if (t >= E && t < F) { const s = (t - E) / (F - E), e = s * s * (3 - 2 * s), p = this.guruPos((1 - e) * this.totJalan); this.gerakGuru(p[0], p[1], p[2] + Math.PI, t, kur); }
+    if (t >= F) { this.pulihGuru(); }
+  },
+  sediaKesan() {   // kesan lembap pada permukaan meja (selepas tumpahan dibersihkan guru dan radas dialihkan): hanya dilap dengan kain lembap
+    const N = this.nod, c = N.kes.c.getContext('2d'), M = this.G.meja; c.clearRect(0, 0, 512, 160); this.tanda = []; const sx = 512 / (M.w - 0.1), sz = 160 / ((M.w - 0.1) * 160 / 512);
+    const pos = [[2.62, -3.2], [2.85, -3.06], [3.05, -3.18], [3.3, -3.08], [3.5, -3.2], [3.72, -3.1], [3.95, -3.16], [4.1, -3.06], [4.2, -3.2], [3.2, -3.12]];
+    pos.forEach(([x, z], i) => { this.tanda.push({ x, z, r: 0.075, hapus: 0, i }); }); this.lukisKesan(); N.kes.m.visible = true; void sx; void sz;
+  },
+  lukisKesan() {
+    const N = this.nod, c = N.kes.c.getContext('2d'), M = this.G.meja, w = 512, h = 160, W = M.w - 0.1, H = M.d - 0.1; c.clearRect(0, 0, w, h);
+    this.tanda.forEach((q) => { if (q.hapus >= 1) return; const px = (q.x - (M.x - W / 2)) / W * w, py = (q.z - (M.z - H / 2)) / H * h, a = 0.5 * (1 - q.hapus); c.fillStyle = 'rgba(70,130,180,' + a + ')'; c.beginPath(); c.ellipse(px, py, 22 * (1 - q.hapus * 0.5), 15 * (1 - q.hapus * 0.5), 0.3 * q.i, 0, Math.PI * 2); c.fill(); c.fillStyle = 'rgba(255,255,255,' + a * 0.6 + ')'; c.beginPath(); c.ellipse(px - 6, py - 4, 6, 3, 0, 0, Math.PI * 2); c.fill(); });
+    N.kes.t.needsUpdate = true;
+  },
+  // ----- paip air -----
+  togolPaip() { if (!(this.tahap === 2 || this.tahap === 6)) { this.maklum('Pili air digunakan semasa membasuh radas dan membasuh tangan.'); return; } this.paip.buka = !this.paip.buka; this.paip.masa = 0; Sound.play('pick'); if (this.tahap === 2) this.ui(); this.mula(); },
+  // ----- radas: seret ke sasaran -----
+  gerak(o, x, y, z, dur, lengkung, sc) { o.mode = 'gerak'; o.fx = o.p.x; o.fy = o.p.y; o.fz = o.p.z; o.tx = x; o.ty = y; o.tz = z; const d = Math.hypot(x - o.p.x, z - o.p.z, (y - o.p.y) * 0.5); o.dur = dur || Math.max(0.35, Math.min(0.8, 0.3 + d * 0.6)); o.u = 0; o.lengkung = lengkung === undefined ? 0.1 : lengkung; o.sc = sc || 1; this.mula(); },
+  rumahSimpan(x, y, z) { return [x, y, z]; },
+  sasaran(o, x, y, z) {   // tentukan sasaran jatuh bagi radas o pada kedudukan penunjuk (x, y, z)
+    const G = this.G, T = this.tahap;
+    if (T === 2 && o.stage === 0 && Math.hypot(x - G.basin.x, z - G.basin.z) < 0.32 && y > 0.8) return this.it.some((q) => q.stage === 1) ? { jenis: 'penuh' } : { jenis: 'singki' };
+    if (T === 3 && o.stage === 2) { let b = -1, bd = 0.2; this.RAK.forEach(([sx, sz], i) => { if (this.it.some((q) => q.stage >= 3 && q.rak === i)) return; const d = Math.hypot(x - sx, z - sz); if (d < bd) { bd = d; b = i; } }); if (b >= 0) return { jenis: 'rak', i: b }; }
+    if (T === 4 && o.stage === 4 && x > G.kab.x[0] - 0.1 && x < G.kab.x[1] + 0.1 && y > 0.05 && y < 0.95) { let b = -1, bd = 0.28; this.SIMPAN.forEach(([sx, sy], i) => { if (this.it.some((q) => q.stage === 5 && q.simpan === i)) return; const d = Math.hypot(x - sx, (y - sy) * 0.8); if (d < bd) { bd = d; b = i; } }); return { jenis: 'kabinet', i: b >= 0 ? b : 0 }; }
+    return null;
+  },
+  salahTarget(o, x, y, z) {   // petunjuk apabila dilepas pada tempat yang betul tetapi bukan langkah / keadaan yang betul
+    const G = this.G; if (Math.hypot(x - G.basin.x, z - G.basin.z) < 0.35 && y > 0.8) return o.stage === 0 ? 'Ini bukan langkah basuh sekarang.' : 'Radas ini sudah dibasuh.';
+    if (this.RAK.some(([sx, sz]) => Math.hypot(x - sx, z - sz) < 0.2)) return o.stage < 2 ? 'Basuh radas dahulu sebelum meletakkannya di rak.' : (this.tahap < 3 ? 'Basuh semua radas dahulu.' : 'Letakkan radas pada rak pengering.');
+    if (x > G.kab.x[0] - 0.1 && x < G.kab.x[1] + 0.1 && y < 0.95 && y > 0.05) return o.stage < 4 ? 'Keringkan radas dahulu sebelum menyimpannya.' : 'Simpan semua radas yang sudah kering.';
+    return 'Letakkan radas di tempat yang betul.';
+  },
+  letakItem(o, tgt, auto) {
+    const G = this.G, i = this.it.indexOf(o);
+    if (tgt.jenis === 'penuh') { Sound.play('wrong'); this.maklum('✗ Tunggu: radas di sinki sedang dibasuh.'); o.goyang = 0.45; const [hx, hz] = this.KOTOR[o.slot]; this.gerak(o, hx, G.TOP, hz, 0.5, 0.1); return; }
+    if (tgt.jenis === 'singki') { o.stage = 1; o.basuh = 0; this.gerak(o, G.basin.x - 0.0, G.basin.y + 0.01, G.basin.z + 0.0, 0.5, 0.1); this.maklum(this.paip.buka ? 'Membasuh ' + o.d.nama.toLowerCase() + ' di bawah air mengalir…' : 'Buka pili air untuk membasuh radas.'); Sound.play('pick'); }
+    else if (tgt.jenis === 'rak') { o.stage = 3; o.rak = tgt.i; o.kering = 0; o.basah = Math.max(o.basah, 1); const [x, z] = this.RAK[tgt.i]; this.gerak(o, x, G.TOP + 0.02, z, 0.5, 0.12); this.maklum(o.d.nama + ' diletak pada rak pengering. Tunggu sehingga kering.'); Sound.play('pick'); }
+    else if (tgt.jenis === 'kabinet') { o.stage = 5; o.simpan = tgt.i; const [x, y] = this.SIMPAN[tgt.i]; this.gerak(o, x, y, -3.9, 0.55, 0.06, 0.82); this.stage5 = 1; this.maklum('✓ ' + o.d.nama + ' disimpan dengan selamat. ' + this.progres()); Sound.play('ok'); }
+    void i; void auto; this.mula();
+  },
+  semakFasa() {
+    if (this.tahap === 2 && this.jumlah(2) === this.it.length) { this.tahap = 3; this.paip.buka = false; this.ui(); this.maklum('✓ Semua radas bersih. Seterusnya: keringkan di rak pengering.'); Sound.play('ok'); this.meriah = 0.6; }
+    else if (this.tahap === 3 && this.jumlah(4) === this.it.length) { this.tahap = 4; this.pintuSasar = 1; this.nod.kab.visible = true; this.nod.pintuK.forEach((p) => { p.visible = true; }); this.ui(); this.maklum('✓ Semua radas kering. Seterusnya: simpan di dalam kabinet.'); Sound.play('ok'); }
+    else if (this.tahap === 4 && this.jumlah(5) === this.it.length && this.it.every((o) => o.mode === 'rehat')) { this.tahap = 5; this.pintuSasar = 0; this.nod.rak.visible = false; this.nod.kain.visible = true; this.kainP = new THREE.Vector3(2.62, this.G.TOP + 0.006, -2.9); this.nod.kain.position.copy(this.kainP); this.ui(); this.maklum('✓ Radas disimpan. Seterusnya: lap meja dengan kain lembap.'); Sound.play('ok'); }
+    else if (this.tahap === 5 && this.bersih >= 0.9) { this.tahap = 6; this.tanganLangkah = 0; this.nod.tangan.visible = true; this.tanganKering = 0; this.nod.kain.visible = false; this.tanda.forEach((q) => { q.hapus = 1; }); this.lukisKesan(); this.nod.kes.m.visible = false; this.ui(); this.maklum('✓ Meja bersih. Akhir sekali: basuh tangan di sinki.'); Sound.play('ok'); }
+  },
+  // ----- lap meja -----
+  lapDi(x, z) {   // gerakkan kain ke (x, z) dan hapuskan kesan lembap di bawahnya
+    const M = this.G.meja, N = this.nod; x = Math.max(M.x - M.w / 2 + 0.08, Math.min(M.x + M.w / 2 - 0.08, x)); z = Math.max(M.z - M.d / 2 + 0.06, Math.min(M.z + M.d / 2 - 0.06, z)); this.kainP.set(x, this.G.TOP + 0.006, z); N.kain.position.copy(this.kainP);
+    this.tanda.forEach((q) => { if (q.hapus >= 1) return; if (Math.hypot(q.x - x, q.z - z) < 0.13) q.hapus = Math.min(1, q.hapus + 0.16); }); this.bersih = this.tanda.reduce((s, q) => s + q.hapus, 0) / Math.max(1, this.tanda.length); this.lukisKesan(); this.status(); this.semakFasa();
+  },
+  // ----- basuh tangan -----
+  langkahTangan(id, dariKanvas) {
+    if (this.tahap !== 6) return; const L = this.LANGKAH_TANGAN[this.tanganLangkah]; if (!L) return; if (id !== L.id) { Sound.play('wrong'); this.maklum('Belum tepat. Langkah seterusnya: ' + L.teks + '.'); return; }
+    if (id === 'gosok' && !dariKanvas) { this.gosok.pukulan = 6; this.foam = 1; this.gosokAnim = 0.8; }
+    if (id === 'gosok' && this.gosok.pukulan < 6) { this.maklum('Gosok lagi: ' + this.gosok.pukulan + '/6 (sela jari, belakang tangan, tapak tangan).'); return; }
+    if (id === 'buka') { this.paip.buka = true; this.paip.masa = 0; this.maklum('Pili dibuka. Basahkan tangan di bawah air.'); }
+    else if (id === 'sabun') { this.foam = 0.35; this.maklum('Sabun cecair ditekan ke tapak tangan.'); }
+    else if (id === 'gosok') this.maklum('✓ Tangan digosok dengan baik: tapak, belakang tangan dan sela jari.');
+    else if (id === 'bilas') { this.bilas = { t: 0, f0: this.foam }; this.maklum('Bilas sehingga tiada sabun.'); }
+    else if (id === 'tutup') { this.paip.buka = false; this.paip.masa = 0; this.maklum('Pili ditutup untuk menjimatkan air.'); }
+    else if (id === 'kering') { this.tuala = { t: 0 }; this.maklum('Keringkan tangan dengan tuala kertas.'); }
+    Sound.play('pick'); this.tanganLangkah++; this.ui(); this.mula();
+  },
+  // ----- selesai -----
+  berjaya() {
+    this.tahap = 7; this.siapTunggu = true; const d = this.rekod(); if (d) d.siap = (d.siap || 0) + 1; Sound.play('done'); this.meriah = 1.2; try { Save.save(); } catch (err) {}
+    this.ui(); $('smArahan').textContent = 'Tahniah! Makmal kembali kemas dan selamat. Ingat: laporkan tumpahan kepada guru, jangan sentuh bahan uji kaji dengan tangan, simpan radas dengan betul, dan basuh tangan selepas eksperimen.'; this.maklum('Kamu memakai kot dan cermin mata keselamatan, melapor kepada guru, dan mengemas makmal dengan selamat.'); $('smUlang').hidden = false; $('smSiap').hidden = false; try { $('smSiap').focus({ preventScroll: true }); } catch (err) {}
+  },
+  ulang() { if (!this.aktif) return; this.pulihGuru(true); this.siapTunggu = false; $('smUlang').hidden = true; $('smSiap').hidden = true; this.mulaSemula(); },
+  // ----- bantu (animasi automatik untuk akses tanpa seret) -----
+  bantu() {
+    if (this.bantuan || this.drag) return; const t = this.tahap, G = this.G;
+    if (t === 2) { const o = this.it.find((q) => q.stage === 0); if (!o) return; if (this.it.some((q) => q.stage === 1)) { this.maklum('Tunggu: radas di sinki sedang dibasuh.'); return; } this.bantuan = { o }; this.letakItem(o, { jenis: 'singki' }, true); if (!this.paip.buka) { this.paip.buka = true; this.paip.masa = 0; this.ui(); } this.bantuan = null; }
+    else if (t === 3) { const o = this.it.find((q) => q.stage === 2), b = this.RAK.findIndex((_, i) => !this.it.some((q) => q.stage >= 3 && q.rak === i)); if (o && b >= 0) this.letakItem(o, { jenis: 'rak', i: b }, true); }
+    else if (t === 4) { const o = this.it.find((q) => q.stage === 4), b = this.SIMPAN.findIndex((_, i) => !this.it.some((q) => q.stage === 5 && q.simpan === i)); if (o && b >= 0) this.letakItem(o, { jenis: 'kabinet', i: b }, true); }
+    else if (t === 5) { this.lapAuto = { t: 0 }; this.mula(); }
+    void G;
+  },
+  // ----- seret pada kanvas -----
+  ray(e, tipe, nilai) {
+    const r = this.nod.r, V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    if (tipe === 'h') { pl.normal.set(0, 1, 0); pl.constant = -nilai; } else { pl.normal.set(0, 0, 1); pl.constant = -(r.oz + nilai); }
+    rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); if (!rc.ray.intersectPlane(pl, V)) return null; return [V.x - r.ox, tipe === 'h' ? V.z - r.oz : V.y, tipe === 'h' ? 0 : 0];
+  },
+  skrin(x, y, z) { const r = this.nod.r, V = this.V; V.set(r.ox + x, y, r.oz + z); V.project(camera); return V.z > 1 ? null : [(V.x * 0.5 + 0.5) * window.innerWidth, (-V.y * 0.5 + 0.5) * window.innerHeight]; },
+  dekat(px, py) {
+    const G = this.G, kasar = window.matchMedia && window.matchMedia('(pointer:coarse)').matches, had = kasar ? 78 : 56; let best = null, bd = had; const cuba = (j, ref, x, y, z, b) => { const s = this.skrin(x, y, z); if (!s) return; const d = Math.hypot(s[0] - px, s[1] - py) - (b || 0); if (d < bd) { bd = d; best = { jenis: j, ref }; } };
+    const t = this.tahap;
+    if (t === 2 || t === 3 || t === 4) this.it.forEach((o) => { const ok = (t === 2 && o.stage === 0) || (t === 3 && o.stage === 2) || (t === 4 && o.stage === 4); if (ok && o.mode === 'rehat') cuba('item', o, o.p.x, o.p.y + 0.07, o.p.z); else if (o.mode === 'rehat' && (o.stage === 3 || o.stage === 1 || o.stage === 5)) cuba('tegar', o, o.p.x, o.p.y + 0.07, o.p.z, -10); });
+    if (t === 2 || t === 6) { cuba('paip', 0, G.hujung[0], G.hujung[1] - 0.04, G.hujung[2]); cuba('paip', 0, G.knob[0][0], G.knob[0][1], G.knob[0][2]); cuba('paip', 0, G.knob[1][0], G.knob[1][1], G.knob[1][2]); }
+    if (t === 5 && this.kainP) cuba('kain', 0, this.kainP.x, this.kainP.y, this.kainP.z);
+    if (t === 6) { cuba('sabun', 0, G.sabun[0], G.sabun[1], G.sabun[2]); cuba('tuala', 0, G.tuala[0], G.tuala[1], G.tuala[2]); cuba('tangan', 0, G.tangan[0], G.tangan[1], G.tangan[2], 8); }
+    if (t === 1 && this.tumpah.ujung >= 0.6 && !this.lapor) cuba('tumpah', 0, G.tumpah[0], G.TOP + 0.03, G.tumpah[1]);
+    return best;
+  },
+  kanvas(e, fasa) {
+    if (!this.aktif) return false; const G = this.G;
+    if (fasa === 'turun') {
+      const c = this.dekat(e.clientX, e.clientY); if (!c) return false; this.drag = { id: e.pointerId, c, x0: e.clientX, y0: e.clientY, lx: e.clientX, mula: false };
+      if (c.jenis === 'tumpah') { Sound.play('wrong'); this.maklum('✗ Jangan sentuh tumpahan bahan uji kaji dengan tangan! Beritahu guru dengan segera.'); this.goyangTumpah = 0.6; this.drag = null; this.mula(); return true; }
+      if (c.jenis === 'tegar') { this.drag = null; this.maklum(c.ref.stage === 1 ? 'Radas sedang dibasuh.' : (c.ref.stage === 3 ? 'Biarkan radas kering dahulu.' : 'Radas sudah disimpan.')); return true; }
+      return true;
+    }
+    const d = this.drag; if (!d || d.id !== e.pointerId) return false; const c = d.c;
+    if (fasa === 'gerak') {
+      if (!d.mula) { if (Math.hypot(e.clientX - d.x0, e.clientY - d.y0) < this.SLOP) return true; d.mula = true; if (c.jenis === 'item') { c.ref.mode = 'seret'; c.ref.sc = 1.06; Sound.play('pick'); if (this.tahap === 4) this.pintuSasar = 1; } }
+      if (c.jenis === 'item') { const o = c.ref, tipe = this.tahap === 4 ? 'v' : 'h', q = this.ray(e, tipe, tipe === 'h' ? (this.tahap === 2 ? 1.2 : 1.1) : -3.75); if (q) { if (tipe === 'h') { o.tx = q[0]; o.tz = q[1]; o.ty = (this.tahap === 2 ? 1.2 : 1.1); } else { o.tx = q[0]; o.ty = q[1]; o.tz = -3.75; } } }
+      else if (c.jenis === 'kain') { const q = this.ray(e, 'h', G.TOP + 0.01); if (q) this.lapDi(q[0], q[1]); }
+      else if (c.jenis === 'tangan' && this.tahap === 6 && this.LANGKAH_TANGAN[this.tanganLangkah] && this.LANGKAH_TANGAN[this.tanganLangkah].id === 'gosok') { const dx = e.clientX - d.lx; if (Math.abs(dx) > 3) { const arah = Math.sign(dx); if (this.gosok.arah && arah !== this.gosok.arah && this.gosok.jarak > 22) { this.gosok.pukulan++; this.gosok.jarak = 0; Sound.play('pick'); this.maklum('Gosok tangan: ' + Math.min(6, this.gosok.pukulan) + '/6'); this.foam = Math.min(1, 0.35 + this.gosok.pukulan * 0.11); if (this.gosok.pukulan >= 6) this.langkahTangan('gosok', true); } if (arah !== this.gosok.arah) this.gosok.jarak = 0; this.gosok.arah = arah; this.gosok.jarak += Math.abs(dx); this.gosokAnim = 0.3; d.lx = e.clientX; } }
+      this.mula(); return true;
+    }
+    if (fasa === 'naik') {
+      this.drag = null; this.mula();
+      if (c.jenis === 'tangan' && d.mula && this.tahap === 6) { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; if (L && L.id === 'bilas') this.langkahTangan('bilas'); return true; }
+      if (c.jenis === 'item') { const o = c.ref; if (!d.mula) { o.mode = 'rehat'; o.sc = 1; this.maklum('Seret ' + o.d.nama.toLowerCase() + ' ke tempat yang betul.'); return true; } const tgt = this.sasaran(o, o.tx, o.ty, o.tz); o.sc = 1; if (tgt) { this.letakItem(o, tgt); } else { const msg = this.salahTarget(o, o.tx, o.ty, o.tz); Sound.play('wrong'); this.maklum('✗ ' + msg); o.goyang = 0.45; const [hx, hz] = o.stage === 0 ? this.KOTOR[o.slot] : (o.stage === 2 ? this.TOSKAN[o.slot] : (o.stage === 4 ? this.RAK[o.rak] : [o.p.x, o.p.z])); const hy = o.stage === 0 ? G.TOP : (o.stage === 2 ? G.basin.y : G.TOP + 0.02); this.gerak(o, hx, hy, hz, 0.5, 0.1); } if (this.tahap === 4 && o.stage !== 5) this.pintuSasar = 1; return true; }
+      if (!d.mula) { if (c.jenis === 'paip') { if (this.tahap === 6) { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; this.langkahTangan(L && L.s === 'paip' ? L.id : 'buka'); } else this.togolPaip(); } else if (c.jenis === 'sabun') this.langkahTangan('sabun'); else if (c.jenis === 'tuala') this.langkahTangan('kering'); else if (c.jenis === 'tangan') { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; if (L && L.id === 'bilas') this.langkahTangan('bilas'); else if (L && L.id === 'gosok') this.maklum('Seret tangan ke kiri dan kanan untuk menggosok (' + this.gosok.pukulan + '/6).'); else if (L) this.langkahTangan('gosok'); } else if (c.jenis === 'kain') this.maklum('Seret kain di atas kesan lembap pada meja.'); }
+      return true;
+    }
+    return false;
+  },
+  // ----- gelung animasi -----
+  mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.sibuk() || Fokus.sedia('selamatMakmal')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
+  sibuk() { if (!this.nod) return false; const P = this.paip; return !!this.lapor || this.tumpah.t >= 0 && this.tumpah.ujung < 1 && this.aktif || P.buka || P.bawah > 0 || this.it.some((o) => o.mode !== 'rehat' || o.goyang > 0 || (o.stage === 1 && this.paip.buka) || o.stage === 3 && o.kering < 1 || Math.abs(o.g.scale.x - this.SK * (o.sc || 1)) > 0.01) || Math.abs(this.pintu - this.pintuSasar) > 0.005 || this.meriah > 0 || Math.abs(this.nod.meja.position.x - (this.aktif ? this.G.meja.x : this.G.meja.x + 3.2)) > 0.01 && this.nod.meja.visible || !!this.lapAuto || this.nod.titisAir.some((d) => d.h) || !!this.bilas || !!this.tuala || !!this.gerakTangan || this.gosokAnim > 0 || !!this.goyangTumpah || this.tahap === 6; },
+  tick(dt) {
+    const kur = this.kurang(), f = (r) => (kur ? 1 : 1 - Math.exp(-dt * r)), G = this.G, T = G.TOP; Fokus.urus('selamatMakmal', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!this.nod) return; const N = this.nod;
+    // meja kerja meluncur masuk
+    { const sasar = this.aktif ? G.meja.x : G.meja.x + 3.2; N.meja.position.x += (sasar - N.meja.position.x) * f(5); if (!this.aktif && Math.abs(N.meja.position.x - sasar) < 0.03) N.meja.visible = false; }
+    // tumpahan: bikar tumbang, lopak merebak, tanda amaran muncul
+    const S = this.tumpah; if (this.aktif && this.tahap === 1 && !this.lapor && S.t >= 0) {
+      S.t += dt * (kur ? 4 : 1); const u = Math.max(0, Math.min(1, (S.t - 1.2) / 0.55)); if (u > 0) { const e = u * u * (3 - 2 * u); N.bt.g.rotation.z = -e * Math.PI / 2 * 0.95; N.bt.g.position.y = T + 0.0 + Math.sin(e * Math.PI) * 0.03 + e * 0.045 * this.SK; } const w = Math.max(0, Math.min(1, (S.t - 1.55) / 1.4)); S.ujung = w; if (w > 0) { N.lopak.visible = true; const e = 1 - Math.pow(1 - w, 3); N.lopak.scale.setScalar(Math.max(0.01, e)); N.lopak.material.opacity = 0.72; N.bt.isi.forEach((q) => { q.visible = e < 0.5; }); }
+      if (w > 0.5) { N.tp.visible = true; const e = Math.min(1, (w - 0.5) * 2); N.tp.scale.setScalar(Math.max(0.01, e + Math.sin(this.tT * 6) * 0.03)); } if (w >= 1 && !S.sedia) { S.sedia = true; this.ui(); this.maklum('⚠ Awas! Bahan uji kaji tertumpah.'); Sound.play('wrong'); }
+    }
+    if (this.goyangTumpah > 0) { this.goyangTumpah = Math.max(0, this.goyangTumpah - dt); N.tp.rotation.z = Math.sin(this.goyangTumpah * 40) * 0.25; if (this.goyangTumpah === 0) { N.tp.rotation.z = 0; this.goyangTumpah = 0; } }
+    this.tickLapor(dt, kur);
+    // radas: pergerakan, basuh, keringkan, keadaan visual
+    const P = this.paip, penuh = P.bawah >= 0.98 && P.atas < 0.5; this.gelT = (this.gelT || 0) + dt;
+    this.it.forEach((o) => {
+      const g = o.g;
+      if (o.mode === 'seret') { o.p.x += (o.tx - o.p.x) * f(14); o.p.y += (o.ty - o.p.y) * f(14); o.p.z += (o.tz - o.p.z) * f(14); }
+      else if (o.mode === 'gerak') { o.u = kur ? 1 : Math.min(1, o.u + dt / o.dur); const e = o.u * o.u * (3 - 2 * o.u); o.p.x = o.fx + (o.tx - o.fx) * e; o.p.z = o.fz + (o.tz - o.fz) * e; o.p.y = o.fy + (o.ty - o.fy) * e + o.lengkung * Math.sin(Math.PI * o.u); if (o.u >= 1) { o.p.set(o.tx, o.ty, o.tz); o.mode = 'rehat'; } }
+      if (o.goyang > 0) o.goyang = Math.max(0, o.goyang - dt);
+      g.position.copy(o.p); g.rotation.y = o.goyang > 0 ? Math.sin(o.goyang * 38) * 0.3 : 0; const sk = this.SK * (o.sc || 1) * (o.stage === 5 ? 0.82 : 1); g.scale.x += (sk - g.scale.x) * f(14); g.scale.y = g.scale.z = g.scale.x;
+      g.visible = o.stage < 5 || this.pintu > 0.05;
+      if (o.stage === 1 && o.mode === 'rehat' && penuh) {   // dibasuh di bawah air mengalir
+        o.basuh = Math.min(1, o.basuh + dt / (kur ? 0.4 : 1.8)); o.kotor = Math.max(0, 1 - o.basuh); o.basah = 1;
+        if (this.gelT > 0.09) { this.gelT = 0; const q = N.gel.find((x) => !x.h); if (q) { q.h = 1; q.t = 0; q.x = o.p.x + (Math.random() - 0.5) * 0.12; q.y = o.p.y + 0.04 + Math.random() * 0.08; q.z = o.p.z + (Math.random() - 0.5) * 0.1; q.s = 0.6 + Math.random() * 0.8; q.m.visible = true; } }
+        if (o.basuh >= 1) { o.stage = 2; o.kotor = 0; o.kilauT = 0.9; const [hx, hz] = this.TOSKAN[o.slot]; this.gerak(o, hx, 0.9, hz, 0.6, 0.12); this.maklum('✓ ' + o.d.nama + ' sudah bersih. ' + this.progres()); Sound.play('ok'); this.semakFasa(); }
+      }
+      if (o.stage === 3 && o.mode === 'rehat') { o.kering = Math.min(1, o.kering + dt / (kur ? 0.4 : 2.0)); o.basah = 1 - o.kering; if (o.kering >= 1) { o.stage = 4; o.basah = 0; o.kilauT = 0.9; this.maklum('✓ ' + o.d.nama + ' sudah kering. ' + this.progres()); Sound.play('ok'); this.semakFasa(); } }
+      o.noda.forEach((q) => { q.visible = o.kotor > 0.05; }); o.isi.forEach((q) => { q.visible = o.kotor > 0.05; q.scale.y = Math.max(0.2, o.kotor); }); o.titis.forEach((q, i) => { q.visible = o.basah > 0.05; q.scale.setScalar(Math.max(0.01, o.basah) * (1 + 0.15 * Math.sin(this.tT * 6 + i))); });
+      if (o.kilauT > 0) { o.kilauT -= dt; o.kilau.visible = true; o.kilau.rotation.y += dt * 5; o.kilau.scale.setScalar(Math.max(0.01, Math.min(1, o.kilauT * 2))); if (o.kilauT <= 0) { o.kilau.visible = false; o.kilauT = 0; } }
+    });
+    N.gel.forEach((q) => { if (!q.h) return; q.t += dt; q.y += dt * 0.1; q.m.position.set(q.x, q.y, q.z); q.m.scale.setScalar(q.s * (0.6 + q.t * 0.6)); q.m.material.opacity = 0.85 * Math.max(0, 1 - q.t / 0.9); if (q.t > 0.9) { q.h = 0; q.m.visible = false; } });
+    // pili: aliran tumbuh dari muncung, menyusut dari atas; percikan dan riak
+    { if (P.buka) { P.masa += dt; if (P.atas > 0) P.atas = Math.max(0, P.atas - dt / 0.25); else P.bawah = Math.min(1, P.bawah + dt / (kur ? 0.05 : 0.32)); } else if (P.bawah > 0) { P.atas = Math.min(1, P.atas + dt / (kur ? 0.05 : 0.38)); if (P.atas >= 1) { P.atas = 0; P.bawah = 0; } }
+      const e = (x) => x * x * (3 - 2 * x), b = e(Math.max(0, Math.min(1, P.bawah))), a = e(Math.max(0, Math.min(1, P.atas))), len = Math.max(0, b - a), H0 = G.hujung[1] - G.basin.y; N.aliran.visible = len > 0.02;
+      if (N.aliran.visible) { N.aliran.position.y = G.hujung[1] - a * H0; N.aliran.scale.set(0.018 * (1 + 0.08 * Math.sin(this.tT * 24)), len * H0, 0.018); N.aliran.material.map.offset.y += dt * 2.6; }
+      const jatuh = b >= 0.98 && a < 0.6; N.titisAir.forEach((d) => { if (!jatuh) { d.m.visible = false; d.h = 0; return; } if (!d.h || d.y < G.basin.y) { const an = Math.random() * Math.PI * 2, sp = 0.05 + Math.random() * 0.1; d.x = G.hujung[0]; d.z = G.hujung[2]; d.y = G.basin.y + 0.005; d.vx = Math.cos(an) * sp; d.vz = Math.sin(an) * sp; d.vy = 0.4 + Math.random() * 0.4; d.h = 1; } d.vy -= 2.6 * dt; d.x += d.vx * dt; d.y += d.vy * dt; d.z += d.vz * dt; d.m.position.set(d.x, d.y, d.z); d.m.visible = true; });
+      N.riak.visible = jatuh; if (jatuh) { const ph = (this.tT * 1.6) % 1; N.riak.scale.setScalar(0.6 + ph * 3.2); N.riak.material.opacity = 0.55 * (1 - ph); } }
+    if (this.tahap === 4) this.semakFasa();   // langkah 4 tamat apabila radas terakhir tiba di kabinet
+    // pintu kabinet bawah sinki
+    this.pintu += (this.pintuSasar - this.pintu) * f(6); if (Math.abs(this.pintu - this.pintuSasar) < 0.004) this.pintu = this.pintuSasar; N.pintuK[0].rotation.y = -this.pintu * 1.45; N.pintuK[1].rotation.y = this.pintu * 1.45; if (this.pintuSasar === 0 && this.pintu === 0 && N.kab.visible) { N.kab.visible = false; N.pintuK.forEach((q) => { q.visible = false; }); }
+    // lap meja automatik (butang Bantu)
+    if (this.lapAuto && this.tahap === 5) { const A = this.lapAuto; A.t += dt * (kur ? 4 : 1); const u = Math.min(1, A.t / 3.2), M = G.meja; this.lapDi(M.x - 0.9 + u * 1.8, M.z + 0.1 * Math.sin(u * 16)); if (u >= 1) this.lapAuto = null; }
+    // basuh tangan: kedudukan tangan, buih, bilas, tuala
+    { const T6 = this.tahap === 6 || this.tuala; N.tangan.visible = !!T6; if (T6) { const L = this.LANGKAH_TANGAN[this.tanganLangkah], bawah = this.paip.buka && (!L || L.id === 'sabun' || L.id === 'bilas' || this.tanganLangkah <= 1 || L.id === 'tutup'), z = bawah && (!L || L.id === 'bilas' || L.id === 'sabun' || L.id === 'tutup') && this.tanganLangkah >= 1 ? -4.17 : -4.05; N.tangan.position.z += ((this.tanganLangkah === 0 ? -3.98 : z) - N.tangan.position.z) * f(6); N.tangan.position.y += (G.tangan[1] + (this.tanganLangkah === 0 ? 0.03 : 0) - N.tangan.position.y) * f(6);
+        if (this.gosokAnim > 0) { this.gosokAnim = Math.max(0, this.gosokAnim - dt); } const gs = this.gosokAnim > 0 ? Math.sin(this.tT * 22) * 0.02 : 0; N.tgn[0].position.x = -0.07 + gs; N.tgn[1].position.x = 0.07 - gs; N.tgn[0].position.z = gs * 0.6; N.tgn[1].position.z = -gs * 0.6;
+        if (this.bilas) { const B = this.bilas; B.t += dt * (kur ? 4 : 1); this.foam = B.f0 * Math.max(0, 1 - B.t / 1.4); if (B.t >= 1.4) { this.foam = 0; this.bilas = null; } }
+        this.foamV = (this.foamV || 0) + (this.foam - (this.foamV || 0)) * f(8); N.buih.forEach((d, i) => { d.visible = this.foamV > 0.03; d.scale.setScalar(Math.max(0.01, this.foamV) * (1 + 0.1 * Math.sin(this.tT * 7 + i))); });
+        if (this.tuala) { const Tu = this.tuala; Tu.t += dt * (kur ? 4 : 1); const u = Math.min(1, Tu.t / 0.7); N.kertas.visible = Tu.t < 1.6; N.kertas.position.set(G.tuala[0] + (N.tangan.position.x - G.tuala[0]) * u, G.tuala[1] - 0.05 + (N.tangan.position.y + 0.05 - (G.tuala[1] - 0.05)) * u, G.tuala[2] + (N.tangan.position.z - 0.02 - G.tuala[2]) * u); N.kertas.quaternion.copy(camera.quaternion); N.kertas.material.opacity = 0.95 * (Tu.t > 1.2 ? Math.max(0, (1.6 - Tu.t) / 0.4) : 1); this.gosokAnim = Tu.t > 0.7 ? 0.2 : 0; if (Tu.t >= 1.8) { this.tuala = null; N.kertas.visible = false; this.berjaya(); } } } }
+    // cincin sorot pada sasaran seterusnya
+    { const c = N.cincin; let sasar = null; if (this.aktif && this.tahap === 6) { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; if (L) sasar = L.s === 'paip' ? G.hujung : (L.s === 'sabun' ? G.sabun : (L.s === 'tuala' ? G.tuala : [N.tangan.position.x, N.tangan.position.y + 0.04, N.tangan.position.z])); } else if (this.aktif && this.tahap === 1 && this.tumpah.ujung >= 1 && !this.lapor) sasar = null; c.visible = !!sasar; if (sasar) { c.position.set(sasar[0], sasar[1], sasar[2] + 0.02); c.quaternion.copy(camera.quaternion); c.scale.setScalar(1 + 0.18 * Math.sin(this.tT * 6)); } }
+    if (this.meriah > 0) this.meriah = Math.max(0, this.meriah - dt);
+    if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }
+  },
+  kamera() {   // kamera dari selatan, memandang ke sinki dan meja kerja dengan sudut ~25 darjah ke bawah
+    const r = Rooms.list.makmal; if (!r || !this.nod || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V; if (!this.fovUbah) { this.fov0 = camera.fov; this.fovUbah = true; }
+    const M = this.muatKamera(), cx = r.ox + 3.45, cy = 0.95, cz = r.oz - 3.75; camera.position.lerp(V.set(cx, cy + M.dist * Math.sin(M.pitch), cz + M.dist * Math.cos(M.pitch)), e); V.copy(Cam.look).lerp(this.V2.set(cx, cy, cz), e); camera.lookAt(V);
+    const fv = this.fov0 + (M.fov - this.fov0) * e; if (Math.abs(camera.fov - fv) > 0.01) { camera.fov = fv; camera.updateProjectionMatrix(); }
+  },
+  muatKamera() {   // kawasan 3.3 x 1.8 m (meja kerja, sinki, kabinet) muat di atas panel; jarak maks 5.2 m, kemudian fov dilebarkan (maks 82 darjah)
+    const W = window.innerWidth || 1, H = window.innerHeight || 1, asp = W / H, dh = Fokus.dhId === 'selamatMakmal' ? Fokus.dh : 0, bebas = Math.max(0.4 * H, H - dh), f0 = this.fov0 || camera.fov, tv0 = Math.tan(f0 * Math.PI / 360), LB = 3.3, TB = 1.8, M = 0.94;
+    let dist = Math.max(2.4, TB * H / (2 * tv0 * bebas * M), LB / (2 * tv0 * asp * M)), fov = f0; if (dist > 5.2) { dist = 5.2; const tv = Math.max(LB / (2 * dist * asp * M), TB * H / (2 * dist * bebas * M)); fov = Math.max(f0, Math.min(82, 2 * Math.atan(tv) * 180 / Math.PI)); }
+    return { dist, fov, pitch: 0.44 };
+  },
+  kunci(e, k) {
+    if (k === 'escape') { this.tutup(); e.preventDefault(); return; } const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
+    if (this.tahap === 1 && /^[1-3]$/.test(k)) { this.pilih(+k - 1); e.preventDefault(); return; }
+    if (k === 'b' && !e.repeat && this.tahap >= 2 && this.tahap <= 5) { this.bantu(); e.preventDefault(); return; }
+    if (k === 'p' && !e.repeat && (this.tahap === 2)) { this.togolPaip(); e.preventDefault(); return; }
+    if (this.tahap === 6 && (k === 'enter' || k === ' ') && !butang) { const L = this.LANGKAH_TANGAN[this.tanganLangkah]; if (L) this.langkahTangan(L.id); e.preventDefault(); return; }
+    if (k === 'c' && !e.repeat && !butang) { this.ulang(); e.preventDefault(); }
+  }
+};
+{ // pendengar acara
+  const on = () => {
+    $('smKeluar').addEventListener('click', () => SelamatMakmal.tutup()); $('smUlang').addEventListener('click', () => SelamatMakmal.ulang()); $('smSiap').addEventListener('click', () => SelamatMakmal.tutup());
+    ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach((t) => window.addEventListener(t, (e) => { if (!SelamatMakmal.aktif || (e.target !== canvas && !SelamatMakmal.drag)) return; if (SelamatMakmal.kanvas(e, t === 'pointerdown' ? 'turun' : t === 'pointermove' ? 'gerak' : 'naik')) { e.stopImmediatePropagation(); e.preventDefault(); } }, true));
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', on); else on();
+}
+
 const Makmal = {
   pakai: false, kotMesh: null, mentol: null,
   langkah(a) { const st = Missions.step(); return !!(st && st.jenis === 'aksi' && st.aksi === a); },
@@ -15758,6 +16144,10 @@ const Makmal = {
   },
   keselamatan() {
     if (!this.perluKot()) return;
+    if (SelamatMakmal.buka()) return;   // v112: aktiviti praktikal 3D; jika tiada, kuiz asal di bawah
+    this.keselamatanLama();
+  },
+  keselamatanLama() {
     const st = { situasi: ['Semasa eksperimen, sedikit bahan uji kaji tertumpah di atas meja.', 'Apakah yang patut kamu buat?'],
       pilihan: [{ teks: 'Beritahu guru dengan segera', jenis: 'baik', maklum: ['Betul! Guru tahu cara membersihkannya dengan selamat.'] },
         { teks: 'Lap sendiri dengan tangan', jenis: 'kurang', maklum: ['Bahaya! Jangan sentuh bahan uji kaji dengan tangan. Cuba lagi.'] },
