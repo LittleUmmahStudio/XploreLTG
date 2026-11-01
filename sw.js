@@ -1,12 +1,12 @@
 // LO:TONG: service worker untuk main tanpa internet.
 // Tukar VERSI setiap kali index.html atau fail lain dikemas kini supaya peranti memuat turun versi baharu.
-const VERSI = 'lotong-v109';
+const VERSI = 'lotong-v111';
 const TERAS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 // Bunyi suasana & muzik (folder bunyi/): disimpan untuk main tanpa internet
 const BUNYI = ['muzikMula', 'dewan', 'kelas', 'luar', 'muzik-pss', 'perpustakaan', 'rumahGuru', 'suasana-bilikguru', 'suasana-prasekolah', 'suasana-rmt']
   .map((k) => './bunyi/' + k + '.mp3');
 // Aset 3D bangunan (GLB): disimpan untuk main tanpa internet; jika gagal dimuat, permainan guna bangunan asal
-const ASET = ['pss_shell', 'bilik_shell', 'prasekolah_shell', 'rumahguru1_shell', 'rumahguru2_shell', 'rumahguru3_shell', 'pss_interior_shell', 'pss_interior_props', 'pi_interior_shell', 'pi_interior_props', 'spbt_interior_shell', 'spbt_interior_props', 'susu_interior_shell', 'susu_interior_props', 'makmal_interior_shell', 'makmal_interior_props', 'prasekolah_interior_shell', 'prasekolah_interior_props', 'rumah1_interior_shell', 'rumah1_interior_props', 'rumah2_interior_shell', 'rumah2_interior_props', 'rumah3_interior_shell', 'rumah3_interior_props', 'wuduk_luar'].map((k) => './assets/' + k + '.glb');
+const ASET = ['pss_shell', 'bilik_shell', 'prasekolah_shell', 'rumahguru1_shell', 'rumahguru2_shell', 'rumahguru3_shell', 'pss_interior_shell', 'pss_interior_props', 'pi_interior_shell', 'pi_interior_props', 'spbt_interior_shell', 'spbt_interior_props', 'susu_interior_shell', 'susu_interior_props', 'makmal_interior_shell', 'makmal_interior_props', 'prasekolah_interior_shell', 'prasekolah_interior_props', 'rumah1_interior_shell', 'rumah1_interior_props', 'rumah2_interior_shell', 'rumah2_interior_props', 'rumah3_interior_shell', 'rumah3_interior_props'].map((k) => './assets/' + k + '.glb');
 const LUAR = [
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
   'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&display=swap'
