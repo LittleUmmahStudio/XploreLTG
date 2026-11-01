@@ -5220,11 +5220,11 @@ const InteriorGLB = {
         else A.act(0, -3.5, 'Lihat', 'Lihat papan putih', () => PapanPutih.lihat('pi'), 1.2);   // GLB PI lama tanpa anchor Jawi
         if (G0 && G0.props.children.some((c) => c.name === 'int_blok_rukun')) { try { BlokRukun.sediakan(r); } catch (err) { console.warn('Stesen Blok Rukun tidak dapat disediakan:', err && err.message); } }   // v98
         if (G0 && G0.props.children.some((c) => c.name === 'int_solat')) { try { SudutSolat.sediakan(r); } catch (err) { console.warn('Sudut Latihan Solat tidak dapat disediakan:', err && err.message); } }   // v99
-        try { KadHadis.sediakan(r); } catch (err) { console.warn('Kad Hadis tidak dapat disediakan:', err && err.message); }   // v102: meja kad hadis (nod lalu_kad_*); diabaikan jika GLB lama
+        try { KadHadis.sediakan(r); } catch (err) { console.warn('Kad Hadis tidak dapat disediakan:', err && err.message); }   // v105: panel kad hadis di dinding (nod lalu_hadis_*); diabaikan jika GLB lama
         A.wall('e', -1.2, 1.65, 1.0, 1.25, posterTex('Adab menuntut ilmu', '#9BE37A', '🌙'));
         A.act(-5.1, 1.6, 'Baca', 'Baca buku kisah teladan', () => Peralatan.kisah(), 1.3);   // v96: semua sauh dinding bergerak bersama dinding baharu (utara z -4.5, barat/timur x +-6)
-        A.wall('e', -3.0, 1.65, 1.5, 1.1, boardTex([{ t: 'Hadis Pilihan', s: 34, c: '#1D6B37' }, { t: 'Baca setiap hari', s: 24 }], '#FFFDF2'));
-        A.act(5.2, -3.0, 'Baca', 'Baca papan hadis atau main kad hadis', () => KadHadis.buka(), 1.4);   // v102: menu Main Kad Hadis / Baca papan hadis (Peralatan.hadis() kekal sebagai fungsi asal)
+        if (r.group.getObjectByName('lalu_hadis_1')) A.act(5.0, KadHadis.G.zc, 'Main', 'Main kad hadis atau baca hadis', () => KadHadis.buka(), 2.0);   // v105: banner Hadis Pilihan dibuang; panel Kad Hadis di dinding timur (menu Main Kad Hadis / Baca hadis; Peralatan.hadis() kekal)
+        else { A.wall('e', -3.0, 1.65, 1.5, 1.1, boardTex([{ t: 'Hadis Pilihan', s: 34, c: '#1D6B37' }, { t: 'Baca setiap hari', s: 24 }], '#FFFDF2')); A.act(5.2, -3.0, 'Baca', 'Baca papan hadis', () => Peralatan.hadis(), 1.4); }   // GLB lama: papan asal
         const papanDoa = boardTex([{ t: 'Doa Harian', s: 36, c: '#1D6B37' }, { t: 'Amalkan setiap hari', s: 24 }], '#FFFDF2');
         if (r.group.getObjectByName('lalu_doa_1')) {   // v103: Sudut Doa Harian dipindahkan ke dinding selatan (timur pintu), di atas meja Kad Doa
           try { KadDoa.sediakan(r); } catch (err) { console.warn('Kad Doa tidak dapat disediakan:', err && err.message); }
@@ -11678,7 +11678,7 @@ $('hud').addEventListener('pointerdown', () => HudRingkas.bangun());
    Dikongsi oleh Mikroskop, Warna dan Suria: (1) watak berhampiran model (murid, guru, pemain) mengecil perlahan supaya tidak menutup pandangan,
    (2) paparan 3D dialihkan ke ruang bebas di atas panel (setViewOffset), (3) panel boleh dikecilkan (butang atau kekunci H), (4) HUD tidak penting disorok. */
 const Fokus = {
-  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.5], blokRukun: [4.3, 0.9], kadHadis: [4.1, -2.72], kadDoa: [3.4, 2.4], kadAsma: [-4.05, -3.0] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
+  T: { mikroskop: [-3.6, -0.45], warna: [3.5, -0.3], suria: [5.2, 3.2], litar: [-2.2, -0.5], magnet: [3.5, 2.2], terapung: [-3.2, 2.0], jawi: [0, -3.5], blokRukun: [4.3, 0.9], kadHadis: [4.5, -3.14], kadDoa: [3.4, 2.4], kadAsma: [-4.05, -3.0] }, J: 1.7, id: null, rec: [], dh: 0, dhId: null, ada: false,
   sedia(id) { return this.id === id || (this.dhId === id && this.dh > 0.5); },
   kumpul(r, id) {
     const t = this.T[id], wx = r.ox + t[0], wz = r.oz + t[1], senarai = [];
@@ -13354,17 +13354,17 @@ return B;
 })();
 /*SB-TAMAT*/
 
-/* ===================== Kad Hadis Akhlak (v102) =====================
-   Naik taraf Sudut Hadis di Bilik PI (papan "Hadis Pilihan" di dinding timur): lima kad situasi akhlak 3D (nod GLB 'lalu_kad_1..5') dipadankan
-   dengan lima papan hadis. Pemain mengambil, membalik dan menyeret kad (atau guna butang / papan kekunci) ke petak di hadapan papan hadis yang sesuai.
-   KANDUNGAN HADIS TIDAK DICIPTA DI SINI: teks dan sumber hadis dibaca terus daripada CONTENT.hadis (senarai sedia ada yang telah disahkan). Setiap situasi
-   dipadankan dengan hadisnya melalui permulaan teks hadis ('awal'); jika hadis itu tiada dalam senarai, situasinya dilangkau. Hanya ayat situasi (cerita
-   pendek di sekolah) dan label nilai di bawah ditulis baharu. SEMAK GURU: ayat situasi dan label nilai.
-   Meja, dulang kad, rak papan hadis dan kad: tools/gen_bilik.py (KAD), dalam pi_interior_props.glb. Nilai KadHadis.G mesti SAMA dengan KAD di sana.
-   Ganjaran sedia ada: Peralatan.ganjaran('kad_hadis') sekali sehari; Kiraan.set('hadis') (lencana Pembaca Hadis). Kemajuan: State.data.kadHadis. */
+/* ===================== Kad Hadis Akhlak di dinding (v105) =====================
+   Menggantikan meja Kad Hadis (v102) dan papan "Hadis Pilihan": panel kad bergantung di DINDING TIMUR Bilik PI (antara sudut utara dan poster "Adab menuntut ilmu"), tanpa meja dan tanpa perlanggaran
+   (nod GLB 'lalu_hadis_*'). Baris atas: empat papan hadis (sasaran). Baris bawah: empat kad situasi akhlak (diseret). Pemain mengambil, membalik dan menyeret kad situasi ke hadis yang sesuai;
+   kad yang betul snap ke petak di bahagian bawah papan hadis. Menu: Main Kad Hadis / Baca hadis (Peralatan.hadis() kekal sebagai fungsi asal untuk membaca satu hadis).
+   KANDUNGAN HADIS TIDAK DICIPTA DI SINI: teks dan sumber hadis dibaca terus daripada CONTENT.hadis (senarai sedia ada yang telah disahkan). Setiap situasi dipadankan dengan hadisnya melalui
+   permulaan teks hadis ('awal'); jika hadis itu tiada dalam senarai, situasinya dilangkau. Ayat situasi dan label nilai di bawah telah disemak oleh guru.
+   Ganjaran sedia ada: Peralatan.ganjaran('kad_hadis') sekali sehari; Kiraan.set('hadis') (lencana Pembaca Hadis). Kemajuan: State.data.kadHadis.
+   Susunan: pemain di barat memandang ke timur; teks kiri->kanan = +z, atas = +y, muka kad menghadap -x (ke bilik). Nod 1-4 = papan hadis, 5-8 = kad situasi. KadHadis.G mesti SAMA dengan HAD dalam tools/gen_bilik.py. */
 const KadHadis = {
-  G: { x0: 4.55, x1: 5.97, z0: -4.44, z1: -1.00, yT: 0.74, zc: -2.72, pitch: 0.66, xStok: 4.86, xPad: 5.42, lebar: 0.60, dalam: 0.44, tebal: 0.016, yFelt: 0.012, xPapan: 5.74, yPapan: 0.765, tPapan: 0.33, sudut: 20 },   // koordinat bilik
-  BAWA: 0.83, SLOP: 10, JARI: 0.34, N: 5, FONT: '"Bakso Daging", "Kurland", sans-serif',
+  G: { xW: 6.0, xK: 5.935, zc: -3.14, pitch: 0.63, lebar: 0.58, tinggiP: 0.60, tinggiK: 0.40, tebal: 0.016, yP: 1.84, yK: 1.20 },
+  BAWA: 0.14, SLOP: 10, JARI: 0.42, N: 4, FONT: '"Bakso Daging", "Kurland", sans-serif',
   // k = kumpulan keliru: dua situasi daripada kumpulan yang sama tidak diletakkan dalam satu pusingan
   SIT: [
     { awal: 'Bersuci itu', k: '', nilai: 'Menjaga kebersihan', s: ['Selepas bermain di padang, Amir membasuh tangan dan kakinya sebelum masuk ke kelas.', 'Aina mengutip sampah di sekitar kelas, kemudian membuangnya ke dalam tong sampah.'] },
@@ -13377,11 +13377,8 @@ const KadHadis = {
     { awal: 'Tunaikanlah amanah', k: 'B', nilai: 'Amanah', s: ['Wani menjumpai botol air rakannya yang tertinggal di gelanggang, lalu memulangkannya.', 'Cikgu meminta Hafiz mengambil bekas airnya di Rumah Guru. Hafiz mengambilnya sahaja dan tidak mengusik barang lain.'] },
     { awal: 'Tanda orang munafik', k: 'B', nilai: 'Menepati janji', s: ['Ikmal berjanji untuk menemui rakannya di gelanggang waktu rehat, dan dia datang tepat pada masanya.', 'Sarah berjanji memulangkan buku rakannya esok, dan dia memulangkannya seperti yang dijanjikan.'] }
   ],
-  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], slotH: [], pilih: null, betul: 0, salah: 0, sel: [], drag: null, sorot: -1, merah: null, diberi: false, tT: 0, meriah: 0, fovUbah: false, fov0: 50, tunggu: false, penutup: false, sblm: '',
+  aktif: false, tahap: 0, k: 0, ke: 0, raf: 0, last: 0, nod: null, V: null, V2: null, tt: [], pilih: -1, betul: 0, salah: 0, drag: null, sorot: -1, merah: null, petunjuk: null, diberi: false, tT: 0, meriah: 0, fovUbah: false, fov0: 50, tunggu: false, penutup: false, sblm: '', butirKekal: false,
   kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) { return false; } },
-  zS(i) { return this.G.zc + (i - 2) * this.G.pitch; },
-  yStok() { return this.G.yT + this.G.yFelt + this.G.tebal / 2; },
-  yPad() { return this.G.yT + this.G.tebal / 2 + 0.0004; },
   rekod() { const d = State.data; if (!d) return null; return (d.kadHadis = d.kadHadis || { mula: 0, siap: 0, terbaik: null, bintang: 0 }); },
   ringkas() {
     const d = State.data && State.data.kadHadis; if (!d || !d.siap) return 'belum selesai' + (d && d.mula ? ' (dicuba ' + d.mula + 'x)' : '');
@@ -13395,27 +13392,19 @@ const KadHadis = {
   },
   hadis(h) { return CONTENT.hadis[h]; },
   pendek(h) { const k = this.hadis(h).teks.split(' '); return k.slice(0, 6).join(' ') + (k.length > 6 ? '…' : ''); },
-  // dipanggil semasa bilik dibina (DEF.pi.selepas): muka kad, lapisan teks papan hadis, lapisan petak
   sediakan(r) {
-    if (r.group.userData.kadHadis) return; const o = []; for (let i = 1; i <= 5; i++) { const g = r.group.getObjectByName('lalu_kad_' + i); if (!g) return; o.push(g); }
-    const G = this.G, th = G.sudut * Math.PI / 180, sn = Math.sin(th), cs = Math.cos(th), face = [], plat = [];
-    o.forEach((g) => {
-      g.userData.dasar = g.position.clone(); g.rotation.z = Math.PI;   // kad bermula dengan muka bawah (corak bintang) di atas; dibalik pada paksi z (hujung ke hujung, ke arah pemain)
-      const c = document.createElement('canvas'); c.width = 560; c.height = 400; const t = new THREE.CanvasTexture(c); t.anisotropy = ANISO;
-      const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.40), new THREE.MeshBasicMaterial({ map: t })); pl.rotation.order = 'YXZ'; pl.rotation.set(-Math.PI / 2, -Math.PI / 2, 0);   // rata di atas kad, teks tegak bagi pemain di barat
-      pl.position.set(0, G.tebal / 2 + 0.0025, 0); pl.renderOrder = 2; g.add(pl); face.push({ c, t, pl });
+    if (r.group.userData.kadHadis) return; const o = []; for (let i = 1; i <= 2 * this.N; i++) { const g = r.group.getObjectByName('lalu_hadis_' + i); if (!g) return; o.push(g); }
+    const G = this.G, face = [];
+    o.forEach((g, i) => {
+      const plat = i < this.N, w = 560, h = plat ? 580 : 380; g.userData.dasar = g.position.clone(); g.rotation.z = Math.PI;   // muka bawah (corak bintang) menghadap pemain; dibalik pada paksi z (atas ke bawah)
+      const c = document.createElement('canvas'); c.width = w; c.height = h; const t = new THREE.CanvasTexture(c); t.anisotropy = ANISO;
+      const pl = new THREE.Mesh(new THREE.PlaneGeometry(w / 1000, h / 1000), new THREE.MeshBasicMaterial({ map: t })); pl.rotation.y = -Math.PI / 2; pl.position.set(-(G.tebal / 2 + 0.0025), 0, 0); pl.renderOrder = 2; g.add(pl); face.push({ c, t, pl });   // satah menghadap -x (bilik); teks kiri->kanan = +z
     });
-    for (let j = 0; j < 5; j++) {   // lapisan teks pada papan hadis yang condong 20 darjah (menghadap barat dan sedikit ke atas)
-      const c = document.createElement('canvas'); c.width = 620; c.height = 310; const t = new THREE.CanvasTexture(c); t.anisotropy = ANISO;
-      const dv = 0.014 + (G.tPapan - 0.014) / 2, off = 0.0055, gp = new THREE.Group(); gp.position.set(G.xPapan + dv * sn - off * cs, G.yPapan + dv * cs + off * sn, this.zS(j)); gp.rotation.y = -Math.PI / 2;
-      const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.31), new THREE.MeshBasicMaterial({ map: t })); pl.rotation.x = -th; pl.renderOrder = 2; gp.add(pl); gp.visible = false; r.group.add(gp); plat.push({ c, t, gp });
-    }
-    const cv = document.createElement('canvas'); cv.width = 1700; cv.height = 260; const tex = new THREE.CanvasTexture(cv); tex.anisotropy = ANISO;
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 0.52), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false })); m.rotation.order = 'YXZ'; m.rotation.set(-Math.PI / 2, -Math.PI / 2, 0);
-    m.position.set(G.xPad, G.yT + 0.003, G.zc); m.renderOrder = 1; m.visible = false; r.group.add(m);
-    r.group.userData.kadHadis = { o, face, plat, pad: { cv, tex, m } };
+    const hc = document.createElement('canvas'); hc.width = 1560; hc.height = 200; const ht = new THREE.CanvasTexture(hc); ht.anisotropy = ANISO;
+    const hm = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.2), new THREE.MeshBasicMaterial({ map: ht })); hm.rotation.y = -Math.PI / 2; hm.position.set(G.xW - 0.058, 2.325, G.zc); hm.renderOrder = 1; r.group.add(hm);
+    r.group.userData.kadHadis = { o, face, tajuk: { c: hc, t: ht } }; this.nod = { r, K: r.group.userData.kadHadis }; this.lukisTajuk();
   },
-  // ----- lukisan teks (kanvas) -----
+  // ----- lukisan (kanvas) -----
   balut(c, teks, maxW) {
     const kata = String(teks).split(' '), baris = []; let b = '';
     kata.forEach((k) => { const u = b ? b + ' ' + k : k; if (b && c.measureText(u).width > maxW) { baris.push(b); b = k; } else b = u; }); if (b) baris.push(b); return baris;
@@ -13425,60 +13414,52 @@ const KadHadis = {
     if (s < min) { s = min; c.font = berat + ' ' + s + 'px ' + this.FONT; baris = this.balut(c, teks, maxW); lh = s * 1.25; }
     const tinggi = baris.length * lh, y0 = atas + Math.max(0, (maxH - tinggi) / 2); baris.forEach((b, n) => c.fillText(b, cx, y0 + n * lh + lh / 2)); return tinggi;
   },
-  lukisKad(i, teks) {
-    const F = this.nod.K.face[i], c = F.c.getContext('2d'), W = 560, H = 400; c.clearRect(0, 0, W, H);
+  lukisTajuk() {
+    const K = this.nod && this.nod.K; if (!K) return; const c = K.tajuk.c.getContext('2d'), W = 1560, H = 200; c.clearRect(0, 0, W, H); c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
+    c.fillStyle = '#1D6B37'; c.font = '700 84px ' + this.FONT; c.fillText('Kad Hadis Akhlak', W / 2, 78); c.fillStyle = '#5B6B7F'; c.font = '700 40px ' + this.FONT; c.fillText('Padankan situasi dengan hadis', W / 2, 156); K.tajuk.t.needsUpdate = true;
+  },
+  lukisKad(i, e) {   // kad situasi (baris bawah): teks situasi
+    const F = this.nod.K.face[i], c = F.c.getContext('2d'), W = 560, H = 380; c.clearRect(0, 0, W, H);
     c.fillStyle = '#2F8F4E'; roundRectPath(c, 0, 0, W, H, 26); c.fill(); c.fillStyle = '#FFF8E6'; roundRectPath(c, 14, 14, W - 28, H - 28, 16); c.fill();
-    c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillStyle = '#2F8F4E'; c.font = '700 30px ' + this.FONT; c.fillText('Situasi akhlak · Kad ' + (i + 1), W / 2, 52);
-    c.fillStyle = '#17325A'; this.para(c, teks, W / 2, 84, W - 84, H - 116, 54, 28, 700); F.t.needsUpdate = true;
+    c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillStyle = '#2F8F4E'; c.font = '700 28px ' + this.FONT; c.fillText('Situasi akhlak · Kad ' + (i - this.N + 1), W / 2, 50);
+    c.fillStyle = '#17325A'; this.para(c, e.s, W / 2, 78, W - 80, H - 108, 50, 26, 700); F.t.needsUpdate = true;
   },
-  keadaanPlat(j) { return this.sel[j] !== null && this.sel[j] !== undefined ? 'betul' : (this.merah && this.merah.j === j ? 'salah' : (this.sorot === j ? 'sorot' : 'biasa')); },
-  lukisPlat(j, ke) {
-    const P = this.nod.K.plat[j], c = P.c.getContext('2d'), W = 620, H = 310, h = this.hadis(this.slotH[j]);
+  keadaanPlat(j) { const t = this.tt[j]; return t && t.slot !== null ? 'betul' : (this.merah && this.merah.j === j ? 'salah' : (this.sorot === j || (this.petunjuk && this.petunjuk.j === j) ? 'sorot' : 'biasa')); },
+  lukisPlat(j, ke) {   // papan hadis (baris atas): teks hadis + sumber (daripada CONTENT.hadis) dan petak kosong di bawah untuk kad situasi
+    const P = this.nod.K.face[j], c = P.c.getContext('2d'), W = 560, H = 580, h = this.hadis(this.tt[j].e.h);
     const bg = ke === 'betul' ? '#E6F7EC' : (ke === 'salah' ? '#FFE3DF' : (ke === 'sorot' ? '#FFF1C9' : '#FFF8E6')), bd = ke === 'betul' ? '#2F9E5B' : (ke === 'salah' ? '#D6453A' : (ke === 'sorot' ? '#E8A317' : '#2F8F4E'));
-    c.clearRect(0, 0, W, H); c.fillStyle = bd; roundRectPath(c, 0, 0, W, H, 18); c.fill(); c.fillStyle = bg; roundRectPath(c, 8, 8, W - 16, H - 16, 12); c.fill();
-    c.fillStyle = bd; c.beginPath(); c.arc(40, 40, 24, 0, Math.PI * 2); c.fill();
-    c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillStyle = '#FFFFFF'; c.font = '700 30px ' + this.FONT; c.fillText(String(j + 1), 40, 42);
-    if (ke === 'betul') { c.fillStyle = '#1D6B37'; c.font = '700 40px ' + this.FONT; c.fillText('✓', W - 40, 42); }
-    c.fillStyle = '#17325A'; this.para(c, '“' + h.teks + '”', W / 2, 66, W - 56, 184, 46, 22, 700);   // teks hadis sebenar daripada CONTENT.hadis
-    c.fillStyle = '#5B6B7F'; c.font = '400 25px ' + this.FONT; c.fillText('(' + h.sumber + ')', W / 2, H - 26); P.t.needsUpdate = true;
+    c.clearRect(0, 0, W, H); c.fillStyle = bd; roundRectPath(c, 0, 0, W, H, 26); c.fill(); c.fillStyle = bg; roundRectPath(c, 14, 14, W - 28, H - 28, 16); c.fill();
+    c.fillStyle = bd; c.beginPath(); c.arc(44, 44, 26, 0, Math.PI * 2); c.fill(); c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr'; c.fillStyle = '#FFFFFF'; c.font = '700 32px ' + this.FONT; c.fillText(String(j + 1), 44, 46);
+    if (ke === 'betul') { c.fillStyle = '#1D6B37'; c.font = '700 44px ' + this.FONT; c.fillText('✓', W - 48, 46); }
+    c.fillStyle = '#17325A'; this.para(c, '“' + h.teks + '”', W / 2, 78, W - 64, 262, 36, 20, 700);
+    c.fillStyle = '#5B6B7F'; c.font = '400 24px ' + this.FONT; c.fillText('(' + h.sumber + ')', W / 2, 362);
+    if (ke !== 'betul') { c.fillStyle = 'rgba(255,255,255,0.6)'; roundRectPath(c, 100, 388, W - 200, 180, 16); c.fill(); c.setLineDash([14, 9]); c.lineWidth = 5; c.strokeStyle = ke === 'sorot' ? '#E8A317' : (ke === 'salah' ? '#D6453A' : '#6F86A3'); roundRectPath(c, 100, 388, W - 200, 180, 16); c.stroke(); c.setLineDash([]); c.fillStyle = 'rgba(63,80,104,0.45)'; c.font = '700 80px ' + this.FONT; c.fillText('?', W / 2, 478); }
+    P.t.needsUpdate = true;
   },
-  lukisPad() {
-    const K = this.nod && this.nod.K; if (!K) return; const R = K.pad, c = R.cv.getContext('2d'), papar = this.aktif && (this.tahap === 1 || this.tahap === 2); c.clearRect(0, 0, 1700, 260);
-    K.plat.forEach((P, j) => { P.gp.visible = papar; if (papar) this.lukisPlat(j, this.keadaanPlat(j)); });
-    if (!papar) { R.m.visible = false; R.tex.needsUpdate = true; return; } R.m.visible = true; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
-    for (let j = 0; j < 5; j++) {
-      const cx = (this.zS(j) - (this.G.zc - 1.7)) * 500, ok = this.sel[j] !== null && this.sel[j] !== undefined, lit = this.sorot === j, sl = !!this.merah && this.merah.j === j;
-      c.fillStyle = ok ? 'rgba(205,239,216,0.88)' : (sl ? 'rgba(255,201,194,0.92)' : (lit ? 'rgba(255,233,168,0.94)' : 'rgba(255,255,255,0.45)'));
-      roundRectPath(c, cx - 155, 10, 310, 240, 20); c.fill(); c.lineWidth = (lit || sl) ? 8 : 5; c.setLineDash(ok ? [] : [14, 9]); c.strokeStyle = ok ? '#2F9E5B' : (sl ? '#D6453A' : (lit ? '#E8A317' : '#6F86A3'));
-      roundRectPath(c, cx - 155, 10, 310, 240, 20); c.stroke(); c.setLineDash([]);
-      if (!ok) { c.fillStyle = 'rgba(63,80,104,0.55)'; c.font = '700 84px ' + this.FONT; c.fillText(String(j + 1), cx, 130); }
-    }
-    R.tex.needsUpdate = true;
-  },
+  lukis(i) { const t = this.tt[i]; if (!t) return; if (i < this.N) this.lukisPlat(i, this.keadaanPlat(i)); else this.lukisKad(i, t.e); },
+  lukisSemua() { if (!this.nod) return; this.tt.forEach((t, i) => this.lukis(i)); },
   // ----- buka / tutup -----
-  buka() {   // pintu masuk daripada sauh papan hadis: menu (Main Kad Hadis / Baca papan hadis)
+  buka() {   // pintu masuk daripada sauh panel: menu (Main Kad Hadis / Baca hadis)
     if (this.aktif || State.uiLock) return; if (Agama.moral()) { Agama.bilikPI(); return; }
     const r = Rooms.current === 'pi' ? Rooms.list.pi : null, K = r && r.group.userData.kadHadis;
-    if (!K || this.entri().length < this.N) { Peralatan.hadis(); return; }   // GLB lama atau hadis tidak mencukupi: papan hadis biasa (fungsi asal)
+    if (!K || this.entri().length < this.N) { Peralatan.hadis(); return; }   // GLB lama atau hadis tidak mencukupi: baca hadis biasa (fungsi asal)
     this.nod = { r, K }; this.V = this.V || new THREE.Vector3(); this.V2 = this.V2 || new THREE.Vector3(); this.rehatSegera();
-    this.aktif = true; this.tahap = 0; this.drag = null; this.pilih = null; this.sorot = -1; this.merah = null; this.diberi = false; this.tunggu = false; this.penutup = false; this.meriah = 0; this.tt = []; this.sel = [null, null, null, null, null];
-    this.menu(); $('kadHadis').hidden = false; setLock('kadHadis'); this.ke = 1; if (this.kurang()) this.k = 1; this.lukisPad(); this.mula(); try { $('khMain').focus({ preventScroll: true }); } catch (err) {}
+    this.aktif = true; this.tahap = 0; this.drag = null; this.pilih = -1; this.sorot = -1; this.merah = null; this.petunjuk = null; this.diberi = false; this.tunggu = false; this.penutup = false; this.meriah = 0; this.tt = [];
+    this.menu(); $('kadHadis').hidden = false; setLock('kadHadis'); this.ke = 1; if (this.kurang()) this.k = 1; this.mula(); try { $('khMain').focus({ preventScroll: true }); } catch (err) {}
   },
   menu() {
     $('khMenu').hidden = false; $('khL1').hidden = true; $('khUlang').hidden = true; $('khSiap').hidden = true; $('khMaklum').textContent = ''; $('khProg').hidden = false;
-    $('khArahan').textContent = 'Sudut Hadis. Pilih: main Kad Hadis (padankan situasi akhlak dengan hadis) atau baca papan hadis.'; $('khProg').textContent = 'Kemajuan Kad Hadis: ' + this.ringkas();
+    $('khArahan').textContent = 'Sudut Hadis. Pilih: main Kad Hadis (padankan situasi akhlak dengan hadis) atau baca hadis.'; $('khProg').textContent = 'Kemajuan Kad Hadis: ' + this.ringkas();
   },
-  rehatSegera() {   // semua kad kembali ke dulang dengan muka bawah serta-merta (keadaan bersih)
-    const K = this.nod && this.nod.K; if (!K) return; K.o.forEach((g) => { const d = g.userData.dasar; g.visible = true; g.position.copy(d); g.rotation.set(0, 0, Math.PI); g.scale.set(1, 1, 1); });
-  },
+  rehatSegera() { const K = this.nod && this.nod.K; if (!K) return; K.o.forEach((g) => { const d = g.userData.dasar; g.visible = true; g.position.copy(d); g.rotation.set(0, 0, Math.PI); g.scale.set(1, 1, 1); }); },
   lihatPapan() { this.tutup(); Peralatan.hadis(); },
   tutup() {
-    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('kadHadis').hidden = true; if (State.uiLock === 'kadHadis') setLock(null); this.drag = null; this.pilih = null; this.sorot = -1; this.merah = null; this.tunggu = false; this.tahap = 0;
-    if (this.nod) { this.lukisPad(); if (this.tt.length) { this.tt.forEach((t, i) => this.pulangStok(i)); this.penutup = true; } }   // lapisan disorok; kad pulang beransur ke dulang (muka bawah)
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; $('kadHadis').hidden = true; if (State.uiLock === 'kadHadis') setLock(null); this.drag = null; this.pilih = -1; this.sorot = -1; this.merah = null; this.petunjuk = null; this.tunggu = false; this.tahap = 0;
+    if (this.nod && this.tt.length) { this.tt.forEach((t, i) => this.pulangStok(i)); this.penutup = true; }
     this.mula(); if (this.kurang()) this.k = 0;
   },
   // ----- pusingan baharu -----
-  pilihSet() {   // lima hadis berbeza; tidak ada dua daripada kumpulan keliru yang sama; tidak sama dengan set sebelumnya
+  pilihSet() {   // empat hadis berbeza; tiada dua daripada kumpulan keliru yang sama; tidak sama dengan set sebelumnya
     const E = this.entri(); let cuba = 0, hasil = [];
     do {
       const a = shuffle(E.slice()), dip = [], kum = {}; hasil = [];
@@ -13487,81 +13468,85 @@ const KadHadis = {
     if (hasil.length < this.N) { const baki = shuffle(E.filter((e) => hasil.indexOf(e) < 0)); while (hasil.length < this.N && baki.length) hasil.push(baki.pop()); }
     return hasil.length === this.N ? hasil : null;
   },
+  baru(e, i) { const d = this.nod.K.o[i].userData.dasar; return { g: this.nod.K.o[i], idx: i, e, p: d.clone(), fx: d.x, fy: d.y, fz: d.z, tx: d.x, ty: d.y, tz: d.z, sc: 1, rx: Math.PI, lx: 0, lz: 0, mode: 'rehat', slot: null, u: 1, dur: 0.5, lengkung: 0, goyang: 0, flip: null, t: 0, salah: 0 }; },
   mulaAktiviti() { if (!this.aktif || this.tahap === 1) return; this.rehatSegera(); this.mulaSet(); },
   mulaSet() {
-    const K = this.nod.K, E = this.pilihSet(); if (!E) { this.tutup(); Peralatan.hadis(); return; }
-    const kad = shuffle(E.slice()); let slot, cuba = 0; do { slot = shuffle(E.slice()); cuba++; } while (slot.some((e, j) => e === kad[j]) && cuba < 40);   // papan hadis tidak betul-betul di hadapan kadnya
-    this.sblm = E.map((e) => e.h).sort().join(); this.slotH = slot.map((e) => e.h);
-    this.tt = K.o.map((g, i) => { const e = kad[i], d = g.userData.dasar; return { g, idx: i, h: e.h, nilai: e.nilai, s: e.s[Math.floor(Math.random() * e.s.length)], p: d.clone(), fx: d.x, fy: d.y, fz: d.z, tx: d.x, ty: d.y, tz: d.z, rx: Math.PI, lx: 0, lz: 0, ny: 0, mode: 'rehat', slot: null, u: 1, dur: 0.5, lengkung: 0, goyang: 0, flip: null, t: 0, salah: 0 }; });
-    this.tt.forEach((t, i) => this.lukisKad(i, t.s));
+    const E = this.pilihSet(); if (!E) { this.tutup(); Peralatan.hadis(); return; }
+    const plat = shuffle(E.slice()); let kad, cuba = 0; do { kad = shuffle(E.slice()); cuba++; } while (kad.some((e, j) => e === plat[j]) && cuba < 40);   // kad situasi tidak betul-betul di bawah hadisnya
+    this.sblm = E.map((e) => e.h).sort().join(); const N = this.N;
+    this.tt = this.nod.K.o.map((g, i) => { const t = this.baru(i < N ? plat[i] : kad[i - N], i); if (i >= N) t.e = Object.assign({}, kad[i - N], { s: kad[i - N].s[Math.floor(Math.random() * kad[i - N].s.length)] }); return t; });
+    this.tt.forEach((t, i) => this.lukis(i));
+    this.tt.forEach((t, i) => { t.flip = { a: Math.PI, b: 0, u: -(i % N) * 0.12 - (i < N ? 0 : 0.35), dur: 0.5, arc: i < N ? 0.34 : 0.24 }; });   // semua kad dibalik ke muka depan secara berperingkat
     const d = this.rekod(); if (d) d.mula = (d.mula || 0) + 1;
-    this.tahap = 1; this.betul = 0; this.salah = 0; this.sel = [null, null, null, null, null]; this.pilih = null; this.sorot = -1; this.merah = null; this.drag = null; this.diberi = false; this.meriah = 0; this.tunggu = false;
+    this.tahap = 1; this.betul = 0; this.salah = 0; this.pilih = -1; this.sorot = -1; this.merah = null; this.petunjuk = null; this.drag = null; this.diberi = false; this.meriah = 0; this.tunggu = false;
     $('khMenu').hidden = true; $('khProg').hidden = true; $('khL1').hidden = false; $('khUlang').hidden = false; $('khUlang').textContent = 'Cuba Lagi'; $('khSiap').hidden = true; $('khMaklum').textContent = '';
-    $('khArahan').textContent = 'Ketik kad untuk membalik, atau seret kad ke petak di hadapan papan hadis yang sesuai. Lima kad, lima hadis.';
-    this.binaUI(); this.lukisPad(); Sound.play('pick'); this.mula();
+    $('khArahan').textContent = 'Seret kad situasi (baris bawah) ke hadis yang sesuai (baris atas). Ketik kad untuk menyorok atau menunjukkan situasinya. Empat kad, empat hadis.';
+    this.binaUI(); this.mula(); Sound.play('pick');
   },
   binaUI() {
-    const U = $('khKad'), S = $('khSlot'); U.innerHTML = ''; S.innerHTML = '';
-    this.tt.forEach((t, i) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.u = String(i); bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kad ' + (i + 1) + ': tekan untuk mengambil kad'); bt.textContent = 'Kad ' + (i + 1); bt.addEventListener('click', () => this.ambil(i)); U.appendChild(bt); });
+    const U = $('khKad'), S = $('khSlot'); U.innerHTML = ''; S.innerHTML = ''; const N = this.N;
+    this.tt.forEach((t, i) => { if (i < N) return; const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.u = String(i); bt.setAttribute('aria-pressed', 'false'); bt.setAttribute('aria-label', 'Kad ' + (i - N + 1) + ': tekan untuk mengambil kad'); bt.textContent = 'Kad ' + (i - N + 1); bt.addEventListener('click', () => this.ambil(i)); U.appendChild(bt); });
     const bb = document.createElement('button'); bb.type = 'button'; bb.className = 'btn'; bb.id = 'khBalik'; bb.textContent = '🔄 Balik kad'; bb.setAttribute('aria-label', 'Balik kad yang dipilih (kekunci F)'); bb.addEventListener('click', () => this.balikPilih()); U.appendChild(bb);
-    this.slotH.forEach((h, j) => { const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.s = String(j); bt.setAttribute('aria-label', 'Hadis ' + (j + 1) + ': ' + this.hadis(h).teks); bt.textContent = (j + 1) + '. ' + this.pendek(h); bt.addEventListener('click', () => this.letakDi(j));
-      const baca = () => { if (this.tahap === 1 && this.sel[j] === null) this.maklumHadis(j); }; bt.addEventListener('pointerenter', baca); bt.addEventListener('focus', baca); S.appendChild(bt); });
+    this.tt.forEach((t, j) => { if (j >= N) return; const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.dataset.s = String(j); bt.setAttribute('aria-label', 'Hadis ' + (j + 1) + ': ' + this.hadis(t.e.h).teks); bt.textContent = (j + 1) + '. ' + this.pendek(t.e.h); bt.addEventListener('click', () => this.letakDi(j));
+      const baca = () => { if (this.tahap === 1 && this.tt[j].slot === null) this.maklumHadis(j); }; bt.addEventListener('pointerenter', baca); bt.addEventListener('focus', baca); S.appendChild(bt); });
     this.segar();
   },
   hadap(t) { return t.flip ? t.flip.b === 0 : Math.abs(t.rx) < 0.01; },
   maklumKad() {
-    const t = this.pilih !== null ? this.tt[this.pilih] : null;
-    $('khSituasi').textContent = !t ? 'Pilih satu kad, atau seret kad ke papan hadis yang sesuai.' : (this.hadap(t) ? 'Kad ' + (t.idx + 1) + ': ' + t.s : 'Kad ' + (t.idx + 1) + ' menghadap ke bawah. Tekan “Balik kad”.');
+    if (this.butirKekal) { this.butirKekal = false; return; } const t = this.pilih >= 0 ? this.tt[this.pilih] : null;
+    $('khSituasi').textContent = !t ? 'Pilih satu kad, atau seret kad ke hadis yang sesuai.' : (this.hadap(t) ? 'Kad ' + (t.idx - this.N + 1) + ': ' + t.e.s : 'Kad ' + (t.idx - this.N + 1) + ' menghadap ke bawah. Tekan “Balik kad”.');
   },
-  maklumHadis(j) { const h = this.hadis(this.slotH[j]); $('khMaklum').textContent = 'Hadis ' + (j + 1) + ': “' + h.teks + '” (' + h.sumber + ')'; },
+  maklumHadis(j) { const h = this.hadis(this.tt[j].e.h); $('khMaklum').textContent = 'Hadis ' + (j + 1) + ': “' + h.teks + '” (' + h.sumber + ')'; },
   segar() {
-    Array.from($('khKad').querySelectorAll('button[data-u]')).forEach((bt) => { const i = +bt.dataset.u, t = this.tt[i], sudah = !t || t.slot !== null; bt.disabled = sudah; bt.setAttribute('aria-pressed', this.pilih === i ? 'true' : 'false'); bt.className = 'btn' + (t && !sudah && this.hadap(t) ? ' terbuka' : ''); });
-    const bb = $('khBalik'); if (bb) bb.disabled = this.pilih === null;
-    Array.from($('khSlot').querySelectorAll('button')).forEach((bt) => { const j = +bt.dataset.s; bt.className = 'btn' + (this.sel[j] !== null ? ' betul' : ''); bt.disabled = this.sel[j] !== null; });
-    $('khBar').style.width = (this.betul / this.N * 100) + '%'; $('khStat').textContent = 'Betul ' + this.betul + '/' + this.N + '  ·  Cubaan salah ' + this.salah; this.maklumKad();
+    const N = this.N; Array.from($('khKad').querySelectorAll('button[data-u]')).forEach((bt) => { const i = +bt.dataset.u, t = this.tt[i], sudah = !t || t.slot !== null; bt.disabled = sudah; bt.setAttribute('aria-pressed', this.pilih === i ? 'true' : 'false'); bt.className = 'btn' + (t && !sudah && this.hadap(t) ? ' terbuka' : ''); });
+    const bb = $('khBalik'); if (bb) bb.disabled = this.pilih < 0;
+    Array.from($('khSlot').querySelectorAll('button')).forEach((bt) => { const j = +bt.dataset.s, t = this.tt[j]; bt.className = 'btn' + (t && t.slot !== null ? ' betul' : ''); bt.disabled = !!(t && t.slot !== null); });
+    $('khBar').style.width = (this.betul / N * 100) + '%'; $('khStat').textContent = 'Betul ' + this.betul + '/' + N + '  ·  Cubaan salah ' + this.salah; this.maklumKad();
   },
   // ----- tween & balik -----
-  gerakKe(t, mode, x, y, z, dur, lengkung) {   // pecutan & nyahpecutan lembut + lengkungan melompat
-    t.mode = mode; t.fx = t.p.x; t.fy = t.p.y; t.fz = t.p.z; t.tx = x; t.ty = y; t.tz = z; const d = Math.hypot(x - t.p.x, z - t.p.z);
-    t.dur = dur || Math.max(0.35, Math.min(0.7, 0.3 + d * 0.4)); t.u = 0; t.lengkung = lengkung === undefined ? Math.min(0.12, 0.04 + d * 0.2) : lengkung;
+  gerakKe(t, mode, x, y, z, dur, lengkung, sc) {   // gerakan lembut; lengkung = lompatan ke arah pemain (-x)
+    t.mode = mode; t.fx = t.p.x; t.fy = t.p.y; t.fz = t.p.z; t.tx = x; t.ty = y; t.tz = z; t.sc = sc || 1; const d = Math.hypot(x - t.p.x, y - t.p.y, z - t.p.z);
+    t.dur = dur || Math.max(0.35, Math.min(0.75, 0.3 + d * 0.4)); t.u = 0; t.t = 0; t.lengkung = lengkung === undefined ? 0.1 : lengkung;
   },
-  balik(i, hadap, arc) {   // hadap = true: muka situasi di atas; arc = ketinggian lompatan semasa membalik (kad dipusing pada paksi z (hujung ke hujung), hujung menyapu 0.22 m)
+  balik(i, hadap, arc, tunda) {   // hadap = true: muka teks menghadap pemain; kad dipusing pada paksi z dan ditarik ke hadapan supaya tidak menembusi dinding
     const t = this.tt[i]; if (!t) return; const ke = hadap ? 0 : Math.PI; if (!t.flip && Math.abs(t.rx - ke) < 0.01) return;
-    t.flip = { a: t.rx, b: ke, u: 0, dur: 0.5, arc: arc === undefined ? 0.26 : arc }; this.mula();
+    t.flip = { a: t.rx, b: ke, u: -(tunda || 0) / 0.5, dur: 0.5, arc: arc === undefined ? (i < this.N ? 0.34 : 0.24) : arc }; this.mula();
   },
-  pulangStok(i) { const t = this.tt[i], d = t.g.userData.dasar; t.slot = null; t.goyang = 0; this.gerakKe(t, 'pulang', d.x, d.y, d.z, 0.6, 0.14); this.balik(i, false, 0.26); },
-  // ----- pilih kad & petak (ketik / butang / papan kekunci) -----
+  pulangStok(i) { const t = this.tt[i], d = t.g.userData.dasar; t.slot = null; t.goyang = 0; this.gerakKe(t, 'pulang', d.x, d.y, d.z, 0.6, 0.14, 1); this.balik(i, false); },
+  // ----- pilih kad & hadis (ketik / butang / papan kekunci) -----
   ambil(i) {
-    if (!this.aktif || this.tahap !== 1) return; const t = this.tt[i]; if (!t || t.slot !== null || t.mode === 'seret') return;
-    if (this.pilih === i) this.pilih = null; else { this.pilih = i; if (!this.hadap(t)) this.balik(i, true); } Sound.play('pick'); this.segar();
+    if (!this.aktif || this.tahap !== 1) return; const t = this.tt[i]; if (!t || i < this.N || t.slot !== null || t.mode === 'seret') return;
+    this.pilih = this.pilih === i ? -1 : i; if (this.pilih === i && !this.hadap(t)) this.balik(i, true); Sound.play('pick'); this.segar();
   },
   balikPilih() {
-    if (!this.aktif || this.tahap !== 1 || this.pilih === null) return; const t = this.tt[this.pilih]; if (!t || t.slot !== null) return; this.balik(this.pilih, !this.hadap(t)); Sound.play('pick'); this.segar();
+    if (!this.aktif || this.tahap !== 1 || this.pilih < 0) return; const t = this.tt[this.pilih]; if (!t || t.slot !== null) return; this.balik(this.pilih, !this.hadap(t)); Sound.play('pick'); this.segar();
   },
-  ketik(i) {   // ketik kad di dulang: muka bawah -> balik & pilih; muka atas belum dipilih -> pilih; sudah dipilih -> balik semula
-    const t = this.tt[i]; if (!t || t.slot !== null) return;
-    if (!this.hadap(t)) { this.pilih = i; this.balik(i, true); } else if (this.pilih !== i) this.pilih = i; else { this.balik(i, false); this.pilih = null; }
+  ketik(i) {   // ketik kad situasi: muka bawah -> balik & pilih; muka atas belum dipilih -> pilih; sudah dipilih -> balik semula
+    const t = this.tt[i]; if (!t || i < this.N || t.slot !== null) return;
+    if (!this.hadap(t)) { this.pilih = i; this.balik(i, true); } else if (this.pilih !== i) this.pilih = i; else { this.balik(i, false); this.pilih = -1; }
     Sound.play('pick'); this.segar();
   },
   letakDi(j) {
-    if (!this.aktif || this.tahap !== 1 || this.sel[j] !== null) return; if (this.pilih === null) { $('khMaklum').textContent = 'Pilih satu kad dahulu.'; return; }
-    const i = this.pilih; this.pilih = null; this.cuba(i, j, true);
+    if (!this.aktif || this.tahap !== 1 || this.tt[j].slot !== null) return; if (this.pilih < this.N) { $('khMaklum').textContent = 'Pilih satu kad dahulu.'; return; }
+    const i = this.pilih; this.pilih = -1; this.cuba(i, j, true);
   },
-  cuba(i, j, ketik) {   // kad i dilepas pada petak j (j = -1: bukan pada petak)
-    const t = this.tt[i], G = this.G, d = t.g.userData.dasar; if (!this.hadap(t)) this.balik(i, true, 0.2);
-    if (j >= 0 && this.slotH[j] === t.h) {
-      const h = this.hadis(t.h); t.t = 0; t.slot = j; this.sel[j] = i; this.betul++; this.sorot = -1; this.merah = null; if (this.pilih === i) this.pilih = null; this.gerakKe(t, 'lekat', G.xPad, this.yPad(), this.zS(j), Math.max(0.4, Math.min(0.9, 0.35 + 0.5 * Math.hypot(G.xPad - t.p.x, this.zS(j) - t.p.z))), 0.12); Sound.play('ok');
-      try { Kiraan.set('hadis', t.h); } catch (err) {}   // lencana Pembaca Hadis (hadis dibaca)
-      try { Kesan.letup({ x: this.nod.r.ox + G.xPad, y: this.G.yT, z: this.nod.r.oz + this.zS(j) }, '#FFCC33', 8, 0.35); } catch (err) {}
-      $('khMaklum').textContent = '✓ Betul! “' + h.teks + '” (' + h.sumber + '). Pengajaran: ' + t.nilai + '.'; this.segar(); this.lukisPad(); if (this.betul === this.N) this.berjaya();
+  cuba(i, j, ketik) {   // kad situasi i dilepas pada papan hadis j (j = -1: bukan pada papan)
+    const t = this.tt[i], d = t.g.userData.dasar, G = this.G; if (!this.hadap(t)) this.balik(i, true, 0.2);
+    if (j >= 0 && this.tt[j].e.h === t.e.h) {
+      const P = this.tt[j].g.userData.dasar, h = this.hadis(t.e.h); t.t = 0; t.slot = j; this.tt[j].slot = i; this.betul++; this.sorot = -1; this.merah = null; this.petunjuk = null; if (this.pilih === i) this.pilih = -1;
+      this.gerakKe(t, 'lekat', G.xK - 0.04, P.y - 0.19, P.z, Math.max(0.4, Math.min(0.85, 0.35 + 0.45 * Math.hypot(P.z - t.p.z, P.y - 0.19 - t.p.y))), 0.1, 0.5); Sound.play('ok');
+      try { Kiraan.set('hadis', t.e.h); } catch (err) {}   // lencana Pembaca Hadis (hadis dibaca)
+      try { Kesan.letup({ x: this.nod.r.ox + G.xK - 0.2, y: P.y - 0.1, z: this.nod.r.oz + P.z }, '#FFCC33', 8, 0); } catch (err) {}
+      this.lukis(j); this.butirKekal = true; $('khSituasi').textContent = 'Kad ' + (i - this.N + 1) + ': ' + t.e.s;
+      $('khMaklum').textContent = '✓ Betul! “' + h.teks + '” (' + h.sumber + '). Pengajaran: ' + t.e.nilai + '.'; this.segar(); if (this.betul === this.N) this.berjaya();
     } else {
-      t.goyang = 0.45; this.gerakKe(t, 'pulang', d.x, d.y, d.z, 0.5, 0.1); this.sorot = -1;
+      t.goyang = 0.45; this.gerakKe(t, 'pulang', d.x, d.y, d.z, 0.5, 0.1, 1); this.sorot = -1;
       if (j >= 0) {
-        this.salah++; t.salah++; Sound.play('wrong'); this.merah = { j, t: 0.6 };
-        $('khMaklum').textContent = 'Belum tepat. Situasi pada kad ' + (i + 1) + ' tidak sepadan dengan hadis ' + (j + 1) + '. Baca semula situasi dan hadis, kemudian cuba lagi.' + (t.salah >= 2 ? ' Petunjuk: fikirkan tentang nilai “' + t.nilai + '”.' : '');
-        const bt = $('khKad').querySelectorAll('button[data-u]')[i]; if (bt) { bt.className += ' goyang'; setTimeout(() => { bt.className = bt.className.replace(' goyang', ''); }, 400); }
-      } else if (!ketik) $('khMaklum').textContent = 'Lepaskan kad tepat pada petak di hadapan papan hadis.';
-      this.segar(); this.lukisPad();
+        this.salah++; t.salah++; Sound.play('wrong'); this.merah = { j, t: 0.6 }; this.lukis(j);
+        $('khMaklum').textContent = 'Belum tepat. Situasi pada kad ' + (i - this.N + 1) + ' tidak sepadan dengan hadis ' + (j + 1) + '. Baca semula situasi dan hadis, kemudian cuba lagi.' + (t.salah >= 2 ? ' Petunjuk: fikirkan tentang nilai “' + t.e.nilai + '”.' : '');
+        const bt = $('khKad').querySelector('button[data-u="' + i + '"]'); if (bt) { bt.className += ' goyang'; setTimeout(() => { bt.className = bt.className.replace(' goyang', ''); }, 400); }
+      } else if (!ketik) $('khMaklum').textContent = 'Lepaskan kad tepat pada salah satu papan hadis di baris atas.';
+      this.segar();
     }
     this.mula();
   },
@@ -13569,105 +13554,98 @@ const KadHadis = {
     this.tahap = 2; const d = this.rekod(), bint = this.salah === 0 ? 3 : (this.salah <= 2 ? 2 : 1);
     if (d) { d.siap = (d.siap || 0) + 1; d.terbaik = d.terbaik == null ? this.salah : Math.min(d.terbaik, this.salah); d.bintang = Math.max(d.bintang || 0, bint); }
     $('khL1').hidden = true; $('khSiap').hidden = false; $('khUlang').hidden = false; $('khUlang').textContent = 'Cuba Lagi';
-    $('khArahan').textContent = 'Tahniah! Kelima-lima kad dipadankan dengan betul. ' + '★'.repeat(bint) + '☆'.repeat(3 - bint) + (this.salah ? '  (salah ' + this.salah + ')' : '  (tanpa salah!)');
-    $('khMaklum').textContent = 'Nilai yang dipelajari: ' + this.tt.slice().sort((a, b) => a.slot - b.slot).map((t) => t.nilai).join('  ·  ');
-    Sound.play('done'); this.meriah = 1.2; this.lukisPad();
+    $('khArahan').textContent = 'Tahniah! Keempat-empat kad dipadankan dengan betul. ' + '★'.repeat(bint) + '☆'.repeat(3 - bint) + (this.salah ? '  (salah ' + this.salah + ')' : '  (tanpa salah!)');
+    $('khMaklum').textContent = 'Nilai yang dipelajari: ' + this.tt.filter((t) => t.idx >= this.N).sort((a, b) => a.slot - b.slot).map((t) => t.e.nilai).join('  ·  ');
+    Sound.play('done'); this.meriah = 1.2;
     if (!this.diberi) { this.diberi = true; const dd = State.data, sebelum = dd && dd.alat ? dd.alat.kad_hadis : undefined; Peralatan.ganjaran('kad_hadis', { ilmu: 1 }, '🃏 Kad hadis dipadankan! +1 Ilmu'); if (dd && dd.alat && dd.alat.kad_hadis === sebelum) toast('🃏 Hebat! Kad hadis dipadankan.'); }   // ganjaran sedia ada, sekali sehari
     try { Save.save(); } catch (err) {} try { $('khSiap').focus({ preventScroll: true }); } catch (err) {}
   },
-  ulang() {   // Cuba Lagi: kad pulang beransur ke dulang (muka bawah), kemudian set baharu
-    if (!this.aktif || this.tahap < 1 || this.tunggu) return; this.drag = null; this.pilih = null; this.sorot = -1; this.merah = null; this.tt.forEach((t, i) => this.pulangStok(i)); this.tunggu = true; this.tahap = 3; this.meriah = 0;
-    $('khUlang').hidden = true; $('khSiap').hidden = true; $('khL1').hidden = true; $('khArahan').textContent = 'Kad dikembalikan ke dulang…'; $('khMaklum').textContent = ''; this.lukisPad(); this.mula();
+  ulang() {   // Cuba Lagi: kad pulang beransur ke dinding (muka bawah), kemudian set baharu
+    if (!this.aktif || this.tahap < 1 || this.tunggu) return; this.drag = null; this.pilih = -1; this.sorot = -1; this.merah = null; this.petunjuk = null; this.tt.forEach((t, i) => this.pulangStok(i)); this.tunggu = true; this.tahap = 3; this.meriah = 0;
+    $('khUlang').hidden = true; $('khSiap').hidden = true; $('khL1').hidden = true; $('khArahan').textContent = 'Kad dikembalikan ke dinding…'; $('khMaklum').textContent = ''; this.mula();
   },
   // ----- seret pada kanvas -----
-  titik(e) {
-    const V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(0, 1, 0), -this.BAWA);
+  titik(e) {   // satah menegak x = xK - BAWA (kad yang diangkat ke arah pemain); mengembalikan [z, y]
+    const V = this.V2, rc = this.rc = this.rc || new THREE.Raycaster(), pl = this.pl = this.pl || new THREE.Plane(new THREE.Vector3(1, 0, 0), -(this.G.xK - this.BAWA));
     rc.setFromCamera({ x: e.clientX / window.innerWidth * 2 - 1, y: -(e.clientY / window.innerHeight * 2 - 1) }, camera); const r = this.nod.r;
-    if (!rc.ray.intersectPlane(pl, V)) return null; return [V.x - r.ox, V.z - r.oz];   // satah mengufuk setinggi kad yang diangkat
+    if (!rc.ray.intersectPlane(pl, V)) return null; return [V.z - r.oz, V.y];
   },
   kadDekat(px, py) {
     const N = this.nod, W = window.innerWidth, H = window.innerHeight, V = this.V, r = N.r; let best = -1, bd = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches ? 80 : 60);
-    this.tt.forEach((t, i) => { if (t.slot !== null || t.mode !== 'rehat') return; V.set(r.ox + t.p.x, t.p.y + 0.02, r.oz + t.p.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = i; } });
+    this.tt.forEach((t, i) => { if (i < this.N || t.slot !== null || t.mode !== 'rehat') return; V.set(r.ox + t.p.x, t.p.y, r.oz + t.p.z); V.project(camera); if (V.z > 1) return; const d = Math.hypot((V.x * 0.5 + 0.5) * W - px, (-V.y * 0.5 + 0.5) * H - py); if (d < bd) { bd = d; best = i; } });
     return best;
   },
-  petakDekat(x, z) { let best = -1, bd = this.JARI; for (let j = 0; j < 5; j++) { if (this.sel[j] !== null) continue; const d = Math.hypot(this.G.xPad - x, this.zS(j) - z); if (d < bd) { bd = d; best = j; } } return best; },
-  angkat(d, e) {   // kad diambil: terangkat, membalik muka situasi ke atas jika perlu
-    const t = this.tt[d.i]; d.mula = true; t.mode = 'seret'; t.goyang = 0; this.pilih = d.i; t.tx = t.p.x; t.tz = t.p.z; t.ty = this.BAWA;
-    if (!this.hadap(t)) this.balik(d.i, true, 0.24); Sound.play('pick'); this.segar(); this.mula();
+  petakDekat(z, y) { let best = -1, bd = this.JARI; for (let j = 0; j < this.N; j++) { const t = this.tt[j]; if (t.slot !== null) continue; const d = Math.hypot(t.g.userData.dasar.z - z, t.g.userData.dasar.y - y); if (d < bd) { bd = d; best = j; } } return best; },
+  angkat(d, e) {
+    const t = this.tt[d.i]; d.mula = true; t.mode = 'seret'; t.goyang = 0; this.pilih = d.i; t.tx = t.p.x; t.ty = t.p.y; t.tz = t.p.z; t.sc = 1.06; if (!this.hadap(t)) this.balik(d.i, true, 0.2); Sound.play('pick'); this.segar(); this.mula();
   },
   kanvas(e, fasa) {
     if (!this.aktif || this.tahap !== 1) return false; const G = this.G;
     if (fasa === 'turun') {
-      const i = this.kadDekat(e.clientX, e.clientY); if (i < 0) return false; const t0 = this.tt[i]; this.drag = { id: e.pointerId, i, x0: e.clientX, y0: e.clientY, mula: false, dx: 0, dz: 0 };
-      const q0 = this.titik(e); if (q0) { this.drag.dx = t0.p.x - q0[0]; this.drag.dz = t0.p.z - q0[1]; }   // jarak genggaman dikira semasa sentuhan supaya kad tidak melompat jika jari bergerak laju
+      const i = this.kadDekat(e.clientX, e.clientY); if (i < 0) return false; const t0 = this.tt[i]; this.drag = { id: e.pointerId, i, x0: e.clientX, y0: e.clientY, mula: false, dz: 0, dy: 0 };
+      const q0 = this.titik(e); if (q0) { this.drag.dz = t0.p.z - q0[0]; this.drag.dy = t0.p.y - q0[1]; }   // jarak genggaman dikira semasa sentuhan supaya kad tidak melompat
       return true;
     }
     const d = this.drag; if (!d || d.id !== e.pointerId) return false; const t = this.tt[d.i];
     if (fasa === 'gerak') {
       if (!d.mula) { if (Math.hypot(e.clientX - d.x0, e.clientY - d.y0) < this.SLOP) return true; this.angkat(d, e); }
-      const q = this.titik(e); if (q) { t.tx = Math.max(G.x0 + 0.05, Math.min(G.x1 - 0.1, q[0] + d.dx)); t.tz = Math.max(G.z0 + 0.15, Math.min(G.z1 - 0.15, q[1] + d.dz)); const j = this.petakDekat(t.tx, t.tz); if (j !== this.sorot) { this.sorot = j; this.lukisPad(); if (j >= 0) this.maklumHadis(j); } }
+      const q = this.titik(e); if (q) { t.tz = Math.max(G.zc - 1.5, Math.min(G.zc + 1.5, q[0] + d.dz)); t.ty = Math.max(0.95, Math.min(2.2, q[1] + d.dy)); t.tx = G.xK - this.BAWA; const j = this.petakDekat(t.tz, t.ty); if (j !== this.sorot) { const lama = this.sorot; this.sorot = j; if (lama >= 0) this.lukis(lama); if (j >= 0) { this.lukis(j); this.maklumHadis(j); } } }
       return true;
     }
-    if (fasa === 'naik') { this.drag = null; if (!d.mula) { this.ketik(d.i); return true; } const j = this.petakDekat(t.tx, t.tz); this.cuba(d.i, j, false); return true; }
+    if (fasa === 'naik') { this.drag = null; if (!d.mula) { this.ketik(d.i); return true; } const j = this.petakDekat(t.tz, t.ty); this.cuba(d.i, j, false); return true; }
     return false;
   },
   // ----- animasi -----
-  belumRehat() { return !!this.merah || this.meriah > 0 || this.tunggu || this.penutup || this.tt.some((t) => t.mode === 'seret' || t.mode === 'pulang' || !!t.flip || t.goyang > 0 || Math.abs(t.ny - ((this.pilih === t.idx && t.slot === null) ? 0.05 : 0)) > 0.0005 || (t.mode === 'lekat' && t.t < t.dur + 1)); },
+  belumRehat() { return !!this.merah || !!this.petunjuk || this.meriah > 0 || this.tunggu || this.penutup || this.tt.some((t) => t.mode === 'seret' || ((t.mode === 'pulang' || t.mode === 'lekat') && t.u < 1) || !!t.flip || t.goyang > 0 || Math.abs(t.g.scale.x - t.sc) > 0.004 || (t.mode === 'lekat' && t.t < t.dur + 1)); },
   mula() { if (this.raf) return; this.last = performance.now(); const L = (n) => { const dt = Math.min(0.05, (n - this.last) / 1000); this.last = n; this.tick(dt); this.raf = (this.aktif || this.k > 0.001 || this.belumRehat() || Fokus.sedia('kadHadis')) ? requestAnimationFrame(L) : 0; }; this.raf = requestAnimationFrame(L); },
   tick(dt) {
     const kur = this.kurang(), N = this.nod; Fokus.urus('kadHadis', this.k, this.aktif, dt, kur); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * 4.5)); this.tT += dt; if (!N) return; const f = (r) => (kur ? 1 : 1 - Math.exp(-dt * r)), had = (v) => Math.max(-0.3, Math.min(0.3, v));
     this.tt.forEach((t) => {
       const g = t.g; let naik = 0;
-      if (t.mode === 'seret') { const lx = t.p.x, lz = t.p.z; t.p.x += (t.tx - t.p.x) * f(16); t.p.y += (t.ty - t.p.y) * f(12); t.p.z += (t.tz - t.p.z) * f(16); t.lx += (had((lz - t.p.z) * 14) - t.lx) * f(8); t.lz += (had((t.p.x - lx) * -14) - t.lz) * f(8); }
+      if (t.mode === 'seret') { const lz = t.p.z, ly = t.p.y; t.p.x += (t.tx - t.p.x) * f(12); t.p.y += (t.ty - t.p.y) * f(16); t.p.z += (t.tz - t.p.z) * f(16); t.lx += (had((t.p.y - ly) * 14) - t.lx) * f(8); t.lz += (had((t.p.z - lz) * -14) - t.lz) * f(8); }
       else if (t.mode === 'pulang' || t.mode === 'lekat') {
         if (t.mode === 'lekat') t.t += dt;
-        if (t.u < 1) {
-          t.u = kur ? 1 : Math.min(1, t.u + dt / t.dur); const e = t.u * t.u * (3 - 2 * t.u);
-          t.p.x = t.fx + (t.tx - t.fx) * e; t.p.z = t.fz + (t.tz - t.fz) * e; t.p.y = t.fy + (t.ty - t.fy) * e + t.lengkung * Math.sin(Math.PI * t.u);
-        }
+        if (t.u < 1) { t.u = kur ? 1 : Math.min(1, t.u + dt / t.dur); const e = t.u * t.u * (3 - 2 * t.u); t.p.x = t.fx + (t.tx - t.fx) * e - t.lengkung * Math.sin(Math.PI * t.u); t.p.y = t.fy + (t.ty - t.fy) * e; t.p.z = t.fz + (t.tz - t.fz) * e; }
         t.lx += (0 - t.lx) * f(8); t.lz += (0 - t.lz) * f(8);
-        if (t.mode === 'pulang') { if (t.goyang > 0) t.goyang = Math.max(0, t.goyang - dt); if ((t.u >= 1 && t.goyang <= 0) || kur) { t.p.set(t.tx, t.ty, t.tz); t.mode = 'rehat'; t.lx = t.lz = 0; t.goyang = 0; } }
-        else if (t.u >= 1) t.p.set(t.tx, t.ty, t.tz);
-      } else {   // rehat: kad yang dipilih terangkat sedikit
-        t.lx += (0 - t.lx) * f(10); t.lz += (0 - t.lz) * f(10); const sasar = (this.pilih === t.idx && t.slot === null) ? 0.05 : 0; t.ny += (sasar - t.ny) * f(10); if (Math.abs(t.ny - sasar) < 0.0004) t.ny = sasar;
-      }
-      if (t.flip) { const F = t.flip; F.u = kur ? 1 : Math.min(1, F.u + dt / F.dur); const e = F.u * F.u * (3 - 2 * F.u); t.rx = F.a + (F.b - F.a) * e; naik = F.arc * Math.sin(Math.PI * F.u); if (F.u >= 1) { t.rx = F.b; t.flip = null; naik = 0; } }
-      let pantul = 0; if (t.mode === 'lekat' && t.u >= 1 && !kur) { const tl = t.t - t.dur; if (tl > 0 && tl < 1) pantul = 0.02 * Math.exp(-7 * tl) * Math.abs(Math.sin(Math.PI * 2.5 * tl)); }   // kesan snap: kad mendarat, melantun kecil lalu menetap
-      g.position.set(t.p.x, t.p.y + (t.mode === 'rehat' ? t.ny : 0) + naik + pantul, t.p.z);
+        if (t.u >= 1) t.p.set(t.tx, t.ty, t.tz);
+        if (t.mode === 'pulang') { if (t.goyang > 0) t.goyang = Math.max(0, t.goyang - dt); if ((t.u >= 1 && t.goyang <= 0 && !t.flip) || kur) { t.p.set(t.tx, t.ty, t.tz); t.mode = 'rehat'; t.lx = t.lz = 0; t.goyang = 0; t.sc = 1; } }
+      } else { t.lx += (0 - t.lx) * f(10); t.lz += (0 - t.lz) * f(10); }
+      if (t.flip) { const F = t.flip; F.u = kur ? 1 : Math.min(1, F.u + dt / F.dur); const uu = Math.max(0, F.u), e = uu * uu * (3 - 2 * uu); t.rx = F.a + (F.b - F.a) * e; naik = F.arc * Math.sin(Math.PI * uu); if (F.u >= 1) { t.rx = F.b; t.flip = null; naik = 0; } }
+      let pantul = 0; if (t.mode === 'lekat' && t.u >= 1 && !kur) { const tl = t.t - t.dur; if (tl > 0 && tl < 1) pantul = 0.03 * Math.exp(-7 * tl) * Math.abs(Math.sin(Math.PI * 2.5 * tl)); }   // kesan snap: kad mendarat, melantun kecil lalu menetap
+      g.position.set(t.p.x - naik - pantul, t.p.y, t.p.z);
       g.rotation.x = t.lx; g.rotation.z = t.rx + t.lz; g.rotation.y = t.goyang > 0 ? Math.sin(t.goyang * 38) * 0.22 * Math.min(1, t.goyang / 0.2) : 0;
-      // kad membesar sedikit semasa diseret; selepas melekat 'menetap' dengan denyut lembut (1.00 -> 0.93 -> 1.00 pada ketebalan)
-      let sx = 1; if (t.mode === 'seret') sx = 1.06; else if (t.mode === 'lekat') { const q = Math.sin(Math.min(1, Math.max(0, (t.t - t.dur + 0.04) / 0.25)) * Math.PI); sx = 1 + 0.05 * q; }
-      if (kur) g.scale.set(sx, sx, sx); else { g.scale.x += (sx - g.scale.x) * f(16); g.scale.y = g.scale.z = g.scale.x; }
+      if (kur) g.scale.set(t.sc, t.sc, t.sc); else { g.scale.x += (t.sc - g.scale.x) * f(14); g.scale.y = g.scale.z = g.scale.x; }
     });
-    if (this.merah) { this.merah.t -= dt; if (this.merah.t <= 0) { this.merah = null; this.lukisPad(); } }
-    if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }   // pulihkan fov asal selepas kamera kembali
+    if (this.merah) { this.merah.t -= dt; if (this.merah.t <= 0) { const j = this.merah.j; this.merah = null; this.lukis(j); } }
+    if (this.petunjuk) { this.petunjuk.t -= dt; if (this.petunjuk.t <= 0) { const j = this.petunjuk.j; this.petunjuk = null; this.lukis(j); } }
+    if (this.fovUbah && this.k < 0.002) { camera.fov = this.fov0; camera.updateProjectionMatrix(); this.fovUbah = false; }
     const rehat = this.tt.every((t) => t.mode === 'rehat' && !t.flip);
     if (this.tunggu && rehat) { this.tunggu = false; this.mulaSet(); }
     if (this.penutup && rehat) { this.penutup = false; this.tt = []; }
-    if (this.meriah > 0) { this.meriah -= dt; this.tt.forEach((t) => { if (t.slot !== null && t.mode === 'lekat') t.g.position.y = t.p.y + 0.04 * Math.abs(Math.sin(Math.max(0, 1.2 - this.meriah) * 7 + t.idx * 0.7)) * Math.min(1, this.meriah); }); }
+    if (this.meriah > 0) { this.meriah -= dt; this.tt.forEach((t) => { if (t.idx >= this.N && t.slot !== null && t.mode === 'lekat') t.g.position.y = t.p.y + 0.04 * Math.abs(Math.sin(Math.max(0, 1.2 - this.meriah) * 7 + t.idx * 0.7)) * Math.min(1, this.meriah); }); }
   },
-  kamera() {
+  kamera() {   // kamera di barat, memandang ke dinding timur dengan sudut kecil ke bawah
     const r = Rooms.list.pi; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V, G = this.G;
     if (!this.fovUbah) { this.fov0 = camera.fov; this.fovUbah = true; }
-    const M = this.muatKamera(), cx = r.ox + 5.3, cy = 0.85, cz = r.oz + G.zc;   // sasaran: tengah meja; kamera di barat, memandang ke bawah 32 darjah
+    const M = this.muatKamera(), cx = r.ox + G.xW, cy = 1.65, cz = r.oz + G.zc;
     camera.position.lerp(V.set(cx - M.dist * Math.cos(M.pitch), cy + M.dist * Math.sin(M.pitch), cz), e); V.copy(Cam.look).lerp(this.V2.set(cx, cy, cz), e); camera.lookAt(V);
     const fv = this.fov0 + (M.fov - this.fov0) * e; if (Math.abs(camera.fov - fv) > 0.01) { camera.fov = fv; camera.updateProjectionMatrix(); }
   },
-  // Jarak dan fov supaya meja (3.44 m panjang, 1.42 m dalam, ~1.5 m tinggi ketara termasuk papan hadis) muat dalam ruang bebas di atas panel (Fokus.dh); jarak maks 5.2 m, kemudian fov dilebarkan (maks 82 darjah)
+  // Jarak dan fov supaya panel (2.7 m lebar, ~1.7 m tinggi) muat dalam ruang bebas di atas panel (Fokus.dh); jarak maks 5.2 m, kemudian fov dilebarkan (maks 82 darjah)
   muatKamera() {
     const W = window.innerWidth || 1, H = window.innerHeight || 1, asp = W / H, dh = Fokus.dhId === 'kadHadis' ? Fokus.dh : 0, bebas = Math.max(0.4 * H, H - dh);
-    const f0 = this.fov0 || camera.fov, tv0 = Math.tan(f0 * Math.PI / 360), LB = 3.6, TB = 1.5, M = 0.94;
+    const f0 = this.fov0 || camera.fov, tv0 = Math.tan(f0 * Math.PI / 360), LB = 3.0, TB = 1.9, M = 0.94;
     let dist = Math.max(2.4, TB * H / (2 * tv0 * bebas * M), LB / (2 * tv0 * asp * M)), fov = f0;
     if (dist > 5.2) { dist = 5.2; const tv = Math.max(LB / (2 * dist * asp * M), TB * H / (2 * dist * bebas * M)); fov = Math.max(f0, Math.min(82, 2 * Math.atan(tv) * 180 / Math.PI)); }
-    return { dist, fov, pitch: 32 * Math.PI / 180 };
+    return { dist, fov, pitch: 8 * Math.PI / 180 };
   },
   kunci(e, k) {
     if (k === 'escape') { this.tutup(); e.preventDefault(); return; }
     const tgt = e.target || {}, butang = tgt.tagName === 'BUTTON';
     if (this.tahap === 0) { if (!butang && (k === 'enter' || k === ' ' || k === '1')) { this.mulaAktiviti(); e.preventDefault(); } else if (!butang && k === '2') { this.lihatPapan(); e.preventDefault(); } return; }
     if (this.tahap === 1) {
-      if (/^[1-5]$/.test(k)) { this.ambil(+k - 1); e.preventDefault(); return; }
-      const sl = ['q', 'w', 'e', 'r', 't'].indexOf(k); if (sl >= 0) { this.letakDi(sl); e.preventDefault(); return; }
+      if (/^[1-4]$/.test(k)) { this.ambil(+k + 3); e.preventDefault(); return; }
+      const sl = ['q', 'w', 'e', 'r'].indexOf(k); if (sl >= 0) { this.letakDi(sl); e.preventDefault(); return; }
       if (k === 'f' && !e.repeat) { this.balikPilih(); e.preventDefault(); return; }
     }
     if (k === 'c' && !e.repeat && this.tahap >= 1) { this.ulang(); e.preventDefault(); }
