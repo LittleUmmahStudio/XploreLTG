@@ -10156,11 +10156,16 @@ const KomputerPSS = {
       sedia: true
     };
   },
+  kotakTempatan(o) {   // kotak sempadan dalam koordinat BILIK (tidak bergantung pada kedudukan dunia bilik): gabungan kotak geometri + translasi nod
+    let mn = null, mx = null; o.traverse((m) => { if (!m.isMesh || !m.geometry) return; if (!m.geometry.boundingBox) m.geometry.computeBoundingBox(); const q = m.geometry.boundingBox; if (!q) return;
+      if (!mn) { mn = { x: q.min.x, y: q.min.y, z: q.min.z }; mx = { x: q.max.x, y: q.max.y, z: q.max.z }; } else { mn.x = Math.min(mn.x, q.min.x); mn.y = Math.min(mn.y, q.min.y); mn.z = Math.min(mn.z, q.min.z); mx.x = Math.max(mx.x, q.max.x); mx.y = Math.max(mx.y, q.max.y); mx.z = Math.max(mx.z, q.max.z); } });
+    if (!mn) return null; const p = o.position; return { min: { x: mn.x + p.x, y: mn.y + p.y, z: mn.z + p.z }, max: { x: mx.x + p.x, y: mx.y + p.y, z: mx.z + p.z } };
+  },
   // Cari komputer terdekat dengan pemain di Ruang Digital; kembalikan false jika GLB tiada (kembali kepada fakta asal)
   cari() {
     const r = Rooms.list && Rooms.list.pss; if (!r || Rooms.current !== 'pss') return null; let best = null;
     ['komputer_1', 'komputer_2', 'komputer_3'].forEach((n) => {
-      const o = r.group.getObjectByName(n); if (!o) return; const b = new THREE.Box3().setFromObject(o); if (b.isEmpty()) return;
+      const o = r.group.getObjectByName(n); if (!o) return; const b = this.kotakTempatan(o); if (!b) return;
       const zc = b.min.z + 0.30, d = Math.hypot(Player.pos.x - (r.ox + this.KURSI), Player.pos.z - (r.oz + zc));
       if (Math.abs(b.max.x - 6.86) > 0.05 || Math.abs((b.max.z - b.min.z) - 0.66) > 0.08) return;   // sahkan susun atur GLB (skrin pada x = 6.70, lebar 0.6 m)
       if (!best || d < best.d) best = { n, zc, d };
