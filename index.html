@@ -149,6 +149,44 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #kpLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
 #kpAtas{position:absolute;left:10px;top:10px;pointer-events:auto;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
 #kpBantu{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #000;pointer-events:none}
+#rbLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#rbLapisan [hidden],#rbLapisan[hidden]{display:none!important}
+#rbAtas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:flex-start;pointer-events:none}#rbAtas>*{pointer-events:auto}
+#rbMisi{background:rgba(16,37,58,.92);color:#fff;border-radius:14px;padding:8px 12px;display:flex;gap:10px;align-items:center;flex:1;max-width:680px;font-size:14px;line-height:1.3}#rbMisi b{background:#FFB400;color:#10253A;border-radius:10px;padding:2px 9px;white-space:nowrap}
+.rbKecil{min-height:30px;padding:2px 10px;font-size:13px}
+.rbBaris{position:absolute;left:50%;transform:translateX(-50%);top:64px;max-width:92vw;padding:8px 14px;border-radius:14px;background:rgba(16,37,58,.92);color:#fff;font-size:14px;pointer-events:none;text-align:center}.rbBaris.salah{background:#B3392C}.rbBaris.baik{background:#2F7D32}
+#rbPusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,18,30,.5);padding:10px;box-sizing:border-box}
+.rbKad{background:#FFFDF6;color:#10253A;border-radius:18px;padding:16px;max-width:min(94vw,780px);max-height:88vh;overflow:auto;box-shadow:0 12px 40px #0006;text-align:center}
+.rbJdl{font-size:22px;margin-bottom:6px;color:#1D6B37}.rbMsg{font-size:14px;margin-bottom:12px;color:#3C5670;line-height:1.4}
+.rbGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.rbCard{border:2px solid #D2DEEA;border-radius:14px;background:#F2F7FC;padding:10px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;transition:transform .15s,border-color .15s}.rbCard:hover{transform:translateY(-3px);border-color:#2F86E8}
+.rbCard.bebas{border-color:#FFB400}.rbCard .rbE{font-size:34px}.rbCard small{font-size:12px;color:#3C5670;line-height:1.3}.rbS i{font-style:normal;font-size:22px;color:#CBD6E2}.rbS i.on{color:#FFB400}
+.rbBintang span{font-size:56px;color:#CBD6E2;display:inline-block}.rbBintang span.on{color:#FFB400;animation:rbPop .55s both}@keyframes rbPop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.35) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.rbGanjaran{background:#EEF3F8;border-radius:12px;padding:8px 12px;font-size:14px;margin:8px 0 12px}.rbGanjaran.ada{background:#FFF4CC;color:#5A4300}
+.rbBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.rbHijau{background:#58B85A!important;color:#fff!important}
+#rbPegang{position:absolute;left:50%;transform:translateX(-50%);bottom:62px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;background:rgba(16,37,58,.92);color:#fff;border-radius:14px;padding:8px 10px;max-width:94vw;font-size:14px}
+#rbBawah{position:absolute;left:0;right:0;bottom:10px;display:flex;gap:8px;justify-content:center;align-items:center;pointer-events:none;padding:0 8px}#rbBawah>*{pointer-events:auto}
+#rbTab{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}#rbTab button.on{background:#2F86E8;color:#fff}#rbBawah .btn{min-height:40px}
+#rbBaca{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;background:rgba(10,18,30,.78);opacity:0;transition:opacity .3s;perspective:2400px;touch-action:none}#rbBaca.on{opacity:1}
+.rbKerja{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px}
+.rbTutupBaca{position:absolute;top:-52px;right:0}
+.rbBuku{position:relative;width:var(--bw);height:var(--bh);transform-style:preserve-3d;transition:transform .85s cubic-bezier(.45,.05,.25,1);transform:rotateX(7deg)}
+.rbBuku.dua.tertutup{transform:rotateX(7deg) translateX(-25%)}.rbBuku.dua.akhir{transform:rotateX(7deg) translateX(25%)}.rbBuku.tunggal{transform:none}
+.rbSampulBelakang{position:absolute;inset:-2.4% -2.2% -2.4% -2.2%;background:var(--wb);border-radius:12px;box-shadow:0 22px 46px rgba(0,0,0,.5);transition:clip-path .85s}
+.rbBuku.dua.tertutup .rbSampulBelakang{clip-path:inset(0 0 0 49%)}.rbBuku.dua.akhir .rbSampulBelakang{clip-path:inset(0 49% 0 0)}
+.rbAlas{position:absolute;top:0;height:100%;width:50%;background:#FFF8E6;transition:opacity .85s}.rbAlas.kiri{left:0;border-radius:8px 0 0 8px}.rbAlas.kanan{left:50%;border-radius:0 8px 8px 0}
+.rbBuku.tunggal .rbAlas.kiri{display:none}.rbBuku.tunggal .rbAlas.kanan{left:0;width:100%;border-radius:8px}
+.rbBuku.dua.tertutup .rbAlas.kiri{opacity:0}.rbBuku.dua.akhir .rbAlas.kanan{opacity:0}
+.rbLeaf{position:absolute;top:0;left:50%;width:50%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.45,.05,.25,1)}
+.rbBuku.tunggal .rbLeaf{left:0;width:100%}.rbLeaf.flip{transform:rotateY(-180deg)}.rbLeaf.lesap{visibility:hidden}
+.rbF,.rbB{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#FFF8E6;overflow:hidden}.rbB{transform:rotateY(180deg)}
+.rbF{border-radius:0 8px 8px 0;box-shadow:inset 16px 0 20px -14px rgba(0,0,0,.4)}.rbB{border-radius:8px 0 0 8px;box-shadow:inset -16px 0 20px -14px rgba(0,0,0,.4)}.rbBuku.tunggal .rbF{border-radius:8px}
+.rbTulang{position:absolute;top:0;bottom:0;left:calc(50% - 2px);width:4px;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(0,0,0,0));pointer-events:none;z-index:50}.rbBuku.tunggal .rbTulang{display:none}
+.rbPg{position:absolute;inset:0;padding:calc(var(--bh)*.07);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--bh)*.035);text-align:center;color:#2B2430;box-sizing:border-box}
+.rbEmoji{font-size:calc(var(--bh)*.19);line-height:1}.rbIsi{font-size:calc(var(--bh)*.05);line-height:1.4}.rbNoHal{position:absolute;bottom:calc(var(--bh)*.03);font-size:calc(var(--bh)*.032);color:#8A7F6A}
+.rbPg.tajuk{background:linear-gradient(160deg,#FFF8E6,#FFE9B8)}.rbTT{font-size:calc(var(--bh)*.075);line-height:1.15;color:var(--wb);font-weight:700}.rbSub{font-size:calc(var(--bh)*.038);color:#6B5F4A}.rbLabel{font-size:calc(var(--bh)*.034);background:var(--wb);color:#fff;border-radius:99px;padding:.15em .8em}
+.rbPg.ingat{background:linear-gradient(160deg,#FFFBE8,#FFF0B0)}.rbIngat{font-size:calc(var(--bh)*.07);color:#B07800;font-weight:700}
+.rbNav{display:flex;gap:14px;align-items:center;color:#fff;font-size:14px}.rbNav .btn{min-width:56px}.rbNav .btn:disabled{opacity:.35}
+.rbChip{position:absolute;bottom:-52px;background:#58B85A;color:#fff;border-radius:99px;padding:6px 14px;font-size:14px;animation:rbPop .5s both}
 #joy{position:fixed;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
   border:3px solid rgba(255,255,255,.8);background:rgba(20,56,102,.22);pointer-events:none;
   left:calc(max(10px,env(safe-area-inset-left,0px)) + 80px);top:calc(100% - max(8px,env(safe-area-inset-bottom,0px)) - 80px);opacity:.55}
@@ -1030,6 +1068,14 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     </div>
   </section>
 
+  <div id="rbLapisan" hidden aria-label="Rak buku interaktif">
+    <div id="rbAtas"><button id="rbKeluar" class="btn" type="button">⬅ Keluar</button><div id="rbMisi" hidden></div></div>
+    <div id="rbBaris" class="rbBaris" hidden></div>
+    <div id="rbPusat" hidden></div>
+    <div id="rbPegang" hidden><span id="rbTajukPegang"></span><button id="rbBuka" class="btn rbHijau" type="button">📖 Buka &amp; baca</button><button id="rbBalik" class="btn" type="button">↩ Letak balik</button></div>
+    <div id="rbBawah"><button id="rbKiri" class="btn" type="button" aria-label="Ke kiri">◀</button><div id="rbTab"><button class="btn" type="button">📖 Cerita</button><button class="btn" type="button">🔬 Sains</button><button class="btn" type="button">🏛️ Sejarah</button><button class="btn" type="button">🌏 Am</button></div><button id="rbKanan" class="btn" type="button" aria-label="Ke kanan">▶</button></div>
+    <div id="rbBaca" hidden></div>
+  </div>
   <div id="kpLapisan" hidden aria-label="Komputer Ruang Digital">
     <div id="kpAtas"><button id="kpKeluar" class="btn" type="button">⬅ Bangun</button><span id="kpTajuk">Komputer</span></div>
     <div id="kpBantu">Gerakkan tetikus (atau jari) pada skrin · klik dua kali untuk membuka · Esc untuk bangun</div>
@@ -5376,7 +5422,7 @@ const InteriorGLB = {
       // Sauh interaksi: nod int_<kunci> atau int_<kunci>_<n> -> [kata kerja, label, fungsi, jarak]
       aksi: {
         int_komputer: ['Guna', 'Guna komputer', () => Peralatan.komputer(), 1.2],
-        int_rak: ['Baca', 'Baca buku', () => Rooms.baca(), 1.8],
+        int_rak: ['Baca', 'Baca buku', () => { let ok = false; try { ok = RakBuku.buka(); } catch (e) { laporRalat(e); } if (!ok) Rooms.baca(); }, 1.8],   // v117: rak buku interaktif; bacaan rawak asal kekal sebagai sandaran
         int_kaunter: ['Tanya', 'Tanya di kaunter pinjaman', () => Peralatan.kaunterPss(), 1.5],
         int_papan: ['Lihat', 'Baca papan kenyataan', () => Peralatan.pengumuman(), 1.6],
         int_sudut: ['Baca', 'Baca buku cerita di sudut bacaan', () => Peralatan.kisah(), 1.5]
@@ -7870,6 +7916,7 @@ window.addEventListener('keydown', (e) => {
   if (k === 'escape' && !$('sandaran').hidden) { Sandaran.tutup(); return; }
   if (k === 'escape' && !$('papanAnugerah').hidden) { Anugerah.tutup(); return; }
   if (State.uiLock === 'komputer') { if (k === 'escape') KomputerPSS.tutup(); return; }
+  if (State.uiLock === 'rak') { if (k === 'escape') { if (RakBuku.reader) RakBaca.tutup(); else RakBuku.tutup(); } else if (RakBuku.reader && (k === 'arrowright' || k === 'arrowleft')) RakBaca.gerak(k === 'arrowright' ? 1 : -1); return; }
   if (State.uiLock === 'geng') { if (k === 'escape') Geng.tutup(); return; }
   if (State.uiLock === 'menuMakan') { if (k === 'escape') MenuMakan.tutup(); return; }
   if (State.uiLock === 'bayar') { if (k === 'escape') Bayar.tutup(); return; }
@@ -8114,7 +8161,8 @@ const Cam = {
     if (Tumbuhan.k > 0.002) Tumbuhan.kamera();   // v110: kamera dekat eksperimen tumbuhan
     if (SelamatMakmal.k > 0.002) SelamatMakmal.kamera();   // v112: kamera dekat sinki dan meja kerja (keselamatan makmal)
     if (SudutSolat.k > 0.002) SudutSolat.kamera();   // v99: kamera sisi Sudut Latihan Solat
-    KomputerPSS.tick(dt); if (KomputerPSS.k > 0.002) KomputerPSS.kamera();   // v114: komputer interaktif Pusat Sumber
+    KomputerPSS.tick(dt); if (KomputerPSS.k > 0.002) KomputerPSS.kamera();
+    RakBuku.tick(dt); if (RakBuku.k > 0.002) RakBuku.kamera();   // v117: rak buku interaktif Pusat Sumber   // v114: komputer interaktif Pusat Sumber
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -10253,6 +10301,416 @@ const KomputerPSS = {
     V.set(r.ox + this.SX - d, this.SY + 0.015, r.oz + this.zc);
     camera.position.lerp(V, e);
     V2.copy(Cam.look).lerp(V.set(r.ox + this.SX, this.SY - 0.005, r.oz + this.zc), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Rak Buku Interaktif Pusat Sumber (v117) =====================
+   Menaik taraf 4 rak buku rendah di dinding utara Pusat Sumber (nod GLB rak_rendah_1..4 dalam pss_interior_props.glb, TIDAK diubah):
+   12 buah buku 3D (kategori Cerita, Sains, Sejarah, Pengetahuan Am) berdiri pada petak atas setiap rak. Pemain memilih / menarik buku dari rak,
+   membuka dan menyelak halaman (animasi selak 3D), dan menyusunnya semula. Mini misi "Cari Buku": cari mengikut tajuk, cari mengikut kategori,
+   dan susun semula buku yang tersalah rak. Buku yang diletak ke rak betul 'snap' dengan animasi melantun, bunyi, percikan dan maklum balas.
+   Kemajuan (bintang, buku dibaca) dalam State.data.rakBuku; ganjaran guna Peralatan.ganjaran (sekali sehari) + Kiraan + bacaan +1 Ilmu (cooldown sedia ada).
+   Semua dijana oleh kod (tiada aset luar, tiada internet). Bacaan ialah teks asli ringkas untuk murid sekolah rendah.
+   RakBaca = pembaca buku (DOM + CSS 3D, halaman tajam pada mana-mana skrin); RakBuku = rak 3D, kamera, input, misi. */
+const RakBaca = {
+  b: null, n: 0, tunggal: false, hal: [], kiri: 0, tutupFn: null, tamatFn: null, buka_: false, mid: null, tamat: false, _z: [],
+  PAPAR: (b) => {
+    const p = [{ jenis: 'tajuk', e: b.ikon, t: b.tajuk, s: b.penulis, k: b.katNama }];
+    b.halaman.forEach((h, i) => p.push({ jenis: 'isi', e: h.e, t: h.t, no: i + 1 }));
+    p.push({ jenis: 'ingat', e: '⭐', t: b.ingat });
+    return p;
+  },
+  el(id) { return document.getElementById(id); },
+  buka(b, tutupFn, tamatFn) {
+    this.b = b; this.hal = this.PAPAR(b); this.n = 0; this.kiri = 0; this.tutupFn = tutupFn; this.tamatFn = tamatFn; this.tamat = false; this.buka_ = true;
+    const R = this.el('rbBaca'); R.hidden = false; this.bina(); requestAnimationFrame(() => R.classList.add('on'));
+  },
+  tutup(senyap) {
+    if (!this.buka_) return; this.buka_ = false; const R = this.el('rbBaca'); R.classList.remove('on'); const f = this.tutupFn; setTimeout(() => { if (!this.buka_) { R.hidden = true; R.innerHTML = ''; } }, 320); if (f && !senyap) f(this.b);
+  },
+  mod() { return window.innerWidth < 720 || window.innerHeight > window.innerWidth * 1.05; },
+  bina() {
+    const R = this.el('rbBaca'), b = this.b; this.tunggal = this.mod();
+    const W = window.innerWidth, H = window.innerHeight;
+    let bw, bh;
+    if (this.tunggal) { bw = Math.min(W * 0.92, 520, (H * 0.74) / 1.32); bh = bw * 1.32; } else { bw = Math.min(W * 0.92, 940, (H * 0.74) * 1.42); bh = bw / 1.42; }
+    const warna = b.warna;
+    R.innerHTML = '<div class="rbKerja" style="--bw:' + bw + 'px;--bh:' + bh + 'px;--wb:' + warna + '">' +
+      '<button class="btn rbTutupBaca" id="rbTutupBaca" type="button" aria-label="Tutup buku">✕ Tutup buku</button>' +
+      '<div class="rbBuku ' + (this.tunggal ? 'tunggal' : 'dua') + '" id="rbBuku"><div class="rbSampulBelakang"></div><div class="rbAlas kiri"></div><div class="rbAlas kanan"></div>' + this.leaves() + '<div class="rbTulang"></div></div>' +
+      '<div class="rbNav"><button class="btn" id="rbPrev" type="button" aria-label="Halaman sebelum">◀</button><span id="rbNo"></span><button class="btn" id="rbNext" type="button" aria-label="Halaman seterusnya">▶</button></div>' +
+      '<div id="rbTamatChip" class="rbChip" hidden>✔ Tamat dibaca!</div></div>';
+    this._z = []; this.kiri = Math.min(this.kiri, this.maks());
+    this.el('rbTutupBaca').onclick = () => this.tutup();
+    this.el('rbPrev').onclick = () => this.gerak(-1); this.el('rbNext').onclick = () => this.gerak(1);
+    const buku = this.el('rbBuku'); let x0 = null, t0 = 0;
+    buku.onpointerdown = (e) => { x0 = e.clientX; t0 = performance.now(); e.stopPropagation(); };
+    buku.onpointerup = (e) => { if (x0 === null) return; const dx = e.clientX - x0, r = buku.getBoundingClientRect(); x0 = null; e.stopPropagation();
+      if (Math.abs(dx) > 40) this.gerak(dx < 0 ? 1 : -1); else if (performance.now() - t0 < 500) this.gerak((e.clientX - r.left) > r.width / 2 ? 1 : -1); };
+    this.terapkan(true);
+  },
+  halHtml(p) {
+    if (!p) return '<div class="rbKosong"></div>';
+    if (p.jenis === 'tajuk') return '<div class="rbPg tajuk"><div class="rbEmoji">' + p.e + '</div><div class="rbTT">' + p.t + '</div><div class="rbSub">' + p.s + '</div><div class="rbLabel">' + p.k + '</div></div>';
+    if (p.jenis === 'ingat') return '<div class="rbPg ingat"><div class="rbEmoji">' + p.e + '</div><div class="rbIngat">Ingat!</div><div class="rbIsi">' + p.t + '</div></div>';
+    return '<div class="rbPg"><div class="rbEmoji">' + p.e + '</div><div class="rbIsi">' + p.t + '</div><div class="rbNoHal">' + p.no + '</div></div>';
+  },
+  leaves() {
+    const P = this.hal; let h = '';
+    if (this.tunggal) { P.forEach((p, i) => { h += '<div class="rbLeaf" data-i="' + i + '"><div class="rbF">' + this.halHtml(p) + '</div></div>'; }); }
+    else { for (let j = 0; j < P.length / 2; j++) h += '<div class="rbLeaf" data-i="' + j + '"><div class="rbF">' + this.halHtml(P[2 * j]) + '</div><div class="rbB">' + this.halHtml(P[2 * j + 1]) + '</div></div>'; }
+    return h;
+  },
+  maks() { return this.tunggal ? this.hal.length - 1 : Math.ceil(this.hal.length / 2); },
+  gerak(d) {
+    const k = Math.max(0, Math.min(this.maks(), this.kiri + d)); if (k === this.kiri) return; const dari = this.kiri; this.kiri = k;
+    try { Sound.play('pick'); } catch (e) {}
+    this.terapkan(false, dari);
+  },
+  terapkan(serta, dari) {
+    const L = [...document.querySelectorAll('#rbBuku .rbLeaf')], N = L.length, tg = this.tunggal;
+    L.forEach((l, j) => {
+      const flip = j < this.kiri; l.classList.toggle('flip', flip);
+      if (tg && !flip) l.classList.remove('lesap');
+      const baru = flip ? j + 1 : N - j;
+      if (serta || dari === undefined) l.style.zIndex = baru;
+      else { clearTimeout(this._z[j]); const bergerak = (j === dari && this.kiri > dari) || (j === dari - 1 && this.kiri < dari); if (bergerak) this._z[j] = setTimeout(() => { l.style.zIndex = baru; }, 400); else l.style.zIndex = baru; }
+    });
+    if (tg) { clearTimeout(this._lt); this._lt = setTimeout(() => { L.forEach((l, j) => l.classList.toggle('lesap', j < this.kiri)); }, serta ? 0 : 950); }
+    this.el('rbPrev').disabled = this.kiri === 0; this.el('rbNext').disabled = this.kiri === this.maks();
+    const tot = this.hal.length; let teks;
+    if (this.kiri === 0) teks = 'Muka depan'; else if (this.kiri === this.maks()) teks = 'Penutup'; else teks = tg ? 'Halaman ' + this.kiri + ' / ' + (tot - 2) : 'Halaman ' + (this.kiri * 2 - 1) + '–' + (this.kiri * 2);
+    this.el('rbNo').textContent = teks;
+    const hujung = this.kiri === this.maks(); this.el('rbBuku').classList.toggle('tertutup', !tg && this.kiri === 0); this.el('rbBuku').classList.toggle('akhir', !tg && hujung);
+    if (hujung && !this.tamat) { this.tamat = true; this.el('rbTamatChip').hidden = false; if (this.tamatFn) setTimeout(() => this.tamatFn(this.b), 500); }
+  }
+};
+
+const RakBuku = {
+  SLOT: 14, PITCH: 0.13, Y0: 0.53, ZF: -4.51, NSLOT0: 5,
+  KAT: [{ id: 'cerita', nama: 'Cerita', ikon: '📖', warna: '#E8684F' }, { id: 'sains', nama: 'Sains', ikon: '🔬', warna: '#3A8BDB' },
+    { id: 'sejarah', nama: 'Sejarah', ikon: '🏛️', warna: '#B07444' }, { id: 'am', nama: 'Pengetahuan Am', ikon: '🌏', warna: '#3FA58F' }],
+  BUKU: [
+    { id: 'c1', kat: 0, tajuk: 'Mia dan Kunang-kunang', pendek: 'Mia & Kunang-kunang', ikon: '🌙', warna: '#E8684F', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🌙', t: 'Malam itu bekalan elektrik terputus di kampung Mia. Mia mahu mengambil buku ceritanya di rumah nenek, tetapi jalan sangat gelap.' },
+        { e: '✨', t: 'Tiba-tiba, sekawan kunang-kunang terbang menghampirinya. Cahaya kecil itu berkelip-kelip di hadapan Mia, seolah-olah mengajaknya berjalan.' },
+        { e: '🏡', t: 'Mia berjalan perlahan-lahan mengikut cahaya itu. Dia sampai di rumah nenek dengan selamat. Nenek tersenyum dan memeluknya erat.' },
+        { e: '🌳', t: 'Esoknya, Mia pergi ke tepi sungai dan berbisik, "Terima kasih, kunang-kunang." Sejak itu dia tidak lagi membuang sampah merata-rata.' }], ingat: 'Alam menolong kita. Jadi, kita juga perlu menjaga alam.' },
+    { id: 'c2', kat: 0, tajuk: 'Siput yang Sabar', pendek: 'Siput yang Sabar', ikon: '🐌', warna: '#F08A4B', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🐌', t: 'Si Siput mahu menjadi pelari yang laju. Setiap pagi dia mencuba, tetapi dia hanya mampu bergerak sedikit demi sedikit.' },
+        { e: '🐰', t: '"Hahaha, kamu terlalu lambat!" kata Arnab. Siput sedih, namun dia tidak berhenti. Setiap hari dia bergerak sedikit lebih jauh daripada semalam.' },
+        { e: '🌧️', t: 'Suatu hari hujan lebat turun. Arnab tersesat dan tidak tahu jalan pulang. Siput masih ingat jalan, kerana dia sentiasa berjalan dengan teliti.' },
+        { e: '🤝', t: 'Siput membawa Arnab pulang dengan selamat. "Maafkan aku kerana mengejekmu," kata Arnab. Mereka berkawan baik sejak hari itu.' }], ingat: 'Sabar dan tekun membawa kita jauh. Jangan mengejek kawan.' },
+    { id: 'c3', kat: 0, tajuk: 'Lukisan Dadi', pendek: 'Lukisan Dadi', ikon: '🎨', warna: '#D8567A', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🎨', t: 'Dadi suka melukis, tetapi dia malu menunjukkan lukisannya kepada kawan-kawan. Katanya, "Lukisanku tidak secantik lukisan orang lain."' },
+        { e: '🖍️', t: 'Cikgu Lina menggantung lukisan murid di dinding kelas. Dadi menyorokkan lukisannya di bawah buku, tetapi warna-warna ceria itu ternampak di celah buku.' },
+        { e: '🖼️', t: '"Cantiknya! Siapa yang melukis ini?" tanya Cikgu Lina. Perlahan-lahan Dadi mengangkat tangan. Kawan-kawannya bertepuk tangan dengan gembira.' },
+        { e: '😊', t: 'Sejak itu Dadi berani mencuba. Dia juga mengajar kawannya bahawa warna biru dan kuning boleh dicampur menjadi warna hijau.' }], ingat: 'Setiap orang ada kebolehan sendiri. Beranilah mencuba.' },
+    { id: 's1', kat: 1, tajuk: 'Mengapa Langit Biru?', pendek: 'Langit Biru', ikon: '☀️', warna: '#3A8BDB', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '☀️', t: 'Cahaya matahari kelihatan putih, tetapi sebenarnya terdiri daripada banyak warna seperti warna pelangi.' },
+        { e: '🌫️', t: 'Apabila cahaya matahari masuk ke udara, ia terkena zarah-zarah yang sangat kecil. Cahaya itu bertaburan ke merata arah.' },
+        { e: '💙', t: 'Cahaya biru bertaburan paling banyak. Itulah sebabnya pada waktu siang, langit kelihatan biru apabila kita mendongak.' },
+        { e: '🌅', t: 'Ketika matahari terbenam, cahaya perlu menempuh jarak yang lebih jauh. Cahaya biru sudah habis bertaburan, lalu langit kelihatan jingga dan merah.' }], ingat: 'Langit biru kerana cahaya biru paling banyak bertaburan.' },
+    { id: 's2', kat: 1, tajuk: 'Perjalanan Setitik Air', pendek: 'Setitik Air', ikon: '💧', warna: '#2F9DB5', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🌊', t: 'Setitik air tinggal di laut. Panas matahari memanaskan air laut, lalu air itu menjadi wap yang naik ke atas. Ini dipanggil penyejatan.' },
+        { e: '☁️', t: 'Di tempat tinggi, udara sejuk. Wap air menjadi titisan kecil dan berkumpul menjadi awan. Ini dipanggil kondensasi.' },
+        { e: '🌧️', t: 'Apabila awan sudah terlalu berat, titisan air jatuh sebagai hujan. Air hujan mengalir ke bukit, sungai dan tanah.' },
+        { e: '🏞️', t: 'Akhirnya sungai membawa setitik air kembali ke laut. Perjalanan itu bermula semula. Itulah kitar air.' }], ingat: 'Air sentiasa berkitar: laut, awan, hujan dan sungai.' },
+    { id: 's3', kat: 1, tajuk: 'Rahsia Daun Hijau', pendek: 'Rahsia Daun Hijau', ikon: '🌿', warna: '#4C9F5B', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🌿', t: 'Daun berwarna hijau kerana ada bahan hijau yang dipanggil klorofil. Bahan ini membantu pokok membuat makanan sendiri.' },
+        { e: '☀️', t: 'Pokok memerlukan cahaya matahari, air dan udara untuk membuat makanan. Proses ini dipanggil fotosintesis.' },
+        { e: '💧', t: 'Akar menyerap air dari tanah. Daun pula mengambil gas karbon dioksida dari udara.' },
+        { e: '🌬️', t: 'Semasa membuat makanan, pokok melepaskan oksigen. Kita menghirup oksigen itu untuk bernafas. Terima kasih, pokok!' }], ingat: 'Tanamlah pokok. Pokok memberi kita udara yang bersih.' },
+    { id: 'h1', kat: 2, tajuk: 'Kapal Layar di Selat Melaka', pendek: 'Kapal di Selat Melaka', ikon: '⛵', warna: '#B07444', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '⛵', t: 'Dahulu, kapal layar belayar melalui Selat Melaka. Selat ini terletak di antara Semenanjung Tanah Melayu dan pulau Sumatera.' },
+        { e: '🏛️', t: 'Lebih enam ratus tahun lalu, Melaka menjadi pelabuhan yang sibuk. Pedagang dari negeri-negeri jauh singgah untuk berniaga.' },
+        { e: '🧵', t: 'Mereka membawa kain, rempah dan barang tembikar. Orang Melaka pula menjual hasil hutan dan bijih timah.' },
+        { e: '🤝', t: 'Pelabuhan Melaka sentiasa teratur dan selamat. Sebab itu ramai pedagang suka berniaga di sana.' }], ingat: 'Melaka terkenal sebagai pusat perdagangan yang penting.' },
+    { id: 'h2', kat: 2, tajuk: 'Hari Kita Merdeka', pendek: 'Hari Kita Merdeka', ikon: '🎆', warna: '#9C5B3A', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🗓️', t: 'Pada 31 Ogos 1957, rakyat Tanah Melayu bersorak gembira. Negara kita mencapai kemerdekaan daripada penjajahan British.' },
+        { e: '🏟️', t: 'Upacara itu diadakan di Stadium Merdeka, Kuala Lumpur. Bendera negara dinaikkan buat pertama kali.' },
+        { e: '🎤', t: 'Tunku Abdul Rahman Putra Al-Haj, Perdana Menteri pertama kita, melaungkan "Merdeka!" sebanyak tujuh kali.' },
+        { e: '🇲🇾', t: 'Kini setiap tahun kita menyambut Hari Kebangsaan. Kita menyanyi, berkawad dan mengibarkan Jalur Gemilang dengan bangga.' }], ingat: 'Merdeka tercapai dengan usaha dan perpaduan. Kita mesti menghargainya.' },
+    { id: 'h3', kat: 2, tajuk: 'Terbentuknya Malaysia', pendek: 'Terbentuknya Malaysia', ikon: '🗺️', warna: '#8A6A3C', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🗺️', t: 'Pada 16 September 1963, Malaysia dibentuk. Negara baharu ini terdiri daripada Tanah Melayu, Singapura, Sabah dan Sarawak.' },
+        { e: '🌄', t: 'Sabah dahulu dikenali sebagai Borneo Utara. Rakyat Sabah dan Sarawak bersama-sama membina negara yang lebih besar.' },
+        { e: '🤲', t: 'Kita terdiri daripada pelbagai kaum dan budaya, seperti Kadazandusun, Murut, Bajau, Melayu, Cina dan India.' },
+        { e: '🎉', t: 'Setiap 16 September, kita menyambut Hari Malaysia. Kita bersyukur kerana dapat hidup bersama dengan aman.' }], ingat: 'Hari Malaysia ialah 16 September. Kita berbeza-beza tetapi bersatu.' },
+    { id: 'a1', kat: 3, tajuk: 'Jalur Gemilang', pendek: 'Jalur Gemilang', ikon: '🇲🇾', warna: '#3FA58F', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🇲🇾', t: 'Bendera Malaysia dipanggil Jalur Gemilang. Bendera ini mempunyai jalur merah dan putih yang berselang-seli.' },
+        { e: '➖', t: 'Jumlah jalurnya ialah empat belas. Jalur-jalur itu mewakili tiga belas buah negeri dan kerajaan persekutuan.' },
+        { e: '⭐', t: 'Di bahagian kiri atas, ada petak biru, bulan sabit dan bintang berbucu empat belas yang berwarna kuning. Kuning ialah warna Raja-Raja Melayu.' },
+        { e: '🏳️', t: 'Kita mesti menghormati bendera negara. Bendera dinaikkan dengan betul dan tidak boleh dikoyakkan atau dipijak.' }], ingat: 'Jalur Gemilang mempunyai 14 jalur dan bintang 14 bucu.' },
+    { id: 'a2', kat: 3, tajuk: 'Gunung Kinabalu', pendek: 'Gunung Kinabalu', ikon: '⛰️', warna: '#2E8F7A', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '⛰️', t: 'Gunung Kinabalu terletak di Sabah. Ia ialah gunung tertinggi di Malaysia, kira-kira 4,095 meter dari paras laut.' },
+        { e: '🌺', t: 'Di lerengnya tumbuh pelbagai tumbuhan yang unik, termasuk pokok periuk kera dan bunga orkid.' },
+        { e: '🦜', t: 'Banyak haiwan dan burung tinggal di hutan sekitar gunung ini. Taman Kinabalu ialah Tapak Warisan Dunia UNESCO.' },
+        { e: '🥾', t: 'Para pendaki mesti menjaga alam. Jangan membuang sampah dan jangan memetik tumbuhan di sana.' }], ingat: 'Gunung Kinabalu di Sabah ialah gunung tertinggi di Malaysia.' },
+    { id: 'a3', kat: 3, tajuk: 'Makan Sihat Setiap Hari', pendek: 'Makan Sihat', ikon: '🥦', warna: '#58A64C', penulis: 'Pustaka Lotong',
+      halaman: [{ e: '🍚', t: 'Badan kita memerlukan tenaga. Nasi, roti dan ubi memberi tenaga untuk kita belajar dan bermain.' },
+        { e: '🥦', t: 'Sayur dan buah-buahan mengandungi vitamin. Vitamin membantu badan kita kekal sihat dan melawan penyakit.' },
+        { e: '🐟', t: 'Ikan, ayam, telur dan kekacang membina badan yang kuat. Kita juga perlu minum air kosong yang cukup.' },
+        { e: '🪥', t: 'Makanan dan minuman yang terlalu manis tidak baik untuk gigi. Makan secukupnya dan jangan lupa memberus gigi.' }], ingat: 'Makanlah makanan yang seimbang dan minum air kosong.' }],
+  TAHAP: [{ id: 'cari', nama: 'Cari Tajuk', e: '🔎', ket: 'Cari sebuah buku mengikut tajuknya, kemudian pulangkan ke rak yang betul.' },
+    { id: 'kat', nama: 'Cari Kategori', e: '🏷️', ket: 'Cari buku sesuatu kategori yang tersalah rak dan pulangkan.' },
+    { id: 'susun', nama: 'Susun Semula', e: '🗂️', ket: 'Susun semua buku yang berselerak ke rak kategorinya.' }],
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, rak: [], buku: [], stop: 0, cx: 0, pegang: null, misi: null, hub: false, spark: [], t: 0, tamatPending: false, ptr: null, seret: false, asalPos: null, reader: false,
+  dibuang: [],
+  // ---------- pembantu ----------
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  data() { const d = State.data; d.rakBuku = d.rakBuku || { bintang: {}, dibaca: {} }; d.rakBuku.bintang = d.rakBuku.bintang || {}; d.rakBuku.dibaca = d.rakBuku.dibaca || {}; return d.rakBuku; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  kanvas(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; try { t.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {} return t; },
+  rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  // ---------- penyediaan 3D ----------
+  kotak(o) { return KomputerPSS.kotakTempatan(o); },
+  sediakan(r) {
+    const cx = [];
+    for (let i = 1; i <= 4; i++) {
+      const o = r.group.getObjectByName('rak_rendah_' + i); if (!o) return false; const b = this.kotak(o); if (!b) return false;
+      if (Math.abs((b.max.z) - (-4.52)) > 0.08 || b.max.x - b.min.x < 1.9 || b.max.x - b.min.x > 2.2) return false;   // sahkan susun atur GLB rak utara
+      cx.push((b.min.x + b.max.x) / 2);
+    }
+    this.r = r; const G = (this.grup = new THREE.Group()); r.group.add(G);
+    this.rak = cx.map((x, i) => ({ cx: x, slot: new Array(this.SLOT).fill(null), plane: null, label: null }));
+    this.rak.forEach((q, i) => {
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 0.9), new THREE.MeshBasicMaterial({ visible: false })); p.position.set(q.cx, 0.72, -4.60); G.add(p); q.plane = p; p.userData.rak = i;
+      const K = this.KAT[i], tex = this.kanvas(512, 112, (c, w, h) => { c.fillStyle = K.warna; this.rr(c, 4, 4, w - 8, h - 8, 22); c.fill(); c.fillStyle = 'rgba(255,255,255,0.92)'; this.rr(c, 12, 12, w - 24, h - 24, 16); c.fill();
+        c.font = '58px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(K.ikon, 70, h / 2 + 3); c.fillStyle = K.warna; c.font = '44px "Kurland", system-ui, sans-serif'; c.textAlign = 'left'; let s = K.nama; c.fillText(s, 126, h / 2 + 3, w - 150); });
+      const l = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.122), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); l.position.set(q.cx, 0.9, -4.512); G.add(l); q.label = l;
+    });
+    this.buku = this.BUKU.map((d, n) => this.binaBuku(d, n));
+    this.buku.forEach((b) => G.add(b.mesh));
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.014, 0.014, 0.014), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    this.ghost = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: '#7FE08A', transparent: true, opacity: 0.35, depthWrite: false })); this.ghost.visible = false; G.add(this.ghost);
+    this.tertib(true); this.siap = true; return true;
+  },
+  binaBuku(d, n) {
+    const rnd = ((n * 9301 + 49297) % 233280) / 233280, rnd2 = ((n * 4871 + 1303) % 233280) / 233280;
+    const tebal = 0.07 + rnd * 0.022, tinggi = 0.25 + rnd2 * 0.07, dalam = 0.18, kat = this.KAT[d.kat];
+    const spine = this.kanvas(96, 340, (c, w, h) => { c.fillStyle = d.warna; c.fillRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,0.22)'; c.fillRect(0, 0, w, 14); c.fillRect(0, h - 14, w, 14); c.fillStyle = 'rgba(0,0,0,0.14)'; c.fillRect(w - 10, 0, 10, h);
+      c.fillStyle = '#FFF8E6'; c.beginPath(); c.arc(w / 2, 48, 28, 0, 6.283); c.fill(); c.font = '34px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(d.ikon, w / 2, 51);
+      c.save(); c.translate(w / 2 + 4, h - 22); c.rotate(-Math.PI / 2); c.fillStyle = '#FFFFFF'; c.textAlign = 'left'; c.textBaseline = 'middle'; let fs = 38; c.font = fs + 'px "Kurland", system-ui, sans-serif'; while (c.measureText(d.pendek).width > h - 130 && fs > 16) { fs -= 2; c.font = fs + 'px "Kurland", system-ui, sans-serif'; } c.fillText(d.pendek, 0, 0); c.restore(); });
+    const cover = this.kanvas(256, 340, (c, w, h) => { c.fillStyle = d.warna; c.fillRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,0.2)'; c.fillRect(0, 0, 18, h); c.strokeStyle = 'rgba(255,255,255,0.6)'; c.lineWidth = 5; c.strokeRect(30, 20, w - 50, h - 40);
+      c.font = '86px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(d.ikon, w / 2 + 8, 100); c.fillStyle = '#FFFFFF'; c.font = '27px "Kurland", system-ui, sans-serif'; const kata = d.tajuk.split(' '); let b = '', y = 175; kata.forEach((k) => { const t = b ? b + ' ' + k : k; if (c.measureText(t).width > w - 80 && b) { c.fillText(b, w / 2 + 8, y); y += 33; b = k; } else b = t; }); c.fillText(b, w / 2 + 8, y);
+      c.font = '18px "Kurland", system-ui, sans-serif'; c.fillStyle = 'rgba(255,255,255,0.85)'; c.fillText(kat.nama, w / 2 + 8, h - 34); });
+    const L = (col) => new THREE.MeshLambertMaterial({ color: col }), cream = '#FFF3D6';
+    const mats = [new THREE.MeshLambertMaterial({ map: cover }), L(d.warna), L(cream), L(cream), new THREE.MeshLambertMaterial({ map: spine }), L(cream)];
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(tebal, tinggi, dalam), mats);
+    const b = { d, id: d.id, kat: d.kat, tajuk: d.tajuk, mesh, tebal, tinggi, dalam, rak: -1, slot: -1, keadaan: 'rak', anim: null, mats, asal: null, tj: tinggi };
+    mesh.userData.buku = b; return b;
+  },
+  slotX(r, i) { return this.rak[r].cx + (i - (this.SLOT - 1) / 2) * this.PITCH; },
+  posSlot(b, r, i) { return new THREE.Vector3(this.slotX(r, i), this.Y0 + b.tinggi / 2 + 0.002, this.ZF - b.dalam / 2); },
+  tertib(serta) {   // semua buku ke rak kategori masing-masing (slot tengah)
+    this.rak.forEach((q) => q.slot.fill(null));
+    const kira = [0, 0, 0, 0];
+    this.buku.forEach((b) => { const r = b.kat, i = this.NSLOT0 + kira[r]++; this.lepasAnim(b); b.keadaan = 'rak'; b.rak = r; b.slot = i; this.rak[r].slot[i] = b; const p = this.posSlot(b, r, i);
+      if (serta) { b.mesh.position.copy(p); b.mesh.rotation.set(0, 0, 0); b.mesh.scale.set(1, 1, 1); } else this.terbang(b, p, 0, 0.5, 'keluar'); b.asal = { r, i }; this.sinar(b, false); });
+  },
+  lepasAnim(b) { b.anim = null; },
+  // ---------- animasi ----------
+  terbang(b, pos, ry, dur, ease, angkat, skala, rz, selepas) {
+    const m = b.mesh; b.anim = { t: 0, dur: Math.max(0.01, this.kurang() ? 0.01 : dur), a: m.position.clone(), ry0: m.rotation.y, rz0: m.rotation.z, s0: m.scale.x, p: pos.clone ? pos.clone() : pos, ry: ry || 0, rz: rz || 0, s: skala || 1, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas };
+  },
+  ikutAnim(dt) {
+    this.buku.forEach((b) => {
+      const a = b.anim; if (!a) return; a.t += dt; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = b.mesh;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat;
+      m.rotation.y = a.ry0 + (a.ry - a.ry0) * e; m.rotation.z = a.rz0 + (a.rz - a.rz0) * e; const s = a.s0 + (a.s - a.s0) * e; m.scale.set(s, s, s);
+      if (u >= 1) { b.anim = null; m.position.copy(a.p); m.rotation.y = a.ry; m.rotation.z = a.rz; if (a.selepas) a.selepas(); }
+    });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.2 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+    this.rak.forEach((q) => { if (q.denyut > 0) { q.denyut = Math.max(0, q.denyut - dt * 2.2); const s = 1 + 0.14 * Math.sin((1 - q.denyut) * Math.PI); q.label.scale.set(s, s, 1); } });
+  },
+  percik(pos, bil, warna) {
+    let n = 0; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.55 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 1.0, 0.7 + Math.random() * 0.9, (Math.random() - 0.2) * 0.8); s.m.material.color.set(warna || ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A'][n % 4]); s.m.scale.setScalar(1); });
+  },
+  sinar(b, on) { b.mats.forEach((m) => { if (m.emissive) m.emissive.set(on ? '#5A4A10' : '#000000'); }); },
+  // ---------- buka / tutup mod ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true;
+    if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.pss; if (!r || Rooms.current !== 'pss' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; this.k = this.kurang() ? 1 : this.k; setLock('rak'); this.hub = true; this.misi = null; this.pegang = null; this.reader = false;
+    const px = Player.pos.x - this.r.ox; let best = 0, bd = 9; this.rak.forEach((q, i) => { const d = Math.abs(q.cx - px); if (d < bd) { bd = d; best = i; } }); this.stop = best * 2; this.cx = this.stopX(this.stop);
+    this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() {
+    if (!this.aktif) return; if (this.reader) { RakBaca.tutup(true); this.reader = false; }
+    if (this.pegang) this.pulang(this.pegang, true); this.pulihkan(); this.aktif = false; this.ke = 0; this.hub = false; this.misi = null; this.domTunjuk(false); this.bunyi('pick');
+  },
+  pulihkan() { this.buku.forEach((b) => { if (b.rak !== b.kat || b.keadaan !== 'rak') { if (b.slot >= 0) this.rak[b.rak].slot[b.slot] = null; } }); this.tertib(false); },
+  stopX(i) { const r = Math.floor(i / 2), h = i % 2; return this.rak[r].cx + (h ? 0.42 : -0.42); },
+  keStop(i) { this.stop = Math.max(0, Math.min(7, i)); this.segarUI(); },
+  // ---------- pilih / letak ----------
+  pilih(b) {
+    const m = this.misi;
+    if (m && m.jenis === 'cari' && !m.ditemui && b.id !== m.sasaran[0]) { m.salah++; this.bunyi('wrong'); this.goyang(b); this.tunjukBaris('Bukan buku itu. Baca tajuk pada belakang buku dan cari lagi.', 'salah'); return; }
+    if (b.rak >= 0 && b.slot >= 0) this.rak[b.rak].slot[b.slot] = null;
+    b.asal = { r: b.rak, i: b.slot }; b.keadaan = 'pegang'; this.pegang = b; this.sinar(b, true); this.bunyi('pick');
+    const p = this.poseTangan(); this.terbang(b, p, -Math.PI / 2, 0.45, 'keluar', 0.08, 1.15, 0);
+    if (m && m.jenis === 'cari' && !m.ditemui) { m.ditemui = true; this.bunyi('ok'); this.percik(b.mesh.position, 10); this.tunjukBaris('Jumpa! Pulangkan buku ini ke Rak ' + this.KAT[b.kat].nama + '.', 'baik'); }
+    this.segarUI();
+  },
+  goyang(b) { const m = b.mesh, x = m.position.x; let n = 0; const id = setInterval(() => { n++; m.position.x = x + (n % 2 ? 0.012 : -0.012) * (1 - n / 10); if (n >= 10) { clearInterval(id); m.position.x = x; } }, 35); },
+  poseTangan() {   // buku dipegang: bawah-kanan skrin, sentiasa kelihatan pada mana-mana pandangan
+    const r = this.r, v = new THREE.Vector3(); camera.getWorldDirection(v); const d = 0.85, tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, halfW = d * tf * asp;
+    return new THREE.Vector3(camera.position.x - r.ox + v.x * d + Math.min(0.34, halfW * 0.55), camera.position.y + v.y * d - Math.min(0.2, d * tf * 0.55), camera.position.z - r.oz + v.z * d);
+  },
+  bebasTerdekat(r, x) { let best = -1, bd = 9; for (let i = 0; i < this.SLOT; i++) { if (this.rak[r].slot[i]) continue; const d = Math.abs(this.slotX(r, i) - x); if (d < bd) { bd = d; best = i; } } return best; },
+  letak(b, r, x) {
+    const i = this.bebasTerdekat(r, x); if (i < 0) { this.tunjukBaris('Rak ini sudah penuh.', 'salah'); return false; }
+    const m = this.misi, betul = r === b.kat;
+    if (m && !betul) { m.salah++; this.bunyi('wrong'); this.tunjukBaris('"' + b.tajuk + '" ialah buku ' + this.KAT[b.kat].nama + '. Letakkan di Rak ' + this.KAT[b.kat].nama + '.', 'salah'); this.rakDenyut(r, false); this.pegangSemula(b); return false; }
+    this.sinar(b, false); this.rak[r].slot[i] = b; b.rak = r; b.slot = i; b.keadaan = 'rak'; this.pegang = null; this.ghost.visible = false;
+    const p = this.posSlot(b, r, i), dari = b.mesh.position.clone(); this.terbang(b, p, 0, 0.55, 'lantun', 0.06, 1, 0, () => { this.percik(new THREE.Vector3(p.x, p.y + b.tinggi / 2, p.z + 0.05), betul ? 12 : 5, betul ? null : '#CFE8F7'); });
+    this.bunyi(betul ? 'ok' : 'pick'); if (betul) { this.rak[r].denyut = 1; }
+    if (!m && !betul) this.tunjukBaris('Petua: "' + b.tajuk + '" biasanya ada di Rak ' + this.KAT[b.kat].nama + '.', 'maklum');
+    this.segarUI(); this.semakMisi(); return true;
+  },
+  rakDenyut(r, ok) { this.rak[r].denyut = 1; },
+  pegangSemula(b) { b.keadaan = 'pegang'; const p = this.poseTangan(); this.terbang(b, p, -Math.PI / 2, 0.4, 'keluar', 0.04, 1.15, 0); this.pegang = b; this.ghost.visible = false; },
+  pulang(b, senyap) {   // letak balik ke tempat asal
+    const a = b.asal || { r: b.kat, i: this.NSLOT0 }; let r = a.r < 0 ? b.kat : a.r, i = a.i; if (i < 0 || this.rak[r].slot[i]) i = this.bebasTerdekat(r, this.slotX(r, this.NSLOT0));
+    this.sinar(b, false); this.rak[r].slot[i] = b; b.rak = r; b.slot = i; b.keadaan = 'rak'; this.pegang = null; this.ghost.visible = false;
+    this.terbang(b, this.posSlot(b, r, i), 0, senyap ? 0.3 : 0.5, 'lantun', 0.05, 1, 0); if (!senyap) this.bunyi('pick'); this.segarUI();
+  },
+  // ---------- misi ----------
+  mulaMisi(jenis) {
+    this.hub = false; this.pulihkan(); this.pegang = null;
+    const sebarang = (n, jantinaKat) => { const pool = this.shuffle(this.buku.filter((b) => (jantinaKat === undefined || b.kat === jantinaKat))); return pool.slice(0, n); };
+    let sasaran = [], teks = '';
+    if (jenis === 'cari') { const b = sebarang(1)[0]; sasaran = [b]; teks = 'Cari buku bertajuk "' + b.tajuk + '".'; }
+    else if (jenis === 'kat') { const k = Math.floor(Math.random() * 4); sasaran = sebarang(2, k); teks = 'Cari buku ' + this.KAT[k].nama + ' yang tersalah rak dan pulangkan ke Rak ' + this.KAT[k].nama + '.'; this.katMisi = k; }
+    else { sasaran = sebarang(5); teks = 'Susun semula buku yang berselerak ke rak kategorinya.'; }
+    this.misi = { jenis, sasaran: sasaran.map((b) => b.id), salah: 0, ditemui: false, teks, sudah: 0, jumlah: sasaran.length };
+    sasaran.forEach((b, n) => setTimeout(() => this.salahRak(b), 200 + n * 260));
+    this.tunjukBaris(teks, 'maklum'); this.segarUI();
+  },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  salahRak(b) {   // pindah ke rak yang salah (kecil-hilang, muncul semula)
+    if (!this.aktif || !this.misi) return;
+    const sen = [0, 1, 2, 3].filter((r) => r !== b.kat && this.rak[r].slot.some((s) => !s)); const r = sen[Math.floor(Math.random() * sen.length)]; const bebas = []; for (let i = 3; i < 11; i++) if (!this.rak[r].slot[i]) bebas.push(i);
+    const i = bebas.length ? bebas[Math.floor(Math.random() * bebas.length)] : this.bebasTerdekat(r, this.rak[r].cx); this.rak[b.rak].slot[b.slot] = null; const m = b.mesh;
+    this.rak[r].slot[i] = b; b.rak = r; b.slot = i; b.asal = { r, i };
+    this.terbang(b, m.position.clone(), 0, 0.22, 'masuk', 0, 0.01, 0, () => { m.position.copy(this.posSlot(b, r, i)); this.percik(m.position, 4, '#FFFFFF'); this.terbang(b, m.position.clone(), 0, 0.45, 'lantun', 0, 1, 0); });
+  },
+  semakMisi() {
+    const m = this.misi; if (!m) return; const betul = m.sasaran.filter((id) => { const b = this.buku.find((q) => q.id === id); return b.rak === b.kat && b.keadaan === 'rak'; }).length; m.sudah = betul;
+    this.segarUI();
+    const siap = m.jenis === 'cari' ? (m.ditemui && betul === 1) : betul === m.jumlah;
+    if (siap && !m.tamat) { m.tamat = true; setTimeout(() => this.tamatMisi(), 700); }
+  },
+  tamatMisi() {
+    const m = this.misi; if (!m) return; const s = m.salah === 0 ? 3 : (m.salah <= 2 ? 2 : 1), D = this.data(), lama = D.bintang[m.jenis] || 0; D.bintang[m.jenis] = Math.max(lama, s);
+    try { Kiraan.tambah('rakBuku'); } catch (e) {} const kunci = { cari: 'rakCari', kat: 'rakKategori', susun: 'rakSusun' }[m.jenis], g = { cari: { ilmu: 1 }, kat: { ilmu: 1 }, susun: { ilmu: 2 } }[m.jenis], teks = { cari: '+1 Ilmu: mahir mencari buku', kat: '+1 Ilmu: mahir mengenal kategori buku', susun: '+2 Ilmu: mahir menyusun buku' }[m.jenis];
+    const diberi = this.ganjaran(kunci, g, teks); const semua = this.TAHAP.every((t) => (D.bintang[t.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('rakSemua', { ilmu: 1, reputasi: 1 }, '+1 Ilmu +1 Reputasi: Pustakawan Cilik!');
+    try { Save.save(); } catch (e) {} this.bunyi('naik'); this.rak.forEach((q, i) => { q.denyut = 1; this.percik(new THREE.Vector3(q.cx, 1.0, -4.45), 5); });
+    this.hasil = { jenis: m.jenis, s, salah: m.salah, diberi, bonus }; this.misi = null; this.segarUI(true);
+  },
+  // ---------- bacaan ----------
+  bacaPegang() {
+    const b = this.pegang; if (!b || this.reader) return; this.reader = true; this.bunyi('pick'); this.segarUI();
+    const p = this.poseTangan(); const v = new THREE.Vector3(); camera.getWorldDirection(v); const q = new THREE.Vector3(camera.position.x - this.r.ox + v.x * 0.6, camera.position.y + v.y * 0.6 - 0.02, camera.position.z - this.r.oz + v.z * 0.6);
+    this.terbang(b, q, -Math.PI / 2, 0.45, 'keluar', 0.05, 2.0, 0, () => { RakBaca.buka(b.d && Object.assign({}, b.d, { katNama: this.KAT[b.kat].nama }), () => { this.reader = false; if (this.pegang === b) { const t = this.poseTangan(); this.terbang(b, t, -Math.PI / 2, 0.4, 'keluar', 0, 1.15, 0); } this.segarUI(); }, (bk) => this.tamatBaca(bk)); });
+  },
+  tamatBaca(bk) {
+    const D = this.data(), baru = !D.dibaca[bk.id]; D.dibaca[bk.id] = 1; try { Kiraan.tambah('bukuDibaca'); } catch (e) {}
+    const d = State.data; let dapat = false; if (d && d.masaMain >= (State.bacaCd || 0)) { d.stats.ilmu += 1; State.bacaCd = d.masaMain + 90; dapat = true; }
+    if (dapat) { try { HUD.stats({ ilmu: 1 }); toast('+1 Ilmu kerana membaca'); } catch (e) {} } else if (baru) toast('Buku baharu dibaca: ' + Object.keys(D.dibaca).length + '/12');
+    try { Save.save(); } catch (e) {} this.bunyi('ok'); this.segarUI();
+  },
+  // ---------- UI (DOM) ----------
+  el(id) { return document.getElementById(id); },
+  domTunjuk(on) { const L = this.el('rbLapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); },
+  tunjukBaris(teks, jenis) { const e = this.el('rbBaris'); if (!e) return; e.textContent = teks; e.className = 'rbBaris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, 4200); },
+  segarUI(papar) {
+    if (!this.aktif) return; const D = this.data(), m = this.misi;
+    const H = this.el('rbPusat'); H.hidden = !(this.hub || this.hasil);
+    if (this.hasil && !this.hub) {
+      const h = this.hasil, T = this.TAHAP.find((t) => t.id === h.jenis), idx = this.TAHAP.indexOf(T);
+      H.innerHTML = '<div class="rbKad"><div class="rbJdl">' + T.nama + ' selesai!</div><div class="rbBintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="rbMsg">' + (h.salah === 0 ? 'Tiada kesilapan langsung!' : 'Kesilapan: ' + h.salah + '. Cuba lagi untuk 3 bintang.') + ' Buku yang tersusun memudahkan semua orang mencarinya.</div>' +
+        '<div class="rbGanjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: ' + { cari: '+1 Ilmu', kat: '+1 Ilmu', susun: '+2 Ilmu' }[h.jenis] + (h.bonus ? ' dan bonus Pustakawan Cilik +1 Ilmu +1 Reputasi' : '') : 'Ganjaran hari ini untuk misi ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="rbBtns"><button class="btn" data-a="hub">Kembali ke menu</button><button class="btn rbHijau" data-a="' + (idx < 2 ? 'misi:' + this.TAHAP[idx + 1].id : 'misi:' + h.jenis) + '">' + (idx < 2 ? 'Misi seterusnya' : 'Main semula') + '</button></div></div>';
+    } else if (this.hub) {
+      const n = this.TAHAP.filter((t) => (D.bintang[t.id] || 0) > 0).length, dibaca = Object.keys(D.dibaca).length;
+      H.innerHTML = '<div class="rbKad"><div class="rbJdl">📚 Rak Buku Pusat Sumber</div><div class="rbMsg">Pilih, tarik dan baca buku. Cuba mini misi "Cari Buku"! Kemajuan: ' + n + '/3 misi · ' + dibaca + '/12 buku dibaca</div><div class="rbGrid">' +
+        this.TAHAP.map((t) => { const s = D.bintang[t.id] || 0; return '<button class="rbCard" data-a="misi:' + t.id + '"><span class="rbE">' + t.e + '</span><b>' + t.nama + '</b><small>' + t.ket + '</small><span class="rbS">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') +
+        '<button class="rbCard bebas" data-a="bebas"><span class="rbE">📖</span><b>Pilih &amp; Baca</b><small>Tarik mana-mana buku dan selak halamannya.</small><span class="rbS"><i class="on">♥</i></span></button></div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    const M = this.el('rbMisi'); if (m) { M.hidden = false; M.innerHTML = '<span>' + m.teks + '</span><b>' + (m.jenis === 'cari' ? (m.ditemui ? (m.sudah ? '✔' : 'Jumpa!') : 'Cari') : m.sudah + '/' + m.jumlah) + '</b><button class="btn rbKecil" data-a="henti">Henti</button>'; M.querySelector('[data-a]').onclick = (e) => { e.stopPropagation(); this.aksi('henti'); }; } else M.hidden = true;
+    const P = this.el('rbPegang'), b = this.pegang; P.hidden = !(b && !this.reader);
+    if (b) { P.querySelector('#rbTajukPegang').textContent = b.tajuk + ' · ' + this.KAT[b.kat].nama; }
+    const lap = this.el('rbLapisan'); lap.classList.toggle('memegang', !!b);
+    const r = Math.floor(this.stop / 2); this.el('rbTab').querySelectorAll('button').forEach((t, i) => t.classList.toggle('on', i === r));
+    this.el('rbKiri').disabled = this.stop <= 0; this.el('rbKanan').disabled = this.stop >= 7;
+  },
+  aksi(a) {
+    this.bunyi('pick');
+    if (a === 'hub') { this.hasil = null; this.hub = true; this.pulihkan(); this.segarUI(); }
+    else if (a === 'bebas') { this.hub = false; this.hasil = null; this.misi = null; this.segarUI(); }
+    else if (a.startsWith('misi:')) { this.hasil = null; this.mulaMisi(a.slice(5)); }
+    else if (a === 'henti') { if (this.pegang) this.pulang(this.pegang, true); this.misi = null; this.hasil = null; this.hub = true; this.pulihkan(); this.segarUI(); }
+    else if (a === 'baca') this.bacaPegang();
+    else if (a === 'letakbalik') { if (this.pegang) this.pulang(this.pegang); }
+  },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const hitBuku = (e) => { const r = sinar(e), h = r.intersectObjects(self.buku.filter((b) => b.keadaan === 'rak').map((b) => b.mesh), false)[0]; return h ? h.object.userData.buku : null; };
+    const hitRak = (e) => { const r = sinar(e), h = r.intersectObjects(self.rak.map((q) => q.plane), false)[0]; if (!h) return null; return { r: h.object.userData.rak, x: h.point.x - self.r.ox }; };
+    const dragPos = (e) => { const r = sinar(e), z = self.r.oz - 4.0, p = new THREE.Vector3(); const pl = new THREE.Plane(new THREE.Vector3(0, 0, 1), -z); if (r.ray.intersectPlane(pl, p)) return new THREE.Vector3(p.x - self.r.ox, Math.max(0.5, p.y), -4.0); return null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .rbKad, #rbBaca, #rbPegang, #rbMisi')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.reader) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.ptr = { x: e.clientX, y: e.clientY, buku: self.pegang ? null : hitBuku(e), seret: false, pegangAwal: !!self.pegang };
+    });
+    L.addEventListener('pointermove', (e) => {
+      if (!self.aktif || self.reader) return; const P = self.ptr;
+      if (P && P.buku && !self.pegang && Math.hypot(e.clientX - P.x, e.clientY - P.y) > 10) { P.seret = true; self.pilih(P.buku); }
+      if (P && (P.seret || (P.pegangAwal && Math.hypot(e.clientX - P.x, e.clientY - P.y) > 10)) && self.pegang && !self.hub) { P.seret = true; const d = dragPos(e); if (d) { const b = self.pegang; b.anim = null; b.mesh.position.lerp(d, 0.5); b.mesh.rotation.y = -Math.PI / 2; } }
+      if (self.pegang) { const h = hitRak(e); if (h) { const i = self.bebasTerdekat(h.r, h.x); if (i >= 0) { const b = self.pegang, p = self.posSlot(b, h.r, i); self.ghost.scale.set(b.tebal + 0.01, b.tinggi + 0.01, b.dalam); self.ghost.position.copy(p); self.ghost.visible = true; self.ghost.material.color.set(self.misi && h.r !== b.kat ? '#FF8A7A' : '#7FE08A'); } else self.ghost.visible = false; } else self.ghost.visible = false; }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !self.aktif || self.hub || self.reader) return;
+      if (self.pegang) { const h = hitRak(e); if (h) self.letak(self.pegang, h.r, h.x); else if (P.seret) self.pegangSemula(self.pegang); self.ghost.visible = false; }
+      else if (P.buku && !P.seret) self.pilih(P.buku);
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { self.ptr = null; });
+    this.el('rbKeluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('rbKiri').addEventListener('click', (e) => { e.stopPropagation(); self.keStop(self.stop - 1); self.bunyi('pick'); });
+    this.el('rbKanan').addEventListener('click', (e) => { e.stopPropagation(); self.keStop(self.stop + 1); self.bunyi('pick'); });
+    this.el('rbTab').querySelectorAll('button').forEach((t, i) => t.addEventListener('click', (e) => { e.stopPropagation(); self.keStop(i * 2); self.bunyi('pick'); }));
+    this.el('rbBuka').addEventListener('click', (e) => { e.stopPropagation(); self.aksi('baca'); });
+    this.el('rbBalik').addEventListener('click', (e) => { e.stopPropagation(); self.aksi('letakbalik'); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'pss' && Rooms.list && Rooms.list.pss && Rooms.list.pss.group) { const r = Rooms.list.pss; try { if (!this.sediakan(r)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.buku = []; this.rak = []; this.spark = []; return; }
+    if (!this.siap) return;
+    this.t += dt; this.ikutAnim(dt);
+    if (this.aktif && (Rooms.current !== 'pss' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      const tx = this.stopX(this.stop); this.cx += (tx - this.cx) * (kur ? 1 : 1 - Math.exp(-dt * 6));
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      const b = this.pegang; if (b && !b.anim && !this.reader && !(this.ptr && this.ptr.seret)) { const p = this.poseTangan(); p.y += Math.sin(this.t * 3) * 0.006; b.mesh.position.lerp(p, 0.35); b.mesh.rotation.y += (-Math.PI / 2 - b.mesh.rotation.y) * 0.3; b.mesh.scale.setScalar(1.15); }
+      if (this.pegang && this.pegang.anim === null && this.reader) { /* kekal di tengah semasa baca */ }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, d = Math.min(3.1, Math.max(0.95, 1.25 / (2 * tf * asp)));
+    V.set(r.ox + this.cx, 0.98, r.oz + (-4.51) + d); camera.position.lerp(V, e);
+    V2.copy(Cam.look).lerp(V.set(r.ox + this.cx, 0.72, r.oz - 4.6), e); camera.lookAt(V2);
   }
 };
 
