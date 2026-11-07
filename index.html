@@ -146,6 +146,9 @@ body.sentuh #joy{display:block}
 body.sentuh #btnAct,body.sentuh #btnLari{display:flex}
 body.sentuh #prompt{bottom:120px}
 body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
+#kpLapisan{position:fixed;inset:0;z-index:25;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
+#kpAtas{position:absolute;left:10px;top:10px;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
+#kpBantu{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #000;pointer-events:none}
 #joy{position:fixed;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
   border:3px solid rgba(255,255,255,.8);background:rgba(20,56,102,.22);pointer-events:none;
   left:calc(max(10px,env(safe-area-inset-left,0px)) + 80px);top:calc(100% - max(8px,env(safe-area-inset-bottom,0px)) - 80px);opacity:.55}
@@ -1027,6 +1030,10 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     </div>
   </section>
 
+  <div id="kpLapisan" hidden aria-label="Komputer Ruang Digital">
+    <div id="kpAtas"><button id="kpKeluar" class="btn" type="button">⬅ Bangun</button><span id="kpTajuk">Komputer</span></div>
+    <div id="kpBantu">Gerakkan tetikus (atau jari) pada skrin · klik dua kali untuk membuka · Esc untuk bangun</div>
+  </div>
   <section id="litar" class="panel-fokus" hidden role="dialog" aria-label="Eksperimen litar elektrik">
     <div class="kertas">
       <header><strong>Litar Elektrik</strong><span class="wnAtas"><button id="liSemula" class="btn" type="button">Set Semula</button><button id="liKeluar" class="btn" type="button">Keluar</button></span></header>
@@ -7161,7 +7168,7 @@ const Peralatan = {
         else { Sound.play('wrong'); Dialog.show('Eksperimen warna', ['Hmm, warnanya tidak jadi begitu. Cuba sekali lagi.'], { onDone: () => this.warnaLama() }); }
       } })) });
   },
-  komputer() { this.fakta('Komputer', CONTENT.alat.komputer, 'komputer'); },
+  komputer() { try { if (KomputerPSS.buka()) return; } catch (e) { laporRalat(e); } this.fakta('Komputer', CONTENT.alat.komputer, 'komputer'); },   // v114: komputer interaktif 3D (Ruang Digital); fakta asal kekal sebagai sandaran
   pengumuman() { Dialog.show('Papan kenyataan', CONTENT.alat.pengumuman.slice()); },
   kabinetRumah() { Dialog.show('Kabinet', [this.pilih(CONTENT.alat.kabinetRumah)], { tag: 'Rumah Guru' }); },
   kaunterSpbt() { Dialog.show('Pinjaman Buku Teks', [this.pilih(CONTENT.alat.kaunterSpbt)], { tag: 'SPBT' }); },
@@ -7862,6 +7869,7 @@ window.addEventListener('keydown', (e) => {
   if (k === '`' || e.key === 'F3') { Debug.toggle(); e.preventDefault(); return; }
   if (k === 'escape' && !$('sandaran').hidden) { Sandaran.tutup(); return; }
   if (k === 'escape' && !$('papanAnugerah').hidden) { Anugerah.tutup(); return; }
+  if (State.uiLock === 'komputer') { if (k === 'escape') KomputerPSS.tutup(); return; }
   if (State.uiLock === 'geng') { if (k === 'escape') Geng.tutup(); return; }
   if (State.uiLock === 'menuMakan') { if (k === 'escape') MenuMakan.tutup(); return; }
   if (State.uiLock === 'bayar') { if (k === 'escape') Bayar.tutup(); return; }
@@ -8106,6 +8114,7 @@ const Cam = {
     if (Tumbuhan.k > 0.002) Tumbuhan.kamera();   // v110: kamera dekat eksperimen tumbuhan
     if (SelamatMakmal.k > 0.002) SelamatMakmal.kamera();   // v112: kamera dekat sinki dan meja kerja (keselamatan makmal)
     if (SudutSolat.k > 0.002) SudutSolat.kamera();   // v99: kamera sisi Sudut Latihan Solat
+    KomputerPSS.tick(dt); if (KomputerPSS.k > 0.002) KomputerPSS.kamera();   // v114: komputer interaktif Pusat Sumber
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -9698,6 +9707,550 @@ const Sesat = {
 $('btnSesat').addEventListener('click', () => Sesat.tolong());
 
 /* ===================== Peta Sekolah: pandangan seluruh kawasan dari atas ===================== */
+/* ===================== Komputer Interaktif Pusat Sumber (v114) =====================
+   Menaik taraf komputer Ruang Digital (nod GLB komputer_1 / komputer_2 / komputer_3 dalam pss_interior_props.glb, TIDAK diubah) kepada komputer interaktif 3D:
+   pemain duduk di kerusi, kamera menghampiri skrin, butang kuasa dihidupkan (animasi boot), desktop mini dengan ikon, folder dan aplikasi
+   dipaparkan pada kanvas yang dilekapkan di atas skrin 3D. Tetikus sebenar (kursor + tetikus 3D di atas meja) menyentuh skrin melalui raycast.
+   Aktiviti Literasi Digital: (1) Buka folder, (2) Pilih fail, (3) Susun fail mengikut kategori. Kemajuan (bintang) disimpan dalam State.data.komputer;
+   ganjaran guna Peralatan.ganjaran (sekali sehari bagi setiap kunci) dan Kiraan. Tiada aset luar & tiada internet diperlukan (semua dilukis oleh kod).
+   KomputerOS = enjin desktop (kanvas 2D, tiada kebergantungan THREE); KomputerPSS = pemasangan 3D, kamera, input dan kitaran hidup. */
+const KomputerOS = {
+  W: 1024, H: 588, TB: 44, FONT: '"Kurland", system-ui, sans-serif',
+  JENIS: {
+    gambar: { ikon: '🖼️', nama: 'Gambar', warna: '#4FAE9A', ext: '.jpg / .png', app: 'Penonton Gambar', info: 'Fail gambar berakhir .jpg atau .png.' },
+    dokumen: { ikon: '📄', nama: 'Dokumen', warna: '#3A8BDB', ext: '.docx / .pdf / .txt', app: 'Pemproses Kata', info: 'Fail tulisan berakhir .docx, .pdf atau .txt.' },
+    audio: { ikon: '🎵', nama: 'Audio', warna: '#E8684F', ext: '.mp3 / .wav', app: 'Pemain Muzik', info: 'Fail bunyi dan lagu berakhir .mp3 atau .wav.' }
+  },
+  FAIL: [{ n: 'cuti_pantai.jpg', j: 'gambar' }, { n: 'kucing_sekolah.png', j: 'gambar' }, { n: 'potret_kelas.jpg', j: 'gambar' },
+    { n: 'karangan_cuti.docx', j: 'dokumen' }, { n: 'jadual_waktu.pdf', j: 'dokumen' }, { n: 'nota_sains.txt', j: 'dokumen' },
+    { n: 'lagu_negaraku.mp3', j: 'audio' }, { n: 'azan_subuh.mp3', j: 'audio' }, { n: 'bunyi_hujan.wav', j: 'audio' }],
+  IKON: [{ id: 'tugasan', lbl: 'Tugasan Cuti', e: '📁', jenis: 'folder' }, { id: 'dokumen', lbl: 'Dokumen', e: '📁', jenis: 'folder' },
+    { id: 'literasi', lbl: 'Literasi Digital', e: '🧭', jenis: 'app' }, { id: 'nota', lbl: 'Nota Etika', e: '📝', jenis: 'app' }, { id: 'kitar', lbl: 'Tong Kitar', e: '🗑️', jenis: 'folder' }],
+  TAHAP: [{ id: 'buka', no: 1, nama: 'Buka Folder', e: '📂', ket: 'Klik dua kali pada ikon folder untuk membukanya.' },
+    { id: 'pilih', no: 2, nama: 'Pilih Fail', e: '👆', ket: 'Kenali jenis fail dan pilih fail yang betul.' },
+    { id: 'susun', no: 3, nama: 'Susun Fail', e: '🗂️', ket: 'Seret setiap fail ke folder kategorinya.' }],
+  NOTA: ['Gunakan komputer dengan kebenaran cikgu atau ibu bapa.', 'Jangan kongsi kata laluan atau maklumat peribadi.', 'Beri nama fail yang jelas supaya mudah dicari.',
+    'Simpan fail dalam folder yang betul.', 'Fikir dahulu sebelum klik pautan atau muat turun.', 'Matikan komputer dengan betul selepas guna.'],
+  cb: {},                                              // { ganjaran(kunci, g, mesej) -> bool, simpan(), bunyi(n), kiraan(k), tahun(), data() }
+  on: false, boot: 0, desk: 0, t: 0, win: [], terpilih: null, klikAkhir: { id: null, t: -9 }, mula: false, misi: null, banner: null, zarah: [], hint: 0, hasil: null,
+  kursor: { x: 512, y: 300, tekan: false, tangan: false, riak: [] }, seret: null, gerakWin: null, lalai: true,
+  rnd: (() => { let s = 424242; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; })(),
+  // ---------- keadaan ----------
+  nyalakan() { if (this.on || this.boot > 0) return; this.boot = 0.0001; this.desk = 0; this.cb.bunyi && this.cb.bunyi('pick'); },
+  matikan() { this.on = false; this.boot = 0; this.desk = 0; this.win = []; this.misi = null; this.banner = null; this.mula = false; this.terpilih = null; this.hasil = null; this.seret = null; this.gerakWin = null; this.cb.bunyi && this.cb.bunyi('pick'); },
+  data() { const d = (this.cb.data && this.cb.data()) || { bintang: {} }; d.bintang = d.bintang || {}; return d; },
+  jumlahBintang() { const b = this.data().bintang; return this.TAHAP.reduce((s, t) => s + (b[t.id] || 0), 0); },
+  selesaiBil() { const b = this.data().bintang; return this.TAHAP.filter((t) => (b[t.id] || 0) > 0).length; },
+  tahun() { try { return Math.max(1, Math.min(6, (this.cb.tahun && this.cb.tahun()) || 3)); } catch (e) { return 3; } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(this.rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  // ---------- tetingkap ----------
+  tetingkap(id, jenis, x, y, w, h, tajuk, ekstra) {
+    let a = this.win.find((q) => q.id === id && !q.tutup);
+    if (a) { this.depan(a); return a; }
+    a = Object.assign({ id, jenis, x, y, w, h, tajuk, t: 0, tutup: false }, ekstra || {}); this.win.push(a); this.cb.bunyi && this.cb.bunyi('pick'); return a;
+  },
+  depan(a) { const i = this.win.indexOf(a); if (i >= 0 && i < this.win.length - 1) { this.win.splice(i, 1); this.win.push(a); } },
+  tutupWin(a) { if (a) a.tutup = true; if (a && a.jenis === 'explorer' && this.misi && this.misi.win === a) { this.misi = null; this.banner = null; } },
+  buka(id) {
+    if (id === 'literasi') return this.hub();
+    if (id === 'nota') return this.tetingkap('nota', 'nota', 250, 60, 540, 380, 'Nota Etika Digital');
+    if (id === 'tugasan') { const w = this.tetingkap('tugasan', 'explorer', 150, 36, 740, 470, 'Tugasan Cuti', { mod: 'bebas', fail: this.failBebas('tugasan'), info: null }); if (this.misi && this.misi.jenis === 'buka') this.selesaiBuka(); return w; }
+    if (id === 'dokumen') return this.tetingkap('dokumen', 'explorer', 170, 56, 740, 450, 'Dokumen', { mod: 'bebas', fail: this.failBebas('dokumen'), info: null });
+    if (id === 'kitar') return this.tetingkap('kitar', 'explorer', 190, 70, 700, 420, 'Tong Kitar', { mod: 'bebas', fail: [], info: null, kosong: 'Tong kitar kosong. Fail yang tidak diperlukan boleh dibuang di sini.' });
+  },
+  hub() { return this.tetingkap('hub', 'hub', 150, 30, 740, 500, 'Pusat Literasi Digital'); },
+  failBebas(id) { const L = id === 'tugasan' ? this.FAIL.slice(0, 6) : [{ n: 'resume_cikgu.docx', j: 'dokumen' }, { n: 'senarai_buku.txt', j: 'dokumen' }, { n: 'gambar_perpustakaan.jpg', j: 'gambar' }]; return L.map((f, i) => this.buatFail(f, i)); },
+  buatFail(f, i) { return { n: f.n, j: f.j, i, sel: false, shake: 0, masuk: 0, hilang: false, ox: 0, oy: 0, px: null, py: null }; },
+  // ---------- aktiviti ----------
+  mulaMisi(jenis) {
+    this.hasil = null; this.win.forEach((w) => { if (w.id === 'hub' || w.id === 'hasil') w.tutup = true; });
+    this.win.filter((w) => w.jenis === 'explorer').forEach((w) => { w.tutup = true; });
+    this.hint = 0; this.zarah = [];
+    if (jenis === 'buka') {
+      this.misi = { jenis, salah: 0 }; this.terpilih = null; this.mula = false;
+      this.banner = { teks: 'Misi 1: Klik dua kali pada folder "Tugasan Cuti" di desktop.', t: 0 };
+    } else if (jenis === 'pilih') {
+      const th = this.tahun(), kinds = this.shuffle(['gambar', 'dokumen', 'audio']), pusing = kinds.slice(0, 3);
+      if (th >= 4) pusing.push('nama');
+      const fail = this.shuffle([].concat(...['gambar', 'dokumen', 'audio'].map((j) => this.shuffle(this.FAIL.filter((f) => f.j === j)).slice(0, 2)))).map((f, i) => this.buatFail(f, i));
+      const w = this.tetingkap('tugasan', 'explorer', 150, 36, 740, 470, 'Tugasan Cuti', { mod: 'pilih', fail, info: null });
+      this.misi = { jenis, salah: 0, pusing, p: 0, betul: 0, win: w }; this.pilihSoalan();
+    } else if (jenis === 'susun') {
+      const th = this.tahun(), bil = th <= 3 ? 2 : 3;
+      const fail = this.shuffle([].concat(...['gambar', 'dokumen', 'audio'].map((j) => this.shuffle(this.FAIL.filter((f) => f.j === j)).slice(0, bil)))).map((f, i) => this.buatFail(f, i));
+      const w = this.tetingkap('tugasan', 'explorer', 130, 34, 780, 480, 'Tugasan Cuti (belum disusun)', { mod: 'susun', fail, info: null, kira: { gambar: 0, dokumen: 0, audio: 0 }, jumlah: bil });
+      this.susunKedudukan(w);
+      this.misi = { jenis, salah: 0, win: w, betul: 0, jumlah: bil * 3 };
+      this.banner = { teks: 'Misi 3: Seret setiap fail ke folder kategorinya (atau ketik fail, kemudian ketik folder).', t: 0 };
+    }
+  },
+  pilihSoalan() {
+    const m = this.misi, jenis = m.pusing[m.p], w = m.win, K = this.JENIS;
+    w.fail.forEach((f) => { f.sel = false; f.betul = false; });
+    if (jenis === 'nama') { const f = w.fail[Math.floor(this.rnd() * w.fail.length)]; m.sasaran = f.n; m.teks = 'Pilih fail bernama "' + f.n + '".'; }
+    else { m.sasaran = null; m.teks = 'Pilih satu fail ' + K[jenis].nama.toLowerCase() + ' (' + K[jenis].ext + ').'; }
+    this.banner = { teks: 'Misi 2 (' + (m.p + 1) + '/' + m.pusing.length + '): ' + m.teks, t: 0 }; this.hint = 0;
+  },
+  betulSoalan(f) { const m = this.misi, jenis = m.pusing[m.p]; return jenis === 'nama' ? f.n === m.sasaran : f.j === jenis; },
+  selesaiBuka() {
+    const m = this.misi; this.misi = null; this.banner = null; this.letupan(this.W / 2, 200); this.cb.bunyi && this.cb.bunyi('ok');
+    this.tamat('buka', 3, ['Hebat! Kamu membuka folder dengan klik dua kali.', 'Folder ialah tempat menyimpan fail supaya kemas.'], 0);
+  },
+  susunKedudukan(w) {
+    const L = this.lay(w), n = w.fail.length, cols = Math.max(1, Math.floor(L.area.w / 118));
+    w.fail.forEach((f, i) => { f.hx = L.area.x + 10 + (i % cols) * 118 + 59; f.hy = L.area.y + 12 + Math.floor(i / cols) * 100 + 40; f.cx = f.hx; f.cy = f.hy; });
+  },
+  tamat(id, bintang, mesej, salah) {
+    const D = this.data(), lama = D.bintang[id] || 0; D.bintang[id] = Math.max(lama, bintang); this.cb.kiraan && this.cb.kiraan(id);
+    const kunci = { buka: 'komputerBuka', pilih: 'komputerPilih', susun: 'komputerSusun' }[id], g = { buka: { ilmu: 1 }, pilih: { ilmu: 1 }, susun: { ilmu: 2 } }[id];
+    const teks = { buka: '+1 Ilmu: mahir membuka folder', pilih: '+1 Ilmu: mahir memilih fail', susun: '+2 Ilmu: mahir menyusun fail' }[id];
+    const diberi = this.cb.ganjaran ? this.cb.ganjaran(kunci, g, teks) : false;
+    const semua = this.TAHAP.every((t) => (D.bintang[t.id] || 0) > 0);
+    let bonus = false; if (semua && this.cb.ganjaran) bonus = this.cb.ganjaran('komputerSemua', { ilmu: 1, reputasi: 1 }, '+1 Ilmu +1 Reputasi: Warga Digital Pintar!');
+    this.cb.simpan && this.cb.simpan(); this.letupan(this.W / 2, 220);
+    const idx = this.TAHAP.findIndex((t) => t.id === id);
+    this.hasil = { id, bintang, mesej, salah: salah || 0, diberi, bonus, semua, baru: bintang > lama, t: 0, idx };
+    this.misi = null; this.banner = null;
+    this.win.filter((w) => w.jenis === 'explorer').forEach((w) => { if (w.mod !== 'bebas') w.tutup = true; });
+    this.tetingkap('hasil', 'hasil', 240, 90, 560, 380, 'Tahap Selesai');
+  },
+  letupan(x, y) { const C = ['#FFCC33', '#FF7FA8', '#58B85A', '#3F8FC9', '#B99BFF']; for (let i = 0; i < 46; i++) { const a = this.rnd() * 6.283, v = 120 + this.rnd() * 280; this.zarah.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 140, c: C[i % 5], l: 1.1 + this.rnd() * 0.6, s: 4 + this.rnd() * 5 }); } },
+  // ---------- susun atur tetingkap penjelajah ----------
+  lay(w) {
+    const x = w.x, y = w.y, sid = (w.mod === 'susun') ? { x: x + 8, y: y + 76, w: 168, h: w.h - 120 } : { x: x + 8, y: y + 76, w: 168, h: w.h - 120 };
+    const area = { x: x + 184, y: y + 76, w: w.w - 196, h: w.h - 120 };
+    const kad = [0, 1, 2].map((i) => ({ x: sid.x + 6, y: sid.y + 6 + i * ((sid.h - 18) / 3 + 3), w: sid.w - 12, h: (sid.h - 18) / 3 - 6, j: ['gambar', 'dokumen', 'audio'][i] }));
+    return { sid, area, kad, tajuk: { x, y, w: w.w, h: 34 }, tutup: { x: x + w.w - 34, y: y + 4, w: 26, h: 26 }, bar: { x, y: y + 34, w: w.w, h: 36 }, status: { x, y: y + w.h - 38, w: w.w, h: 38 } };
+  },
+  selFail(w, f, n) { const L = this.lay(w), cols = Math.max(1, Math.floor(L.area.w / 118)); const i = w.fail.indexOf(f); return { x: L.area.x + 10 + (i % cols) * 118, y: L.area.y + 12 + Math.floor(i / cols) * 100, w: 112, h: 92 }; },
+  pusatFail(w, f) { if (w.mod === 'susun') return { x: f.cx, y: f.cy }; const r = this.selFail(w, f); return { x: r.x + r.w / 2, y: r.y + 40 }; },
+  dalam(r, x, y) { return x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h; },
+  // ---------- input (koordinat kanvas) ----------
+  tetikus(jenis, x, y) {
+    const K = this.kursor; K.x = Math.max(0, Math.min(this.W, x)); K.y = Math.max(0, Math.min(this.H, y));
+    if (jenis === 'gerak') { this.gerak(); return; }
+    if (jenis === 'turun') { K.tekan = true; K.riak.push({ x: K.x, y: K.y, t: 0 }); this.turun(); } else if (jenis === 'naik') { K.tekan = false; this.naik(); }
+  },
+  atas(x, y) {   // tetingkap teratas di titik (x,y)
+    for (let i = this.win.length - 1; i >= 0; i--) { const w = this.win[i]; if (!w.tutup && this.dalam(w, x, y)) return w; }
+    return null;
+  },
+  ikonRect(i) { return { x: 14, y: 16 + i * 96, w: 92, h: 94 }; },
+  gerak() {
+    const K = this.kursor, x = K.x, y = K.y; let tangan = false;
+    if (!this.on || this.desk < 0.6) { K.tangan = false; return; }
+    if (this.seret && this.seret.f) { const s = this.seret; if (!s.aktif && Math.hypot(x - s.x0, y - s.y0) > 7) s.aktif = true; if (s.aktif) { s.f.cx = x - s.dx; s.f.cy = y - s.dy; } K.tangan = true; return; }
+    if (this.gerakWin) { const g = this.gerakWin; g.w.x = Math.max(-g.w.w + 120, Math.min(this.W - 120, x - g.dx)); g.w.y = Math.max(0, Math.min(this.H - this.TB - 34, y - g.dy)); return; }
+    if (y > this.H - this.TB) tangan = x < 130 || this.win.some((w) => !w.tutup && this.dalam(this.tabRect(w), x, y));
+    else {
+      const top = this.atas(x, y);
+      if (top) { const L = top.jenis === 'explorer' ? this.lay(top) : null; tangan = !!(this.dalam(this.tutupRect(top), x, y) || this.butangDi(top, x, y) || (L && top.fail && top.fail.some((f) => !f.hilang && this.dalam(this.selFail(top, f), x, y))) || (L && top.mod === 'susun' && L.kad.some((k) => this.dalam(k, x, y)))); }
+      else tangan = this.IKON.some((q, i) => this.dalam(this.ikonRect(i), x, y));
+    }
+    if (this.mula) tangan = tangan || this.menuMula().some((m) => this.dalam(m, x, y));
+    K.tangan = tangan;
+  },
+  tutupRect(w) { return { x: w.x + w.w - 34, y: w.y + 4, w: 26, h: 26 }; },
+  tabRect(w) { const i = this.win.filter((q) => !q.tutup).indexOf(w); return { x: 140 + i * 150, y: this.H - this.TB + 5, w: 142, h: 34 }; },
+  menuMula() { const it = [{ id: 'literasi', t: '🧭  Literasi Digital' }, { id: 'tugasan', t: '📁  Tugasan Cuti' }, { id: 'nota', t: '📝  Nota Etika' }, { id: 'matikan', t: '⏻  Matikan' }]; return it.map((m, i) => Object.assign(m, { x: 8, y: this.H - this.TB - 8 - (it.length - i) * 44, w: 230, h: 42 })); },
+  butangDi(w, x, y) { return this.butang(w).some((b) => this.dalam(b, x, y)); },
+  butang(w) {   // butang dalam tetingkap (kecuali tutup)
+    const B = [];
+    if (w.jenis === 'hub') { this.TAHAP.forEach((t, i) => B.push({ id: 'mula_' + t.id, x: w.x + 22 + i * 236, y: w.y + 404, w: 214, h: 46, sah: true })); }
+    if (w.jenis === 'hasil') {
+      B.push({ id: 'kembali', x: w.x + 40, y: w.y + w.h - 70, w: 220, h: 46 });
+      const h = this.hasil; if (h && h.idx < 2) B.push({ id: 'seterusnya', x: w.x + w.w - 260, y: w.y + w.h - 70, w: 220, h: 46 }); else B.push({ id: 'ulang', x: w.x + w.w - 260, y: w.y + w.h - 70, w: 220, h: 46 });
+    }
+    if (w.jenis === 'explorer' && w.mod !== 'bebas' && this.misi) B.push({ id: 'henti', x: w.x + w.w - 156, y: w.y + 38, w: 146, h: 28 });
+    return B;
+  },
+  turun() {
+    const K = this.kursor, x = K.x, y = K.y; this.hint = 0;
+    if (!this.on) return;
+    if (this.desk < 0.8) return;
+    // menu mula
+    if (this.mula) { const m = this.menuMula().find((q) => this.dalam(q, x, y)); this.mula = false; if (m) { if (m.id === 'matikan') this.matikan(); else this.buka(m.id); this.cb.bunyi && this.cb.bunyi('pick'); } if (m || y < this.H - this.TB) return; }
+    if (y > this.H - this.TB) {
+      if (x < 130) { this.mula = !this.mula; this.cb.bunyi && this.cb.bunyi('pick'); return; }
+      const w = this.win.find((q) => !q.tutup && this.dalam(this.tabRect(q), x, y)); if (w) this.depan(w); return;
+    }
+    const top = this.atas(x, y);
+    if (top) {
+      this.depan(top);
+      if (this.dalam(this.tutupRect(top), x, y)) { this.tutupWin(top); this.cb.bunyi && this.cb.bunyi('pick'); return; }
+      const b = this.butang(top).find((q) => this.dalam(q, x, y)); if (b) { this.klikButang(top, b); return; }
+      if (y < top.y + 34) { this.gerakWin = { w: top, dx: x - top.x, dy: y - top.y }; return; }
+      if (top.jenis === 'explorer') this.turunExplorer(top, x, y);
+      return;
+    }
+    // desktop
+    const i = this.IKON.findIndex((q, k) => this.dalam(this.ikonRect(k), x, y));
+    if (i >= 0) {
+      const ik = this.IKON[i], baru = this.t, ganda = this.klikAkhir.id === ik.id && baru - this.klikAkhir.t < 0.55, kedua = this.terpilih === ik.id && baru - this.klikAkhir.t < 2.2;
+      this.terpilih = ik.id; this.cb.bunyi && this.cb.bunyi('pick');
+      if (ganda || kedua) { this.klikAkhir = { id: null, t: -9 }; this.terpilih = null; this.buka(ik.id); } else this.klikAkhir = { id: ik.id, t: baru };
+    } else this.terpilih = null;
+  },
+  klikButang(w, b) {
+    this.cb.bunyi && this.cb.bunyi('pick');
+    if (b.id.startsWith('mula_')) { this.mulaMisi(b.id.slice(5)); return; }
+    if (b.id === 'kembali') { this.hasil = null; this.tutupWin(w); this.hub(); return; }
+    if (b.id === 'seterusnya') { const n = this.TAHAP[Math.min(2, (this.hasil ? this.hasil.idx : 0) + 1)].id; this.hasil = null; this.tutupWin(w); this.mulaMisi(n); return; }
+    if (b.id === 'ulang') { const n = this.hasil ? this.hasil.id : 'buka'; this.hasil = null; this.tutupWin(w); this.mulaMisi(n); return; }
+    if (b.id === 'henti') { this.misi = null; this.banner = null; this.tutupWin(w); this.hub(); }
+  },
+  turunExplorer(w, x, y) {
+    const L = this.lay(w);
+    if (w.mod === 'susun') {
+      const f = this.failDi(w, x, y);
+      if (f) { w.fail.forEach((q) => { if (q !== f) q.sel = false; }); this.seret = { f, w, x0: x, y0: y, dx: x - f.cx, dy: y - f.cy, aktif: false, asalSel: f.sel }; this.cb.bunyi && this.cb.bunyi('pick'); return; }
+      const k = L.kad.find((q) => this.dalam(q, x, y)); if (k) { const pil = w.fail.find((q) => q.sel && !q.hilang); if (pil) this.letak(w, pil, k); return; }
+      w.fail.forEach((q) => { q.sel = false; }); return;
+    }
+    const f = this.failDi(w, x, y);
+    if (!f) { w.fail.forEach((q) => { q.sel = false; }); return; }
+    w.fail.forEach((q) => { q.sel = q === f; }); this.cb.bunyi && this.cb.bunyi('pick');
+    if (w.mod === 'pilih' && this.misi) {
+      if (this.betulSoalan(f)) {
+        f.betul = true; this.cb.bunyi && this.cb.bunyi('ok'); this.misi.betul++; const p = this.pusatFail(w, f); this.letupan(p.x, p.y); const m = this.misi; m.p++;
+        if (m.p >= m.pusing.length) { const s = m.salah === 0 ? 3 : (m.salah <= 2 ? 2 : 1); this.tamat('pilih', s, ['Tepat! Kamu boleh mengenal jenis fail daripada hujung namanya.', m.salah === 0 ? 'Semua betul tanpa kesilapan!' : ('Kesilapan: ' + m.salah + '. Cuba lagi untuk 3 bintang.')], m.salah); }
+        else { this.banner = { teks: 'Betul! Seterusnya...', t: 0 }; m.tunggu = 0.8; }
+      } else { f.shake = 0.5; this.misi.salah++; this.cb.bunyi && this.cb.bunyi('wrong'); this.banner = { teks: 'Belum tepat. ' + this.JENIS[f.j].info + ' Cuba lagi.', t: 0 }; }
+    } else { w.info = f; if (this.klikAkhirFail && this.klikAkhirFail.f === f && this.t - this.klikAkhirFail.t < 0.5) { w.pratonton = f; } this.klikAkhirFail = { f, t: this.t }; }
+  },
+  failDi(w, x, y) {
+    for (let i = w.fail.length - 1; i >= 0; i--) { const f = w.fail[i]; if (f.hilang) continue;
+      const r = w.mod === 'susun' ? { x: f.cx - 56, y: f.cy - 44, w: 112, h: 92 } : this.selFail(w, f); if (this.dalam(r, x, y)) return f; }
+    return null;
+  },
+  naik() {
+    const K = this.kursor; this.gerakWin = null;
+    const s = this.seret; this.seret = null;
+    if (!s || !s.f) return;
+    const f = s.f, w = s.w, L = this.lay(w);
+    if (!s.aktif) { f.sel = !s.asalSel; return; }   // klik (tanpa seret): pilih / nyahpilih
+    const k = L.kad.find((q) => this.dalam(q, K.x, K.y));
+    if (k) this.letak(w, f, k); else { f.balik = 1; f.sel = false; }
+  },
+  letak(w, f, k) {
+    if (f.hilang) return; const m = this.misi;
+    if (f.j === k.j) {
+      f.sel = false; f.masuk = 1; f.hilang = false; f.sasar = { x: k.x + k.w / 2, y: k.y + k.h / 2 }; f.terbang = 0; w.kira[k.j]++; this.cb.bunyi && this.cb.bunyi('ok');
+      if (m) { m.betul++; this.hint = 0; }
+    } else {
+      f.shake = 0.5; f.balik = 1; f.sel = false; if (m) m.salah++; this.cb.bunyi && this.cb.bunyi('wrong');
+      this.banner = { teks: '"' + f.n + '" ialah fail ' + this.JENIS[f.j].nama.toLowerCase() + ' (' + this.JENIS[f.j].ext + '). Cuba folder lain.', t: 0 };
+    }
+  },
+  // ---------- kemas kini ----------
+  tick(dt) {
+    this.t += dt;
+    if (this.boot > 0 && !this.on) { this.boot += dt / 2.6; if (this.boot >= 1) { this.on = true; this.desk = 0; this.cb.bunyi && this.cb.bunyi('ok'); } }
+    if (this.on && this.desk < 1) this.desk = Math.min(1, this.desk + dt * 2.2);
+    this.win.forEach((w) => { if (w.tutup) w.t = Math.max(0, w.t - dt * 7); else w.t = Math.min(1, w.t + dt * 5); });
+    this.win = this.win.filter((w) => !(w.tutup && w.t <= 0.001));
+    if (this.banner) this.banner.t += dt;
+    this.hint += dt;
+    const m = this.misi;
+    if (m && m.tunggu > 0) { m.tunggu -= dt; if (m.tunggu <= 0) { m.tunggu = 0; this.pilihSoalan(); } }
+    this.win.forEach((w) => {
+      if (!w.fail) return; w.fail.forEach((f) => {
+        if (f.shake > 0) f.shake = Math.max(0, f.shake - dt);
+        if (w.mod === 'susun') {
+          if (f.masuk && f.sasar) { f.terbang = Math.min(1, (f.terbang || 0) + dt * 3.2); const e = 1 - Math.pow(1 - f.terbang, 3); f.cx = f.cx + (f.sasar.x - f.cx) * (0.18 + 0.4 * e); f.cy = f.cy + (f.sasar.y - f.cy) * (0.18 + 0.4 * e); if (f.terbang >= 1) { f.hilang = true; f.masuk = 0; } }
+          else if (f.balik && !(this.seret && this.seret.f === f && this.seret.aktif)) { f.cx += (f.hx - f.cx) * Math.min(1, dt * 12); f.cy += (f.hy - f.cy) * Math.min(1, dt * 12); if (Math.hypot(f.hx - f.cx, f.hy - f.cy) < 0.6) { f.cx = f.hx; f.cy = f.hy; f.balik = 0; } }
+        }
+      });
+    });
+    if (m && m.jenis === 'susun' && m.win && m.betul >= m.jumlah && !this.hasil && m.win.fail.every((f) => f.hilang)) {
+      const s = m.salah <= 1 ? 3 : (m.salah <= 4 ? 2 : 1); this.tamat('susun', s, ['Cemerlang! Semua fail sudah disusun ikut kategori.', m.salah === 0 ? 'Tiada kesilapan langsung!' : ('Kesilapan: ' + m.salah + '. Fail yang tersusun memudahkan kita mencari semula.')], m.salah);
+    }
+    if (this.hasil) this.hasil.t += dt;
+    const K = this.kursor; K.riak.forEach((r) => { r.t += dt * 2.4; }); K.riak = K.riak.filter((r) => r.t < 1);
+    this.zarah.forEach((p) => { p.vy += 520 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.l -= dt; }); this.zarah = this.zarah.filter((p) => p.l > 0);
+  },
+  // ---------- lukisan ----------
+  rr(c, x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); c.beginPath(); c.moveTo(x + r, y); c.lineTo(x + w - r, y); c.quadraticCurveTo(x + w, y, x + w, y + r); c.lineTo(x + w, y + h - r); c.quadraticCurveTo(x + w, y + h, x + w - r, y + h); c.lineTo(x + r, y + h); c.quadraticCurveTo(x, y + h, x, y + h - r); c.lineTo(x, y + r); c.quadraticCurveTo(x, y, x + r, y); c.closePath(); },
+  teks(c, s, x, y, sz, col, al, mak) { c.font = sz + 'px ' + this.FONT; c.fillStyle = col; c.textAlign = al || 'left'; c.textBaseline = 'middle'; if (mak) { while (s.length > 1 && c.measureText(s).width > mak) s = s.slice(0, -2) + '…'; } c.fillText(s, x, y); },
+  bungkus(c, s, x, y, lebar, sz, col, lh) { c.font = sz + 'px ' + this.FONT; c.fillStyle = col; c.textAlign = 'left'; c.textBaseline = 'top'; const k = s.split(' '); let b = ''; let yy = y; k.forEach((w) => { const t = b ? b + ' ' + w : w; if (c.measureText(t).width > lebar && b) { c.fillText(b, x, yy); yy += lh; b = w; } else b = t; }); if (b) { c.fillText(b, x, yy); yy += lh; } return yy; },
+  denyut(a, b) { return 0.5 + 0.5 * Math.sin(this.t * 6.2832 / (a || 1.2) + (b || 0)); },
+  lukis(c) {
+    const W = this.W, H = this.H;
+    c.save(); c.clearRect(0, 0, W, H); c.fillStyle = '#05070B'; c.fillRect(0, 0, W, H);
+    if (!this.on && this.boot <= 0) this.lukisMati(c);
+    else if (!this.on) this.lukisBoot(c);
+    else { this.lukisDesktop(c); if (this.desk < 1) { c.fillStyle = 'rgba(5,7,11,' + (1 - this.desk) + ')'; c.fillRect(0, 0, W, H); } }
+    if (this.on || this.boot > 0) this.lukisKursor(c); else this.lukisKursor(c);
+    c.restore();
+  },
+  lukisMati(c) {
+    const p = this.denyut(1.8), cx = this.W / 2, cy = this.H / 2 - 10;
+    c.fillStyle = 'rgba(255,255,255,' + (0.05 + 0.04 * p) + ')'; c.beginPath(); c.arc(cx, cy, 70 + 6 * p, 0, 6.283); c.fill();
+    c.strokeStyle = 'rgba(120,200,255,' + (0.55 + 0.4 * p) + ')'; c.lineWidth = 7; c.lineCap = 'round'; c.beginPath(); c.arc(cx, cy, 34, -1.1, 4.25); c.stroke(); c.beginPath(); c.moveTo(cx, cy - 46); c.lineTo(cx, cy - 8); c.stroke();
+    this.teks(c, 'Tekan butang kuasa untuk menghidupkan komputer', cx, cy + 98, 28, 'rgba(200,225,255,0.9)', 'center'); this.teks(c, '(klik butang bulat di sini atau pada bingkai skrin)', cx, cy + 134, 20, 'rgba(160,190,230,0.7)', 'center');
+  },
+  lukisBoot(c) {
+    const b = this.boot, W = this.W, H = this.H, cx = W / 2, cy = H / 2 - 20;
+    const a = Math.min(1, Math.max(0, (b - 0.12) / 0.2)); c.globalAlpha = a;
+    const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#0C1E3A'); g.addColorStop(1, '#0A1426'); c.fillStyle = g; c.fillRect(0, 0, W, H);
+    c.fillStyle = '#2F86E8'; this.rr(c, cx - 56, cy - 120, 112, 112, 26); c.fill(); this.teks(c, 'LT', cx, cy - 63, 58, '#FFFFFF', 'center');
+    this.teks(c, 'LO:TONG OS', cx, cy + 36, 46, '#FFFFFF', 'center'); this.teks(c, 'Komputer Pusat Sumber', cx, cy + 76, 22, 'rgba(190,215,255,0.85)', 'center');
+    c.fillStyle = 'rgba(255,255,255,0.14)'; this.rr(c, cx - 150, cy + 120, 300, 12, 6); c.fill();
+    const p = Math.min(1, Math.max(0, (b - 0.2) / 0.7)); const e = p * p * (3 - 2 * p); c.fillStyle = '#7FD3FF'; this.rr(c, cx - 150, cy + 120, Math.max(12, 300 * e), 12, 6); c.fill();
+    this.teks(c, b < 0.55 ? 'Memulakan sistem...' : (b < 0.85 ? 'Memuatkan desktop...' : 'Hampir siap...'), cx, cy + 160, 20, 'rgba(190,215,255,0.8)', 'center'); c.globalAlpha = 1;
+  },
+  lukisDesktop(c) {
+    const W = this.W, H = this.H;
+    const g = c.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#7CCFE6'); g.addColorStop(0.62, '#BDEBD2'); g.addColorStop(1, '#8FD6A2'); c.fillStyle = g; c.fillRect(0, 0, W, H);
+    c.fillStyle = 'rgba(255,244,190,0.9)'; c.beginPath(); c.arc(820, 130, 54, 0, 6.283); c.fill(); c.fillStyle = 'rgba(255,244,190,0.25)'; c.beginPath(); c.arc(820, 130, 82 + 4 * this.denyut(3), 0, 6.283); c.fill();
+    c.fillStyle = '#6DBE8B'; c.beginPath(); c.moveTo(0, 430); c.quadraticCurveTo(220, 360, 420, 420); c.quadraticCurveTo(640, 480, 820, 400); c.quadraticCurveTo(940, 350, W, 390); c.lineTo(W, H); c.lineTo(0, H); c.fill();
+    c.fillStyle = '#58AE79'; c.beginPath(); c.moveTo(0, 500); c.quadraticCurveTo(260, 440, 520, 490); c.quadraticCurveTo(780, 540, W, 470); c.lineTo(W, H); c.lineTo(0, H); c.fill();
+    this.teks(c, 'LO:TONG OS', W - 40, H - 74, 30, 'rgba(255,255,255,0.55)', 'right');
+    // ikon desktop
+    this.IKON.forEach((q, i) => {
+      const r = this.ikonRect(i), sel = this.terpilih === q.id, hov = this.dalam(r, this.kursor.x, this.kursor.y), lift = hov ? -3 : 0;
+      if (sel || hov) { c.fillStyle = sel ? 'rgba(47,134,232,0.38)' : 'rgba(255,255,255,0.22)'; this.rr(c, r.x, r.y, r.w, r.h, 12); c.fill(); if (sel) { c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 2; this.rr(c, r.x, r.y, r.w, r.h, 12); c.stroke(); } }
+      const m = this.misi, sasar = m && m.jenis === 'buka' && q.id === 'tugasan';
+      if (sasar && this.hint > 6) { const p = this.denyut(0.9); c.strokeStyle = 'rgba(255,210,60,' + (0.4 + 0.6 * p) + ')'; c.lineWidth = 4; this.rr(c, r.x - 4, r.y - 4, r.w + 8, r.h + 8, 16); c.stroke(); }
+      c.font = '46px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(q.e, r.x + r.w / 2, r.y + 36 + lift);
+      c.font = '13px ' + this.FONT; const dua = c.measureText(q.lbl).width > 88 && q.lbl.indexOf(' ') > 0; if (dua) { const k = q.lbl.indexOf(' '); this.teks(c, q.lbl.slice(0, k), r.x + r.w / 2, r.y + 70, 13, '#10253A', 'center', 88); this.teks(c, q.lbl.slice(k + 1), r.x + r.w / 2, r.y + 85, 13, '#10253A', 'center', 88); } else this.teks(c, q.lbl, r.x + r.w / 2, r.y + 76, 13, '#10253A', 'center', 90);
+    });
+    // tetingkap
+    this.win.forEach((w) => this.lukisWin(c, w));
+    // banner misi
+    if (this.banner && this.misi) {
+      const t = Math.min(1, this.banner.t * 4), tx = this.banner.teks; c.globalAlpha = t; c.font = '19px ' + this.FONT; const lw = Math.min(W - 80, c.measureText(tx).width + 56), x = (W - lw) / 2, y = 8 + (1 - t) * -16;
+      c.fillStyle = 'rgba(16,37,58,0.92)'; this.rr(c, x, y, lw, 40, 20); c.fill(); this.teks(c, tx, W / 2, y + 21, 19, '#FFFFFF', 'center', lw - 30); c.globalAlpha = 1;
+    }
+    this.lukisTaskbar(c);
+    if (this.mula) this.lukisMenu(c);
+    this.zarah.forEach((p) => { c.globalAlpha = Math.max(0, Math.min(1, p.l)); c.fillStyle = p.c; c.fillRect(p.x, p.y, p.s, p.s * 0.6); }); c.globalAlpha = 1;
+  },
+  lukisTaskbar(c) {
+    const W = this.W, H = this.H, T = this.TB; c.fillStyle = 'rgba(16,37,58,0.94)'; c.fillRect(0, H - T, W, T);
+    const hov = this.kursor.x < 130 && this.kursor.y > H - T; c.fillStyle = this.mula ? '#2F86E8' : (hov ? '#3A4F6B' : '#25405C'); this.rr(c, 6, H - T + 5, 118, 34, 10); c.fill(); this.teks(c, '⊞  Mula', 65, H - T + 22, 20, '#FFFFFF', 'center');
+    this.win.filter((w) => !w.tutup).forEach((w) => { const r = this.tabRect(w), akt = this.win[this.win.length - 1] === w; c.fillStyle = akt ? '#3F6FA3' : '#2B4766'; this.rr(c, r.x, r.y, r.w, r.h, 8); c.fill(); this.teks(c, w.tajuk, r.x + 10, r.y + 18, 15, '#E8F2FF', 'left', r.w - 16); });
+    const d = new Date(), hh = ('0' + d.getHours()).slice(-2), mm = ('0' + d.getMinutes()).slice(-2); this.teks(c, hh + ':' + mm, W - 16, H - T + 22, 20, '#E8F2FF', 'right');
+    c.fillStyle = '#7FE08A'; c.beginPath(); c.arc(W - 86, H - T + 22, 5, 0, 6.283); c.fill();
+  },
+  lukisMenu(c) {
+    const it = this.menuMula(), top = it[0].y - 8; c.fillStyle = 'rgba(16,37,58,0.97)'; this.rr(c, 4, top, 238, this.H - this.TB - top - 2, 14); c.fill();
+    it.forEach((m) => { const hov = this.dalam(m, this.kursor.x, this.kursor.y); if (hov) { c.fillStyle = '#2F86E8'; this.rr(c, m.x + 2, m.y, m.w - 4, m.h, 9); c.fill(); } this.teks(c, m.t, m.x + 18, m.y + 22, 20, '#FFFFFF', 'left'); });
+  },
+  lukisWin(c, w) {
+    const e = w.t, sk = 0.88 + 0.12 * (1 + 2.2 * Math.pow(e - 1, 3) + 1.2 * Math.pow(e - 1, 2)); const a = Math.min(1, e * 1.6);
+    c.save(); c.globalAlpha = a; c.translate(w.x + w.w / 2, w.y + w.h / 2); c.scale(sk, sk); c.translate(-(w.x + w.w / 2), -(w.y + w.h / 2));
+    c.fillStyle = 'rgba(0,0,0,0.25)'; this.rr(c, w.x + 5, w.y + 8, w.w, w.h, 14); c.fill();
+    c.fillStyle = '#FFFDF6'; this.rr(c, w.x, w.y, w.w, w.h, 14); c.fill();
+    const akt = this.win[this.win.length - 1] === w; c.fillStyle = akt ? '#2F86E8' : '#7C9CC4'; c.beginPath(); c.moveTo(w.x + 14, w.y); c.lineTo(w.x + w.w - 14, w.y); c.quadraticCurveTo(w.x + w.w, w.y, w.x + w.w, w.y + 14); c.lineTo(w.x + w.w, w.y + 34); c.lineTo(w.x, w.y + 34); c.lineTo(w.x, w.y + 14); c.quadraticCurveTo(w.x, w.y, w.x + 14, w.y); c.fill();
+    const ik = { explorer: '📁', hub: '🧭', nota: '📝', hasil: '🏆' }[w.jenis] || '🗔'; c.font = '20px ' + this.FONT; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(ik, w.x + 12, w.y + 18);
+    this.teks(c, w.tajuk, w.x + 42, w.y + 18, 20, '#FFFFFF', 'left', w.w - 110);
+    const tr = this.tutupRect(w), hov = this.dalam(tr, this.kursor.x, this.kursor.y); c.fillStyle = hov ? '#FF6B5C' : 'rgba(255,255,255,0.28)'; this.rr(c, tr.x, tr.y, tr.w, tr.h, 7); c.fill(); this.teks(c, '✕', tr.x + 13, tr.y + 14, 16, '#FFFFFF', 'center');
+    if (w.jenis === 'explorer') this.lukisExplorer(c, w); else if (w.jenis === 'hub') this.lukisHub(c, w); else if (w.jenis === 'nota') this.lukisNota(c, w); else if (w.jenis === 'hasil') this.lukisHasil(c, w);
+    c.restore();
+  },
+  lukisButang(c, b, teks, warna, warnaGelap, sah) {
+    const hov = this.dalam(b, this.kursor.x, this.kursor.y), p = this.kursor.tekan && hov ? 3 : 0; c.fillStyle = warnaGelap; this.rr(c, b.x, b.y + 4, b.w, b.h, 12); c.fill(); c.fillStyle = hov ? '#FFFFFF' : warna; if (hov) { c.fillStyle = warna; } this.rr(c, b.x, b.y + p, b.w, b.h - 2, 12); c.fill();
+    if (hov) { c.fillStyle = 'rgba(255,255,255,0.18)'; this.rr(c, b.x, b.y + p, b.w, b.h - 2, 12); c.fill(); } this.teks(c, teks, b.x + b.w / 2, b.y + b.h / 2 - 1 + p, 20, '#FFFFFF', 'center', b.w - 16);
+  },
+  lukisHub(c, w) {
+    const D = this.data(), n = this.selesaiBil(), tot = this.jumlahBintang();
+    this.teks(c, 'Belajar guna komputer dengan betul dan selamat', w.x + 24, w.y + 62, 22, '#10253A', 'left', w.w - 48);
+    const prog = n / 3; c.fillStyle = '#E6EEF6'; this.rr(c, w.x + 24, w.y + 90, w.w - 48, 20, 10); c.fill(); c.fillStyle = '#58B85A'; if (prog > 0) { this.rr(c, w.x + 24, w.y + 90, Math.max(20, (w.w - 48) * prog), 20, 10); c.fill(); }
+    this.teks(c, 'Kemajuan: ' + n + '/3 tahap  ·  ' + tot + '/9 bintang', w.x + w.w / 2, w.y + 100, 15, '#10253A', 'center');
+    this.TAHAP.forEach((t, i) => {
+      const x = w.x + 22 + i * 236, y = w.y + 124, bin = (D.bintang[t.id] || 0), saran = bin === 0 && this.TAHAP.slice(0, i).every((q) => (D.bintang[q.id] || 0) > 0);
+      c.fillStyle = '#F2F7FC'; this.rr(c, x, y, 214, 266, 16); c.fill(); c.strokeStyle = saran ? '#FFB400' : '#D2DEEA'; c.lineWidth = saran ? 4 : 2; this.rr(c, x, y, 214, 266, 16); c.stroke();
+      c.fillStyle = '#2F86E8'; c.beginPath(); c.arc(x + 32, y + 32, 20, 0, 6.283); c.fill(); this.teks(c, String(t.no), x + 32, y + 33, 24, '#FFFFFF', 'center');
+      c.font = '52px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(t.e, x + 107, y + 82);
+      this.teks(c, t.nama, x + 107, y + 128, 24, '#10253A', 'center', 196); this.bungkus(c, t.ket, x + 16, y + 148, 182, 15, '#3C5670', 19);
+      for (let s = 0; s < 3; s++) { this.teks(c, '★', x + 62 + s * 46, y + 238, 34, s < bin ? '#FFB400' : '#CBD6E2', 'center'); }
+    });
+    this.TAHAP.forEach((t, i) => { const b = this.butang(w)[i]; const bin = D.bintang[t.id] || 0; this.lukisButang(c, b, bin ? 'Main semula' : 'Mula', bin ? '#3A8BDB' : '#58B85A', bin ? '#2A6BAE' : '#3E8C40'); });
+  },
+  lukisNota(c, w) {
+    this.teks(c, 'Etika dan keselamatan digital', w.x + 24, w.y + 62, 26, '#1D6B37', 'left');
+    this.NOTA.forEach((s, i) => { const y = w.y + 94 + i * 44; c.fillStyle = i % 2 ? '#F2F7FC' : '#E8F3EA'; this.rr(c, w.x + 20, y, w.w - 40, 38, 10); c.fill(); this.teks(c, '✔', w.x + 40, y + 20, 20, '#58B85A', 'center'); this.teks(c, s, w.x + 62, y + 20, 17, '#10253A', 'left', w.w - 100); });
+  },
+  lukisHasil(c, w) {
+    const h = this.hasil; if (!h) return; const T = this.TAHAP[h.idx];
+    this.teks(c, T.nama + ' selesai!', w.x + w.w / 2, w.y + 64, 32, '#1D6B37', 'center');
+    for (let s = 0; s < 3; s++) { const p = Math.max(0, Math.min(1, (h.t - 0.25 - s * 0.28) * 3)), e = 1 + 0.7 * Math.pow(1 - p, 2) * Math.sin(p * 9); c.save(); c.translate(w.x + w.w / 2 + (s - 1) * 80, w.y + 130); c.scale(e * (s < h.bintang ? Math.min(1, p * 1.5) : 1), e * (s < h.bintang ? Math.min(1, p * 1.5) : 1)); this.teks(c, '★', 0, 0, 72, s < h.bintang ? '#FFB400' : '#CBD6E2', 'center'); c.restore(); }
+    let y = w.y + 180; h.mesej.forEach((m) => { y = this.bungkus(c, m, w.x + 40, y, w.w - 80, 18, '#10253A', 24) + 4; });
+    const g = h.diberi ? 'Ganjaran: ' + { buka: '+1 Ilmu', pilih: '+1 Ilmu', susun: '+2 Ilmu' }[h.id] + (h.bonus ? ' dan bonus Warga Digital +1 Ilmu +1 Reputasi' : '') : 'Ganjaran hari ini untuk tahap ini sudah diterima. Cuba lagi esok!';
+    c.fillStyle = h.diberi ? '#FFF4CC' : '#EEF3F8'; this.rr(c, w.x + 40, w.y + w.h - 132, w.w - 80, 48, 12); c.fill(); this.teks(c, '🎁 ' + g, w.x + w.w / 2, w.y + w.h - 108, 16, '#5A4300', 'center', w.w - 100);
+    this.butang(w).forEach((b) => this.lukisButang(c, b, { kembali: 'Kembali ke pusat', seterusnya: 'Tahap seterusnya', ulang: 'Main semula' }[b.id], b.id === 'kembali' ? '#7C9CC4' : '#58B85A', b.id === 'kembali' ? '#5B7BA4' : '#3E8C40'));
+  },
+  lukisExplorer(c, w) {
+    const L = this.lay(w), K = this.JENIS;
+    c.fillStyle = '#EEF3F8'; c.fillRect(w.x, w.y + 34, w.w, 36); this.teks(c, '📂  Komputer  ›  ' + (w.id === 'tugasan' ? 'Tugasan Cuti' : w.tajuk), w.x + 16, w.y + 52, 17, '#3C5670', 'left', w.w - 210);
+    const bt = this.butang(w).find((b) => b.id === 'henti'); if (bt) this.lukisButang(c, { x: bt.x, y: bt.y, w: bt.w, h: bt.h }, 'Henti misi', '#8A97A8', '#66727F');
+    // sisi
+    c.fillStyle = '#F6F9FC'; c.fillRect(L.sid.x - 8, L.sid.y - 6, L.sid.w + 16, L.sid.h + 12);
+    if (w.mod === 'susun') {
+      L.kad.forEach((k) => {
+        const J = K[k.j], hov = this.dalam(k, this.kursor.x, this.kursor.y), tarik = this.seret && this.seret.aktif, ada = w.fail.some((f) => f.sel && !f.hilang);
+        const sasar = (tarik || ada) && hov, kira = w.kira[k.j];
+        c.fillStyle = sasar ? J.warna : '#FFFFFF'; this.rr(c, k.x, k.y, k.w, k.h, 12); c.fill(); c.strokeStyle = J.warna; c.lineWidth = sasar ? 5 : 3; this.rr(c, k.x, k.y, k.w, k.h, 12); c.stroke();
+        c.font = '40px ' + this.FONT; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(kira >= w.jumlah ? '📂' : '📁', k.x + 10, k.y + k.h / 2 - 8);
+        this.teks(c, J.nama, k.x + 62, k.y + k.h / 2 - 16, 20, sasar ? '#FFFFFF' : '#10253A', 'left'); this.teks(c, J.ext, k.x + 62, k.y + k.h / 2 + 4, 12, sasar ? '#FFFFFF' : '#5B6C80', 'left', k.w - 68); this.teks(c, kira + '/' + w.jumlah, k.x + 62, k.y + k.h / 2 + 24, 16, sasar ? '#FFFFFF' : J.warna, 'left');
+        const m = this.misi; if (m && m.jenis === 'susun' && this.hint > 9 && !this.seret) { const f = w.fail.find((q) => !q.hilang && !q.masuk); if (f && f.j === k.j) { const p = this.denyut(0.9); c.strokeStyle = 'rgba(255,180,0,' + (0.3 + 0.7 * p) + ')'; c.lineWidth = 4; this.rr(c, k.x - 3, k.y - 3, k.w + 6, k.h + 6, 14); c.stroke(); } }
+      });
+    } else {
+      const lst = [{ e: '📁', t: 'Tugasan Cuti' }, { e: '📁', t: 'Dokumen' }, { e: '🗑️', t: 'Tong Kitar' }, { e: '🧭', t: 'Literasi Digital' }];
+      lst.forEach((q, i) => { const y = L.sid.y + 4 + i * 40, akt = q.t === w.tajuk; if (akt) { c.fillStyle = '#D9E8F9'; this.rr(c, L.sid.x, y, L.sid.w, 34, 8); c.fill(); } c.font = '20px ' + this.FONT; c.textAlign = 'left'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(q.e, L.sid.x + 10, y + 18); this.teks(c, q.t, L.sid.x + 40, y + 18, 15, '#10253A', 'left', L.sid.w - 46); });
+    }
+    // kawasan fail
+    c.fillStyle = '#FFFFFF'; this.rr(c, L.area.x - 4, L.area.y - 6, L.area.w + 8, L.area.h + 12, 10); c.fill(); c.strokeStyle = '#E1E9F1'; c.lineWidth = 2; this.rr(c, L.area.x - 4, L.area.y - 6, L.area.w + 8, L.area.h + 12, 10); c.stroke();
+    if (w.kosong) this.teks(c, w.kosong, L.area.x + L.area.w / 2, L.area.y + L.area.h / 2, 18, '#8090A5', 'center', L.area.w - 30);
+    const m = this.misi, seretF = this.seret && this.seret.aktif ? this.seret.f : null;
+    const lukisF = (f, cx, cy, ts) => {
+      const J = K[f.j], gx = f.shake > 0 ? Math.sin(f.shake * 60) * 7 * (f.shake / 0.5) : 0, x = cx + gx, y = cy;
+      const hov = this.dalam({ x: x - 56, y: y - 44, w: 112, h: 92 }, this.kursor.x, this.kursor.y) && !seretF;
+      if (f.sel || hov || f.betul) { c.fillStyle = f.betul ? 'rgba(88,184,90,0.28)' : (f.sel ? 'rgba(47,134,232,0.25)' : 'rgba(47,134,232,0.10)'); this.rr(c, x - 54, y - 42, 108, 88, 10); c.fill(); if (f.sel || f.betul) { c.strokeStyle = f.betul ? '#58B85A' : '#2F86E8'; c.lineWidth = 2; this.rr(c, x - 54, y - 42, 108, 88, 10); c.stroke(); } }
+      if (w.mod === 'pilih' && m && m.jenis === 'pilih' && this.hint > 10 && !f.betul && this.betulSoalan(f)) { const p = this.denyut(0.9); c.strokeStyle = 'rgba(255,180,0,' + (0.3 + 0.7 * p) + ')'; c.lineWidth = 4; this.rr(c, x - 56, y - 44, 112, 92, 12); c.stroke(); }
+      if (w.mod === 'susun' && m && this.hint > 9 && !seretF && !f.masuk) { const p = this.denyut(0.9); const idx = w.fail.find((q) => !q.hilang && !q.masuk); if (idx === f) { c.strokeStyle = 'rgba(255,180,0,' + (0.3 + 0.7 * p) + ')'; c.lineWidth = 4; this.rr(c, x - 56, y - 44, 112, 92, 12); c.stroke(); } }
+      c.save(); c.translate(x, y - 8); if (ts) c.scale(ts, ts); c.font = '48px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(J.ikon, 0, 0); c.restore();
+      c.fillStyle = J.warna; this.rr(c, x - 40, y + 18, 80, 5, 3); c.fill();
+      this.teks(c, f.n, x, y + 34, 13, '#10253A', 'center', 106);
+      if (f.betul) this.teks(c, '✔', x + 40, y - 30, 22, '#3E8C40', 'center');
+    };
+    w.fail.forEach((f) => {
+      if (f.hilang) return; if (f === seretF) return;
+      if (w.mod === 'susun') { const k = f.masuk ? 0.55 + 0.45 * (1 - f.terbang) : 1; c.globalAlpha = f.masuk ? Math.max(0.2, 1 - f.terbang * 0.8) : 1; lukisF(f, f.cx, f.cy, k); c.globalAlpha = 1; }
+      else { const p = this.pusatFail(w, f); lukisF(f, p.x, p.y - 40 + 40, 1); }
+    });
+    if (seretF) { c.fillStyle = 'rgba(0,0,0,0.18)'; this.rr(c, seretF.cx - 50, seretF.cy - 34, 108, 88, 12); c.fill(); lukisF(seretF, seretF.cx, seretF.cy - 6, 1.08); }
+    // status
+    c.fillStyle = '#EEF3F8'; c.fillRect(L.status.x, L.status.y, L.status.w, L.status.h); c.fillStyle = '#EEF3F8'; this.rr(c, L.status.x, L.status.y, L.status.w, L.status.h, 14); c.fill();
+    const pil = (w.fail || []).find((f) => f.sel) || w.info;
+    let st = (w.fail ? w.fail.filter((f) => !f.hilang).length : 0) + ' fail';
+    if (pil && w.mod === 'bebas') st = pil.n + '  ·  Jenis: ' + K[pil.j].nama + '  ·  Dibuka dengan: ' + K[pil.j].app;
+    else if (w.mod === 'pilih' && m) st = m.teks + '   (betul: ' + m.betul + ', salah: ' + m.salah + ')';
+    else if (w.mod === 'susun' && m) st = 'Disusun: ' + m.betul + '/' + m.jumlah + '   Salah: ' + m.salah + (pil ? '  ·  Dipilih: ' + pil.n + ' (ketik folder untuk meletak)' : '');
+    this.teks(c, st, w.x + 16, L.status.y + 19, 15, '#3C5670', 'left', w.w - 32);
+    if (w.pratonton) { const f = w.pratonton, J = K[f.j]; c.fillStyle = 'rgba(16,37,58,0.55)'; this.rr(c, w.x, w.y + 34, w.w, w.h - 34, 14); c.fill(); c.fillStyle = '#FFFFFF'; this.rr(c, w.x + 150, w.y + 100, w.w - 300, 220, 16); c.fill(); c.font = '66px ' + this.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(J.ikon, w.x + w.w / 2, w.y + 160); this.teks(c, f.n, w.x + w.w / 2, w.y + 214, 20, '#10253A', 'center', w.w - 340); this.teks(c, 'Dibuka dengan ' + J.app + ' (klik di mana-mana untuk tutup)', w.x + w.w / 2, w.y + 250, 14, '#5B6C80', 'center', w.w - 340); }
+  },
+  lukisKursor(c) {
+    const K = this.kursor; K.riak.forEach((r) => { c.strokeStyle = 'rgba(255,255,255,' + (0.8 * (1 - r.t)) + ')'; c.lineWidth = 3; c.beginPath(); c.arc(r.x, r.y, 6 + 40 * r.t, 0, 6.283); c.stroke(); });
+    c.save(); c.translate(K.x, K.y); if (K.tekan) c.scale(0.9, 0.9);
+    if (K.tangan) { c.fillStyle = '#FFFFFF'; c.strokeStyle = '#10253A'; c.lineWidth = 2; c.beginPath(); c.moveTo(-1, -2); c.lineTo(-1, 20); c.lineTo(5, 15); c.lineTo(10, 26); c.lineTo(15, 24); c.lineTo(10, 14); c.lineTo(18, 13); c.closePath(); c.fill(); c.stroke(); }
+    else { c.fillStyle = '#FFFFFF'; c.strokeStyle = '#10253A'; c.lineWidth = 2; c.beginPath(); c.moveTo(0, 0); c.lineTo(0, 24); c.lineTo(6, 19); c.lineTo(11, 30); c.lineTo(16, 28); c.lineTo(11, 17); c.lineTo(19, 17); c.closePath(); c.fill(); c.stroke(); }
+    c.restore();
+  }
+};
+
+const KomputerPSS = {
+  SX: 6.694, SY: 1.04, SW: 0.54, SH: 0.31, KURSI: 5.35, aktif: false, k: 0, ke: 0, nama: null, zc: 0, r: null, siap: {}, tunggu: 0, sit: 0, asalPos: null, dudukPos: null, kunci: false,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  sediakanOS() {
+    if (KomputerOS.cb.sedia) return; const self = this;
+    KomputerOS.cb = {
+      bunyi(n) { try { Sound.play(n); } catch (e) {} },
+      kiraan(id) { try { Kiraan.tambah('digital'); Kiraan.set('digitalTahap', id); } catch (e) {} },
+      tahun() { try { return Kelas.tahun(); } catch (e) { return 3; } },
+      data() { const d = State.data; if (!d) return { bintang: {} }; d.komputer = d.komputer || { bintang: {} }; return d.komputer; },
+      simpan() { try { Save.save(); } catch (e) {} },
+      ganjaran(kunci, g, mesej) { const d = State.data; if (!d) return false; d.alat = d.alat || {}; const ada = d.alat[kunci] === self.hari(); if (ada) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+      sedia: true
+    };
+  },
+  // Cari komputer terdekat dengan pemain di Ruang Digital; kembalikan false jika GLB tiada (kembali kepada fakta asal)
+  cari() {
+    const r = Rooms.list && Rooms.list.pss; if (!r || Rooms.current !== 'pss') return null; let best = null;
+    ['komputer_1', 'komputer_2', 'komputer_3'].forEach((n) => {
+      const o = r.group.getObjectByName(n); if (!o) return; const b = new THREE.Box3().setFromObject(o); if (b.isEmpty()) return;
+      const zc = b.min.z + 0.30, d = Math.hypot(Player.pos.x - (r.ox + this.KURSI), Player.pos.z - (r.oz + zc));
+      if (Math.abs(b.max.x - 6.86) > 0.05 || Math.abs((b.max.z - b.min.z) - 0.66) > 0.08) return;   // sahkan susun atur GLB (skrin pada x = 6.70, lebar 0.6 m)
+      if (!best || d < best.d) best = { n, zc, d };
+    });
+    return best ? { r, n: best.n, zc: best.zc } : null;
+  },
+  sediakan3D(r, zc, n) {
+    const K = (r.group.userData.komputerPSS = r.group.userData.komputerPSS || {}); if (K[n]) return K[n];
+    const cv = document.createElement('canvas'); cv.width = KomputerOS.W; cv.height = KomputerOS.H; const tex = new THREE.CanvasTexture(cv); tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false; try { tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {}
+    const skrin = new THREE.Mesh(new THREE.PlaneGeometry(this.SW, this.SH), new THREE.MeshBasicMaterial({ map: tex })); skrin.rotation.y = -Math.PI / 2; skrin.position.set(6.694, this.SY, zc); skrin.visible = false; skrin.renderOrder = 3; r.group.add(skrin);
+    const bt = new THREE.Mesh(new THREE.CircleGeometry(0.0125, 20), new THREE.MeshBasicMaterial({ color: '#FFB84D' })); bt.rotation.y = -Math.PI / 2; bt.position.set(6.693, 0.8725, zc + 0.245); bt.visible = false; r.group.add(bt);
+    const btHit = new THREE.Mesh(new THREE.CircleGeometry(0.035, 12), new THREE.MeshBasicMaterial({ visible: false })); btHit.rotation.y = -Math.PI / 2; btHit.position.set(6.692, 0.8725, zc + 0.245); r.group.add(btHit);
+    const tikus = new THREE.Group(); tikus.position.set(6.45, 0.765, zc + 0.33); r.group.add(tikus); tikus.visible = false;
+    const bdn = new THREE.Mesh(new THREE.BoxGeometry(0.078, 0.032, 0.05), new THREE.MeshLambertMaterial({ color: '#F4F6F8' })); bdn.position.y = 0.016; tikus.add(bdn);
+    const klik = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.006, 0.047), new THREE.MeshLambertMaterial({ color: '#C9CFD6' })); klik.position.set(0.02, 0.033, 0); tikus.add(klik);
+    return (K[n] = { cv, c2d: cv.getContext('2d'), tex, skrin, bt, btHit, tikus, klik, zc });
+  },
+  buka() {
+    if (this.aktif || State.uiLock) return true;
+    const f = this.cari(); if (!f) return false;
+    this.sediakanOS(); this.r = f.r; this.nama = f.n; this.zc = f.zc; this.N = this.sediakan3D(f.r, f.zc, f.n);
+    this.asalPos = Player.pos.clone(); this.dudukPos = new THREE.Vector3(f.r.ox + this.KURSI, 0, f.r.oz + f.zc);
+    this.aktif = true; this.ke = 1; this.sit = 0; this.kunci = false; setLock('komputer');
+    this.N.skrin.visible = true; this.N.bt.visible = true; this.N.tikus.visible = true;
+    this.dom(true); if (this.kurang()) { this.k = 1; this.sit = 1; }
+    KomputerOS.kursor.x = KomputerOS.W / 2; KomputerOS.kursor.y = KomputerOS.H / 2; KomputerOS.mula = false;
+    if (!KomputerOS.on && KomputerOS.boot <= 0) toast('Duduk di kerusi. Tekan butang kuasa untuk menghidupkan komputer.');
+    return true;
+  },
+  tutup() {
+    if (!this.aktif) return; this.aktif = false; this.ke = 0; KomputerOS.seret = null; KomputerOS.gerakWin = null; this.dom(false);
+    try { Sound.play('pick'); } catch (e) {}
+  },
+  dom(on) {
+    const L = $('kpLapisan'); if (!L) return; L.hidden = !on;
+    if (on) { $('kpTajuk').textContent = 'Komputer Ruang Digital'; this.pasangInput(L); }
+  },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const peta = (e, jenis) => {
+      if (!self.aktif || self.k < 0.55) return; const N = self.N; v.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera);
+      const hitBtn = ray.intersectObject(N.btHit, false)[0]; if (hitBtn && jenis === 'turun') { self.kuasa(); return; }
+      const h = ray.intersectObject(N.skrin, false)[0];
+      if (h && h.uv) { KomputerOS.tetikus(jenis, h.uv.x * KomputerOS.W, (1 - h.uv.y) * KomputerOS.H); self.tikusFizik(jenis); }
+      else if (jenis === 'naik') KomputerOS.tetikus('naik', KomputerOS.kursor.x, KomputerOS.kursor.y);
+      if (jenis === 'turun' && h && !KomputerOS.on && KomputerOS.boot <= 0) { const dx = h.uv.x * KomputerOS.W - KomputerOS.W / 2, dy = (1 - h.uv.y) * KomputerOS.H - (KomputerOS.H / 2 - 10); if (Math.hypot(dx, dy) < 90) self.kuasa(); }
+    };
+    L.addEventListener('pointerdown', (e) => { if (e.target.closest && e.target.closest('button')) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {} peta(e, 'turun'); });
+    L.addEventListener('pointermove', (e) => { e.stopPropagation(); peta(e, 'gerak'); });
+    L.addEventListener('pointerup', (e) => { e.preventDefault(); e.stopPropagation(); peta(e, 'naik'); });
+    L.addEventListener('pointercancel', () => { KomputerOS.tetikus('naik', KomputerOS.kursor.x, KomputerOS.kursor.y); });
+    $('kpKeluar').addEventListener('click', () => self.tutup());
+  },
+  kuasa() { if (KomputerOS.on || KomputerOS.boot > 0) return; KomputerOS.nyalakan(); },
+  tikusFizik(jenis) {
+    const N = this.N, K = KomputerOS.kursor; const tx = (K.y / KomputerOS.H - 0.5) * 0.03, tz = (K.x / KomputerOS.W - 0.5) * 0.04; N.tikus.position.set(6.45 + tx, 0.765, this.zc + 0.33 + tz);
+    N.klik.position.y = K.tekan ? 0.030 : 0.033;
+  },
+  tick(dt) {
+    if (!this.aktif && this.k <= 0.0005 && !this.N) return;
+    if (this.aktif && (Rooms.current !== 'pss' || !this.r || !this.r.group.visible)) this.tutup();   // keselamatan: keluar bilik / masa tamat
+    const kur = this.kurang(), sasar = this.ke;
+    if (this.aktif && this.sit < 1) { this.sit = Math.min(1, this.sit + (kur ? 1 : dt * 2.2)); const p = Player.pos, e = this.sit * this.sit * (3 - 2 * this.sit); p.lerpVectors(this.asalPos, this.dudukPos, e); Player.face = Math.PI / 2; if (Player.m) Player.m.group.rotation.y = Math.PI / 2; if (this.sit >= 1 || this.sit > 0.2) Player.duduk(true); }
+    if (this.aktif) { Player.pos.copy(this.dudukPos); Player.face = Math.PI / 2; if (Player.m) { Player.m.group.rotation.y = Math.PI / 2; } }
+    this.k += (sasar - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.6 : 5)));
+    if (Math.abs(sasar - this.k) < 0.002) this.k = sasar;
+    // sorok badan pemain apabila kamera sudah hampir (elak lengan menghalang skrin)
+    if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+    if (this.N && (this.aktif || this.k > 0.002)) {
+      KomputerOS.tick(dt); KomputerOS.lukis(this.N.c2d); this.N.tex.needsUpdate = true;
+      const on = KomputerOS.on, p = KomputerOS.boot > 0 && !on;
+      this.N.bt.material.color.set(on ? '#5BFF8A' : (p ? '#7FD3FF' : (0.55 + 0.45 * Math.sin(KomputerOS.t * 4) > 0.6 ? '#FFB84D' : '#6A4A20')));
+      KomputerOS.t += 0;   // jam dalaman dikemas kini dalam KomputerOS.tick
+    }
+    if (!this.aktif && this.k <= 0.002 && this.N) {   // keluar selesai: bangun, pulihkan pemain dan kamera
+      this.k = 0; this.N.skrin.visible = false; this.N.bt.visible = false; this.N.tikus.visible = false; this.N = null;
+      if (Player.m) Player.m.group.visible = true; Player.duduk(false); Player.pos.copy(this.asalPos); this.asalPos = null; setLock(null);
+    }
+  },
+  kamera() {
+    const r = this.r; if (!r || !this.N || this.k < 0.002) return;
+    const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6;
+    const dh = (this.SH / 0.72) / (2 * tf), dw = (this.SW / 0.86) / (2 * tf * asp), d = Math.max(0.40, dh, dw);
+    V.set(r.ox + this.SX - d, this.SY + 0.015, r.oz + this.zc);
+    camera.position.lerp(V, e);
+    V2.copy(Cam.look).lerp(V.set(r.ox + this.SX, this.SY - 0.005, r.oz + this.zc), e); camera.lookAt(V2);
+  }
+};
+
 const Peta = {
   aktif: false, tgt: new THREE.Vector3(-5, 0, 0), dist: 90, distMaks: 120, yaw: Math.PI / 2, pitch: 1.25,
   label: [], pin: null, cubit: null, jarakCubit: 0,
