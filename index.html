@@ -149,6 +149,21 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #kpLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
 #kpAtas{position:absolute;left:10px;top:10px;pointer-events:auto;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
 #kpBantu{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #000;pointer-events:none}
+#plLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#plLapisan [hidden],#plLapisan[hidden]{display:none!important}
+#plAtas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:center;pointer-events:none}#plAtas>*{pointer-events:auto}
+#plTajuk{background:#FFF3B8;color:#7A4A00;border:3px solid #FFB400;border-radius:18px;padding:6px 14px;font-size:20px;white-space:nowrap}
+#plJejak{display:flex;gap:6px;flex:1;justify-content:center;pointer-events:none}#plJejak i{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #9BD3F5;box-shadow:0 2px 0 rgba(0,0,0,.15)}#plJejak i.on{background:#4CC25B;border-color:#2E9A3F;animation:plPop .4s}
+#plLapisan .btn{font-size:18px;min-height:44px;border-radius:16px}
+.plBaris{position:absolute;left:50%;transform:translateX(-50%);top:70px;max-width:94vw;padding:10px 18px;border-radius:20px;background:#3A8BDB;color:#fff;font-size:22px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.2);pointer-events:none;line-height:1.25}.plBaris.baik{background:#4CC25B}.plBaris.cuba{background:#FF8A3D}.plBaris.maklum{background:#A77BE8}
+#plPusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,243,184,.45);padding:10px;box-sizing:border-box}
+.plKad{background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:28px;padding:18px;width:min(96vw,720px);box-sizing:border-box;max-height:90vh;overflow:auto;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:center}
+.plJdl{font-size:30px;color:#E8684F}.plNama{font-size:24px;margin:2px 0 6px}.plMsg{font-size:18px;margin:6px 0 12px}
+.plGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.plCard{border:4px solid #9BD3F5;border-radius:22px;background:#EAF7FF;padding:12px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .15s}.plCard:nth-child(2){background:#FFF0F3;border-color:#FFB3C6}.plCard:nth-child(3){background:#EDFBEA;border-color:#9BE08F}.plCard:hover,.plCard:active{transform:translateY(-4px) scale(1.03)}
+.plCard .plE{font-size:54px;line-height:1.1}.plCard b{font-size:21px}.plCard small{font-size:15px;line-height:1.3}.plS i{font-style:normal;font-size:30px;color:#D7D2C4}.plS i.on{color:#FFB400}
+.plBintang span{font-size:72px;color:#D7D2C4;display:inline-block}.plBintang span.on{color:#FFB400;animation:plPop .6s both}@keyframes plPop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.4) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.plGanjaran{background:#EEF3F8;border-radius:16px;padding:8px 12px;font-size:17px;margin:6px 0 14px}.plGanjaran.ada{background:#FFF4CC;color:#5A4300}
+.plBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.plBesar{font-size:20px!important;min-height:54px!important;padding:6px 18px!important}.plHijau{background:#4CC25B!important;color:#fff!important}
 #rbLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#rbLapisan [hidden],#rbLapisan[hidden]{display:none!important}
 #rbAtas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:flex-start;pointer-events:none}#rbAtas>*{pointer-events:auto}
 #rbMisi{background:rgba(16,37,58,.92);color:#fff;border-radius:14px;padding:8px 12px;display:flex;gap:10px;align-items:center;flex:1;max-width:680px;font-size:14px;line-height:1.3}#rbMisi b{background:#FFB400;color:#10253A;border-radius:10px;padding:2px 9px;white-space:nowrap}
@@ -1068,6 +1083,11 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     </div>
   </section>
 
+  <div id="plLapisan" hidden aria-label="Prasekolah interaktif">
+    <div id="plAtas"><button id="plKeluar" class="btn" type="button">⬅ Keluar</button><span id="plTajuk">🧸 Sudut Blok</span><span id="plJejak"></span><button id="plUlang" class="btn" type="button" hidden>🔁 Cuba Lagi</button></div>
+    <div id="plBaris" class="plBaris" hidden></div>
+    <div id="plPusat" hidden></div>
+  </div>
   <div id="rbLapisan" hidden aria-label="Rak buku interaktif">
     <div id="rbAtas"><button id="rbKeluar" class="btn" type="button">⬅ Keluar</button><div id="rbMisi" hidden></div></div>
     <div id="rbBaris" class="rbBaris" hidden></div>
@@ -5267,7 +5287,7 @@ const LAYOUT = {
     A.murid(-4.4, 2.8, 0.6, 'lantai', 0, true);
     A.piece('bongkah', -4.6, 2.0, 0, 1, false); A.piece('bongkah', -3.8, 3.4, 0, 0.8, false);
     A.piece('gelongsor', 4.4, 2.6);
-    A.act(-4.2, 2.4, 'Main', 'Susun blok bersama adik-adik', () => Peralatan.blok(), 1.4);
+    A.act(-4.2, 2.4, 'Main', 'Susun blok bersama adik-adik', () => { let ok = false; try { ok = PraBlok.buka(); } catch (e) { laporRalat(e); } if (!ok) Peralatan.blok(); }, 1.4);
     A.act(4.4, 1.1, 'Main', 'Main gelongsor', () => Peralatan.gelongsor(), 1.2);
     // Sudut cerita: permaidani, kusyen, rak buku kecil & 2 adik duduk mendengar
     { const rg = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 0.02, 28), mat('#FFD27A')); rg.position.set(-4.7, 0.011, -2.3); r.group.add(rg);
@@ -5514,7 +5534,7 @@ const InteriorGLB = {
         [[-2.5, -0.6], [2.5, -0.6], [0, 2.0]].forEach(([x, z]) => [[0.75, 0, -Math.PI / 2], [-0.75, 0, Math.PI / 2], [0, 0.75, 0], [0, -0.75, Math.PI]].forEach(([dx, dz, rot]) => seats.push([x + dx, z + dz, rot + Math.PI])));
         shuffleWith(r.rnd, seats).slice(0, Math.max(0, (def.murid || 5) - 1)).forEach(([x, z, a]) => A.murid(x, z, a, 'duduk', 0.42 * 0.7, true));
         A.murid(-4.4, 2.8, 0.6, 'lantai', 0, true);
-        A.act(-4.2, 2.4, 'Main', 'Susun blok bersama adik-adik', () => Peralatan.blok(), 1.4);
+        A.act(-4.2, 2.4, 'Main', 'Susun blok bersama adik-adik', () => { let ok = false; try { ok = PraBlok.buka(); } catch (e) { laporRalat(e); } if (!ok) Peralatan.blok(); }, 1.4);
         A.act(4.4, 1.1, 'Main', 'Main gelongsor', () => Peralatan.gelongsor(), 1.2);
         A.murid(-5.2, -2.7, 0.9, 'lantai', 0, true); A.murid(-4.3, -2.9, 0.2, 'lantai', 0, true);
         // Bongkah bentuk berwarna di atas meja kanan (sasaran tugasan 'Ajar warna & bentuk')
@@ -7916,6 +7936,7 @@ window.addEventListener('keydown', (e) => {
   if (k === 'escape' && !$('sandaran').hidden) { Sandaran.tutup(); return; }
   if (k === 'escape' && !$('papanAnugerah').hidden) { Anugerah.tutup(); return; }
   if (State.uiLock === 'komputer') { if (k === 'escape') KomputerPSS.tutup(); return; }
+  if (State.uiLock === 'pra') { if (k === 'escape') PraBlok.tutup(); return; }
   if (State.uiLock === 'rak') { if (k === 'escape') { if (RakBuku.reader) RakBaca.tutup(); else RakBuku.tutup(); } else if (RakBuku.reader && (k === 'arrowright' || k === 'arrowleft')) RakBaca.gerak(k === 'arrowright' ? 1 : -1); return; }
   if (State.uiLock === 'geng') { if (k === 'escape') Geng.tutup(); return; }
   if (State.uiLock === 'menuMakan') { if (k === 'escape') MenuMakan.tutup(); return; }
@@ -8162,7 +8183,8 @@ const Cam = {
     if (SelamatMakmal.k > 0.002) SelamatMakmal.kamera();   // v112: kamera dekat sinki dan meja kerja (keselamatan makmal)
     if (SudutSolat.k > 0.002) SudutSolat.kamera();   // v99: kamera sisi Sudut Latihan Solat
     KomputerPSS.tick(dt); if (KomputerPSS.k > 0.002) KomputerPSS.kamera();
-    RakBuku.tick(dt); if (RakBuku.k > 0.002) RakBuku.kamera();   // v117: rak buku interaktif Pusat Sumber   // v114: komputer interaktif Pusat Sumber
+    RakBuku.tick(dt); if (RakBuku.k > 0.002) RakBuku.kamera();
+    PraBlok.tick(dt); if (PraBlok.k > 0.002) PraBlok.kamera();   // v118: Prasekolah interaktif   // v117: rak buku interaktif Pusat Sumber   // v114: komputer interaktif Pusat Sumber
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -10711,6 +10733,226 @@ const RakBuku = {
     const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, d = Math.min(3.1, Math.max(0.95, 1.25 / (2 * tf * asp)));
     V.set(r.ox + this.cx, 0.98, r.oz + (-4.51) + d); camera.position.lerp(V, e);
     V2.copy(Cam.look).lerp(V.set(r.ox + this.cx, 0.72, r.oz - 4.6), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Prasekolah Interaktif (v118) =====================
+   Menaik taraf Sudut Blok di Prasekolah (tindakan "Susun blok bersama adik-adik", berhampiran bongkah_1 / bongkah_2 dalam
+   prasekolah_interior_props.glb, TIDAK diubah) dengan sebuah tikar permainan 3D di sebelah bongkah besar. Tiga aktiviti untuk murid prasekolah:
+   1. Padan Bentuk  : bulat, segi empat, segi tiga dan bintang diseret ke lubang yang sama (2 pusingan, warna ditukar pada pusingan 2).
+   2. Susun Warna   : blok diseret ke dulang yang sama warnanya (merah, biru, kuning, hijau).
+   3. Menara Saiz   : blok disusun dari yang paling besar ke paling kecil membentuk menara 3D.
+   Pemain boleh mengambil, menyeret dan meletakkan (atau ketik blok, kemudian ketik tempat). Snap melantun, bunyi lembut, percikan, petunjuk berdenyut apabila
+   terhenti, "Cuba Lagi", bintang 1-3 (State.data.praBlok) dan ganjaran sedia ada (Peralatan.ganjaran: kunci 'blok' asal + kunci baharu, sekali sehari).
+   Semua dijana oleh kod; tiada aset luar dan tiada internet diperlukan. Jika tikar tidak dapat dipasang, tindakan asal (Peralatan.blok) digunakan. */
+const PraBlok = {
+  MX: -2.7, MZ: 3.3, LB: 1.4, DL: 1.2,
+  WARNA: [{ id: 'merah', nama: 'Merah', c: '#F0524F' }, { id: 'biru', nama: 'Biru', c: '#3A8BDB' }, { id: 'kuning', nama: 'Kuning', c: '#FFCB3D' }, { id: 'hijau', nama: 'Hijau', c: '#4CC25B' },
+    { id: 'oren', nama: 'Oren', c: '#FF8A3D' }, { id: 'ungu', nama: 'Ungu', c: '#A77BE8' }],
+  BENTUK: [{ id: 'bulat', nama: 'Bulat', e: '⚪' }, { id: 'segiempat', nama: 'Segi empat', e: '🟦' }, { id: 'segitiga', nama: 'Segi tiga', e: '🔺' }, { id: 'bintang', nama: 'Bintang', e: '⭐' }],
+  AKT: [{ id: 'bentuk', nama: 'Padan Bentuk', e: '🔺', ket: 'Seret setiap bentuk ke lubang yang sama.' },
+    { id: 'warna', nama: 'Susun Warna', e: '🎨', ket: 'Letak blok ke dulang yang sama warna.' },
+    { id: 'saiz', nama: 'Menara Saiz', e: '🏗️', ket: 'Susun blok dari yang paling besar ke paling kecil.' }],
+  PUSING: 2,
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, grup: null, pentas: null, item: [], sasaran: [], spark: [], t: 0, hub: true, akt: null, p: 0, salah: 0, sudah: 0, jumlah: 0, hasil: null,
+  pegang: null, ptr: null, asalPos: null, terakhir: 0, tunggu: 0, terpilih: null,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  el(id) { return document.getElementById(id); },
+  data() { const d = State.data; d.praBlok = d.praBlok || { bintang: {} }; d.praBlok.bintang = d.praBlok.bintang || {}; return d.praBlok; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  // ---------- geometri ----------
+  geo(j, s) {
+    const T = 0.06;
+    if (j === 'bulat') { const g = new THREE.CylinderGeometry(s * 0.5, s * 0.5, T, 28); g.translate(0, T / 2, 0); return g; }
+    if (j === 'segiempat') { const g = new THREE.BoxGeometry(s * 0.9, T, s * 0.9); g.translate(0, T / 2, 0); return g; }
+    const sh = new THREE.Shape();
+    if (j === 'segitiga') { const r = s * 0.62; for (let i = 0; i < 3; i++) { const a = Math.PI / 2 + i * 2 * Math.PI / 3, x = Math.cos(a) * r, y = Math.sin(a) * r - r * 0.12; if (i === 0) sh.moveTo(x, y); else sh.lineTo(x, y); } }
+    else { const R = s * 0.56, r = R * 0.45; for (let i = 0; i < 10; i++) { const a = Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r : R, x = Math.cos(a) * q, y = Math.sin(a) * q; if (i === 0) sh.moveTo(x, y); else sh.lineTo(x, y); } }
+    sh.closePath(); const g = new THREE.ExtrudeGeometry(sh, { depth: T, bevelEnabled: false }); g.rotateX(-Math.PI / 2); return g;
+  },
+  bahan(c) { return new THREE.MeshLambertMaterial({ color: c }); },
+  kotak(w, h, d, c, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.bahan(c)); m.position.set(x, y, z); return m; },
+  // ---------- penyediaan ----------
+  sediakan(r) {
+    const o = r.group.getObjectByName('bongkah_2'), o1 = r.group.getObjectByName('bongkah_1'); if (!o || !o1) return false; const b = KomputerPSS.kotakTempatan(o); if (!b) return false;
+    if (Math.abs(b.max.x - (-3.6)) > 0.08 || Math.abs(b.max.z - 3.72) > 0.1) return false;   // sahkan susun atur GLB Prasekolah
+    this.r = r; const G = (this.grup = new THREE.Group()); G.position.set(this.MX, 0, this.MZ); r.group.add(G);
+    // tikar permainan (rata, boleh dilalui): dasar krim + bingkai berwarna
+    G.add(this.kotak(this.LB, 0.012, this.DL, '#FFF1CF', 0, 0.012, 0));
+    [['#F0524F', -1], ['#3A8BDB', 1]].forEach(([c, s]) => { G.add(this.kotak(this.LB + 0.04, 0.016, 0.04, c, 0, 0.012, s * (this.DL / 2 + 0.01))); });
+    [['#FFCB3D', -1], ['#4CC25B', 1]].forEach(([c, s]) => { G.add(this.kotak(0.04, 0.016, this.DL + 0.08, c, s * (this.LB / 2 + 0.01), 0.012, 0)); });
+    this.pentas = new THREE.Group(); G.add(this.pentas);
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.016), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    this.bina('bentuk', 0, true); this.siap = true; return true;
+  },
+  bersih() { while (this.pentas.children.length) { const c = this.pentas.children[0]; this.pentas.remove(c); if (c.geometry && c.geometry.dispose) c.geometry.dispose(); } this.item = []; this.sasaran = []; },
+  // ---------- pentas aktiviti ----------
+  bina(akt, pusing, statik) {
+    this.bersih(); this.akt = akt; this.p = pusing; this.sudah = 0; this.pegang = null; this.terpilih = null; this.terakhir = this.t; const P = this.pentas;
+    if (akt === 'bentuk') {
+      const warna = pusing === 0 ? ['merah', 'biru', 'kuning', 'hijau'] : this.shuffle(['hijau', 'merah', 'biru', 'kuning']).slice(), idB = ['bulat', 'segiempat', 'segitiga', 'bintang'];
+      const papan = this.kotak(0.72, 0.04, 0.72, '#E8B77A', 0.33, 0.02, 0); P.add(papan); P.add(this.kotak(0.76, 0.03, 0.04, '#C98F56', 0.33, 0.03, 0.37)); P.add(this.kotak(0.76, 0.03, 0.04, '#C98F56', 0.33, 0.03, -0.37)); P.add(this.kotak(0.04, 0.03, 0.72, '#C98F56', 0.71, 0.03, 0)); P.add(this.kotak(0.04, 0.03, 0.72, '#C98F56', -0.05, 0.03, 0));
+      const lubang = this.shuffle([[0.17, 0.17], [-0.17, 0.17], [0.17, -0.17], [-0.17, -0.17]].map((q) => [0.33 + q[0], q[1]])), ord = this.shuffle(idB.slice());
+      ord.forEach((j, i) => { const g = this.geo(j, 0.22), m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: '#7A5A3A' })); m.scale.set(1.12, 1, 1.12); m.position.set(lubang[i][0], 0.041, lubang[i][1]); P.add(m); this.sasaran.push({ kunci: j, pos: new THREE.Vector3(lubang[i][0], 0.041, lubang[i][1]), ghost: m, R: 0.17, isi: 0 }); });
+      const mula = this.shuffle([[-0.55, -0.22], [-0.22, -0.22], [-0.55, 0.22], [-0.22, 0.22]]);
+      idB.forEach((j, i) => { const c = this.WARNA.find((w) => w.id === warna[i]).c, m = new THREE.Mesh(this.geo(j, 0.2), this.bahan(c)); m.position.set(mula[i][0], 0.02, mula[i][1]); P.add(m); this.item.push({ m, kunci: j, warna: warna[i], asal: m.position.clone(), kunciDah: false, anim: null }); });
+      this.jumlah = 4; this.teks = 'Padankan setiap bentuk ke lubangnya! 🔵🟦🔺⭐';
+    } else if (akt === 'warna') {
+      const ids = pusing === 0 ? ['merah', 'biru', 'kuning'] : ['merah', 'biru', 'kuning', 'hijau'], n = ids.length, bil = pusing === 0 ? 2 : 2;
+      ids.forEach((id, i) => { const x = (i - (n - 1) / 2) * 0.4, c = this.WARNA.find((w) => w.id === id).c;
+        P.add(this.kotak(0.32, 0.03, 0.32, c, x, 0.027, -0.38)); [[0, -1], [0, 1]].forEach(([a, s]) => P.add(this.kotak(0.32, 0.05, 0.03, c, x, 0.045, -0.38 + s * 0.145))); [[-1], [1]].forEach(([s]) => P.add(this.kotak(0.03, 0.05, 0.26, c, x + s * 0.145, 0.045, -0.38)));
+        const slot = []; for (let k = 0; k < bil; k++) for (let l = 0; l < bil; l++) slot.push(new THREE.Vector3(x + (k - 0.5) * 0.11, 0.0, -0.38 + (l - 0.5) * 0.11));
+        this.sasaran.push({ kunci: id, pos: new THREE.Vector3(x, 0.045, -0.38), R: 0.22, isi: 0, slot, ghost: null, jum: bil * bil }); });
+      const senarai = []; ids.forEach((id) => { for (let k = 0; k < bil * bil / 2; k++) senarai.push(id); });
+      this.shuffle(senarai).forEach((id, i, a) => { const col = i % 4, row = Math.floor(i / 4), cx = (col - 1.5) * 0.3 + ((row % 2) * 0.05), z = 0.2 + row * 0.2; const c = this.WARNA.find((w) => w.id === id).c;
+        const m = this.kotak(0.1, 0.1, 0.1, c, cx, 0.07, z); m.rotation.y = (Math.random() - 0.5) * 0.5; P.add(m); this.item.push({ m, kunci: id, warna: id, asal: m.position.clone(), kunciDah: false, anim: null }); });
+      this.jumlah = this.item.length; this.teks = 'Letak blok ke dulang yang sama warna! 🎨';
+    } else {
+      const saiz = pusing === 0 ? [0.27, 0.21, 0.15] : [0.29, 0.23, 0.17, 0.12], col = this.shuffle(['#F0524F', '#3A8BDB', '#FFCB3D', '#4CC25B', '#FF8A3D', '#A77BE8']).slice(0, saiz.length);
+      const pu = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.22, 0.03, 28), this.bahan('#C98F56')); pu.position.set(0.34, 0.027, 0); P.add(pu);
+      this.sasaran.push({ kunci: 'menara', pos: new THREE.Vector3(0.34, 0.042, 0), R: 0.24, isi: 0, tinggi: 0.042, saiz, ghost: null });
+      const gh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: '#7FE08A', transparent: true, opacity: 0.4, depthWrite: false })); P.add(gh); this.sasaran[0].ghost = gh;
+      const urutan = this.shuffle(saiz.map((s, i) => i));
+      urutan.forEach((idx, i) => { const s = saiz[idx], z = (i - (saiz.length - 1) / 2) * 0.3, m = this.kotak(s, s, s, col[idx], -0.4, s / 2 + 0.02, z); P.add(m); this.item.push({ m, kunci: idx, warna: col[idx], saiz: s, asal: m.position.clone(), kunciDah: false, anim: null }); });
+      this.jumlah = saiz.length; this.teks = 'Susun menara: mulakan dengan blok paling besar! 🏗️'; this.tunjukGhost();
+    }
+    if (!statik) { this.item.forEach((it, i) => { it.m.scale.set(0.01, 0.01, 0.01); this.terbang(it, it.m.position.clone(), 0.5 + i * 0.07, 'lantun', 0, 1); }); }
+    this.segarUI();
+  },
+  tunjukGhost() { const T = this.sasaran[0]; if (!T || !T.ghost) return; const n = T.isi; if (n >= T.saiz.length) { T.ghost.visible = false; return; } const s = T.saiz[n]; T.ghost.visible = true; T.ghost.scale.set(s, s, s); T.ghost.position.set(T.pos.x, T.tinggi + s / 2, T.pos.z); },
+  // ---------- animasi ----------
+  terbang(it, pos, dur, ease, angkat, skala, selepas, tunda) {
+    it.anim = { t: -(tunda || 0), dur: this.kurang() ? 0.01 : Math.max(0.01, dur), a: it.m.position.clone(), p: pos.clone(), s0: it.m.scale.x, s: skala === undefined ? 1 : skala, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas };
+  },
+  ikutAnim(dt) {
+    this.item.forEach((it) => { const a = it.anim; if (!a) return; a.t += dt; if (a.t < 0) return; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = it.m;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat; const s = a.s0 + (a.s - a.s0) * e; m.scale.set(s, s, s);
+      if (u >= 1) { it.anim = null; m.position.copy(a.p); m.scale.set(a.s, a.s, a.s); if (a.selepas) a.selepas(); } });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.4 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+  },
+  percik(pos, bil, warna) { let n = 0; const C = ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A', '#FFB36B']; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.6 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 0.9, 0.6 + Math.random() * 0.8, (Math.random() - 0.5) * 0.9); s.m.material.color.set(warna || C[n % 5]); s.m.scale.setScalar(1); }); },
+  // ---------- buka / tutup ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true; if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.prasekolah; if (!r || Rooms.current !== 'prasekolah' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; setLock('pra'); this.hub = true; this.hasil = null; this.pegang = null; this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.ke = 0; this.hub = false; this.pegang = null; this.terpilih = null; this.bina('bentuk', 0, true); this.domTunjuk(false); this.bunyi('pick'); },
+  // ---------- permainan ----------
+  mula(akt) { this.hub = false; this.hasil = null; this.salah = 0; this.bina(akt, 0, false); this.bunyi('pick'); this.tunjukBaris(this.teks, 'maklum', 5000); },
+  semula() { if (!this.akt) return; this.mula(this.akt); },
+  sasaranDekat(x, z) { let best = null, bd = 9; this.sasaran.forEach((T) => { const d = Math.hypot(T.pos.x - x, T.pos.z - z); if (d < bd && d < T.R) { bd = d; best = T; } }); return best; },
+  boleh(it, T) {
+    if (this.akt === 'bentuk') return it.kunci === T.kunci;
+    if (this.akt === 'warna') return it.warna === T.kunci;
+    return T.kunci === 'menara' && it.saiz === T.saiz[T.isi];
+  },
+  letak(it, T) {
+    if (!T) { this.pulang(it, false); return; }
+    if (!this.boleh(it, T)) { this.salah++; this.salahBalik(it, T); return; }
+    it.kunciDah = true; this.pegang = null; this.terpilih = null; let p;
+    if (this.akt === 'bentuk') p = new THREE.Vector3(T.pos.x, 0.041, T.pos.z);
+    else if (this.akt === 'warna') { const s = T.slot[T.isi]; p = new THREE.Vector3(s.x, 0.047 + 0.05, s.z); T.isi++; }
+    else { p = new THREE.Vector3(T.pos.x, T.tinggi + it.saiz / 2, T.pos.z); T.tinggi += it.saiz; T.isi++; }
+    if (this.akt === 'bentuk') T.ghost.visible = false;
+    it.m.rotation.y = 0; this.terbang(it, p, 0.5, 'lantun', 0.12, 1, () => { this.percik(new THREE.Vector3(p.x, p.y + 0.06, p.z), 8); });
+    this.bunyi('ok'); this.sudah++; this.terakhir = this.t; this.puji(); if (this.akt === 'saiz') this.tunjukGhost(); this.segarUI();
+    if (this.sudah >= this.jumlah) setTimeout(() => this.tamatPusing(), 750);
+  },
+  puji() { const L = ['Betul! 🎉', 'Hebat! ⭐', 'Pandainya! 👏', 'Bagus sekali! 🌟', 'Yeay! 🥳']; this.tunjukBaris(L[Math.floor(Math.random() * L.length)], 'baik', 1400); },
+  salahBalik(it, T) {
+    this.pegang = null; this.terpilih = null; const dari = it.m.position.clone(), m = it.m; const hint = this.akt === 'saiz' ? 'Cuba lagi! Mulakan dengan blok yang paling besar. 😊' : (this.akt === 'warna' ? 'Cuba lagi! Cari dulang yang sama warna. 😊' : 'Cuba lagi! Cari lubang yang sama bentuk. 😊');
+    this.bunyi('pick'); this.tunjukBaris(hint, 'cuba', 3200); let n = 0; const id = setInterval(() => { n++; m.rotation.y = Math.sin(n * 1.6) * 0.25 * (1 - n / 8); if (n >= 8) { clearInterval(id); m.rotation.y = 0; } }, 40);
+    this.terbang(it, it.asal, 0.55, 'lantun', 0.08, 1); this.terakhir = this.t;
+  },
+  pulang(it, senyap) { this.pegang = null; this.terpilih = null; this.terbang(it, it.asal, 0.45, 'lantun', 0.05, 1); if (!senyap) this.bunyi('pick'); },
+  tamatPusing() {
+    if (!this.aktif || this.hub) return;
+    if (this.p + 1 < this.PUSING) { this.bunyi('naik'); this.percik(new THREE.Vector3(0, 0.3, 0), 16); this.tunjukBaris('Pusingan 2! Lebih seronok! 🎈', 'baik', 2200); this.item.forEach((it, i) => this.terbang(it, it.m.position.clone(), 0.3, 'masuk', 0, 0.01, null, i * 0.04)); setTimeout(() => { if (this.aktif && !this.hub) this.bina(this.akt, this.p + 1, false); }, 700); return; }
+    const s = this.salah <= 1 ? 3 : (this.salah <= 4 ? 2 : 1), D = this.data(), lama = D.bintang[this.akt] || 0; D.bintang[this.akt] = Math.max(lama, s);
+    try { Kiraan.tambah('praMain'); } catch (e) {} const kunci = { bentuk: 'praBentuk', warna: 'praWarna', saiz: 'praSaiz' }[this.akt], teks = { bentuk: '+1 Ilmu: pandai padan bentuk', warna: '+1 Ilmu: pandai susun warna', saiz: '+1 Ilmu: pandai susun saiz' }[this.akt];
+    const diberi = this.ganjaran(kunci, { ilmu: 1 }, teks); this.ganjaran('blok', { kebaikan: 1 }, 'Seronok bermain bersama! +1 Kebaikan'); const semua = this.AKT.every((a) => (D.bintang[a.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('praSemua', { ilmu: 1, kebaikan: 1 }, '+1 Ilmu +1 Kebaikan: Bintang Prasekolah!');
+    try { Save.save(); } catch (e) {} try { Player.gembira = 0.9; } catch (e) {} this.bunyi('naik'); this.percik(new THREE.Vector3(0, 0.3, 0), 24);
+    this.hasil = { akt: this.akt, s, salah: this.salah, diberi, bonus }; this.segarUI();
+  },
+  // ---------- UI ----------
+  domTunjuk(on) { const L = this.el('plLapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); },
+  tunjukBaris(teks, jenis, ms) { const e = this.el('plBaris'); if (!e) return; e.textContent = teks; e.className = 'plBaris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, ms || 3000); },
+  segarUI() {
+    if (!this.aktif) return; const D = this.data(), H = this.el('plPusat'), A = this.AKT.find((a) => a.id === this.akt);
+    H.hidden = !(this.hub || this.hasil);
+    if (this.hasil) {
+      const h = this.hasil, a = this.AKT.find((x) => x.id === h.akt), idx = this.AKT.indexOf(a);
+      H.innerHTML = '<div class="plKad"><div class="plJdl">Hebat! 🎉</div><div class="plNama">' + a.e + ' ' + a.nama + '</div><div class="plBintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="plMsg">' + (h.salah === 0 ? 'Tiada silap langsung! 👏' : (h.s === 3 ? 'Hampir sempurna!' : 'Bagus! Cuba lagi untuk dapat lebih bintang.')) + '</div>' +
+        '<div class="plGanjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: +1 Ilmu' + (h.bonus ? ' dan bonus Bintang Prasekolah!' : '') : 'Ganjaran hari ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="plBtns"><button class="btn plBesar" data-a="ulang">🔁 Cuba Lagi</button><button class="btn plBesar plHijau" data-a="' + (idx < 2 ? 'mula:' + this.AKT[idx + 1].id : 'hub') + '">' + (idx < 2 ? '➡ ' + this.AKT[idx + 1].nama : '🏠 Menu') + '</button><button class="btn plBesar" data-a="hub">🏠 Menu</button></div></div>';
+    } else if (this.hub) {
+      const n = this.AKT.filter((a) => (D.bintang[a.id] || 0) > 0).length;
+      H.innerHTML = '<div class="plKad"><div class="plJdl">🧸 Main di Sudut Blok</div><div class="plMsg">Pilih satu permainan! Siap ' + n + ' / 3 ⭐</div><div class="plGrid">' +
+        this.AKT.map((a) => { const s = D.bintang[a.id] || 0; return '<button class="plCard" data-a="mula:' + a.id + '"><span class="plE">' + a.e + '</span><b>' + a.nama + '</b><small>' + a.ket + '</small><span class="plS">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') + '</div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    const T = this.el('plTajuk'); T.textContent = (!this.hub && A) ? A.e + ' ' + A.nama + (this.hasil ? '' : ' · Pusingan ' + (this.p + 1) + '/' + this.PUSING) : '🧸 Sudut Blok';
+    const J = this.el('plJejak'); J.innerHTML = (!this.hub && !this.hasil && this.jumlah) ? Array.from({ length: this.jumlah }, (_, i) => '<i class="' + (i < this.sudah ? 'on' : '') + '"></i>').join('') : '';
+    this.el('plUlang').hidden = this.hub || !!this.hasil;
+  },
+  aksi(a) {
+    this.bunyi('pick');
+    if (a === 'hub') { this.hasil = null; this.hub = true; this.bina('bentuk', 0, true); this.segarUI(); }
+    else if (a === 'ulang') this.semula();
+    else if (a.startsWith('mula:')) this.mula(a.slice(5));
+  },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const dataran = (e, y) => { const r = sinar(e), p = new THREE.Vector3(), pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -y); if (!r.ray.intersectPlane(pl, p)) return null; return new THREE.Vector3(p.x - self.r.ox - self.MX, y, p.z - self.r.oz - self.MZ); };
+    const hitItem = (e) => { const meshes = self.item.filter((it) => !it.kunciDah).map((it) => it.m), h = sinar(e).intersectObjects(meshes, false)[0]; return h ? self.item.find((it) => it.m === h.object) : null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .plKad')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.hasil) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.terakhir = self.t; const it = hitItem(e); self.ptr = { x: e.clientX, y: e.clientY, it, seret: false };
+      if (it) { if (self.terpilih && self.terpilih !== it) self.pulang(self.terpilih, true); self.pegang = it; it.anim = null; self.terpilih = null; self.bunyi('pick'); const p = dataran(e, 0.2); if (p) self.terbang(it, new THREE.Vector3(p.x, 0.2, p.z), 0.15, 'keluar', 0, 1.25); }
+      else if (self.terpilih) { const p = dataran(e, 0.1); if (p) self.letak(self.terpilih, self.sasaranDekat(p.x, p.z)); }
+    });
+    L.addEventListener('pointermove', (e) => {
+      const P = self.ptr; if (!P || !P.it || !self.pegang) return; if (Math.hypot(e.clientX - P.x, e.clientY - P.y) > 8) P.seret = true;
+      const p = dataran(e, 0.2); if (p && P.seret) { const it = P.it; it.anim = null; it.m.position.lerp(new THREE.Vector3(p.x, 0.2, p.z), 0.6); it.m.scale.setScalar(1.25); const T = self.sasaranDekat(p.x, p.z); void T; }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !P.it || !self.aktif || self.hub || self.hasil) return; const it = P.it; if (self.pegang !== it) return; const p = dataran(e, 0.1);
+      if (P.seret) { if (p) self.letak(it, self.sasaranDekat(p.x, p.z)); else self.pulang(it); }
+      else { self.terpilih = it; self.pegang = null; self.terbang(it, new THREE.Vector3(it.m.position.x, 0.18, it.m.position.z), 0.25, 'lantun', 0, 1.25); self.tunjukBaris('Sekarang ketik tempat yang betul! 👆', 'maklum', 2500); }
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { const it = self.ptr && self.ptr.it; self.ptr = null; if (it && self.pegang === it) self.pulang(it, true); });
+    this.el('plKeluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('plUlang').addEventListener('click', (e) => { e.stopPropagation(); self.bunyi('pick'); self.semula(); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'prasekolah' && Rooms.list && Rooms.list.prasekolah && Rooms.list.prasekolah.group) { try { if (!this.sediakan(Rooms.list.prasekolah)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.item = []; this.sasaran = []; this.spark = []; return; }
+    if (!this.siap) return; this.t += dt; this.ikutAnim(dt);
+    if (this.aktif && (Rooms.current !== 'prasekolah' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      if (this.aktif && !this.hub && !this.hasil && !this.pegang && this.t - this.terakhir > 9) {   // petunjuk lembut: sasaran berdenyut + blok bergoyang
+        const it = this.item.find((q) => !q.kunciDah && !q.anim && q !== this.terpilih && (this.akt !== 'saiz' || q.saiz === this.sasaran[0].saiz[this.sasaran[0].isi]));
+        if (it) { const u = Math.sin(this.t * 6); it.m.position.y = it.asal.y + Math.max(0, u) * 0.015; it.m.scale.setScalar(1 + 0.07 * u); const T = this.sasaran.find((x) => this.boleh(it, x)); if (T && T.ghost && T.kunci !== 'menara') { const g = 1.12 + 0.1 * (0.5 + 0.5 * u); T.ghost.scale.set(g, 1, g); } }
+      }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, tx = r.ox + this.MX, tz = r.oz + this.MZ, D = Math.min(3.0, Math.max(1.5, 1.5 / (2 * tf), 1.75 / (2 * tf * asp)));
+    let p = THREE.MathUtils.degToRad(62); const lim = (r.oz + 4.3 - tz) / D; if (Math.cos(p) > lim) p = Math.acos(Math.max(-1, Math.min(1, lim)));
+    V.set(tx, 0.15 + D * Math.sin(p), tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(tx, 0.12, tz), e); camera.lookAt(V2);
   }
 };
 
