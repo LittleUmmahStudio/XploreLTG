@@ -146,8 +146,8 @@ body.sentuh #joy{display:block}
 body.sentuh #btnAct,body.sentuh #btnLari{display:flex}
 body.sentuh #prompt{bottom:120px}
 body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
-#kpLapisan{position:fixed;inset:0;z-index:25;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
-#kpAtas{position:absolute;left:10px;top:10px;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
+#kpLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
+#kpAtas{position:absolute;left:10px;top:10px;pointer-events:auto;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
 #kpBantu{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #000;pointer-events:none}
 #joy{position:fixed;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;
   border:3px solid rgba(255,255,255,.8);background:rgba(20,56,102,.22);pointer-events:none;
@@ -10206,7 +10206,7 @@ const KomputerPSS = {
   pasangInput(L) {
     if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
     const peta = (e, jenis) => {
-      if (!self.aktif || self.k < 0.55) return; const N = self.N; v.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera);
+      if (!self.aktif || self.k < 0.55) return; const N = self.N; const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera);
       const hitBtn = ray.intersectObject(N.btHit, false)[0]; if (hitBtn && jenis === 'turun') { self.kuasa(); return; }
       const h = ray.intersectObject(N.skrin, false)[0];
       if (h && h.uv) { KomputerOS.tetikus(jenis, h.uv.x * KomputerOS.W, (1 - h.uv.y) * KomputerOS.H); self.tikusFizik(jenis); }
