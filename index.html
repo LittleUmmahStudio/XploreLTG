@@ -1874,7 +1874,7 @@ const CONTENT = {
       bilik: [{ teks: 'Makmal Sains', u: 0.27, aras: 0, masuk: 'makmal' }, { teks: 'Tandas', u: 0.81, aras: 0, masuk: 'tandas' }, { teks: 'Bilik Guru', u: 0.62, aras: 1, masuk: 'bilikguru' },
         { teks: 'Pejabat Sekolah', u: 0.42, aras: 1, masuk: 'bilikguru', kunci: 'pejabat', dalamX: -6.5 }, { teks: 'Bilik Guru Besar', u: 0.25, aras: 1, masuk: 'bilikgb' }],
       papanBerdiri: { jawi: 'ڤنتدبيرن', rumi: 'Pentadbiran', pos: [-3.0, 22.5] } },
-    { id: 'rmt', x: 18.35, z: -8.35, w: 17.5, d: 16.7, h: 6.2, tingkat: 1, dinding: '#BFD8EA', bumbung: '#9AAAC0', depan: '-x',
+    { id: 'rmt', x: 18.35, z: -8.35, w: 17.5, d: 16.7, h: 6.2, tingkat: 1, dinding: '#BFD8EA', bumbung: '#9AAAC0', depan: '-x', glb: 'assets/rmt_shell.glb',
       papan: { rumi: 'Dewan RMT' }, masuk: 'rmt' },
     { id: 'prasekolah', x: 24.1, z: 25.6, w: 10.6, d: 13.6, h: 4.8, tingkat: 1, dinding: '#B5E3D0', bumbung: '#5FA392', depan: '-x', glb: 'assets/prasekolah_shell.glb',
       papan: { jawi: 'ڤراسکوله', rumi: 'Prasekolah' }, masuk: 'prasekolah' },
@@ -5124,10 +5124,13 @@ const LAYOUT = {
     if (w[2]) A.person(3.0, 3.8, 0, null, 0, w[2]);
   },
   rmt(r, def, A) {
+    let glb = false;   // Dewan RMT GLB: jika gagal dimuat/dipasang, susun atur asal di bawah digunakan sepenuhnya
+    { const G = InteriorGLB.sedia('rmt'); if (G) { try { InteriorGLB.pasang(r, def, A, G, InteriorGLB.DEF.rmt); glb = true; } catch (e) { console.warn('Dalaman GLB rmt gagal dipasang, guna susun atur asal:', e && e.message); } } }
+    const A2 = glb ? Object.assign(Object.create(A), { piece() {} }) : A;   // dengan GLB, perabot (A.piece) ialah nod GLB; selebihnya kekal
     const tajuk = CONTENT.kantin.map((k) => k.tajuk);
     r.papanKaunter = {};
     [-5, 0, 5].forEach((x, i) => {
-      A.piece(i === 2 ? 'kaunterPeti' : 'kaunter', x, -5.4);   // peti sejuk mini hanya di kaunter Pakcik Kantin
+      A2.piece(i === 2 ? 'kaunterPeti' : 'kaunter', x, -5.4);   // peti sejuk mini hanya di kaunter Pakcik Kantin
       if (i === 1) A.wall('n', x, 2.45, 1.8, 0.45, plateTex(tajuk[i] || 'Kantin'));
       else r.papanKaunter[i] = A.wall('n', x, 2.72, 3.0, 1.12, menuBoardTex(tajuk[i] || 'Kantin', [], i ? '#2F86E8' : '#FF7A45'));   // papan menu bergambar & berharga
     });
@@ -5139,12 +5142,12 @@ const LAYOUT = {
     if (w[1]) A.person(5, -6.3, 0, null, 0, w[1]).kedai = 2;
     const seats = [];
     [-1.0, 1.9, 4.8].forEach((z) => [-6, -2, 2, 6].forEach((x) => {
-      A.piece('mejaPanjang', x, z);
+      A2.piece('mejaPanjang', x, z);
       [-1, 0, 1].forEach((dx) => { seats.push([x + dx, z - 0.65, 0]); seats.push([x + dx, z + 0.65, Math.PI]); });
     }));
     r.tempatMakan = seats.map(([x, z, a]) => ({ x, z, arah: a, npc: null }));
     // Ruang makan guru (meja lajur timur): alas meja biru & papan nama
-    [-1.0, 1.9, 4.8].forEach((z) => { const al = new THREE.Mesh(new THREE.BoxGeometry(3.1, 0.02, 0.9), mat('#CFE8F7')); al.position.set(6, 0.765, z); r.group.add(al); });
+    if (!glb) [-1.0, 1.9, 4.8].forEach((z) => { const al = new THREE.Mesh(new THREE.BoxGeometry(3.1, 0.02, 0.9), mat('#CFE8F7')); al.position.set(6, 0.765, z); r.group.add(al); });
     A.wall('s', 6, 2.55, 1.8, 0.45, plateTex('Ruang Makan Guru'));   // dinding pintu masuk, segaris dengan 3 meja makan guru
     // Guru makan bersama di ruang makan guru
     const guruMakan = [GURU.def('stella'), GURU.def('daniel')];
@@ -5159,30 +5162,29 @@ const LAYOUT = {
       const d = Kantin.dulang(pilihMakan[Math.floor(r.rnd() * pilihMakan.length)]); d.position.set(0, 0.76, 0.5); t.npc.obj.add(d);
     });
     // (barisan kini dinamik: murid & guru beratur, ambil makanan, kemudian duduk makan; lihat KantinHidup)
-    [-3.6, -2.9, -2.2].forEach((z) => A.piece('sinki', -11.55, z, Math.PI / 2));
+    [-3.6, -2.9, -2.2].forEach((z) => A2.piece('sinki', -11.55, z, Math.PI / 2));
     A.act(-11.0, -2.9, 'Basuh', 'Basuh tangan', () => Rooms.basuh());
     A.wall('w', -2.9, 1.75, 1.0, 1.15, posterTex('Basuh tangan sebelum makan', '#7FC8F8', '🧼'));   // poster di atas sinki
     // Dinding timur (x = 12), dari utara: troli dulang, papan menu, peti sejuk, dispenser air, Sudut Agihan Susu
-    A.piece('troli', 11.45, -6.2);
+    A2.piece('troli', 11.45, -6.2);
     A.wall('n', 11.2, 1.75, 1.0, 1.2, posterTex('Ambil dulang makan di sini', '#9BE37A', '🍽️'));   // poster di atas troli dulang
     A.act(10.8, -6.0, 'Ambil', 'Ambil dulang makan', () => Rooms.ambilDulangSendiri(), 1.2);
-    A.piece('peti', 11.6, -3.85, -Math.PI / 2);   // dialih supaya papan menu harian kelihatan
+    A2.piece('peti', 11.6, -3.85, -Math.PI / 2);   // dialih supaya papan menu harian kelihatan
     A.act(10.95, -3.85, 'Minum', 'Ambil air minuman', () => Peralatan.minum('Peti minuman'), 1.2);
     // Dispenser air (gaya Cuckoo): badan putih nipis, panel hitam, paparan biru, 2 pili & dulang titisan
-    { const g = new THREE.Group(); g.position.set(11.72, 0, -2.95); g.rotation.y = -Math.PI / 2; r.group.add(g);
+    if (!glb) { const g = new THREE.Group(); g.position.set(11.72, 0, -2.95); g.rotation.y = -Math.PI / 2; r.group.add(g);
       const k = (w, h, d, c, x, y, z, basic) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), basic ? new THREE.MeshBasicMaterial({ color: c }) : mat(c)); m.position.set(x, y, z); g.add(m); return m; };
       k(0.34, 1.2, 0.36, '#F4F6F8', 0, 0.6, 0); k(0.3, 0.42, 0.02, '#1B1B26', 0, 0.98, 0.185); k(0.12, 0.05, 0.01, '#5FD3FF', 0, 1.1, 0.197, true);
       [-0.06, 0.06].forEach((x, i) => { k(0.035, 0.035, 0.035, i ? '#E8684F' : '#3A8BDB', x, 1.06, 0.2); k(0.02, 0.07, 0.02, '#AEB6BF', x, 0.84, 0.2); });
       k(0.26, 0.03, 0.12, '#2B2F38', 0, 0.62, 0.23); k(0.3, 0.06, 0.02, '#C9CFD6', 0, 0.06, 0.18); }
-    A.block(11.72, -2.95, 0.4, 0.4);
+    if (!glb) A.block(11.72, -2.95, 0.4, 0.4);   // GLB: dispenser_air membawa perlanggaran sama
     A.act(11.05, -2.95, 'Isi', 'Isi semula air di dispenser', () => Peralatan.minum('Dispenser air'), 1.2);
-    A.piece('rakDulang', -11.4, -5.4, Math.PI / 2);
+    A2.piece('rakDulang', -11.4, -5.4, Math.PI / 2);
     r.papanMenu = A.wall('e', -5.6, 1.9, 1.9, 1.15, boardTex([{ t: 'Menu hari ini', s: 30 }]));
-    A.wall('e', 3.4, 1.7, 1.6, 1.1, windowTex());
-    A.wall('w', 1.2, 1.7, 1.6, 1.1, windowTex()); A.wall('w', 4.2, 1.7, 1.6, 1.1, windowTex());
+    if (!glb) { A.wall('e', 3.4, 1.7, 1.6, 1.1, windowTex()); A.wall('w', 1.2, 1.7, 1.6, 1.1, windowTex()); A.wall('w', 4.2, 1.7, 1.6, 1.1, windowTex()); }   // GLB: tingkap sebenar dalam dinding
     A.wall('w', -5.6, 1.6, 0.9, 1.15, posterTex('Beratur dengan tertib', '#FFD84D', '🙂'));
-    A.piece('pasu', 11.45, 6.45);
-    A.piece('mejaKopi', 11.55, -1.4, Math.PI / 2, 1.1);
+    A2.piece('pasu', 11.45, 6.45);
+    A2.piece('mejaKopi', 11.55, -1.4, Math.PI / 2, 1.1);
     { const al = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 8.2), mat('#CFE8F7')); al.rotation.x = -Math.PI / 2; al.position.set(10.75, 0.012, 2.2); r.group.add(al);   // Sudut Agihan Susu (alas lantai)
       [[9.55, 2.2, 0.06, 8.2], [11.95, 2.2, 0.06, 8.2], [10.75, -1.9, 2.4, 0.06], [10.75, 6.3, 2.4, 0.06]].forEach(([x, z, w, d]) => { const b = new THREE.Mesh(new THREE.PlaneGeometry(w, d), mat('#3A8BDB')); b.rotation.x = -Math.PI / 2; b.position.set(x, 0.014, z); r.group.add(b); });
       A.wall('e', -1.4, 2.55, 1.9, 0.42, plateTex('Sudut Agihan Susu'));   // papan tanda di atas meja susu
@@ -5345,6 +5347,11 @@ const InteriorGLB = {
   AKTIF: true, hasil: {}, janji: {}, anim: {},
   DASAR: ['lantai', 'dinding_utara', 'dinding_selatan', 'dinding_timur', 'dinding_barat'],
   DEF: {
+    rmt: {   // Dewan RMT (tools/gen_rmt_interior.py): kerangka + perabot GLB pada tapak SAMA seperti A.piece asal; aktiviti, watak & papan kekal dalam LAYOUT.rmt
+      shell: 'assets/rmt_interior_shell.glb', props: 'assets/rmt_interior_props.glb', sauh: false,
+      wajib: ['kaunter_1', 'kaunter_2', 'kaunter_3', 'meja_makan_1', 'meja_makan_12', 'sinki_1', 'sinki_3', 'troli_dulang', 'rak_dulang', 'peti_minuman', 'dispenser_air', 'meja_susu', 'pasu_sudut'],
+      aksi: {}
+    },
     pss: {
       shell: 'assets/pss_interior_shell.glb', props: 'assets/pss_interior_props.glb', sauh: true,
       wajib: ['sekatan_skrin', 'kaunter', 'rak_rendah_2', 'rak_rendah_4', 'meja_baca_1', 'meja_digital', 'papan_kenyataan', 'int_komputer_1', 'int_rak', 'int_kaunter', 'int_papan', 'int_sudut'],
@@ -17672,7 +17679,7 @@ async function boot() {
     scene.add(extRoot); scene.add(Rooms.root);
     bakeStatic(extRoot);
     try { ShellGLB.muatSemua(); } catch (e) {}
-    ['pss', 'pi', 'spbt', 'susu', 'makmal', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
+    ['rmt', 'pss', 'pi', 'spbt', 'susu', 'makmal', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
     NPCs.build(); Pejalan.bina(); Iring.bina(); Kesan.init(); Sukan.bina(); Missions.init();
     Pasca.init(); Pasca.resize(); Grafik.init(); Cam.initMod(); Tetapan.muat();
     Player.setLook('L'); Player.m.group.visible = false;
