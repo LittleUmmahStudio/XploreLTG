@@ -149,6 +149,69 @@ body.kunci #joy,body.kunci #btnAct,body.kunci #btnLari{visibility:hidden}
 #kpLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;cursor:none;user-select:none;-webkit-user-select:none}#kpLapisan[hidden]{display:none}
 #kpAtas{position:absolute;left:10px;top:10px;pointer-events:auto;display:flex;gap:10px;align-items:center;cursor:auto}#kpTajuk{background:rgba(16,37,58,.78);color:#fff;padding:7px 12px;border-radius:12px;font-size:14px}
 #kpBantu{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:#fff;font-size:13px;text-shadow:0 1px 3px #000;pointer-events:none}
+#k1Lapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#k1Lapisan [hidden],#k1Lapisan[hidden]{display:none!important}
+#k1Atas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:center;pointer-events:none}#k1Atas>*{pointer-events:auto}
+#k1Tajuk{background:#FFF3B8;color:#7A4A00;border:3px solid #FFB400;border-radius:18px;padding:6px 14px;font-size:20px;white-space:nowrap}
+#k1Jejak{display:flex;gap:6px;flex:1;justify-content:center;pointer-events:none}#k1Jejak i{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #9BD3F5;box-shadow:0 2px 0 rgba(0,0,0,.15)}#k1Jejak i.on{background:#4CC25B;border-color:#2E9A3F;animation:k1Pop .4s}
+#k1Lapisan .btn{font-size:18px;min-height:44px;border-radius:16px}
+.k1Baris{position:absolute;left:50%;transform:translateX(-50%);top:70px;max-width:94vw;padding:10px 18px;border-radius:20px;background:#3A8BDB;color:#fff;font-size:22px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.2);pointer-events:none;line-height:1.25}.k1Baris.baik{background:#4CC25B}.k1Baris.cuba{background:#FF8A3D}.k1Baris.maklum{background:#A77BE8}
+#k1Pusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,243,184,.45);padding:10px;box-sizing:border-box}
+.k1Kad{background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:28px;padding:18px;width:min(96vw,720px);box-sizing:border-box;max-height:90vh;overflow:auto;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:center}
+.k1Jdl{font-size:30px;color:#E8684F}.k1Nama{font-size:24px;margin:2px 0 6px}.k1Msg{font-size:18px;margin:6px 0 12px}
+.k1Grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.k1Card{border:4px solid #9BD3F5;border-radius:22px;background:#EAF7FF;padding:12px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .15s}.k1Card:nth-child(2){background:#FFF0F3;border-color:#FFB3C6}.k1Card:nth-child(3){background:#EDFBEA;border-color:#9BE08F}.k1Card:hover,.k1Card:active{transform:translateY(-4px) scale(1.03)}
+.k1Card .k1E{font-size:54px;line-height:1.1}.k1Card b{font-size:21px}.k1Card small{font-size:15px;line-height:1.3}.k1S i{font-style:normal;font-size:30px;color:#D7D2C4}.k1S i.on{color:#FFB400}
+.k1Bintang span{font-size:72px;color:#D7D2C4;display:inline-block}.k1Bintang span.on{color:#FFB400;animation:k1Pop .6s both}@keyframes k1Pop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.4) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.k1Ganjaran{background:#EEF3F8;border-radius:16px;padding:8px 12px;font-size:17px;margin:6px 0 14px}.k1Ganjaran.ada{background:#FFF4CC;color:#5A4300}
+.k1Btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.k1Besar{font-size:20px!important;min-height:54px!important;padding:6px 18px!important}.k1Hijau{background:#4CC25B!important;color:#fff!important}
+#k2Lapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#k2Lapisan [hidden],#k2Lapisan[hidden]{display:none!important}
+#k2Atas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:center;pointer-events:none}#k2Atas>*{pointer-events:auto}
+#k2Tajuk{background:#FFF3B8;color:#7A4A00;border:3px solid #FFB400;border-radius:18px;padding:6px 14px;font-size:20px;white-space:nowrap}
+#k2Jejak{display:flex;gap:6px;flex:1;justify-content:center;pointer-events:none}#k2Jejak i{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #9BD3F5;box-shadow:0 2px 0 rgba(0,0,0,.15)}#k2Jejak i.on{background:#4CC25B;border-color:#2E9A3F;animation:k2Pop .4s}
+#k2Lapisan .btn{font-size:18px;min-height:44px;border-radius:16px}
+.k2Baris{position:absolute;left:50%;transform:translateX(-50%);top:70px;max-width:94vw;padding:10px 18px;border-radius:20px;background:#3A8BDB;color:#fff;font-size:22px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.2);pointer-events:none;line-height:1.25}.k2Baris.baik{background:#4CC25B}.k2Baris.cuba{background:#FF8A3D}.k2Baris.maklum{background:#A77BE8}
+#k2Pusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,243,184,.45);padding:10px;box-sizing:border-box}
+.k2Kad{background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:28px;padding:18px;width:min(96vw,720px);box-sizing:border-box;max-height:90vh;overflow:auto;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:center}
+.k2Jdl{font-size:30px;color:#E8684F}.k2Nama{font-size:24px;margin:2px 0 6px}.k2Msg{font-size:18px;margin:6px 0 12px}
+.k2Grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.k2Card{border:4px solid #9BD3F5;border-radius:22px;background:#EAF7FF;padding:12px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .15s}.k2Card:nth-child(2){background:#FFF0F3;border-color:#FFB3C6}.k2Card:nth-child(3){background:#EDFBEA;border-color:#9BE08F}.k2Card:hover,.k2Card:active{transform:translateY(-4px) scale(1.03)}
+.k2Card .k2E{font-size:54px;line-height:1.1}.k2Card b{font-size:21px}.k2Card small{font-size:15px;line-height:1.3}.k2S i{font-style:normal;font-size:30px;color:#D7D2C4}.k2S i.on{color:#FFB400}
+.k2Bintang span{font-size:72px;color:#D7D2C4;display:inline-block}.k2Bintang span.on{color:#FFB400;animation:k2Pop .6s both}@keyframes k2Pop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.4) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.k2Ganjaran{background:#EEF3F8;border-radius:16px;padding:8px 12px;font-size:17px;margin:6px 0 14px}.k2Ganjaran.ada{background:#FFF4CC;color:#5A4300}
+.k2Btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.k2Besar{font-size:20px!important;min-height:54px!important;padding:6px 18px!important}.k2Hijau{background:#4CC25B!important;color:#fff!important}
+#k3Lapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#k3Lapisan [hidden],#k3Lapisan[hidden]{display:none!important}
+#k3Atas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:center;pointer-events:none}#k3Atas>*{pointer-events:auto}
+#k3Tajuk{background:#FFF3B8;color:#7A4A00;border:3px solid #FFB400;border-radius:18px;padding:6px 14px;font-size:20px;white-space:nowrap}
+#k3Jejak{display:flex;gap:6px;flex:1;justify-content:center;pointer-events:none}#k3Jejak i{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #9BD3F5;box-shadow:0 2px 0 rgba(0,0,0,.15)}#k3Jejak i.on{background:#4CC25B;border-color:#2E9A3F;animation:k3Pop .4s}
+#k3Lapisan .btn{font-size:18px;min-height:44px;border-radius:16px}
+.k3Baris{position:absolute;left:50%;transform:translateX(-50%);top:70px;max-width:94vw;padding:10px 18px;border-radius:20px;background:#3A8BDB;color:#fff;font-size:22px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.2);pointer-events:none;line-height:1.25}.k3Baris.baik{background:#4CC25B}.k3Baris.cuba{background:#FF8A3D}.k3Baris.maklum{background:#A77BE8}
+#k3Pusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,243,184,.45);padding:10px;box-sizing:border-box}
+.k3Kad{background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:28px;padding:18px;width:min(96vw,720px);box-sizing:border-box;max-height:90vh;overflow:auto;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:center}
+.k3Jdl{font-size:30px;color:#E8684F}.k3Nama{font-size:24px;margin:2px 0 6px}.k3Msg{font-size:18px;margin:6px 0 12px}
+.k3Grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.k3Card{border:4px solid #9BD3F5;border-radius:22px;background:#EAF7FF;padding:12px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .15s}.k3Card:nth-child(2){background:#FFF0F3;border-color:#FFB3C6}.k3Card:nth-child(3){background:#EDFBEA;border-color:#9BE08F}.k3Card:hover,.k3Card:active{transform:translateY(-4px) scale(1.03)}
+.k3Card .k3E{font-size:54px;line-height:1.1}.k3Card b{font-size:21px}.k3Card small{font-size:15px;line-height:1.3}.k3S i{font-style:normal;font-size:30px;color:#D7D2C4}.k3S i.on{color:#FFB400}
+.k3Bintang span{font-size:72px;color:#D7D2C4;display:inline-block}.k3Bintang span.on{color:#FFB400;animation:k3Pop .6s both}@keyframes k3Pop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.4) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.k3Ganjaran{background:#EEF3F8;border-radius:16px;padding:8px 12px;font-size:17px;margin:6px 0 14px}.k3Ganjaran.ada{background:#FFF4CC;color:#5A4300}
+.k3Btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.k3Besar{font-size:20px!important;min-height:54px!important;padding:6px 18px!important}.k3Hijau{background:#4CC25B!important;color:#fff!important}
+#k4Lapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#k4Lapisan [hidden],#k4Lapisan[hidden]{display:none!important}
+#k4Atas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:10px;align-items:center;pointer-events:none}#k4Atas>*{pointer-events:auto}
+#k4Tajuk{background:#FFF3B8;color:#7A4A00;border:3px solid #FFB400;border-radius:18px;padding:6px 14px;font-size:20px;white-space:nowrap}
+#k4Jejak{display:flex;gap:6px;flex:1;justify-content:center;pointer-events:none}#k4Jejak i{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid #9BD3F5;box-shadow:0 2px 0 rgba(0,0,0,.15)}#k4Jejak i.on{background:#4CC25B;border-color:#2E9A3F;animation:k4Pop .4s}
+#k4Lapisan .btn{font-size:18px;min-height:44px;border-radius:16px}
+.k4Baris{position:absolute;left:50%;transform:translateX(-50%);top:70px;max-width:94vw;padding:10px 18px;border-radius:20px;background:#3A8BDB;color:#fff;font-size:22px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.2);pointer-events:none;line-height:1.25}.k4Baris.baik{background:#4CC25B}.k4Baris.cuba{background:#FF8A3D}.k4Baris.maklum{background:#A77BE8}
+#k4Pusat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,243,184,.45);padding:10px;box-sizing:border-box}
+.k4Kad{background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:28px;padding:18px;width:min(96vw,720px);box-sizing:border-box;max-height:90vh;overflow:auto;box-shadow:0 8px 0 rgba(0,0,0,.18);text-align:center}
+.k4Jdl{font-size:30px;color:#E8684F}.k4Nama{font-size:24px;margin:2px 0 6px}.k4Msg{font-size:18px;margin:6px 0 12px}
+.k4Grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.k4Card{border:4px solid #9BD3F5;border-radius:22px;background:#EAF7FF;padding:12px;display:flex;flex-direction:column;gap:4px;align-items:center;font:inherit;color:inherit;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .15s}.k4Card:nth-child(2){background:#FFF0F3;border-color:#FFB3C6}.k4Card:nth-child(3){background:#EDFBEA;border-color:#9BE08F}.k4Card:hover,.k4Card:active{transform:translateY(-4px) scale(1.03)}
+.k4Card .k4E{font-size:54px;line-height:1.1}.k4Card b{font-size:21px}.k4Card small{font-size:15px;line-height:1.3}.k4S i{font-style:normal;font-size:30px;color:#D7D2C4}.k4S i.on{color:#FFB400}
+.k4Bintang span{font-size:72px;color:#D7D2C4;display:inline-block}.k4Bintang span.on{color:#FFB400;animation:k4Pop .6s both}@keyframes k4Pop{0%{transform:scale(.2) rotate(-40deg);opacity:0}70%{transform:scale(1.4) rotate(8deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.k4Ganjaran{background:#EEF3F8;border-radius:16px;padding:8px 12px;font-size:17px;margin:6px 0 14px}.k4Ganjaran.ada{background:#FFF4CC;color:#5A4300}
+.k4Btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.k4Besar{font-size:20px!important;min-height:54px!important;padding:6px 18px!important}.k4Hijau{background:#4CC25B!important;color:#fff!important}
+#k4Pilih{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);background:#FFFDF2;color:#4A3A20;border:5px solid #FFB400;border-radius:24px;padding:10px 16px;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.18);max-width:94vw;box-sizing:border-box}
+.k4Soal{font-size:22px;margin-bottom:8px}.k4Opsyen{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.k4Opsyen .btn.salah{background:#FFD0C9!important;opacity:.55}
+#k4Zum{margin-left:auto}
 #ssLapisan{position:fixed;inset:0;z-index:25;pointer-events:auto;touch-action:none;user-select:none;-webkit-user-select:none}#ssLapisan [hidden],#ssLapisan[hidden]{display:none!important}
 #ssAtas{position:absolute;left:10px;right:10px;top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;pointer-events:none}#ssAtas>*{pointer-events:auto}
 #ssTajuk{background:#E8F6FF;color:#12406B;border:3px solid #5BB5F0;border-radius:16px;padding:6px 14px;font-size:18px;white-space:nowrap}
@@ -1115,6 +1178,27 @@ body.teksBesar .snLangkah,body.teksBesar .snHariItem{font-size:16px}
     </div>
   </section>
 
+  <div id="k1Lapisan" hidden aria-label="Sudut aktiviti Tahun 1">
+    <div id="k1Atas"><button id="k1Keluar" class="btn" type="button">⬅ Keluar</button><span id="k1Tajuk">🧸 Sudut Aktiviti</span><span id="k1Jejak"></span><button id="k1Ulang" class="btn" type="button" hidden>🔁 Cuba Lagi</button></div>
+    <div id="k1Baris" class="k1Baris" hidden></div>
+    <div id="k1Pusat" hidden></div>
+  </div>
+  <div id="k2Lapisan" hidden aria-label="Sudut aktiviti Tahun 2">
+    <div id="k2Atas"><button id="k2Keluar" class="btn" type="button">⬅ Keluar</button><span id="k2Tajuk">🧸 Sudut Aktiviti</span><span id="k2Jejak"></span><button id="k2Ulang" class="btn" type="button" hidden>🔁 Cuba Lagi</button></div>
+    <div id="k2Baris" class="k2Baris" hidden></div>
+    <div id="k2Pusat" hidden></div>
+  </div>
+  <div id="k3Lapisan" hidden aria-label="Sudut pembelajaran Tahun 3">
+    <div id="k3Atas"><button id="k3Keluar" class="btn" type="button">⬅ Keluar</button><span id="k3Tajuk">🧸 Sudut Pembelajaran</span><span id="k3Jejak"></span><button id="k3Ulang" class="btn" type="button" hidden>🔁 Cuba Lagi</button></div>
+    <div id="k3Baris" class="k3Baris" hidden></div>
+    <div id="k3Pusat" hidden></div>
+  </div>
+  <div id="k4Lapisan" hidden aria-label="Sudut pembelajaran Tahun 4">
+    <div id="k4Atas"><button id="k4Keluar" class="btn" type="button">⬅ Keluar</button><span id="k4Tajuk">🧸 Sudut Pembelajaran</span><span id="k4Jejak"></span><button id="k4Ulang" class="btn" type="button" hidden>🔁 Cuba Lagi</button><button id="k4Zum" class="btn" type="button" hidden>🔍 Dekatkan</button></div>
+    <div id="k4Baris" class="k4Baris" hidden></div>
+    <div id="k4Pilih" hidden></div>
+    <div id="k4Pusat" hidden></div>
+  </div>
   <div id="ssLapisan" hidden aria-label="Bilik SUSU interaktif">
     <div id="ssAtas"><button id="ssKeluar" class="btn" type="button">⬅ Keluar</button><span id="ssTajuk">🥛 Bilik SUSU</span><span id="ssTarikh">📅 Hari ini: 12 Mac 2026 (simulasi)</span><span id="ssJejak"></span><button id="ssUlang" class="btn" type="button" hidden>🔁 Cuba Lagi</button></div>
     <div id="ssBaris" class="ssBaris" hidden></div>
@@ -4957,18 +5041,22 @@ function pose(m, jenis, seat, skala) {
 const PI_TATA = { lajur: [-3.4, -1.9, 1.9, 3.4], baris: [-0.7, 1.6], tempatPemain: [1.9, 1.6] };   // tempatPemain = meja pemain (baris belakang, lajur kanan dalam)
 const LAYOUT = {
   kelas(r, def, A) {
+    let glb = false;   // v123: hanya Kelas Tahun 1 menggunakan GLB dalaman; jika gagal, susun atur asal digunakan sepenuhnya
+    if (r.id === 'k1' || r.id === 'k2' || r.id === 'k3' || r.id === 'k4') { const G = InteriorGLB.sedia(r.id); if (G) { try { InteriorGLB.pasang(r, def, A, G, InteriorGLB.DEF[r.id]); glb = true; } catch (e) { console.warn('Dalaman GLB ' + r.id + ' gagal dipasang, guna susun atur asal:', e && e.message); } } }   // v123-v126: Tahun 1 hingga 4 sahaja
+    const A2 = glb ? Object.assign(Object.create(A), { piece() {}, block() {} }) : A;   // dengan GLB, perabot ialah nod GLB (perlanggaran sama)
     const n = def.tahun || 1, kata = CONTENT.jawi.perkataan[(n - 1) % CONTENT.jawi.perkataan.length];
     r.papanPutih = A.wall('n', 0, 1.65, 3.8, 1.4, boardTex(PapanPutih.baris(r.id)));
     A.wall('n', 3.4, 2.55, 0.55, 0.55, clockTex());
-    A.wall('e', -1.6, 1.7, 1.6, 1.1, windowTex()); A.wall('e', 1.8, 1.7, 1.6, 1.1, windowTex());
+    if (!glb) { A.wall('e', -1.6, 1.7, 1.6, 1.1, windowTex()); A.wall('e', 1.8, 1.7, 1.6, 1.1, windowTex()); }   // GLB: tingkap sebenar dalam dinding
     A.wall('w', -1.2, 1.6, 2.2, 1.2, corkTex()); A.wall('w', 2.3, 1.6, 0.9, 1.15, posterTex('Rajin belajar', '#FFD84D', '📚'));
-    A.piece('mejaGuru', -3.2, -2.9); A.piece('kerusi', -3.2, -3.55, Math.PI, 1, false);
+    A2.piece('mejaGuru', -3.2, -2.9); A2.piece('kerusi', -3.2, -3.55, Math.PI, 1, false);
     const seats = [];
     [-1.2, 0.5, 2.2].forEach((z) => [-3.3, -1.1, 1.1, 3.3].forEach((x) => {
-      A.piece('meja', x, z, 0, 1, false); A.piece('kerusi', x, z + 0.45, 0, 1, false); A.block(x, z + 0.19, 0.9, 0.95); seats.push([x, z + 0.45]);
+      A2.piece('meja', x, z, 0, 1, false); A2.piece('kerusi', x, z + 0.45, 0, 1, false); A2.block(x, z + 0.19, 0.9, 0.95); seats.push([x, z + 0.45]);
     }));
-    A.piece('kabinet', -3.4, 3.95); A.piece('pasu', 4.3, 3.7); r.kerusi = seats;
-    { const tg = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.17, 0.45, 12), mat('#2F8F4E')); tg.position.set(4.3, 0.225, 2.9); r.group.add(tg); }   // tong sampah kelas
+    A2.piece('kabinet', -3.4, 3.95); A2.piece('pasu', 4.3, 3.7); r.kerusi = seats;
+    if (!glb) { const tg = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.17, 0.45, 12), mat('#2F8F4E')); tg.position.set(4.3, 0.225, 2.9); r.group.add(tg); }   // tong sampah kelas (GLB: lalu_tong)
+    if (glb) A.act(3.6, -2.0, 'Main', 'Main di sudut aktiviti Tahun ' + n, () => { let ok = false; try { ok = (r.id === 'k4' ? K4Mod : r.id === 'k3' ? K3Mod : r.id === 'k2' ? K2Mod : K1Mod).buka(); } catch (e) { laporRalat(e); } if (!ok) toast('Sudut aktiviti belum sedia.'); }, 1.5);   // v123/v124
     A.act(-3.4, 3.3, 'Baca', 'Baca buku di rak kelas', () => Peralatan.fakta('Rak buku kelas', CONTENT.bukuKelas, 'rakKelas'), 1.3);
     A.act(-3.2, -2.2, 'Aktiviti', 'Aktiviti tambahan', () => AktivitiBonus.menu(), 1.4);
     r.inter[r.inter.length - 1].syarat = () => AktivitiBonus.boleh();
@@ -5475,6 +5563,22 @@ const InteriorGLB = {
   AKTIF: true, hasil: {}, janji: {}, anim: {},
   DASAR: ['lantai', 'dinding_utara', 'dinding_selatan', 'dinding_timur', 'dinding_barat'],
   DEF: {
+    k4: {   // Kelas Tahun 4 (tools/gen_kelas4_interior.py): susun atur & perlanggaran SAMA seperti k1-k3/LAYOUT.kelas; palet sakura + pembaris & pita ukur
+      shell: 'assets/k4_interior_shell.glb', props: 'assets/k4_interior_props.glb', sauh: false,
+      wajib: ['meja_murid_1', 'meja_murid_12', 'meja_guru', 'almari_kelas', 'rak_buku_kecil', 'pasu_sudut'], aksi: {}
+    },
+    k3: {   // Kelas Tahun 3 (tools/gen_kelas3_interior.py): susun atur & perlanggaran SAMA seperti k1/k2/LAYOUT.kelas; palet hijau sage + model pecahan
+      shell: 'assets/k3_interior_shell.glb', props: 'assets/k3_interior_props.glb', sauh: false,
+      wajib: ['meja_murid_1', 'meja_murid_12', 'meja_guru', 'almari_kelas', 'rak_buku_kecil', 'pasu_sudut'], aksi: {}
+    },
+    k2: {   // Kelas Tahun 2 (tools/gen_kelas2_interior.py): susun atur & perlanggaran SAMA seperti k1/LAYOUT.kelas; palet berbeza + abakus
+      shell: 'assets/k2_interior_shell.glb', props: 'assets/k2_interior_props.glb', sauh: false,
+      wajib: ['meja_murid_1', 'meja_murid_12', 'meja_guru', 'almari_kelas', 'rak_buku_kecil', 'pasu_sudut'], aksi: {}
+    },
+    k1: {   // Kelas Tahun 1 (tools/gen_kelas1_interior.py): perabot GLB pada tapak SAMA seperti A.piece/A.block asal (+ rak buku kecil); papan putih, jam, poster, acts, murid & guru kekal dalam LAYOUT.kelas
+      shell: 'assets/k1_interior_shell.glb', props: 'assets/k1_interior_props.glb', sauh: false,
+      wajib: ['meja_murid_1', 'meja_murid_12', 'meja_guru', 'almari_kelas', 'rak_buku_kecil', 'pasu_sudut'], aksi: {}
+    },
     rmt: {   // Dewan RMT (tools/gen_rmt_interior.py): kerangka + perabot GLB pada tapak SAMA seperti A.piece asal; aktiviti, watak & papan kekal dalam LAYOUT.rmt
       shell: 'assets/rmt_interior_shell.glb', props: 'assets/rmt_interior_props.glb', sauh: false,
       wajib: ['kaunter_1', 'kaunter_2', 'kaunter_3', 'meja_makan_1', 'meja_makan_12', 'sinki_1', 'sinki_3', 'troli_dulang', 'rak_dulang', 'peti_minuman', 'dispenser_air', 'meja_susu', 'pasu_sudut'],
@@ -7980,6 +8084,10 @@ window.addEventListener('keydown', (e) => {
   if (k === 'escape' && !$('sandaran').hidden) { Sandaran.tutup(); return; }
   if (k === 'escape' && !$('papanAnugerah').hidden) { Anugerah.tutup(); return; }
   if (State.uiLock === 'komputer') { if (k === 'escape') KomputerPSS.tutup(); return; }
+  if (State.uiLock === 'k4') { if (k === 'escape') K4Mod.tutup(); return; }
+  if (State.uiLock === 'k3') { if (k === 'escape') K3Mod.tutup(); return; }
+  if (State.uiLock === 'k2') { if (k === 'escape') K2Mod.tutup(); return; }
+  if (State.uiLock === 'k1') { if (k === 'escape') K1Mod.tutup(); return; }
   if (State.uiLock === 'susu') { if (k === 'escape') SusuMod.tutup(); return; }
   if (State.uiLock === 'spbt') { if (k === 'escape') SpbtMod.tutup(); return; }
   if (State.uiLock === 'pra') { if (k === 'escape') PraBlok.tutup(); return; }
@@ -8232,7 +8340,11 @@ const Cam = {
     RakBuku.tick(dt); if (RakBuku.k > 0.002) RakBuku.kamera();
     PraBlok.tick(dt); if (PraBlok.k > 0.002) PraBlok.kamera();
     SpbtMod.tick(dt); if (SpbtMod.k > 0.002) SpbtMod.kamera();
-    SusuMod.tick(dt); if (SusuMod.k > 0.002) SusuMod.kamera();   // v120: Bilik SUSU interaktif   // v119: Bilik SPBT interaktif   // v118: Prasekolah interaktif   // v117: rak buku interaktif Pusat Sumber   // v114: komputer interaktif Pusat Sumber
+    SusuMod.tick(dt); if (SusuMod.k > 0.002) SusuMod.kamera();
+    K1Mod.tick(dt); if (K1Mod.k > 0.002) K1Mod.kamera();
+    K2Mod.tick(dt); if (K2Mod.k > 0.002) K2Mod.kamera();
+    K3Mod.tick(dt); if (K3Mod.k > 0.002) K3Mod.kamera();
+    K4Mod.tick(dt); if (K4Mod.k > 0.002) K4Mod.kamera();   // v126: Kelas Tahun 4 interaktif   // v125: Kelas Tahun 3 interaktif   // v124: Kelas Tahun 2 interaktif   // v123: Kelas Tahun 1 interaktif   // v120: Bilik SUSU interaktif   // v119: Bilik SPBT interaktif   // v118: Prasekolah interaktif   // v117: rak buku interaktif Pusat Sumber   // v114: komputer interaktif Pusat Sumber
     GarajAtap.update(dt);
   },
   // Lawatan kamera muka depan: setiap pemandangan disahkan tiada halangan bangunan
@@ -11709,6 +11821,1000 @@ const SusuMod = {
     }
     if (sempit !== this.sempit) { this.sempit = sempit; this.segarUI(); }
     V.set(r.ox + tx, ty + D * Math.sin(p), r.oz + tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(r.ox + tx, ty, r.oz + tz), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Kelas Tahun 1 Interaktif (v123) =====================
+   Tikar aktiviti di bahagian hadapan-kanan Kelas Tahun 1 (bilik 'k1'; GLB dalaman k1_interior_*.glb) dengan item kecil yang boleh digerakkan pemain:
+   blok huruf / nombor, buku, kotak alat tulis, kad pembelajaran dan kerusi kecil. Tindakan "Main di sudut aktiviti" membuka mod (kamera menghampiri tikar dari atas).
+   Dua aktiviti ringkas untuk murid Tahun 1 (2 pusingan / 1 pusingan):
+   1. Susun Huruf & Nombor : susun 4 blok pada landasan: pusingan 1 mengeja BUKU, pusingan 2 menyusun 1 2 3 4.
+   2. Kemas Kelas          : letak 2 buku di rak buku kecil, kotak alat tulis dalam bakul, kad bergambar pada petak huruf awal (E epal, K kucing) dan 2 kerusi kecil pada tempatnya.
+   Pemain mengambil, menyeret dan meletakkan item (atau ketik item, kemudian ketik tempat). Animasi smooth, snap melantun, bunyi lembut, petunjuk berdenyut,
+   "Cuba Lagi", bintang 1-3 (State.data.k1Mod) dan ganjaran sedia ada (Peralatan.ganjaran, sekali sehari). Item diletak kemas semula apabila keluar.
+   Item tidak berperlanggaran (kecil dan rata) supaya laluan, NPC dan Navi tidak berubah. Hanya aktif untuk bilik 'k1' dan hanya jika GLB dalaman k1 berjaya dipasang.
+   Semua dijana oleh kod; tiada aset luar dan tiada internet diperlukan. */
+const K1Mod = {
+  RUG: { x: 3.6, z: -2.9 }, RAIL: { x: 3.6, z: -3.38 }, RAKX: 3.6, RAKZ: -4.06, RAKY: 0.5,
+  AKT: [{ id: 'huruf', nama: 'Susun Huruf & Nombor', e: '🔤', ket: 'Susun blok: eja BUKU, kemudian 1 2 3 4.' },
+    { id: 'kemas', nama: 'Kemas Kelas', e: '🧺', ket: 'Letak buku, kad, kotak dan kerusi di tempat yang betul.' }],
+  WARNA: ['#F5A9B8', '#FFD36B', '#9ED9B8', '#8EC5F0', '#C7B0F0', '#FFB47A'],
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, grup: null, item: [], sasaran: [], spark: [], t: 0, hub: true, akt: null, p: 0, salah: 0, sudah: 0, jumlah: 0, hasil: null,
+  pegang: null, ptr: null, asalPos: null, terakhir: 0, terpilih: null, prop: null,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  el(id) { return document.getElementById(id); },
+  data() { const d = State.data; d.k1Mod = d.k1Mod || { bintang: {} }; d.k1Mod.bintang = d.k1Mod.bintang || {}; return d.k1Mod; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  F: '"Kurland", system-ui, sans-serif',
+  // ---------- tekstur & objek ----------
+  kanvas(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; try { t.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {} return t; },
+  rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); },
+  bahan(c, o) { return new THREE.MeshLambertMaterial(Object.assign({ color: c }, o || {})); },
+  kotakB(w, h, d, c, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.bahan(c)); m.position.set(x, y, z); return m; },
+  papan(w, d, tex, x, y, z, ry) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); m.rotation.x = -Math.PI / 2; m.rotation.z = ry || 0; m.position.set(x, y, z); return m; },
+  texHuruf(s, c0) { return this.kanvas(128, 128, (c, w, h) => { c.fillStyle = c0; this.rr(c, 4, 4, w - 8, h - 8, 22); c.fill(); c.fillStyle = 'rgba(255,255,255,0.35)'; this.rr(c, 12, 12, w - 24, 34, 14); c.fill(); c.fillStyle = '#3A2F28'; c.font = '84px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); }); },
+  texLubang(s, ghost) { return this.kanvas(128, 128, (c, w, h) => { c.fillStyle = 'rgba(122,90,58,0.55)'; this.rr(c, 6, 6, w - 12, h - 12, 20); c.fill(); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 5; c.setLineDash([12, 9]); this.rr(c, 8, 8, w - 16, h - 16, 18); c.stroke(); if (ghost) { c.setLineDash([]); c.fillStyle = 'rgba(255,255,255,0.4)'; c.font = '78px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); } }); },
+  texKad(e, ket, w2, h2) { return this.kanvas(w2 || 128, h2 || 176, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 4, 4, w - 8, h - 8, 16); c.fill(); c.strokeStyle = '#9BD3F5'; c.lineWidth = 6; this.rr(c, 4, 4, w - 8, h - 8, 16); c.stroke(); c.font = '70px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#000'; c.fillText(e, w / 2, h * 0.4); if (ket) { c.fillStyle = '#3A2F28'; c.font = '28px ' + this.F; c.fillText(ket, w / 2, h * 0.82); } }); },
+  texKulit(e, warna) { return this.kanvas(128, 176, (c, w, h) => { c.fillStyle = warna; c.fillRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,0.25)'; c.fillRect(0, 0, 14, h); c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 4; c.strokeRect(22, 14, w - 36, h - 28); c.font = '60px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, w / 2 + 6, h / 2); }); },
+  blok(simbol, warna) {
+    const B = new THREE.Group(), s = 0.15, tex = this.texHuruf(simbol, warna), L = () => new THREE.MeshLambertMaterial({ map: tex });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), [L(), L(), this.bahan(warna), this.bahan(warna), L(), L()]); mesh.position.y = s / 2; B.add(mesh);
+    const it = { m: B, jenis: 'blok', simbol, warna, tinggi: s, mesh, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  buku(e, warna) {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.03, 0.21), [this.bahan('#FFF3D6'), this.bahan(warna), this.bahan(warna), this.bahan('#FFF3D6'), this.bahan('#FFF3D6'), this.bahan('#FFF3D6')]); body.position.y = 0.015; B.add(body);
+    const cov = new THREE.Mesh(new THREE.PlaneGeometry(0.15, 0.21), new THREE.MeshLambertMaterial({ map: this.texKulit(e, warna) })); cov.rotation.x = -Math.PI / 2; cov.position.y = 0.0305; B.add(cov);
+    const it = { m: B, jenis: 'buku', simbol: null, tinggi: 0.03, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  kotakAlat() {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.06, 0.1), this.bahan('#FFD36B')); body.position.y = 0.03; B.add(body);
+    const tut = new THREE.Mesh(new THREE.BoxGeometry(0.225, 0.015, 0.105), this.bahan('#F2A93B')); tut.position.y = 0.0675; B.add(tut);
+    const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.07), new THREE.MeshBasicMaterial({ map: this.kanvas(128, 90, (c, w, h) => { c.font = '64px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('✏️', w / 2, h / 2 + 4); }), transparent: true })); pl.rotation.x = -Math.PI / 2; pl.position.y = 0.076; B.add(pl);
+    const it = { m: B, jenis: 'kotak', simbol: null, tinggi: 0.075, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  kad(e, ket, pocket) {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.004, 0.165), this.bahan('#FFFFFF')); body.position.y = 0.002; B.add(body);
+    const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 0.165), new THREE.MeshLambertMaterial({ map: this.texKad(e, ket) })); pl.rotation.x = -Math.PI / 2; pl.position.y = 0.0045; B.add(pl);
+    const it = { m: B, jenis: 'kad', simbol: null, pocket, tinggi: 0.005, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  kerusi(warna) {
+    const B = new THREE.Group(); B.add(this.kotakB(0.2, 0.02, 0.2, warna, 0, 0.16, 0)); B.add(this.kotakB(0.2, 0.16, 0.02, warna, 0, 0.25, -0.09));
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => B.add(this.kotakB(0.02, 0.15, 0.02, '#8FB8D8', a * 0.08, 0.075, b * 0.08)));
+    const it = { m: B, jenis: 'kerusi', simbol: null, tinggi: 0.17, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  // ---------- penyediaan ----------
+  sediakan(r) {
+    if (r.id !== 'k1' || !r.glb) return false; const o = r.group.getObjectByName('rak_buku_kecil'), c = r.group.getObjectByName('meja_guru'); if (!o || !c) return false;
+    const b = KomputerPSS.kotakTempatan(o); if (!b || Math.abs(b.min.x - 2.78) > 0.1 || Math.abs(b.max.z - (-3.89)) > 0.1) return false;   // sahkan susun atur GLB k1
+    this.r = r; const G = (this.grup = new THREE.Group()); r.group.add(G); this.prop = { huruf: new THREE.Group(), kemas: new THREE.Group() }; G.add(this.prop.huruf); G.add(this.prop.kemas);
+    const R = this.RAIL, PH = this.prop.huruf, PK = this.prop.kemas;
+    // A: landasan huruf + kad petunjuk
+    PH.add(this.kotakB(1.0, 0.02, 0.24, '#C98F56', R.x, 0.019, R.z)); this.hintKad = this.papan(0.5, 0.2, this.texKad('📕', 'BUKU', 256, 96), R.x, 0.0, R.z - 0.2); this.hintKad.rotation.x = -0.35; this.hintKad.position.set(R.x, 0.13, R.z - 0.24); PH.add(this.hintKad);
+    this.lubang = [0, 1, 2, 3].map((i) => { const m = this.papan(0.17, 0.17, this.texLubang('B', true), R.x + (i - 1.5) * 0.24, 0.0305, R.z, 0); PH.add(m); return m; });
+    // B: bakul alat tulis, petak kad (E / K), penanda kerusi
+    const bx = 2.95, bz = -3.3; const bakul = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.12, 0.1, 18, 1, true), new THREE.MeshLambertMaterial({ color: '#D9A86C', side: THREE.DoubleSide })); bakul.position.set(bx, 0.06, bz); PK.add(bakul);
+    const dasar = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.01, 18), this.bahan('#B98446')); dasar.position.set(bx, 0.015, bz); PK.add(dasar);
+    PK.add(this.papan(0.2, 0.07, this.kanvas(128, 48, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 2, 2, w - 4, h - 4, 14); c.fill(); c.font = '30px ' + this.F; c.fillStyle = '#7A4A18'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('✏️ Bakul', w / 2, h / 2 + 2); }), bx, 0.0105, bz + 0.22));
+    ['E', 'K'].forEach((s, i) => { PK.add(this.papan(0.15, 0.2, this.texLubang(s, true), 4.05 + i * 0.22, 0.0105, -3.3, 0)); });
+    [[2.85, -2.55], [3.15, -2.55]].forEach(([x, z]) => { PK.add(this.papan(0.22, 0.22, this.texLubang('', false), x, 0.0105, z, 0)); });
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.016), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    // item
+    const sy = ['B', 'U', 'K', 'U']; this.blok4 = sy.map((s, i) => this.blok(s, this.WARNA[i])); this.blok4.forEach((it) => { G.add(it.m); this.item.push(it); });
+    this.bukuA = [this.buku('📕', '#F5A9B8'), this.buku('📘', '#8EC5F0')]; this.kotakA = this.kotakAlat(); this.kadA = [this.kad('🍎', 'epal', 'E'), this.kad('🐱', 'kucing', 'K')]; this.kerusiA = [this.kerusi('#F5A9B8'), this.kerusi('#9ED9B8')];
+    [].concat(this.bukuA, [this.kotakA], this.kadA, this.kerusiA).forEach((it) => { G.add(it.m); this.item.push(it); });
+    this.tetapkanRumah(); this.tertib(true); this.siap = true; return true;
+  },
+  tetapkanRumah() {   // kedudukan KEMAS (item diletak di tempat betul semasa tidak bermain)
+    const R = this.RAIL, set = (it, x, y, z, ry) => { it.rumah = new THREE.Vector3(x, y, z); it.rumahRy = ry || 0; };
+    this.blok4.forEach((it, i) => set(it, R.x + (i - 1.5) * 0.24, 0.0305, R.z, 0));
+    set(this.bukuA[0], 3.78, this.RAKY + 0.0, this.RAKZ, 0); set(this.bukuA[1], 4.02, this.RAKY + 0.0, this.RAKZ, 0);
+    set(this.kotakA, 2.95, 0.03, -3.3, 0.3); set(this.kadA[0], 4.05, 0.0105, -3.3, 0); set(this.kadA[1], 4.27, 0.0105, -3.3, 0);
+    set(this.kerusiA[0], 2.85, 0.0105, -2.55, 0); set(this.kerusiA[1], 3.15, 0.0105, -2.55, 0);
+  },
+  tertib(serta) {   // keadaan kemas / rehat
+    this.prop.huruf.visible = true; this.prop.kemas.visible = true; this.item.forEach((it) => { it.m.visible = true; it.kunciDah = false; it.m.scale.setScalar(1); if (serta) { it.m.position.copy(it.rumah); it.m.rotation.y = it.rumahRy; it.anim = null; } else this.terbang(it, it.rumah, 0.5, 'lantun', 0.08, 1, null, 0, it.rumahRy); it.asal = it.rumah.clone(); it.asalRy = it.rumahRy; });
+    this.setSimbol(['B', 'U', 'K', 'U']);
+  },
+  setSimbol(S) { this.blok4.forEach((it, i) => { const w = this.WARNA[(i + (S[0] === '1' ? 2 : 0)) % 6], tex = this.texHuruf(S[i], w); [0, 1, 4, 5].forEach((f) => { it.mesh.material[f].map = tex; it.mesh.material[f].needsUpdate = true; }); [2, 3].forEach((f) => it.mesh.material[f].color.set(w)); it.simbol = S[i]; it.warna = w; }); },
+  setLubang(S) { this.lubang.forEach((m, i) => { m.material.map = this.texLubang(S[i], true); m.material.needsUpdate = true; }); this.hintKad.material.map = this.texKad(S[0] === '1' ? '🔢' : '📕', S.join(''), 256, 96); this.hintKad.material.needsUpdate = true; },
+  // ---------- animasi ----------
+  terbang(it, pos, dur, ease, angkat, skala, selepas, tunda, ry) {
+    it.anim = { t: -(tunda || 0), dur: this.kurang() ? 0.01 : Math.max(0.01, dur), a: it.m.position.clone(), p: pos.clone(), s0: it.m.scale.x, s: skala === undefined ? 1 : skala, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas, ry0: it.m.rotation.y, ry1: ry };
+  },
+  ikutAnim(dt) {
+    this.item.forEach((it) => { const a = it.anim; if (!a) return; a.t += dt; if (a.t < 0) return; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = it.m;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat; const s = a.s0 + (a.s - a.s0) * e; m.scale.setScalar(s);
+      if (a.ry1 !== undefined) m.rotation.y = a.ry0 + (a.ry1 - a.ry0) * e; if (u >= 1) { it.anim = null; m.position.copy(a.p); m.scale.setScalar(a.s); if (a.ry1 !== undefined) m.rotation.y = a.ry1; if (a.selepas) a.selepas(); } });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.4 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+  },
+  percik(pos, bil, warna) { let n = 0; const C = ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A', '#FFB36B']; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.6 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 0.9, 0.6 + Math.random() * 0.8, (Math.random() - 0.5) * 0.9); s.m.material.color.set(warna || C[n % 5]); s.m.scale.setScalar(1); }); },
+  // ---------- buka / tutup ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true; if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.k1; if (!r || Rooms.current !== 'k1' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; setLock('k1'); this.hub = true; this.hasil = null; this.pegang = null; this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.ke = 0; this.hub = false; this.pegang = null; this.terpilih = null; this.sasaran = []; this.akt = null; this.tertib(false); this.domTunjuk(false); this.bunyi('pick'); },
+  // ---------- aktiviti ----------
+  mula(akt) {
+    this.hub = false; this.hasil = null; this.salah = 0; this.akt = akt; this.p = 0; this.bunyi('pick'); this.mulaPusing(); this.segarUI();
+  },
+  mulaPusing() {
+    this.sudah = 0; this.pegang = null; this.terpilih = null; this.terakhir = this.t; this.sasaran = []; const akt = this.akt;
+    this.prop.huruf.visible = akt === 'huruf'; this.prop.kemas.visible = akt === 'kemas'; const R = this.RAIL;
+    const mula = (it, x, z, ry, tunda) => { const p = new THREE.Vector3(x, 0.0105, z); it.kunciDah = false; it.m.visible = true; it.m.scale.setScalar(0.01); it.m.position.set(x, 0.0105, z); it.m.rotation.y = ry; this.terbang(it, p, 0.5, 'lantun', 0.05, 1, null, tunda, ry); it.asal = p.clone(); it.asalRy = ry; };
+    if (akt === 'huruf') {
+      const S = this.p === 0 ? ['B', 'U', 'K', 'U'] : ['1', '2', '3', '4']; this.setSimbol(this.shuffle(S.slice())); this.setLubang(S); this.jumlah = 4; this.target = S;
+      this.blok4.forEach((it, i) => { it.slot = -1; });
+      const pos = this.shuffle([[3.0, -2.65], [3.35, -2.45], [3.8, -2.7], [4.15, -2.5]]); this.blok4.forEach((it, i) => mula(it, pos[i][0], pos[i][1], (Math.random() - 0.5) * 0.5, i * 0.08));
+      S.forEach((s, i) => this.sasaran.push({ kunci: 'slot', huruf: s, pos: new THREE.Vector3(R.x + (i - 1.5) * 0.24, 0.0305, R.z), R: 0.13, isi: null, y: 0.0305 + 0.0 }));
+      this.item.filter((q) => q.jenis !== 'blok').forEach((q) => { q.m.visible = false; });
+      this.teks = this.p === 0 ? 'Susun blok untuk mengeja BUKU! 📕' : 'Pusingan 2: susun nombor 1 2 3 4! 🔢';
+    } else {
+      this.jumlah = 7; this.blok4.forEach((q) => { q.m.visible = false; });
+      const tmp = this.shuffle([[3.35, -2.9], [3.7, -2.78], [4.05, -2.9], [3.2, -2.65], [3.6, -2.55], [4.0, -2.62], [4.35, -2.7]]); let n = 0;
+      [].concat(this.bukuA, [this.kotakA], this.kadA, this.kerusiA).forEach((it, i) => { const q = tmp[n++]; mula(it, q[0], q[1], (Math.random() - 0.5) * 0.6, i * 0.07); });
+      this.sasaran.push({ kunci: 'rak', pos: new THREE.Vector3(this.RAKX + 0.3, this.RAKY, this.RAKZ), R: 0.62, slot: [new THREE.Vector3(3.78, this.RAKY, this.RAKZ), new THREE.Vector3(4.02, this.RAKY, this.RAKZ)], isi: 0 });
+      this.sasaran.push({ kunci: 'bakul', pos: new THREE.Vector3(2.95, 0.05, -3.3), R: 0.2, isi: 0 }); this.sasaran.push({ kunci: 'E', pos: new THREE.Vector3(4.05, 0.0105, -3.3), R: 0.14, isi: 0 }); this.sasaran.push({ kunci: 'K', pos: new THREE.Vector3(4.27, 0.0105, -3.3), R: 0.14, isi: 0 });
+      this.sasaran.push({ kunci: 'kerusi', pos: new THREE.Vector3(2.85, 0.0105, -2.55), R: 0.16, isi: 0 }); this.sasaran.push({ kunci: 'kerusi', pos: new THREE.Vector3(3.15, 0.0105, -2.55), R: 0.16, isi: 0 });
+      this.teks = 'Kemas kelas! Buku ke rak, pensel ke bakul, kad ke huruf awal, kerusi ke tempatnya. 🧺';
+    }
+    this.tunjukBaris(this.teks, 'maklum', 5200);
+  },
+  sasaranDekat(x, z, it) { let best = null, bd = 9; this.sasaran.forEach((T) => { if (!this.sah(it, T)) return; const d = Math.hypot(T.pos.x - x, T.pos.z - z); if (d < bd && d < T.R) { bd = d; best = T; } }); return best; },
+  sah(it, T) {   // sasaran yang boleh dipertimbangkan (belum penuh); kebetulan jawapan disemak dalam boleh()
+    if (T.kunci === 'slot') return !T.isi; if (T.kunci === 'rak') return true; if (T.kunci === 'kerusi') return !T.isi; if (T.kunci === 'bakul') return true; return true;
+  },
+  boleh(it, T) {
+    if (this.akt === 'huruf') return it.simbol === T.huruf;
+    if (T.kunci === 'rak') return it.jenis === 'buku' && T.isi < 2; if (T.kunci === 'bakul') return it.jenis === 'kotak'; if (T.kunci === 'kerusi') return it.jenis === 'kerusi' && !T.isi;
+    return it.jenis === 'kad' && it.pocket === T.kunci;
+  },
+  puji() { const L = ['Betul! 🎉', 'Hebat! ⭐', 'Pandainya! 👏', 'Bagus sekali! 🌟', 'Yeay! 🥳']; this.tunjukBaris(L[Math.floor(Math.random() * L.length)], 'baik', 1300); },
+  petunjukSalah(it, T) {
+    if (this.akt === 'huruf') return 'Cuba lagi! Lihat huruf pada petak. 😊';
+    return it.jenis === 'buku' ? 'Buku diletak di rak buku kecil. 😊' : (it.jenis === 'kotak' ? 'Kotak alat tulis masuk ke dalam bakul. 😊' : (it.jenis === 'kad' ? 'Padankan huruf awal gambar: epal = E, kucing = K. 😊' : 'Kerusi diletak pada petak di tepi tikar. 😊'));
+  },
+  letak(it, T) {
+    if (!T) { this.pulang(it, false); return; }
+    if (!this.boleh(it, T)) { this.salah++; this.salahBalik(it, T); return; }
+    it.kunciDah = true; this.pegang = null; this.terpilih = null; let p, ry = 0, y; this.terakhir = this.t;
+    if (T.kunci === 'slot') { T.isi = it; p = new THREE.Vector3(T.pos.x, 0.0105, T.pos.z); ry = 0; }
+    else if (T.kunci === 'rak') { p = T.slot[T.isi++].clone(); p.y = this.RAKY + 0.0; }
+    else if (T.kunci === 'bakul') { p = new THREE.Vector3(T.pos.x, 0.05, T.pos.z); }
+    else if (T.kunci === 'kerusi') { T.isi = it; p = new THREE.Vector3(T.pos.x, 0.0105, T.pos.z); }
+    else { p = new THREE.Vector3(T.pos.x, 0.0105, T.pos.z); }
+    if (T.kunci === 'slot') p.y = 0.0305; if (T.kunci === 'rak') p.y = this.RAKY + 0.0005;
+    this.terbang(it, p, 0.5, 'lantun', 0.1, 1, () => { this.percik(new THREE.Vector3(p.x, p.y + 0.08, p.z), 7); }, 0, ry);
+    this.bunyi('ok'); this.sudah++; this.puji(); this.segarUI(); if (this.sudah >= this.jumlah) setTimeout(() => this.tamatPusing(), 800);
+  },
+  salahBalik(it, T) { this.pegang = null; this.terpilih = null; this.bunyi('pick'); this.tunjukBaris(this.petunjukSalah(it, T), 'cuba', 3200); const m = it.m; let n = 0; const id = setInterval(() => { n++; m.rotation.y = it.asalRy + Math.sin(n * 1.6) * 0.25 * (1 - n / 8); if (n >= 8) { clearInterval(id); m.rotation.y = it.asalRy; } }, 40); this.terbang(it, it.asal, 0.55, 'lantun', 0.08, 1); this.terakhir = this.t; },
+  pulang(it, senyap) { this.pegang = null; this.terpilih = null; this.terbang(it, it.asal, 0.45, 'lantun', 0.05, 1); if (!senyap) this.bunyi('pick'); },
+  tamatPusing() {
+    if (!this.aktif || this.hub) return;
+    if (this.akt === 'huruf' && this.p === 0) { this.bunyi('naik'); this.percik(new THREE.Vector3(this.RAIL.x, 0.3, this.RAIL.z), 16); this.tunjukBaris('Pusingan 2! Sekarang nombor. 🎈', 'baik', 2000); this.blok4.forEach((it, i) => this.terbang(it, it.m.position.clone(), 0.3, 'masuk', 0, 0.01, null, i * 0.04)); setTimeout(() => { if (this.aktif && !this.hub && this.akt === 'huruf') { this.p = 1; this.mulaPusing(); this.segarUI(); } }, 700); return; }
+    const s = this.salah <= 1 ? 3 : (this.salah <= 4 ? 2 : 1), D = this.data(), lama = D.bintang[this.akt] || 0; D.bintang[this.akt] = Math.max(lama, s);
+    try { Kiraan.tambah('k1Main'); } catch (e) {} const kunci = { huruf: 'k1Huruf', kemas: 'k1Kemas' }[this.akt], g = { huruf: { ilmu: 1 }, kemas: { kebaikan: 1 } }[this.akt], teks = { huruf: '+1 Ilmu: pandai menyusun huruf dan nombor', kemas: '+1 Kebaikan: kelas kemas dan teratur' }[this.akt];
+    const diberi = this.ganjaran(kunci, g, teks), semua = this.AKT.every((a) => (D.bintang[a.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('k1Semua', { ilmu: 1, kebaikan: 1 }, '+1 Ilmu +1 Kebaikan: Murid Tahun 1 Rajin!');
+    try { Save.save(); } catch (e) {} this.bunyi('naik'); this.percik(new THREE.Vector3(this.RUG.x, 0.3, this.RUG.z), 24); this.hasil = { akt: this.akt, s, salah: this.salah, diberi, bonus, ganj: { huruf: '+1 Ilmu', kemas: '+1 Kebaikan' }[this.akt] }; this.segarUI();
+  },
+  // ---------- UI ----------
+  domTunjuk(on) { const L = this.el('k1Lapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); },
+  tunjukBaris(teks, jenis, ms) { const e = this.el('k1Baris'); if (!e) return; e.textContent = teks; e.className = 'k1Baris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, ms || 3000); },
+  segarUI() {
+    if (!this.aktif) return; const D = this.data(), H = this.el('k1Pusat'), A = this.AKT.find((a) => a.id === this.akt); H.hidden = !(this.hub || this.hasil);
+    if (this.hasil) {
+      const h = this.hasil, a = this.AKT.find((x) => x.id === h.akt), idx = this.AKT.indexOf(a), nx = this.AKT[idx + 1];
+      H.innerHTML = '<div class="k1Kad"><div class="k1Jdl">Hebat! 🎉</div><div class="k1Nama">' + a.e + ' ' + a.nama + '</div><div class="k1Bintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="k1Msg">' + (h.salah === 0 ? 'Tiada silap langsung! 👏' : 'Bagus! Cuba lagi untuk dapat lebih bintang.') + '</div><div class="k1Ganjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: ' + h.ganj + (h.bonus ? ' dan bonus Murid Tahun 1 Rajin!' : '') : 'Ganjaran hari ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="k1Btns"><button class="btn k1Besar" data-a="ulang">🔁 Cuba Lagi</button>' + (nx ? '<button class="btn k1Besar k1Hijau" data-a="mula:' + nx.id + '">➡ ' + nx.nama + '</button>' : '') + '<button class="btn k1Besar" data-a="hub">🏠 Menu</button></div></div>';
+    } else if (this.hub) {
+      const n = this.AKT.filter((a) => (D.bintang[a.id] || 0) > 0).length;
+      H.innerHTML = '<div class="k1Kad"><div class="k1Jdl">🧸 Sudut Aktiviti Tahun 1</div><div class="k1Msg">Pilih satu permainan! Siap ' + n + ' / 2 ⭐</div><div class="k1Grid">' +
+        this.AKT.map((a) => { const s = D.bintang[a.id] || 0; return '<button class="k1Card" data-a="mula:' + a.id + '"><span class="k1E">' + a.e + '</span><b>' + a.nama + '</b><small>' + a.ket + '</small><span class="k1S">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') + '</div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    this.el('k1Tajuk').textContent = (!this.hub && A) ? A.e + ' ' + A.nama + (this.akt === 'huruf' && !this.hasil ? ' · Pusingan ' + (this.p + 1) + '/2' : '') : '🧸 Sudut Aktiviti';
+    this.el('k1Jejak').innerHTML = (!this.hub && !this.hasil && this.jumlah) ? Array.from({ length: this.jumlah }, (_, i) => '<i class="' + (i < this.sudah ? 'on' : '') + '"></i>').join('') : '';
+    this.el('k1Ulang').hidden = this.hub || !!this.hasil;
+  },
+  aksi(a) { this.bunyi('pick'); if (a === 'hub') { this.hasil = null; this.hub = true; this.akt = null; this.sasaran = []; this.tertib(false); this.segarUI(); } else if (a === 'ulang') { if (this.akt) this.mula(this.akt); } else if (a.startsWith('mula:')) this.mula(a.slice(5)); },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const itemDi = (o) => { while (o) { if (o.userData && o.userData.item) return o.userData.item; o = o.parent; } return null; };
+    const dataran = (e, y) => { const r = sinar(e), p = new THREE.Vector3(), pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -y); if (!r.ray.intersectPlane(pl, p)) return null; return new THREE.Vector3(p.x - self.r.ox, y, p.z - self.r.oz); };
+    const hitItem = (e) => { const ms = self.item.filter((it) => !it.kunciDah && it.m.visible).map((it) => it.m), h = sinar(e).intersectObjects(ms, true)[0]; return h ? itemDi(h.object) : null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .k1Kad')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.hasil) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.terakhir = self.t; const it = hitItem(e); self.ptr = { x: e.clientX, y: e.clientY, it, seret: false };
+      if (it) { if (self.terpilih && self.terpilih !== it) self.pulang(self.terpilih, true); self.pegang = it; it.anim = null; self.terpilih = null; self.bunyi('pick'); const p = dataran(e, 0.2); if (p) self.terbang(it, new THREE.Vector3(p.x, 0.2, p.z), 0.15, 'keluar', 0, 1.25); }
+      else if (self.terpilih) { const p = dataran(e, 0.1); if (p) self.letak(self.terpilih, self.sasaranDekat(p.x, p.z, self.terpilih)); }
+    });
+    L.addEventListener('pointermove', (e) => {
+      const P = self.ptr; if (!P || !P.it || !self.pegang) return; if (Math.hypot(e.clientX - P.x, e.clientY - P.y) > 8) P.seret = true;
+      const p = dataran(e, 0.2); if (p && P.seret) { const it = P.it; it.anim = null; it.m.position.lerp(new THREE.Vector3(p.x, 0.2, p.z), 0.6); it.m.scale.setScalar(1.25); }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !P.it || !self.aktif || self.hub || self.hasil) return; const it = P.it; if (self.pegang !== it) return; const p = dataran(e, 0.1);
+      if (P.seret) { if (p) self.letak(it, self.sasaranDekat(p.x, p.z, it)); else self.pulang(it); }
+      else { self.terpilih = it; self.pegang = null; self.terbang(it, new THREE.Vector3(it.m.position.x, 0.16, it.m.position.z), 0.25, 'lantun', 0, 1.25); self.tunjukBaris('Sekarang ketik tempat yang betul! 👆', 'maklum', 2500); }
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { const it = self.ptr && self.ptr.it; self.ptr = null; if (it && self.pegang === it) self.pulang(it, true); });
+    this.el('k1Keluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('k1Ulang').addEventListener('click', (e) => { e.stopPropagation(); self.bunyi('pick'); if (self.akt) self.mula(self.akt); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'k1' && Rooms.list && Rooms.list.k1 && Rooms.list.k1.group) { try { if (!this.sediakan(Rooms.list.k1)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.item = []; this.sasaran = []; this.spark = []; return; }
+    if (!this.siap) return; this.t += dt; this.ikutAnim(dt);
+    if (this.aktif && (Rooms.current !== 'k1' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      if (this.aktif && this.akt && !this.hub && !this.hasil && !this.pegang && this.t - this.terakhir > 9) {
+        const it = this.item.find((q) => !q.kunciDah && q.m.visible && !q.anim && q !== this.terpilih); if (it) { const u = Math.sin(this.t * 6); it.m.position.y = it.asal.y + Math.max(0, u) * 0.025; it.m.scale.setScalar(1 + 0.07 * u); }
+      }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, tx = r.ox + 3.6, tz = r.oz - 3.2, D = Math.min(3.3, Math.max(1.7, 1.75 / (2 * tf), 2.2 / (2 * tf * asp))), p = THREE.MathUtils.degToRad(62);
+    V.set(tx, 0.3 + D * Math.sin(p), tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(tx, 0.2, tz), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Kelas Tahun 2 Interaktif (v124) =====================
+   Tikar aktiviti di bahagian hadapan-kanan Kelas Tahun 2 (bilik 'k2'; GLB dalaman k2_interior_*.glb) dengan item kecil yang boleh digerakkan pemain:
+   kad suku kata, blok nombor, buku latihan, kotak alat tulis dan bakul tugasan. Tindakan "Main di sudut aktiviti Tahun 2" membuka mod (kamera menghampiri tikar dari atas).
+   Dua aktiviti ringkas untuk murid Tahun 2:
+   1. Susun Suku Kata : susun kad suku kata pada landasan untuk membentuk perkataan mudah: BUKU (bu + ku) dan KUDA (ku + da); ada kad pengganggu.
+   2. Padan Operasi   : padankan blok nombor dengan jawapan tambah / tolak asas (2 + 3, 7 - 4, 4 + 5), kemudian kemas tugasan: 2 buku latihan ke bakul tugasan dan kotak alat tulis ke dulangnya.
+   Pemain mengambil, menyeret dan meletakkan item (atau ketik item, kemudian ketik tempat). Animasi smooth, snap melantun, bunyi lembut, petunjuk berdenyut, "Cuba Lagi",
+   bintang 1-3 (State.data.k2Mod) dan ganjaran sedia ada (Peralatan.ganjaran, sekali sehari). Item diletak kemas semula apabila keluar.
+   Item rata dan kecil, tidak berperlanggaran, supaya laluan, NPC dan Navi tidak berubah. Hanya aktif untuk bilik 'k2' dan hanya jika GLB dalaman k2 berjaya dipasang.
+   Semua dijana oleh kod; tiada aset luar dan tiada internet diperlukan. */
+const K2Mod = {
+  RUG: { x: 3.6, z: -2.9 }, RAIL: { x: 3.6, z: -3.38 }, PLAT: { z: -3.45, zs: -3.2 }, BAKUL: { x: 2.95, z: -3.28 }, DULANG: { x: 4.2, z: -3.28 },
+  AKT: [{ id: 'suku', nama: 'Susun Suku Kata', e: '🔤', ket: 'Susun suku kata untuk membentuk perkataan: BUKU, KUDA.' },
+    { id: 'operasi', nama: 'Padan Operasi', e: '➕', ket: 'Padankan nombor dengan jawapan tambah / tolak, kemudian kemas tugasan.' }],
+  WARNA: ['#8EC5F0', '#FFD36B', '#9ED9B8', '#F7B7C8', '#C7B0F0', '#FFB47A'],
+  KATA: [{ w: 'BUKU', s: ['BU', 'KU'], x: ['PE', 'NA'], e: '📕' }, { w: 'KUDA', s: ['KU', 'DA'], x: ['BA', 'LA'], e: '🐴' }],
+  SUM: [{ t: '2 + 3', j: '5' }, { t: '7 − 4', j: '3' }, { t: '4 + 5', j: '9' }],
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, grup: null, item: [], sasaran: [], spark: [], t: 0, hub: true, akt: null, p: 0, salah: 0, sudah: 0, jumlah: 0, hasil: null,
+  pegang: null, ptr: null, asalPos: null, terakhir: 0, terpilih: null, prop: null, fasa: 0,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  el(id) { return document.getElementById(id); },
+  data() { const d = State.data; d.k2Mod = d.k2Mod || { bintang: {} }; d.k2Mod.bintang = d.k2Mod.bintang || {}; return d.k2Mod; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  F: '"Kurland", system-ui, sans-serif',
+  // ---------- tekstur & objek ----------
+  kanvas(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; try { t.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {} return t; },
+  rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); },
+  bahan(c, o) { return new THREE.MeshLambertMaterial(Object.assign({ color: c }, o || {})); },
+  kotakB(w, h, d, c, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.bahan(c)); m.position.set(x, y, z); return m; },
+  papan(w, d, tex, x, y, z) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); m.rotation.x = -Math.PI / 2; m.position.set(x, y, z); return m; },
+  texTeks(s, c0, saiz, w2, h2) { return this.kanvas(w2 || 128, h2 || 128, (c, w, h) => { c.fillStyle = c0; this.rr(c, 4, 4, w - 8, h - 8, 22); c.fill(); c.fillStyle = 'rgba(255,255,255,0.35)'; this.rr(c, 12, 12, w - 24, 30, 14); c.fill(); c.fillStyle = '#3A2F28'; c.font = (saiz || 70) + 'px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); }); },
+  texLubang(s, ghost, w2, h2) { return this.kanvas(w2 || 128, h2 || 128, (c, w, h) => { c.fillStyle = 'rgba(122,90,58,0.55)'; this.rr(c, 6, 6, w - 12, h - 12, 20); c.fill(); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 5; c.setLineDash([12, 9]); this.rr(c, 8, 8, w - 16, h - 16, 18); c.stroke(); if (s) { c.setLineDash([]); c.fillStyle = ghost ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.9)'; c.font = '70px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); } }); },
+  texKad(e, ket, w2, h2) { return this.kanvas(w2 || 128, h2 || 176, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 4, 4, w - 8, h - 8, 16); c.fill(); c.strokeStyle = '#9BD3F5'; c.lineWidth = 6; this.rr(c, 4, 4, w - 8, h - 8, 16); c.stroke(); c.fillStyle = '#000'; c.textAlign = 'center'; c.textBaseline = 'middle'; if (w > h) { c.font = '56px sans-serif'; c.fillText(e, w * 0.2, h / 2 + 2); c.fillStyle = '#3A2F28'; c.font = '52px ' + this.F; c.fillText(ket, w * 0.62, h / 2 + 6); } else { c.font = '70px sans-serif'; c.fillText(e, w / 2, h * 0.4); if (ket) { c.fillStyle = '#3A2F28'; c.font = '28px ' + this.F; c.fillText(ket, w / 2, h * 0.82); } } }); },
+  texKulit(e, warna) { return this.kanvas(128, 176, (c, w, h) => { c.fillStyle = warna; c.fillRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,0.25)'; c.fillRect(0, 0, 14, h); c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 4; c.strokeRect(22, 14, w - 36, h - 28); c.fillStyle = '#000'; c.font = '56px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, w / 2 + 6, h / 2); }); },
+  tanda(teks, w2, h2) { return this.kanvas(w2 || 160, h2 || 52, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 2, 2, w - 4, h - 4, 14); c.fill(); c.strokeStyle = '#E0B36A'; c.lineWidth = 3; this.rr(c, 2, 2, w - 4, h - 4, 14); c.stroke(); c.font = '28px ' + this.F; c.fillStyle = '#7A4A18'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(teks, w / 2, h / 2 + 2); }); },
+  tile(s, warna, jenis) {   // kad suku kata (jenis 'suku') / blok nombor (jenis 'nombor')
+    const B = new THREE.Group(), L = () => new THREE.MeshLambertMaterial({ map: tex }), tex = this.texTeks(s, warna, jenis === 'suku' ? 62 : 84);
+    let mesh;
+    if (jenis === 'nombor') { const sz = 0.15; mesh = new THREE.Mesh(new THREE.BoxGeometry(sz, sz, sz), [L(), L(), this.bahan(warna), this.bahan(warna), L(), L()]); mesh.position.y = sz / 2; }
+    else { mesh = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.025, 0.17), [this.bahan(warna), this.bahan(warna), new THREE.MeshLambertMaterial({ map: tex }), this.bahan(warna), this.bahan(warna), this.bahan(warna)]); mesh.position.y = 0.0125; }
+    B.add(mesh); const it = { m: B, jenis, simbol: s, warna, mesh, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  buku(e, warna) {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.03, 0.21), [this.bahan('#FFF3D6'), this.bahan(warna), this.bahan(warna), this.bahan('#FFF3D6'), this.bahan('#FFF3D6'), this.bahan('#FFF3D6')]); body.position.y = 0.015; B.add(body);
+    const cov = new THREE.Mesh(new THREE.PlaneGeometry(0.15, 0.21), new THREE.MeshLambertMaterial({ map: this.texKulit(e, warna) })); cov.rotation.x = -Math.PI / 2; cov.position.y = 0.0305; B.add(cov);
+    const it = { m: B, jenis: 'buku', simbol: null, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  kotakAlat() {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.06, 0.1), this.bahan('#FFD36B')); body.position.y = 0.03; B.add(body);
+    const tut = new THREE.Mesh(new THREE.BoxGeometry(0.225, 0.015, 0.105), this.bahan('#F2A93B')); tut.position.y = 0.0675; B.add(tut);
+    const pl = new THREE.Mesh(new THREE.PlaneGeometry(0.1, 0.07), new THREE.MeshBasicMaterial({ map: this.kanvas(128, 90, (c, w, h) => { c.font = '64px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('✏️', w / 2, h / 2 + 4); }), transparent: true })); pl.rotation.x = -Math.PI / 2; pl.position.y = 0.076; B.add(pl);
+    const it = { m: B, jenis: 'kotak', simbol: null, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  // ---------- penyediaan ----------
+  sediakan(r) {
+    if (r.id !== 'k2' || !r.glb) return false; const o = r.group.getObjectByName('rak_buku_kecil'), c = r.group.getObjectByName('meja_guru'); if (!o || !c) return false;
+    const b = KomputerPSS.kotakTempatan(o); if (!b || Math.abs(b.min.x - 2.78) > 0.1 || Math.abs(b.max.z - (-3.89)) > 0.1) return false;   // sahkan susun atur GLB k2
+    this.r = r; const G = (this.grup = new THREE.Group()); r.group.add(G); this.prop = { suku: new THREE.Group(), sum: new THREE.Group(), tetap: new THREE.Group() }; G.add(this.prop.suku); G.add(this.prop.sum); G.add(this.prop.tetap);
+    const R = this.RAIL, PS = this.prop.suku, PM = this.prop.sum, PT = this.prop.tetap, S = this.PLAT;
+    // A: landasan 2 petak + kad petunjuk
+    PS.add(this.kotakB(0.7, 0.02, 0.26, '#C98F56', R.x, 0.019, R.z));
+    this.lubang = [0, 1].map((i) => { const m = this.papan(0.19, 0.19, this.texLubang('', true), R.x + (i - 0.5) * 0.3, 0.0305, R.z); PS.add(m); return m; });
+    this.hintKad = this.papan(0.5, 0.2, this.texKad('📕', 'BUKU', 256, 96), R.x, 0.13, R.z - 0.26); this.hintKad.rotation.x = -0.35; PS.add(this.hintKad);
+    // B: 3 kad soalan + 3 petak jawapan
+    this.plat = []; this.lubangJ = [];
+    this.SUM.forEach((q, i) => { const x = 3.1 + i * 0.5; const p = this.papan(0.44, 0.15, this.texKad('', q.t + ' = ?', 256, 90), x, 0.0105, S.z); PM.add(p); this.plat.push(p); const m = this.papan(0.19, 0.19, this.texLubang(q.j, true), x, 0.0105, S.zs); PM.add(m); this.lubangJ.push(m); });
+    // tetap: bakul tugasan dan dulang alat tulis (kelihatan semasa rehat dan semasa aktiviti Padan Operasi)
+    const bk = this.BAKUL, bakul = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.13, 0.1, 18, 1, true), new THREE.MeshLambertMaterial({ color: '#D9A86C', side: THREE.DoubleSide })); bakul.position.set(bk.x, 0.06, bk.z); PT.add(bakul);
+    const dasar = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.01, 18), this.bahan('#B98446')); dasar.position.set(bk.x, 0.015, bk.z); PT.add(dasar);
+    PT.add(this.papan(0.26, 0.085, this.tanda('📥 Bakul Tugasan', 200, 66), bk.x, 0.0106, bk.z + 0.24));
+    const dl = this.DULANG; PT.add(this.kotakB(0.3, 0.02, 0.17, '#E8B77A', dl.x, 0.019, dl.z)); PT.add(this.papan(0.26, 0.085, this.tanda('✏️ Alat Tulis', 180, 60), dl.x, 0.0106, dl.z + 0.24));
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.016), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    // item
+    this.suku4 = [0, 1, 2, 3].map((i) => this.tile(['BU', 'KU', 'PE', 'NA'][i], this.WARNA[i], 'suku')); this.nom4 = ['5', '3', '9', '6'].map((s, i) => this.tile(s, this.WARNA[(i + 2) % 6], 'nombor'));
+    this.bukuA = [this.buku('✏️', '#F7B7C8'), this.buku('📓', '#8EC5F0')]; this.kotakA = this.kotakAlat();
+    [].concat(this.suku4, this.nom4, this.bukuA, [this.kotakA]).forEach((it) => { G.add(it.m); this.item.push(it); });
+    this.tetapkanRumah(); this.tertib(true); this.siap = true; return true;
+  },
+  tetapkanRumah() {   // kedudukan KEMAS semasa rehat
+    const R = this.RAIL, set = (it, x, y, z, ry) => { it.rumah = new THREE.Vector3(x, y, z); it.rumahRy = ry || 0; };
+    set(this.suku4[0], R.x - 0.15, 0.0305, R.z, 0); set(this.suku4[1], R.x + 0.15, 0.0305, R.z, 0); set(this.suku4[2], 3.05, 0.0105, -2.55, 0); set(this.suku4[3], 3.28, 0.0105, -2.55, 0);
+    [['5', 3.55], ['3', 3.78], ['9', 4.01], ['6', 4.24]].forEach(([s, x], i) => set(this.nom4[i], x, 0.0105, -2.55, 0));
+    set(this.bukuA[0], this.BAKUL.x, 0.052, this.BAKUL.z, 0.25); set(this.bukuA[1], this.BAKUL.x, 0.083, this.BAKUL.z, -0.2); set(this.kotakA, this.DULANG.x, 0.03, this.DULANG.z, 0);
+  },
+  tertib(serta) {
+    this.prop.suku.visible = true; this.prop.sum.visible = false; this.prop.tetap.visible = true;
+    this.item.forEach((it) => { it.m.visible = true; it.kunciDah = false; it.m.scale.setScalar(1); if (serta) { it.m.position.copy(it.rumah); it.m.rotation.y = it.rumahRy; it.anim = null; } else this.terbang(it, it.rumah, 0.5, 'lantun', 0.08, 1, null, 0, it.rumahRy); it.asal = it.rumah.clone(); it.asalRy = it.rumahRy; });
+    this.setSuku(0); this.setNombor(['5', '3', '9', '6']);
+  },
+  setSuku(p) { const K = this.KATA[p], S = K.s.concat(K.x), warna = this.WARNA; this.suku4.forEach((it, i) => { const w = warna[(i + p * 2) % 6], tex = this.texTeks(S[i], w, 62); it.mesh.material[2].map = tex; it.mesh.material[2].needsUpdate = true; [0, 1, 3, 4, 5].forEach((f) => it.mesh.material[f].color.set(w)); it.simbol = S[i]; it.warna = w; });
+    this.hintKad.material.map = this.texKad(K.e, K.w, 256, 96); this.hintKad.material.needsUpdate = true; this.lubang.forEach((m, i) => { m.material.map = this.texLubang(K.s[i], true); m.material.needsUpdate = true; }); },
+  setNombor(S) { this.nom4.forEach((it, i) => { const w = this.WARNA[(i + 2) % 6], tex = this.texTeks(S[i], w, 84); [0, 1, 4, 5].forEach((f) => { it.mesh.material[f].map = tex; it.mesh.material[f].needsUpdate = true; }); it.simbol = S[i]; }); },
+  // ---------- animasi ----------
+  terbang(it, pos, dur, ease, angkat, skala, selepas, tunda, ry) {
+    it.anim = { t: -(tunda || 0), dur: this.kurang() ? 0.01 : Math.max(0.01, dur), a: it.m.position.clone(), p: pos.clone(), s0: it.m.scale.x, s: skala === undefined ? 1 : skala, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas, ry0: it.m.rotation.y, ry1: ry };
+  },
+  ikutAnim(dt) {
+    this.item.forEach((it) => { const a = it.anim; if (!a) return; a.t += dt; if (a.t < 0) return; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = it.m;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat; const s = a.s0 + (a.s - a.s0) * e; m.scale.setScalar(s);
+      if (a.ry1 !== undefined) m.rotation.y = a.ry0 + (a.ry1 - a.ry0) * e; if (u >= 1) { it.anim = null; m.position.copy(a.p); m.scale.setScalar(a.s); if (a.ry1 !== undefined) m.rotation.y = a.ry1; if (a.selepas) a.selepas(); } });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.4 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+  },
+  percik(pos, bil, warna) { let n = 0; const C = ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A', '#FFB36B']; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.6 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 0.9, 0.6 + Math.random() * 0.8, (Math.random() - 0.5) * 0.9); s.m.material.color.set(warna || C[n % 5]); s.m.scale.setScalar(1); }); },
+  // ---------- buka / tutup ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true; if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.k2; if (!r || Rooms.current !== 'k2' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; setLock('k2'); this.hub = true; this.hasil = null; this.pegang = null; this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.ke = 0; this.hub = false; this.pegang = null; this.terpilih = null; this.sasaran = []; this.akt = null; this.tertib(false); this.domTunjuk(false); this.bunyi('pick'); },
+  // ---------- aktiviti ----------
+  mula(akt) { this.hub = false; this.hasil = null; this.salah = 0; this.akt = akt; this.p = 0; this.fasa = 0; this.bunyi('pick'); this.mulaPusing(); this.segarUI(); },
+  letakAwal(it, x, z, ry, tunda) { const p = new THREE.Vector3(x, 0.0105, z); it.kunciDah = false; it.m.visible = true; it.m.scale.setScalar(0.01); it.m.position.set(x, 0.0105, z); it.m.rotation.y = ry; this.terbang(it, p, 0.5, 'lantun', 0.05, 1, null, tunda, ry); it.asal = p.clone(); it.asalRy = ry; },
+  mulaPusing() {
+    this.sudah = 0; this.pegang = null; this.terpilih = null; this.terakhir = this.t; this.sasaran = []; const akt = this.akt, R = this.RAIL;
+    this.prop.suku.visible = akt === 'suku'; this.prop.sum.visible = akt === 'operasi'; this.prop.tetap.visible = akt === 'operasi';
+    const pos = this.shuffle([[3.0, -2.7], [3.4, -2.5], [3.85, -2.7], [4.25, -2.5]]);
+    if (akt === 'suku') {
+      const K = this.KATA[this.p]; this.setSuku(this.p); this.jumlah = 2;
+      this.item.forEach((q) => { q.m.visible = false; }); this.suku4.forEach((it, i) => this.letakAwal(it, pos[i][0], pos[i][1], (Math.random() - 0.5) * 0.5, i * 0.08));
+      K.s.forEach((s, i) => this.sasaran.push({ kunci: 'slot', suku: s, pos: new THREE.Vector3(R.x + (i - 0.5) * 0.3, 0.0305, R.z), R: 0.15, isi: null }));
+      this.teks = this.p === 0 ? 'Susun suku kata untuk membentuk BUKU! 📕' : 'Pusingan 2: susun suku kata untuk membentuk KUDA! 🐴';
+    } else {
+      this.jumlah = 6; this.fasa = 1; this.item.forEach((q) => { q.m.visible = false; }); this.setNombor(['5', '3', '9', '6']);
+      this.nom4.forEach((it, i) => this.letakAwal(it, pos[i][0], pos[i][1], (Math.random() - 0.5) * 0.4, i * 0.08));
+      this.SUM.forEach((q, i) => this.sasaran.push({ kunci: 'slot', jawapan: q.j, pos: new THREE.Vector3(3.1 + i * 0.5, 0.0105, this.PLAT.zs), R: 0.15, isi: null }));
+      this.teks = 'Padankan blok nombor dengan jawapan! Kemudian kemas tugasan. ➕';
+    }
+    this.tunjukBaris(this.teks, 'maklum', 5200);
+  },
+  fasaKemas() {   // selepas 3 jawapan betul: keluarkan buku latihan dan kotak alat tulis untuk dikemas
+    this.fasa = 2; this.sasaran = []; this.nom4.forEach((q) => { if (!q.kunciDah) q.m.visible = false; });
+    [[3.3, -2.8, 0.2], [3.75, -2.7, -0.25]].forEach(([x, z, ry], i) => this.letakAwal(this.bukuA[i], x, z, ry, i * 0.1)); this.letakAwal(this.kotakA, 4.1, -2.75, 0.3, 0.2);
+    this.sasaran.push({ kunci: 'bakul', pos: new THREE.Vector3(this.BAKUL.x, 0.05, this.BAKUL.z), R: 0.22, isi: 0 }); this.sasaran.push({ kunci: 'dulang', pos: new THREE.Vector3(this.DULANG.x, 0.03, this.DULANG.z), R: 0.2, isi: 0 });
+    this.tunjukBaris('Kemas tugasan: buku latihan ke bakul, kotak alat tulis ke dulang! 🧺', 'maklum', 4200);
+  },
+  sasaranDekat(x, z, it) { let best = null, bd = 9; this.sasaran.forEach((T) => { if (T.kunci === 'slot' && T.isi) return; const d = Math.hypot(T.pos.x - x, T.pos.z - z); if (d < bd && d < T.R) { bd = d; best = T; } }); return best; },
+  boleh(it, T) {
+    if (T.kunci === 'slot') return this.akt === 'suku' ? (it.jenis === 'suku' && it.simbol === T.suku) : (it.jenis === 'nombor' && it.simbol === T.jawapan);
+    if (T.kunci === 'bakul') return it.jenis === 'buku' && T.isi < 2; if (T.kunci === 'dulang') return it.jenis === 'kotak'; return false;
+  },
+  puji() { const L = ['Betul! 🎉', 'Bagus! ⭐', 'Tepat sekali! 👏', 'Hebat! 🌟', 'Cemerlang! 🥳']; this.tunjukBaris(L[Math.floor(Math.random() * L.length)], 'baik', 1300); },
+  petunjukSalah(it, T) {
+    if (T.kunci === 'bakul') return 'Hanya buku latihan masuk ke bakul tugasan. 😊'; if (T.kunci === 'dulang') return 'Kotak alat tulis diletak di dulang alat tulis. 😊';
+    return this.akt === 'suku' ? 'Cuba lagi! Baca perkataan pada kad petunjuk, suku kata pertama dahulu. 😊' : 'Cuba lagi! Kira dahulu: ' + this.SUM.map((q) => q.t + ' = ' + q.j).join(', ') + '. 😊';
+  },
+  letak(it, T) {
+    if (!T) { this.pulang(it, false); return; }
+    if (!this.boleh(it, T)) { this.salah++; this.salahBalik(it, T); return; }
+    it.kunciDah = true; this.pegang = null; this.terpilih = null; this.terakhir = this.t; let p;
+    if (T.kunci === 'slot') { T.isi = it; p = new THREE.Vector3(T.pos.x, this.akt === 'suku' ? 0.0305 : 0.0105, T.pos.z); }
+    else if (T.kunci === 'bakul') { p = new THREE.Vector3(T.pos.x, 0.052 + T.isi * 0.031, T.pos.z); T.isi++; } else { p = new THREE.Vector3(T.pos.x, 0.03, T.pos.z); }
+    this.terbang(it, p, 0.5, 'lantun', 0.1, 1, () => { this.percik(new THREE.Vector3(p.x, p.y + 0.08, p.z), 7); }, 0, it.jenis === 'buku' ? 0.2 : 0);
+    this.bunyi('ok'); this.sudah++; this.puji(); this.segarUI();
+    if (this.akt === 'operasi' && this.fasa === 1 && this.sasaran.filter((q) => q.kunci === 'slot' && q.isi).length === 3) { setTimeout(() => { if (this.aktif && !this.hub && this.akt === 'operasi') this.fasaKemas(); }, 900); return; }
+    if (this.sudah >= this.jumlah) setTimeout(() => this.tamatPusing(), 800);
+  },
+  salahBalik(it, T) { this.pegang = null; this.terpilih = null; this.bunyi('pick'); this.tunjukBaris(this.petunjukSalah(it, T), 'cuba', 3600); const m = it.m; let n = 0; const id = setInterval(() => { n++; m.rotation.y = it.asalRy + Math.sin(n * 1.6) * 0.25 * (1 - n / 8); if (n >= 8) { clearInterval(id); m.rotation.y = it.asalRy; } }, 40); this.terbang(it, it.asal, 0.55, 'lantun', 0.08, 1); this.terakhir = this.t; },
+  pulang(it, senyap) { this.pegang = null; this.terpilih = null; this.terbang(it, it.asal, 0.45, 'lantun', 0.05, 1); if (!senyap) this.bunyi('pick'); },
+  tamatPusing() {
+    if (!this.aktif || this.hub) return;
+    if (this.akt === 'suku' && this.p === 0) { this.bunyi('naik'); this.percik(new THREE.Vector3(this.RAIL.x, 0.3, this.RAIL.z), 16); this.tunjukBaris('Pusingan 2! Perkataan baharu. 🎈', 'baik', 2000); this.suku4.forEach((it, i) => this.terbang(it, it.m.position.clone(), 0.3, 'masuk', 0, 0.01, null, i * 0.04)); setTimeout(() => { if (this.aktif && !this.hub && this.akt === 'suku') { this.p = 1; this.mulaPusing(); this.segarUI(); } }, 700); return; }
+    const s = this.salah <= 1 ? 3 : (this.salah <= 4 ? 2 : 1), D = this.data(), lama = D.bintang[this.akt] || 0; D.bintang[this.akt] = Math.max(lama, s);
+    try { Kiraan.tambah('k2Main'); } catch (e) {} const kunci = { suku: 'k2Suku', operasi: 'k2Operasi' }[this.akt], g = { suku: { ilmu: 1 }, operasi: { ilmu: 1 } }[this.akt], teks = { suku: '+1 Ilmu: pandai menyusun suku kata', operasi: '+1 Ilmu: pandai tambah dan tolak asas' }[this.akt];
+    const diberi = this.ganjaran(kunci, g, teks), semua = this.AKT.every((a) => (D.bintang[a.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('k2Semua', { ilmu: 1, kebaikan: 1 }, '+1 Ilmu +1 Kebaikan: Murid Tahun 2 Rajin!');
+    try { Save.save(); } catch (e) {} this.bunyi('naik'); this.percik(new THREE.Vector3(this.RUG.x, 0.3, this.RUG.z), 24); this.hasil = { akt: this.akt, s, salah: this.salah, diberi, bonus, ganj: '+1 Ilmu' }; this.segarUI();
+  },
+  // ---------- UI ----------
+  domTunjuk(on) { const L = this.el('k2Lapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); },
+  tunjukBaris(teks, jenis, ms) { const e = this.el('k2Baris'); if (!e) return; e.textContent = teks; e.className = 'k2Baris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, ms || 3000); },
+  segarUI() {
+    if (!this.aktif) return; const D = this.data(), H = this.el('k2Pusat'), A = this.AKT.find((a) => a.id === this.akt); H.hidden = !(this.hub || this.hasil);
+    if (this.hasil) {
+      const h = this.hasil, a = this.AKT.find((x) => x.id === h.akt), idx = this.AKT.indexOf(a), nx = this.AKT[idx + 1];
+      H.innerHTML = '<div class="k2Kad"><div class="k2Jdl">Hebat! 🎉</div><div class="k2Nama">' + a.e + ' ' + a.nama + '</div><div class="k2Bintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="k2Msg">' + (h.salah === 0 ? 'Tiada silap langsung! 👏' : 'Bagus! Cuba lagi untuk dapat lebih bintang.') + '</div><div class="k2Ganjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: ' + h.ganj + (h.bonus ? ' dan bonus Murid Tahun 2 Rajin!' : '') : 'Ganjaran hari ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="k2Btns"><button class="btn k2Besar" data-a="ulang">🔁 Cuba Lagi</button>' + (nx ? '<button class="btn k2Besar k2Hijau" data-a="mula:' + nx.id + '">➡ ' + nx.nama + '</button>' : '') + '<button class="btn k2Besar" data-a="hub">🏠 Menu</button></div></div>';
+    } else if (this.hub) {
+      const n = this.AKT.filter((a) => (D.bintang[a.id] || 0) > 0).length;
+      H.innerHTML = '<div class="k2Kad"><div class="k2Jdl">🧸 Sudut Aktiviti Tahun 2</div><div class="k2Msg">Pilih satu permainan! Siap ' + n + ' / 2 ⭐</div><div class="k2Grid">' +
+        this.AKT.map((a) => { const s = D.bintang[a.id] || 0; return '<button class="k2Card" data-a="mula:' + a.id + '"><span class="k2E">' + a.e + '</span><b>' + a.nama + '</b><small>' + a.ket + '</small><span class="k2S">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') + '</div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    this.el('k2Tajuk').textContent = (!this.hub && A) ? A.e + ' ' + A.nama + (this.akt === 'suku' && !this.hasil ? ' · Pusingan ' + (this.p + 1) + '/2' : '') : '🧸 Sudut Aktiviti';
+    this.el('k2Jejak').innerHTML = (!this.hub && !this.hasil && this.jumlah) ? Array.from({ length: this.jumlah }, (_, i) => '<i class="' + (i < this.sudah ? 'on' : '') + '"></i>').join('') : '';
+    this.el('k2Ulang').hidden = this.hub || !!this.hasil;
+  },
+  aksi(a) { this.bunyi('pick'); if (a === 'hub') { this.hasil = null; this.hub = true; this.akt = null; this.sasaran = []; this.tertib(false); this.segarUI(); } else if (a === 'ulang') { if (this.akt) this.mula(this.akt); } else if (a.startsWith('mula:')) this.mula(a.slice(5)); },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const itemDi = (o) => { while (o) { if (o.userData && o.userData.item) return o.userData.item; o = o.parent; } return null; };
+    const dataran = (e, y) => { const r = sinar(e), p = new THREE.Vector3(), pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -y); if (!r.ray.intersectPlane(pl, p)) return null; return new THREE.Vector3(p.x - self.r.ox, y, p.z - self.r.oz); };
+    const hitItem = (e) => { const ms = self.item.filter((it) => !it.kunciDah && it.m.visible).map((it) => it.m), h = sinar(e).intersectObjects(ms, true)[0]; return h ? itemDi(h.object) : null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .k2Kad')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.hasil) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.terakhir = self.t; const it = hitItem(e); self.ptr = { x: e.clientX, y: e.clientY, it, seret: false };
+      if (it) { if (self.terpilih && self.terpilih !== it) self.pulang(self.terpilih, true); self.pegang = it; it.anim = null; self.terpilih = null; self.bunyi('pick'); const p = dataran(e, 0.2); if (p) self.terbang(it, new THREE.Vector3(p.x, 0.2, p.z), 0.15, 'keluar', 0, 1.25); }
+      else if (self.terpilih) { const p = dataran(e, 0.1); if (p) self.letak(self.terpilih, self.sasaranDekat(p.x, p.z, self.terpilih)); }
+    });
+    L.addEventListener('pointermove', (e) => {
+      const P = self.ptr; if (!P || !P.it || !self.pegang) return; if (Math.hypot(e.clientX - P.x, e.clientY - P.y) > 8) P.seret = true;
+      const p = dataran(e, 0.2); if (p && P.seret) { const it = P.it; it.anim = null; it.m.position.lerp(new THREE.Vector3(p.x, 0.2, p.z), 0.6); it.m.scale.setScalar(1.25); }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !P.it || !self.aktif || self.hub || self.hasil) return; const it = P.it; if (self.pegang !== it) return; const p = dataran(e, 0.1);
+      if (P.seret) { if (p) self.letak(it, self.sasaranDekat(p.x, p.z, it)); else self.pulang(it); }
+      else { self.terpilih = it; self.pegang = null; self.terbang(it, new THREE.Vector3(it.m.position.x, 0.16, it.m.position.z), 0.25, 'lantun', 0, 1.25); self.tunjukBaris('Sekarang ketik tempat yang betul! 👆', 'maklum', 2500); }
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { const it = self.ptr && self.ptr.it; self.ptr = null; if (it && self.pegang === it) self.pulang(it, true); });
+    this.el('k2Keluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('k2Ulang').addEventListener('click', (e) => { e.stopPropagation(); self.bunyi('pick'); if (self.akt) self.mula(self.akt); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'k2' && Rooms.list && Rooms.list.k2 && Rooms.list.k2.group) { try { if (!this.sediakan(Rooms.list.k2)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.item = []; this.sasaran = []; this.spark = []; return; }
+    if (!this.siap) return; this.t += dt; this.ikutAnim(dt);
+    if (this.aktif && (Rooms.current !== 'k2' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      if (this.aktif && this.akt && !this.hub && !this.hasil && !this.pegang && this.t - this.terakhir > 9) {
+        const it = this.item.find((q) => !q.kunciDah && q.m.visible && !q.anim && q !== this.terpilih); if (it) { const u = Math.sin(this.t * 6); it.m.position.y = it.asal.y + Math.max(0, u) * 0.025; it.m.scale.setScalar(1 + 0.07 * u); }
+      }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, tx = r.ox + 3.6, tz = r.oz - 3.2, D = Math.min(3.3, Math.max(1.7, 1.75 / (2 * tf), 2.2 / (2 * tf * asp))), p = THREE.MathUtils.degToRad(62);
+    V.set(tx, 0.3 + D * Math.sin(p), tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(tx, 0.2, tz), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Kelas Tahun 3 Interaktif (v125) =====================
+   Sudut pembelajaran di bahagian hadapan-kanan Kelas Tahun 3 (bilik 'k3'; GLB dalaman k3_interior_*.glb): tikar aktiviti dengan kad ayat, kepingan pecahan dan bakul tugasan.
+   Tindakan "Main di sudut aktiviti Tahun 3" membuka mod (kamera menghampiri tikar dari atas). Pemain mengambil, menyeret, MEMUTAR (ketik kepingan pecahan) dan menyusun objek.
+   Dua aktiviti:
+   1. Bahasa Melayu : susun kad perkataan menjadi ayat lengkap (huruf besar di awal, noktah di hujung): "Ali membaca buku di rumah." dan "Kucing itu minum susu."
+   2. Matematik     : cantumkan kepingan pecahan untuk membentuk satu keseluruhan: 2 x 1/2 dan 4 x 1/4. Setiap kepingan perlu DIPUTAR (ketik, 90 darjah setiap kali) supaya sepadan
+                      dengan petak bulatan sebelum snap. Selepas setiap aktiviti, serahkan buku tugasan ke bakul tugasan.
+   Animasi smooth (angkat, putar, snap melantun), bunyi lembut, maklum balas jawapan (petunjuk apabila salah), petunjuk berdenyut, "Cuba Lagi", bintang 1-3 (State.data.k3Mod)
+   dan ganjaran sedia ada (Peralatan.ganjaran, sekali sehari). Item rata dan kecil, tidak berperlanggaran, supaya laluan, NPC dan Navi tidak berubah.
+   Hanya aktif untuk bilik 'k3' dan hanya jika GLB dalaman k3 berjaya dipasang. Semua dijana oleh kod; tiada aset luar dan tiada internet diperlukan. */
+const K3Mod = {
+  RUG: { x: 3.6, z: -2.9 }, RAIL: { x: 3.6, z: -3.4 }, DISC: { x: 3.6, z: -3.05, r: 0.22 }, BAKUL: { x: 4.3, z: -2.5 }, IDLE_DISC: { x: 3.0, z: -2.62 },
+  AKT: [{ id: 'ayat', nama: 'Susun Ayat (BM)', e: '🔤', ket: 'Susun kad perkataan menjadi ayat lengkap.' },
+    { id: 'pecahan', nama: 'Cantum Pecahan', e: '🍕', ket: 'Putar dan cantum kepingan untuk membentuk satu keseluruhan.' }],
+  WARNA: ['#F7B7C8', '#FFD36B', '#9ED9B8', '#8EC5F0', '#C7B0F0', '#FFB47A'],
+  AYAT: [{ k: ['Ali', 'membaca', 'buku', 'di', 'rumah.'], e: '👦📖🏠' }, { k: ['Kucing', 'itu', 'minum', 'susu.'], e: '🐱🥛' }],
+  PECAHAN: [{ n: 2, rot: [0, 180], teks: '½ + ½ = 1', e: '🍕' }, { n: 4, rot: [0, 90, 180, 270], teks: '¼ + ¼ + ¼ + ¼ = 1', e: '🍰' }],
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, grup: null, item: [], sasaran: [], spark: [], t: 0, hub: true, akt: null, p: 0, salah: 0, sudah: 0, jumlah: 0, hasil: null,
+  pegang: null, ptr: null, asalPos: null, terakhir: 0, terpilih: null, prop: null, fasa: 0,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  el(id) { return document.getElementById(id); },
+  data() { const d = State.data; d.k3Mod = d.k3Mod || { bintang: {} }; d.k3Mod.bintang = d.k3Mod.bintang || {}; return d.k3Mod; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  F: '"Kurland", system-ui, sans-serif',
+  // ---------- tekstur & objek ----------
+  kanvas(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; try { t.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {} return t; },
+  rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); },
+  bahan(c, o) { return new THREE.MeshLambertMaterial(Object.assign({ color: c }, o || {})); },
+  kotakB(w, h, d, c, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.bahan(c)); m.position.set(x, y, z); return m; },
+  papan(w, d, tex, x, y, z) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); m.rotation.x = -Math.PI / 2; m.position.set(x, y, z); return m; },
+  texKata(s, c0) { return this.kanvas(256, 128, (c, w, h) => { c.fillStyle = c0; this.rr(c, 4, 4, w - 8, h - 8, 22); c.fill(); c.fillStyle = 'rgba(255,255,255,0.35)'; this.rr(c, 12, 12, w - 24, 26, 12); c.fill(); c.fillStyle = '#3A2F28'; let fs = 62; c.font = fs + 'px ' + this.F; while (c.measureText(s).width > w - 28 && fs > 24) { fs -= 4; c.font = fs + 'px ' + this.F; } c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); }); },
+  texLubang(s, w2, h2) { return this.kanvas(w2 || 256, h2 || 128, (c, w, h) => { c.fillStyle = 'rgba(122,90,58,0.55)'; this.rr(c, 6, 6, w - 12, h - 12, 20); c.fill(); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 5; c.setLineDash([12, 9]); this.rr(c, 8, 8, w - 16, h - 16, 18); c.stroke(); if (s) { c.setLineDash([]); c.fillStyle = 'rgba(255,255,255,0.55)'; c.font = '56px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 6); } }); },
+  texKad(e, ket, w2, h2) { return this.kanvas(w2 || 256, h2 || 96, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 4, 4, w - 8, h - 8, 16); c.fill(); c.strokeStyle = '#9BD3F5'; c.lineWidth = 6; this.rr(c, 4, 4, w - 8, h - 8, 16); c.stroke(); c.fillStyle = '#000'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '54px sans-serif'; c.fillText(e, w * 0.24, h / 2 + 2); if (ket) { c.fillStyle = '#3A2F28'; let fs = 40; c.font = fs + 'px ' + this.F; while (c.measureText(ket).width > w * 0.55 && fs > 18) { fs -= 3; c.font = fs + 'px ' + this.F; } c.fillText(ket, w * 0.66, h / 2 + 4); } }); },
+  texKulit(e, warna) { return this.kanvas(128, 176, (c, w, h) => { c.fillStyle = warna; c.fillRect(0, 0, w, h); c.fillStyle = 'rgba(255,255,255,0.25)'; c.fillRect(0, 0, 14, h); c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 4; c.strokeRect(22, 14, w - 36, h - 28); c.fillStyle = '#000'; c.font = '56px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(e, w / 2 + 6, h / 2); }); },
+  tanda(teks, w2, h2) { return this.kanvas(w2 || 160, h2 || 52, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 2, 2, w - 4, h - 4, 14); c.fill(); c.strokeStyle = '#E0B36A'; c.lineWidth = 3; this.rr(c, 2, 2, w - 4, h - 4, 14); c.stroke(); c.font = '28px ' + this.F; c.fillStyle = '#7A4A18'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(teks, w / 2, h / 2 + 2); }); },
+  kad(s, warna) {
+    const B = new THREE.Group(), tex = this.texKata(s, warna), mesh = new THREE.Mesh(new THREE.BoxGeometry(0.27, 0.025, 0.13), [this.bahan(warna), this.bahan(warna), new THREE.MeshLambertMaterial({ map: tex }), this.bahan(warna), this.bahan(warna), this.bahan(warna)]); mesh.position.y = 0.0125; B.add(mesh);
+    const it = { m: B, jenis: 'kad', simbol: s, warna, mesh, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0, ang: 0 }; B.userData.item = it; return it;
+  },
+  baji(n, warna) {   // kepingan pecahan: sektor n-bahagian bulatan (apeks pada asal kumpulan); 90 darjah setiap putaran
+    const r = this.DISC.r - 0.01, sh = new THREE.Shape(); sh.moveTo(0, 0); sh.lineTo(r, 0); sh.absarc(0, 0, r, 0, (2 * Math.PI) / n, false); sh.lineTo(0, 0);
+    const g = new THREE.ExtrudeGeometry(sh, { depth: 0.03, bevelEnabled: false }); g.rotateX(-Math.PI / 2);
+    const B = new THREE.Group(), mesh = new THREE.Mesh(g, this.bahan(warna)); B.add(mesh); mesh.position.y = 0;
+    const it = { m: B, jenis: 'pecah', n, warna, mesh, rot: 0, ang: 0, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0 }; B.userData.item = it; return it;
+  },
+  buku(e, warna) {
+    const B = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.03, 0.21), [this.bahan('#FFF3D6'), this.bahan(warna), this.bahan(warna), this.bahan('#FFF3D6'), this.bahan('#FFF3D6'), this.bahan('#FFF3D6')]); body.position.y = 0.015; B.add(body);
+    const cov = new THREE.Mesh(new THREE.PlaneGeometry(0.15, 0.21), new THREE.MeshLambertMaterial({ map: this.texKulit(e, warna) })); cov.rotation.x = -Math.PI / 2; cov.position.y = 0.0305; B.add(cov);
+    const it = { m: B, jenis: 'buku', simbol: null, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0, ang: 0 }; B.userData.item = it; return it;
+  },
+  // ---------- penyediaan ----------
+  sediakan(r) {
+    if (r.id !== 'k3' || !r.glb) return false; const o = r.group.getObjectByName('rak_buku_kecil'), c = r.group.getObjectByName('meja_guru'); if (!o || !c) return false;
+    const b = KomputerPSS.kotakTempatan(o); if (!b || Math.abs(b.min.x - 2.78) > 0.1 || Math.abs(b.max.z - (-3.89)) > 0.1) return false;   // sahkan susun atur GLB k3
+    this.r = r; const G = (this.grup = new THREE.Group()); r.group.add(G); this.prop = { ayat: new THREE.Group(), pecah: new THREE.Group(), tetap: new THREE.Group() }; G.add(this.prop.ayat); G.add(this.prop.pecah); G.add(this.prop.tetap);
+    const R = this.RAIL, D = this.DISC, PA = this.prop.ayat, PP = this.prop.pecah, PT = this.prop.tetap;
+    PA.add(this.kotakB(1.55, 0.02, 0.2, '#C98F56', R.x, 0.019, R.z)); this.lubang = [0, 1, 2, 3, 4].map((i) => { const m = this.papan(0.28, 0.14, this.texLubang(String(i + 1)), R.x + (i - 2) * 0.3, 0.0305, R.z); PA.add(m); return m; });
+    this.hintKad = this.papan(0.62, 0.17, this.texKad('👦📖🏠', 'Ayat lengkap', 256, 96), R.x, 0.12, R.z - 0.22); this.hintKad.rotation.x = -0.35; this.hintKad.position.set(R.x, 0.12, R.z - 0.22); PA.add(this.hintKad);
+    const dasar = new THREE.Mesh(new THREE.CylinderGeometry(D.r + 0.02, D.r + 0.02, 0.012, 32), this.bahan('#8E6B4B')); dasar.position.set(D.x, 0.015, D.z); PP.add(dasar);
+    this.hintKad2 = this.papan(0.62, 0.17, this.texKad('🍕', '½ + ½ = 1', 256, 96), D.x, 0.12, D.z - 0.36); this.hintKad2.rotation.x = -0.35; PP.add(this.hintKad2);
+    this.slotMesh = [];
+    const bk = this.BAKUL, bakul = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.13, 0.1, 18, 1, true), new THREE.MeshLambertMaterial({ color: '#D9A86C', side: THREE.DoubleSide })); bakul.position.set(bk.x, 0.06, bk.z); PT.add(bakul);
+    const dsr = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.01, 18), this.bahan('#B98446')); dsr.position.set(bk.x, 0.015, bk.z); PT.add(dsr);
+    PT.add(this.papan(0.28, 0.085, this.tanda('📥 Bakul Tugasan', 200, 66), bk.x, 0.0106, bk.z + 0.25));
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.016), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    // item: 5 kad ayat, 2 separuh, 4 suku, 1 buku tugasan
+    this.kad5 = [0, 1, 2, 3, 4].map((i) => this.kad(this.AYAT[0].k[i], this.WARNA[i])); this.sep2 = [0, 1].map((i) => this.baji(2, this.WARNA[i + 1])); this.suku4 = [0, 1, 2, 3].map((i) => this.baji(4, this.WARNA[i]));
+    this.bukuT = this.buku('📘', '#8EC5F0');
+    [].concat(this.kad5, this.sep2, this.suku4, [this.bukuT]).forEach((it) => { G.add(it.m); this.item.push(it); });
+    this.tetapkanRumah(); this.tertib(true); this.siap = true; return true;
+  },
+  tetapkanRumah() {   // kedudukan KEMAS semasa rehat: ayat tersusun, bulatan suku lengkap, buku tugasan dalam bakul
+    const R = this.RAIL, I = this.IDLE_DISC, set = (it, x, y, z, ry) => { it.rumah = new THREE.Vector3(x, y, z); it.rumahRy = ry || 0; };
+    this.kad5.forEach((it, i) => set(it, R.x + (i - 2) * 0.3, 0.0305, R.z, 0));
+    this.suku4.forEach((it, i) => set(it, I.x, 0.0105, I.z, (i * Math.PI) / 2)); this.sep2.forEach((it) => set(it, 3.6, 0.0105, -2.55, 0)); set(this.bukuT, this.BAKUL.x, 0.052, this.BAKUL.z, 0.2);
+  },
+  tertib(serta) {
+    this.prop.ayat.visible = true; this.prop.pecah.visible = false; this.prop.tetap.visible = true; this.fasa = 0;
+    this.item.forEach((it) => { it.m.visible = !(it.jenis === 'pecah' && it.n === 2); it.kunciDah = false; it.ang = it.rumahRy; it.rot = ((Math.round(it.rumahRy / (Math.PI / 2)) % 4) + 4) % 4 * 90; it.m.scale.setScalar(1); if (serta) { it.m.position.copy(it.rumah); it.m.rotation.y = it.rumahRy; it.anim = null; } else this.terbang(it, it.rumah, 0.5, 'lantun', 0.08, 1, null, 0, it.rumahRy); it.asal = it.rumah.clone(); it.asalRy = it.rumahRy; });
+    this.setAyat(0);
+  },
+  setAyat(p) { const A = this.AYAT[p]; this.kad5.forEach((it, i) => { const s = A.k[i] || A.k[A.k.length - 1], w = this.WARNA[(i + p * 2) % 6], tex = this.texKata(s, w); it.mesh.material[2].map = tex; it.mesh.material[2].needsUpdate = true; [0, 1, 3, 4, 5].forEach((f) => it.mesh.material[f].color.set(w)); it.simbol = s; it.warna = w; });
+    this.hintKad.material.map = this.texKad(A.e, 'Ayat lengkap', 256, 96); this.hintKad.material.needsUpdate = true; const n = A.k.length; this.lubang.forEach((m, i) => { m.visible = i < n; m.position.x = this.RAIL.x + (i - (n - 1) / 2) * 0.3; }); },
+  // ---------- animasi ----------
+  terbang(it, pos, dur, ease, angkat, skala, selepas, tunda, ry) {
+    it.anim = { t: -(tunda || 0), dur: this.kurang() ? 0.01 : Math.max(0.01, dur), a: it.m.position.clone(), p: pos.clone(), s0: it.m.scale.x, s: skala === undefined ? 1 : skala, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas, ry0: it.m.rotation.y, ry1: ry };
+  },
+  ikutAnim(dt) {
+    this.item.forEach((it) => { const a = it.anim; if (!a) return; a.t += dt; if (a.t < 0) return; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = it.m;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat; const s = a.s0 + (a.s - a.s0) * e; m.scale.setScalar(s);
+      if (a.ry1 !== undefined) m.rotation.y = a.ry0 + (a.ry1 - a.ry0) * e; if (u >= 1) { it.anim = null; m.position.copy(a.p); m.scale.setScalar(a.s); if (a.ry1 !== undefined) m.rotation.y = a.ry1; if (a.selepas) a.selepas(); } });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.4 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+  },
+  percik(pos, bil, warna) { let n = 0; const C = ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A', '#FFB36B']; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.6 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 0.9, 0.6 + Math.random() * 0.8, (Math.random() - 0.5) * 0.9); s.m.material.color.set(warna || C[n % 5]); s.m.scale.setScalar(1); }); },
+  // ---------- buka / tutup ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true; if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.k3; if (!r || Rooms.current !== 'k3' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; setLock('k3'); this.hub = true; this.hasil = null; this.pegang = null; this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.ke = 0; this.hub = false; this.pegang = null; this.terpilih = null; this.sasaran = []; this.akt = null; this.tertib(false); this.domTunjuk(false); this.bunyi('pick'); },
+  // ---------- aktiviti ----------
+  mula(akt) { this.hub = false; this.hasil = null; this.salah = 0; this.akt = akt; this.p = 0; this.bunyi('pick'); this.mulaPusing(); this.segarUI(); },
+  letakAwal(it, x, z, ry, tunda) { const p = new THREE.Vector3(x, 0.0105, z); it.kunciDah = false; it.m.visible = true; it.m.scale.setScalar(0.01); it.m.position.set(x, 0.0105, z); it.ang = ry; it.rot = ((Math.round(ry / (Math.PI / 2)) % 4) + 4) % 4 * 90; it.m.rotation.y = ry; this.terbang(it, p, 0.5, 'lantun', 0.05, 1, null, tunda, ry); it.asal = p.clone(); it.asalRy = ry; },
+  mulaPusing() {
+    this.sudah = 0; this.pegang = null; this.terpilih = null; this.terakhir = this.t; this.sasaran = []; this.fasa = 1; const akt = this.akt, R = this.RAIL, D = this.DISC;
+    this.prop.ayat.visible = akt === 'ayat'; this.prop.pecah.visible = akt === 'pecahan'; this.prop.tetap.visible = true; this.item.forEach((q) => { q.m.visible = false; });
+    if (akt === 'ayat') {
+      const A = this.AYAT[this.p], n = A.k.length; this.setAyat(this.p); this.jumlah = n; const kad = this.kad5.slice(0, n), pos = this.shuffle([[2.95, -2.85], [3.35, -2.6], [3.8, -2.85], [4.2, -2.6], [3.6, -2.55]]).slice(0, n);
+      kad.forEach((it, i) => this.letakAwal(it, pos[i][0], pos[i][1], (Math.random() - 0.5) * 0.3, i * 0.08)); this.shuffleKad = kad;
+      A.k.forEach((w, i) => this.sasaran.push({ kunci: 'slot', kata: w, pos: new THREE.Vector3(R.x + (i - (n - 1) / 2) * 0.3 + (n === 5 ? 0 : 0), 0.0305, R.z), R: 0.16, isi: null }));
+      this.teks = this.p === 0 ? 'Susun kad perkataan menjadi ayat lengkap! Mulakan dengan huruf besar, akhiri dengan noktah. 📖' : 'Pusingan 2: susun ayat yang baharu! 🐱';
+    } else {
+      const P = this.PECAHAN[this.p], set = P.n === 2 ? this.sep2 : this.suku4; this.jumlah = P.n; this.hintKad2.material.map = this.texKad(P.e, P.teks, 256, 96); this.hintKad2.material.needsUpdate = true;
+      const pos = this.shuffle([[3.0, -2.55], [3.5, -2.45], [4.0, -2.55], [4.3, -2.9]]);
+      set.forEach((it, i) => this.letakAwal(it, pos[i][0], pos[i][1], ((i + 1 + Math.floor(Math.random() * 3)) % 4) * (Math.PI / 2), i * 0.1));
+      P.rot.forEach((rt) => this.sasaran.push({ kunci: 'baji', n: P.n, rot: rt, pos: new THREE.Vector3(D.x, 0.0105 + 0.002, D.z), R: 0.36, isi: null }));
+      this.slotMesh.forEach((m) => { m.parent && m.parent.remove(m); }); this.slotMesh = [];
+      P.rot.forEach((rt) => { const m = this.baji(P.n, '#000000').mesh, ghost = new THREE.Mesh(m.geometry, new THREE.MeshBasicMaterial({ color: '#5A4030', transparent: true, opacity: 0.55 })); ghost.position.set(D.x, 0.0225, D.z); ghost.rotation.y = rt * Math.PI / 180; this.prop.pecah.add(ghost); this.slotMesh.push(ghost); });
+      this.teks = 'Ketik kepingan untuk memutarnya, kemudian seret ke bulatan supaya sepadan! ' + P.e;
+    }
+    this.tunjukBaris(this.teks, 'maklum', 5600);
+  },
+  sasaranDekat(it) {   // slot terdekat dengan kedudukan item (apeks kepingan / pusat kad) dalam jejari
+    let best = null, bd = 9; const p = it.m.position; this.sasaran.forEach((T) => { if (T.isi) return; if (T.kunci === 'baji') { if (it.jenis !== 'pecah' || it.n !== T.n) return; } const d = Math.hypot(T.pos.x - p.x, T.pos.z - p.z); const pref = (T.kunci === 'baji' && it.rot === T.rot) ? -0.01 : 0; if (d + pref < bd && d < T.R) { bd = d + pref; best = T; } });
+    if (!best) { this.sasaran.forEach((T) => { if (T.kunci === 'bakul') { const d = Math.hypot(T.pos.x - p.x, T.pos.z - p.z); if (d < T.R && d < bd) { bd = d; best = T; } } }); }
+    return best;
+  },
+  boleh(it, T) {
+    if (T.kunci === 'slot') return it.jenis === 'kad' && it.simbol === T.kata;
+    if (T.kunci === 'baji') return it.jenis === 'pecah' && it.n === T.n && it.rot === T.rot && !T.isi;
+    if (T.kunci === 'bakul') return it.jenis === 'buku'; return false;
+  },
+  puji() { const L = ['Betul! 🎉', 'Bagus! ⭐', 'Tepat sekali! 👏', 'Hebat! 🌟', 'Cemerlang! 🥳']; this.tunjukBaris(L[Math.floor(Math.random() * L.length)], 'baik', 1300); },
+  petunjukSalah(it, T) {
+    if (T.kunci === 'bakul') return 'Hanya buku tugasan masuk ke bakul. 😊';
+    if (T.kunci === 'baji') return 'Hampir! Ketik kepingan untuk memutarnya sehingga sisi lurus sepadan dengan petak bulatan. 🔄';
+    return 'Cuba lagi! Ayat bermula dengan huruf besar dan berakhir dengan noktah. Baca petunjuk gambar. 😊';
+  },
+  letak(it, T) {
+    if (!T) { this.pulang(it, false); return; }
+    if (!this.boleh(it, T)) { this.salah++; this.salahBalik(it, T); return; }
+    it.kunciDah = true; this.pegang = null; this.terpilih = null; this.terakhir = this.t; let p, ry = it.ang;
+    if (T.kunci === 'slot') { T.isi = it; p = new THREE.Vector3(T.pos.x, 0.0305, T.pos.z); ry = 0; } else if (T.kunci === 'baji') { T.isi = it; p = new THREE.Vector3(T.pos.x, 0.0105, T.pos.z); } else { p = new THREE.Vector3(T.pos.x, 0.052, T.pos.z); ry = 0.2; }
+    this.terbang(it, p, 0.5, 'lantun', 0.1, 1, () => { this.percik(new THREE.Vector3(p.x, p.y + 0.08, p.z), 7); }, 0, ry);
+    this.bunyi('ok'); this.puji();
+    if (T.kunci === 'bakul') { this.sudah = this.jumlah; this.segarUI(); setTimeout(() => this.tamatPusing(), 800); return; }
+    this.sudah++; this.segarUI(); if (this.sudah >= this.jumlah) setTimeout(() => this.selesaiPusing(), 800);
+  },
+  salahBalik(it, T) { this.pegang = null; this.terpilih = null; this.bunyi('pick'); this.tunjukBaris(this.petunjukSalah(it, T), 'cuba', 3800); const m = it.m, r0 = it.ang; let n = 0; const id = setInterval(() => { n++; m.rotation.y = r0 + Math.sin(n * 1.6) * 0.2 * (1 - n / 8); if (n >= 8) { clearInterval(id); m.rotation.y = r0; } }, 40); this.terbang(it, it.asal, 0.55, 'lantun', 0.08, 1, null, 0, it.ang); this.terakhir = this.t; },
+  pulang(it, senyap) { this.pegang = null; this.terpilih = null; this.terbang(it, it.asal, 0.45, 'lantun', 0.05, 1, null, 0, it.ang); if (!senyap) this.bunyi('pick'); },
+  putar(it) {   // ketik kepingan pecahan: putar 90 darjah dengan animasi smooth
+    if (it.jenis !== 'pecah' || it.anim) return; it.ang += Math.PI / 2; it.rot = (it.rot + 90) % 360; it.asalRy = it.ang; this.bunyi('pick'); this.terakhir = this.t; this.terbang(it, it.m.position.clone(), 0.35, 'lantun', 0.05, 1, null, 0, it.ang);
+  },
+  selesaiPusing() {   // semua kepingan / kad betul: pusingan seterusnya atau serahkan buku tugasan
+    if (!this.aktif || this.hub) return; const akt = this.akt;
+    if ((akt === 'ayat' && this.p === 0) || (akt === 'pecahan' && this.p === 0)) {
+      this.bunyi('naik'); this.percik(new THREE.Vector3(akt === 'ayat' ? this.RAIL.x : this.DISC.x, 0.3, akt === 'ayat' ? this.RAIL.z : this.DISC.z), 16); this.tunjukBaris('Pusingan 2! 🎈', 'baik', 1800);
+      this.item.filter((q) => q.kunciDah).forEach((q, i) => this.terbang(q, q.m.position.clone(), 0.3, 'masuk', 0, 0.01, null, i * 0.04, q.ang)); setTimeout(() => { if (this.aktif && !this.hub && this.akt === akt) { this.p = 1; this.mulaPusing(); this.segarUI(); } }, 700); return;
+    }
+    this.fasa = 2; this.sasaran = []; this.item.forEach((q) => { if (q.jenis !== 'buku') q.m.visible = q.kunciDah; }); this.sasaran.push({ kunci: 'bakul', pos: new THREE.Vector3(this.BAKUL.x, 0.05, this.BAKUL.z), R: 0.25, isi: 0 });
+    this.jumlah = 1; this.sudah = 0; this.letakAwal(this.bukuT, 3.5, -2.55, 0.3, 0.2); this.tunjukBaris('Serahkan buku tugasan ke dalam bakul tugasan! 📥', 'maklum', 4200); this.segarUI();
+  },
+  tamatPusing() {
+    if (!this.aktif || this.hub) return;
+    const s = this.salah <= 1 ? 3 : (this.salah <= 4 ? 2 : 1), D = this.data(), lama = D.bintang[this.akt] || 0; D.bintang[this.akt] = Math.max(lama, s);
+    try { Kiraan.tambah('k3Main'); } catch (e) {} const kunci = { ayat: 'k3Ayat', pecahan: 'k3Pecahan' }[this.akt], teks = { ayat: '+1 Ilmu: pandai menyusun ayat lengkap', pecahan: '+1 Ilmu: pandai mencantum pecahan' }[this.akt];
+    const diberi = this.ganjaran(kunci, { ilmu: 1 }, teks), semua = this.AKT.every((a) => (D.bintang[a.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('k3Semua', { ilmu: 1, kebaikan: 1 }, '+1 Ilmu +1 Kebaikan: Murid Tahun 3 Rajin!');
+    try { Save.save(); } catch (e) {} this.bunyi('naik'); this.percik(new THREE.Vector3(this.RUG.x, 0.3, this.RUG.z), 24); this.hasil = { akt: this.akt, s, salah: this.salah, diberi, bonus, ganj: '+1 Ilmu' }; this.segarUI();
+  },
+  // ---------- UI ----------
+  domTunjuk(on) { const L = this.el('k3Lapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); },
+  tunjukBaris(teks, jenis, ms) { const e = this.el('k3Baris'); if (!e) return; e.textContent = teks; e.className = 'k3Baris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, ms || 3000); },
+  segarUI() {
+    if (!this.aktif) return; const D = this.data(), H = this.el('k3Pusat'), A = this.AKT.find((a) => a.id === this.akt); H.hidden = !(this.hub || this.hasil);
+    if (this.hasil) {
+      const h = this.hasil, a = this.AKT.find((x) => x.id === h.akt), idx = this.AKT.indexOf(a), nx = this.AKT[idx + 1];
+      H.innerHTML = '<div class="k3Kad"><div class="k3Jdl">Hebat! 🎉</div><div class="k3Nama">' + a.e + ' ' + a.nama + '</div><div class="k3Bintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="k3Msg">' + (h.salah === 0 ? 'Tiada silap langsung! 👏' : 'Bagus! Cuba lagi untuk dapat lebih bintang.') + '</div><div class="k3Ganjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: ' + h.ganj + (h.bonus ? ' dan bonus Murid Tahun 3 Rajin!' : '') : 'Ganjaran hari ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="k3Btns"><button class="btn k3Besar" data-a="ulang">🔁 Cuba Lagi</button>' + (nx ? '<button class="btn k3Besar k3Hijau" data-a="mula:' + nx.id + '">➡ ' + nx.nama + '</button>' : '') + '<button class="btn k3Besar" data-a="hub">🏠 Menu</button></div></div>';
+    } else if (this.hub) {
+      const n = this.AKT.filter((a) => (D.bintang[a.id] || 0) > 0).length;
+      H.innerHTML = '<div class="k3Kad"><div class="k3Jdl">🧸 Sudut Pembelajaran Tahun 3</div><div class="k3Msg">Pilih satu aktiviti! Siap ' + n + ' / 2 ⭐</div><div class="k3Grid">' +
+        this.AKT.map((a) => { const s = D.bintang[a.id] || 0; return '<button class="k3Card" data-a="mula:' + a.id + '"><span class="k3E">' + a.e + '</span><b>' + a.nama + '</b><small>' + a.ket + '</small><span class="k3S">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') + '</div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    this.el('k3Tajuk').textContent = (!this.hub && A) ? A.e + ' ' + A.nama + (!this.hasil && this.fasa === 1 ? ' · Pusingan ' + (this.p + 1) + '/2' : '') : '🧸 Sudut Pembelajaran';
+    this.el('k3Jejak').innerHTML = (!this.hub && !this.hasil && this.jumlah) ? Array.from({ length: this.jumlah }, (_, i) => '<i class="' + (i < this.sudah ? 'on' : '') + '"></i>').join('') : '';
+    this.el('k3Ulang').hidden = this.hub || !!this.hasil;
+  },
+  aksi(a) { this.bunyi('pick'); if (a === 'hub') { this.hasil = null; this.hub = true; this.akt = null; this.sasaran = []; this.tertib(false); this.segarUI(); } else if (a === 'ulang') { if (this.akt) this.mula(this.akt); } else if (a.startsWith('mula:')) this.mula(a.slice(5)); },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const itemDi = (o) => { while (o) { if (o.userData && o.userData.item) return o.userData.item; o = o.parent; } return null; };
+    const dataran = (e, y) => { const r = sinar(e), p = new THREE.Vector3(), pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -y); if (!r.ray.intersectPlane(pl, p)) return null; return new THREE.Vector3(p.x - self.r.ox, y, p.z - self.r.oz); };
+    const hitItem = (e) => { const ms = self.item.filter((it) => !it.kunciDah && it.m.visible).map((it) => it.m), h = sinar(e).intersectObjects(ms, true)[0]; return h ? itemDi(h.object) : null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .k3Kad')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.hasil) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.terakhir = self.t; const it = hitItem(e); self.ptr = { x: e.clientX, y: e.clientY, it, seret: false, off: null };
+      if (it) { if (self.terpilih && self.terpilih !== it) self.pulang(self.terpilih, true); self.pegang = it; it.anim = null; self.terpilih = null; const p = dataran(e, 0.1); self.ptr.off = p ? new THREE.Vector3(it.m.position.x - p.x, 0, it.m.position.z - p.z) : new THREE.Vector3(); if (it.jenis !== 'pecah') self.bunyi('pick'); }
+      else if (self.terpilih) { self.letak(self.terpilih, self.sasaranDekat(self.terpilih)); }
+    });
+    L.addEventListener('pointermove', (e) => {
+      const P = self.ptr; if (!P || !P.it || !self.pegang) return; const it = P.it; if (!P.seret && Math.hypot(e.clientX - P.x, e.clientY - P.y) > 8) { P.seret = true; it.anim = null; it.m.scale.setScalar(1.2); self.bunyi('pick'); }
+      if (P.seret) { const p = dataran(e, 0.1); if (p) { const q = new THREE.Vector3(p.x + P.off.x, 0.2, p.z + P.off.z); it.m.position.lerp(q, 0.6); } }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !P.it || !self.aktif || self.hub || self.hasil) return; const it = P.it; if (self.pegang !== it) return;
+      if (P.seret) { it.m.scale.setScalar(1); it.m.position.y = 0.0105; self.letak(it, self.sasaranDekat(it)); }
+      else { self.pegang = null; if (it.jenis === 'pecah') self.putar(it); else { self.terpilih = it; self.terbang(it, new THREE.Vector3(it.m.position.x, 0.16, it.m.position.z), 0.25, 'lantun', 0, 1.2, null, 0, it.ang); self.tunjukBaris('Sekarang ketik tempat yang betul! 👆', 'maklum', 2500); } }
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { const it = self.ptr && self.ptr.it; self.ptr = null; if (it && self.pegang === it) self.pulang(it, true); });
+    this.el('k3Keluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('k3Ulang').addEventListener('click', (e) => { e.stopPropagation(); self.bunyi('pick'); if (self.akt) self.mula(self.akt); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'k3' && Rooms.list && Rooms.list.k3 && Rooms.list.k3.group) { try { if (!this.sediakan(Rooms.list.k3)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.item = []; this.sasaran = []; this.spark = []; return; }
+    if (!this.siap) return; this.t += dt; this.ikutAnim(dt);
+    if (this.aktif && (Rooms.current !== 'k3' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      if (this.aktif && this.akt && !this.hub && !this.hasil && !this.pegang && this.t - this.terakhir > 9) {
+        const it = this.item.find((q) => !q.kunciDah && q.m.visible && !q.anim && q !== this.terpilih); if (it) { const u = Math.sin(this.t * 6); it.m.position.y = it.asal.y + Math.max(0, u) * 0.025; it.m.scale.setScalar(1 + 0.07 * u); }
+      }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3();
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, tx = r.ox + 3.6, tz = r.oz - 3.2, D = Math.min(3.3, Math.max(1.7, 1.75 / (2 * tf), 2.2 / (2 * tf * asp))), p = THREE.MathUtils.degToRad(62);
+    V.set(tx, 0.3 + D * Math.sin(p), tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(tx, 0.2, tz), e); camera.lookAt(V2);
+  }
+};
+
+/* ===================== Kelas Tahun 4 Interaktif (v126) =====================
+   Sudut pembelajaran di bahagian hadapan-kanan Kelas Tahun 4 (bilik 'k4'; GLB dalaman k4_interior_*.glb): tikar aktiviti dengan kad perkataan, pembaris, pita ukur dan objek ukuran.
+   Tindakan "Main di sudut aktiviti Tahun 4" membuka mod (kamera menghampiri tikar dari atas). Pemain mengambil, menyeret, MEMUTAR (ketik objek / alat) dan meletakkan objek.
+   Dua aktiviti:
+   1. Bahasa Melayu : susun kad SUBJEK dan PREDIKAT untuk membina ayat lengkap (3 pusingan, setiap pusingan ada kad pengganggu): Ibu memasak nasi. / Burung terbang tinggi. / Murid itu membaca buku.
+   2. Matematik     : ukur panjang objek 3D dengan PEMBARIS (30 cm) atau PITA UKUR (100 cm), kemudian pilih jawapan yang betul (3 pusingan): pensil 12 cm, kotak alat tulis 20 cm (pembaris), reben 45 cm (pita ukur).
+                      Objek dan alat dimodelkan TEPAT: 1 unit = 1 m, tanda alat setiap 1 cm = 0.01 unit; sifar alat dijajarkan dengan hujung kiri objek (snap), garis merah menunjukkan hujung objek.
+                      Objek mesti diputar supaya mendatar (ketik, 90 darjah setiap kali) sebelum diukur; butang "Dekatkan" mengezum kamera supaya tanda mudah dibaca.
+   Animasi smooth (angkat, putar, snap melantun), bunyi lembut, maklum balas segera, petunjuk berdenyut, "Cuba Lagi", bintang 1-3 (State.data.k4Mod) dan ganjaran sedia ada
+   (Peralatan.ganjaran, sekali sehari). Item rata dan kecil, tidak berperlanggaran, supaya laluan, NPC dan Navi tidak berubah.
+   Hanya aktif untuk bilik 'k4' dan hanya jika GLB dalaman k4 berjaya dipasang. Semua dijana oleh kod; tiada aset luar dan tiada internet diperlukan. */
+const K4Mod = {
+  RUG: { x: 3.6, z: -2.9 }, RAIL: { x: 3.6, z: -3.4 }, OBJ: { x: 2.9, z: -3.05 },
+  AKT: [{ id: 'ayat', nama: 'Subjek + Predikat (BM)', e: '🔤', ket: 'Susun kad subjek dan predikat untuk membina ayat lengkap.' },
+    { id: 'ukur', nama: 'Ukur Panjang', e: '📏', ket: 'Ukur panjang objek dengan pembaris atau pita ukur, kemudian pilih jawapan.' }],
+  KATA: [{ e: '👩‍🍳🍚', s: 'Ibu', p: 'memasak nasi.', sx: 'Burung', px: 'terbang tinggi.' }, { e: '🐦☁️', s: 'Burung', p: 'terbang tinggi.', sx: 'Ayah', px: 'memandu kereta.' }, { e: '📚🧒', s: 'Murid itu', p: 'membaca buku.', sx: 'Kucing', px: 'menangkap tikus.' }],
+  UKUR: [{ id: 'pensil', nama: 'pensil', cm: 12, alat: 'pembaris', w: 0.016, h: 0.016, c: '#FFD36B' }, { id: 'kotak', nama: 'kotak alat tulis', cm: 20, alat: 'pembaris', w: 0.06, h: 0.03, c: '#F5A9B8' }, { id: 'reben', nama: 'reben', cm: 45, alat: 'pita', w: 0.03, h: 0.006, c: '#8EC5F0' }],
+  siap: false, gagal: false, aktif: false, k: 0, ke: 0, r: null, grup: null, item: [], sasaran: [], spark: [], t: 0, hub: true, akt: null, p: 0, salah: 0, sudah: 0, jumlah: 0, hasil: null,
+  pegang: null, ptr: null, asalPos: null, terakhir: 0, terpilih: null, prop: null, fasa: 0, zum: false, zk: 0, alatTerkunci: null, terkunci: false,
+  kurang() { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } },
+  el(id) { return document.getElementById(id); },
+  data() { const d = State.data; d.k4Mod = d.k4Mod || { bintang: {} }; d.k4Mod.bintang = d.k4Mod.bintang || {}; return d.k4Mod; },
+  hari() { const d = State.data; return Hari.aktif() ? 'h' + d.hari.ke : 'b' + Math.floor(d.masaMain / 600); },
+  bunyi(n) { try { Sound.play(n); } catch (e) {} },
+  ganjaran(kunci, g, mesej) { const d = State.data; d.alat = d.alat || {}; if (d.alat[kunci] === this.hari()) return false; try { Peralatan.ganjaran(kunci, g, mesej); } catch (e) { return false; } return true; },
+  ease: { keluar: (t) => 1 - Math.pow(1 - t, 3), masuk: (t) => t * t * (3 - 2 * t), lantun: (t) => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); } },
+  shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; },
+  F: '"Kurland", system-ui, sans-serif',
+  // ---------- tekstur & objek ----------
+  kanvas(w, h, fn) { const c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.minFilter = THREE.LinearFilter; t.generateMipmaps = false; try { t.anisotropy = renderer.capabilities.getMaxAnisotropy(); } catch (e) {} return t; },
+  rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); },
+  bahan(c, o) { return new THREE.MeshLambertMaterial(Object.assign({ color: c }, o || {})); },
+  kotakB(w, h, d, c, x, y, z) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), this.bahan(c)); m.position.set(x, y, z); return m; },
+  papan(w, d, tex, x, y, z) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: tex, transparent: true })); m.rotation.x = -Math.PI / 2; m.position.set(x, y, z); return m; },
+  texKata(s, c0, w2) { return this.kanvas(w2 || 256, 128, (c, w, h) => { c.fillStyle = c0; this.rr(c, 4, 4, w - 8, h - 8, 22); c.fill(); c.fillStyle = 'rgba(255,255,255,0.35)'; this.rr(c, 12, 12, w - 24, 26, 12); c.fill(); c.fillStyle = '#3A2F28'; let fs = 62; c.font = fs + 'px ' + this.F; while (c.measureText(s).width > w - 28 && fs > 22) { fs -= 4; c.font = fs + 'px ' + this.F; } c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 8); }); },
+  texLubang(s, w2, h2) { return this.kanvas(w2 || 256, h2 || 128, (c, w, h) => { c.fillStyle = 'rgba(122,90,58,0.55)'; this.rr(c, 6, 6, w - 12, h - 12, 20); c.fill(); c.strokeStyle = 'rgba(255,255,255,0.8)'; c.lineWidth = 5; c.setLineDash([12, 9]); this.rr(c, 8, 8, w - 16, h - 16, 18); c.stroke(); if (s) { c.setLineDash([]); c.fillStyle = 'rgba(255,255,255,0.6)'; c.font = '38px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(s, w / 2, h / 2 + 4); } }); },
+  texKad(e, ket, w2, h2) { return this.kanvas(w2 || 256, h2 || 96, (c, w, h) => { c.fillStyle = '#FFFFFF'; this.rr(c, 4, 4, w - 8, h - 8, 16); c.fill(); c.strokeStyle = '#9BD3F5'; c.lineWidth = 6; this.rr(c, 4, 4, w - 8, h - 8, 16); c.stroke(); c.fillStyle = '#000'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '50px sans-serif'; c.fillText(e, w * 0.26, h / 2 + 2); if (ket) { c.fillStyle = '#3A2F28'; let fs = 38; c.font = fs + 'px ' + this.F; while (c.measureText(ket).width > w * 0.5 && fs > 16) { fs -= 3; c.font = fs + 'px ' + this.F; } c.fillText(ket, w * 0.7, h / 2 + 4); } }); },
+  texPembaris(panjangCm) {   // pembaris: sifar pada 1 cm dari hujung kiri; 1 cm = 40 px; nombor setiap cm
+    const pad = 1, W = (panjangCm + 2 * pad) * 40; return this.kanvas(W, 128, (c, w, h) => { c.fillStyle = '#FFE9A0'; c.fillRect(0, 0, w, h); c.strokeStyle = '#E0B955'; c.lineWidth = 4; c.strokeRect(2, 2, w - 4, h - 4); c.fillStyle = '#4A3A28'; c.strokeStyle = '#4A3A28';
+      for (let i = 0; i <= panjangCm; i++) { const x = (pad + i) * 40, tall = i % 5 === 0 ? 46 : 26; c.lineWidth = 3; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, tall); c.stroke(); if (i > 0 || true) { c.font = (i % 5 === 0 ? '28px ' : '20px ') + this.F; c.textAlign = 'center'; c.textBaseline = 'top'; c.fillText(String(i), x, 52); } } c.font = '22px ' + this.F; c.textAlign = 'right'; c.fillText('cm', w - 10, 98); });
+  },
+  texPita(panjangCm) {   // pita ukur: sifar pada hujung kiri pita; 1 cm = 40 px; nombor setiap 5 cm
+    const pad = 1, W = (panjangCm + 2 * pad) * 40; return this.kanvas(W, 96, (c, w, h) => { c.fillStyle = '#FFF3C8'; c.fillRect(0, 0, w, h); c.fillStyle = '#D9534F'; c.fillRect(0, 0, 3, h); c.strokeStyle = '#4A3A28'; c.fillStyle = '#4A3A28';
+      for (let i = 0; i <= panjangCm; i++) { const x = (pad + i) * 40, tall = i % 10 === 0 ? 44 : (i % 5 === 0 ? 34 : 20); c.lineWidth = 3; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, tall); c.stroke(); if (i % 5 === 0) { c.font = '26px ' + this.F; c.textAlign = 'center'; c.textBaseline = 'top'; c.fillText(String(i), x, 48); } } });
+  },
+  kad(s, warna, jenis) {
+    const B = new THREE.Group(), lebar = jenis === 'predikat' ? 0.62 : 0.34, tex = this.texKata(s, warna, jenis === 'predikat' ? 384 : 256), mesh = new THREE.Mesh(new THREE.BoxGeometry(lebar, 0.025, 0.13), [this.bahan(warna), this.bahan(warna), new THREE.MeshLambertMaterial({ map: tex }), this.bahan(warna), this.bahan(warna), this.bahan(warna)]); mesh.position.y = 0.0125; B.add(mesh);
+    const it = { m: B, jenis: 'kad', peranan: jenis, simbol: s, warna, mesh, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0, ang: 0, rot: 0 }; B.userData.item = it; return it;
+  },
+  objek(u) {   // objek ukuran: asal pada hujung kiri, memanjang ke +x sepanjang cm/100 unit
+    const B = new THREE.Group(), L = u.cm / 100, body = new THREE.Mesh(new THREE.BoxGeometry(L, u.h, u.w), this.bahan(u.c)); body.position.set(L / 2, u.h / 2, 0); B.add(body);
+    if (u.id === 'pensil') { const t = new THREE.Mesh(new THREE.BoxGeometry(0.012, u.h, u.w), this.bahan('#F2C9A0')); t.position.set(L - 0.006, u.h / 2, 0); B.add(t); const g = new THREE.Mesh(new THREE.BoxGeometry(0.012, u.h + 0.001, u.w + 0.001), this.bahan('#F5A9B8')); g.position.set(0.006, u.h / 2, 0); B.add(g); }
+    if (u.id === 'kotak') { const tut = new THREE.Mesh(new THREE.BoxGeometry(L + 0.004, 0.008, u.w + 0.004), this.bahan('#F2A93B')); tut.position.set(L / 2, u.h + 0.004, 0); B.add(tut); }
+    const it = { m: B, jenis: 'objek', id: u.id, cm: u.cm, alat: u.alat, simbol: null, mesh: body, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0, ang: 0, rot: 0, u }; B.userData.item = it; return it;
+  },
+  alat(jenis) {   // asal kumpulan = TANDA SIFAR; 1 cm = 0.01 unit; memanjang ke +x
+    const B = new THREE.Group(); let L, W2, tex, bodyCol;
+    if (jenis === 'pembaris') { L = 0.32; W2 = 0.04; tex = this.texPembaris(30); bodyCol = '#FFE9A0'; } else { L = 1.02; W2 = 0.03; tex = this.texPita(100); bodyCol = '#FFF3C8'; }
+    const body = new THREE.Mesh(new THREE.BoxGeometry(L, 0.006, W2), this.bahan(bodyCol)); body.position.set(L / 2 - 0.01, 0.003, 0); B.add(body);
+    const pl = new THREE.Mesh(new THREE.PlaneGeometry(L, W2), new THREE.MeshLambertMaterial({ map: tex })); pl.rotation.x = -Math.PI / 2; pl.position.set(L / 2 - 0.01, 0.0062, 0); B.add(pl);
+    if (jenis === 'pita') { const kes = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.03, 0.06), this.bahan('#FFD54A')); kes.position.set(-0.07, 0.015, 0); B.add(kes); const kait = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.012, W2 + 0.004), this.bahan('#B9B9B9')); kait.position.set(-0.012, 0.006, 0); B.add(kait); }
+    const it = { m: B, jenis: 'alat', jenisAlat: jenis, panjang: jenis === 'pembaris' ? 0.30 : 1.0, simbol: null, anim: null, kunciDah: false, asal: null, rumah: null, rumahRy: 0, ang: 0, rot: 0 }; B.userData.item = it; return it;
+  },
+  // ---------- penyediaan ----------
+  sediakan(r) {
+    if (r.id !== 'k4' || !r.glb) return false; const o = r.group.getObjectByName('rak_buku_kecil'), c = r.group.getObjectByName('meja_guru'); if (!o || !c) return false;
+    const b = KomputerPSS.kotakTempatan(o); if (!b || Math.abs(b.min.x - 2.78) > 0.1 || Math.abs(b.max.z - (-3.89)) > 0.1) return false;   // sahkan susun atur GLB k4
+    this.r = r; const G = (this.grup = new THREE.Group()); r.group.add(G); this.prop = { ayat: new THREE.Group(), ukur: new THREE.Group() }; G.add(this.prop.ayat); G.add(this.prop.ukur);
+    const R = this.RAIL, PA = this.prop.ayat, PU = this.prop.ukur;
+    PA.add(this.kotakB(1.3, 0.02, 0.2, '#C98F56', R.x, 0.019, R.z)); this.slotS = this.papan(0.38, 0.15, this.texLubang('SUBJEK'), R.x - 0.46, 0.0305, R.z); this.slotP = this.papan(0.66, 0.15, this.texLubang('PREDIKAT'), R.x + 0.3, 0.0305, R.z); PA.add(this.slotS); PA.add(this.slotP);
+    this.hintKad = this.papan(0.62, 0.17, this.texKad('👩‍🍳🍚', 'Bina ayat', 256, 96), R.x, 0.12, R.z - 0.22); this.hintKad.rotation.x = -0.35; PA.add(this.hintKad);
+    // ukur: garis mula (tanda sifar objek) dan garis hujung (merah) yang menunjukkan panjang objek pada alat
+    this.garisMula = this.kotakB(0.004, 0.002, 0.14, '#3A8BDB', this.OBJ.x, 0.012, this.OBJ.z + 0.035); PU.add(this.garisMula);
+    this.garisHujung = this.kotakB(0.004, 0.004, 0.13, '#E8403F', this.OBJ.x, 0.014, this.OBJ.z + 0.035); this.garisHujung.visible = false; PU.add(this.garisHujung);
+    for (let i = 0; i < 24; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.016), new THREE.MeshBasicMaterial({ color: '#FFD84D' })); m.visible = false; G.add(m); this.spark.push({ m, l: 0, v: new THREE.Vector3() }); }
+    // item
+    this.kad4 = [this.kad('Ibu', '#F7B7C8', 'subjek'), this.kad('Burung', '#F7B7C8', 'subjek'), this.kad('memasak nasi.', '#9BD3F5', 'predikat'), this.kad('terbang tinggi.', '#9BD3F5', 'predikat')];
+    this.obj3 = this.UKUR.map((u) => this.objek(u)); this.alat2 = [this.alat('pembaris'), this.alat('pita')];
+    [].concat(this.kad4, this.obj3, this.alat2).forEach((it) => { G.add(it.m); this.item.push(it); });
+    this.tetapkanRumah(); this.tertib(true); this.siap = true; return true;
+  },
+  tetapkanRumah() {   // kedudukan KEMAS semasa rehat: ayat tersusun, alat dan objek berbaris rapi
+    const R = this.RAIL, set = (it, x, y, z, ry) => { it.rumah = new THREE.Vector3(x, y, z); it.rumahRy = ry || 0; };
+    set(this.kad4[0], R.x - 0.46, 0.0305, R.z, 0); set(this.kad4[2], R.x + 0.3, 0.0305, R.z, 0); set(this.kad4[1], 3.0, 0.0105, -2.45, 0); set(this.kad4[3], 3.75, 0.0105, -2.45, 0);
+    set(this.obj3[0], 2.85, 0.0105, -3.05, 0); set(this.obj3[1], 3.1, 0.0105, -3.05, 0); set(this.obj3[2], 3.5, 0.0105, -3.05, 0); set(this.alat2[0], 3.0, 0.0105, -2.82, 0); set(this.alat2[1], 3.0, 0.0105, -2.66, 0);
+  },
+  tertib(serta) {
+    this.prop.ayat.visible = true; this.prop.ukur.visible = false; this.fasa = 0; this.zum = false; this.terkunci = false;
+    this.item.forEach((it) => { it.m.visible = true; it.kunciDah = false; it.ang = it.rumahRy; it.rot = 0; it.m.scale.setScalar(1); if (serta) { it.m.position.copy(it.rumah); it.m.rotation.y = it.rumahRy; it.anim = null; } else this.terbang(it, it.rumah, 0.5, 'lantun', 0.08, 1, null, 0, it.rumahRy); it.asal = it.rumah.clone(); it.asalRy = it.rumahRy; });
+    this.setKata(0); this.garisHujung.visible = false; this.tutupPilihan();
+  },
+  setKata(p) { const K = this.KATA[p], S = [K.s, K.sx, K.p, K.px]; this.kad4.forEach((it, i) => { const tex = this.texKata(S[i], it.warna, it.peranan === 'predikat' ? 384 : 256); it.mesh.material[2].map = tex; it.mesh.material[2].needsUpdate = true; it.simbol = S[i]; });
+    this.hintKad.material.map = this.texKad(K.e, 'Bina ayat', 256, 96); this.hintKad.material.needsUpdate = true; },
+  // ---------- animasi ----------
+  terbang(it, pos, dur, ease, angkat, skala, selepas, tunda, ry) {
+    it.anim = { t: -(tunda || 0), dur: this.kurang() ? 0.01 : Math.max(0.01, dur), a: it.m.position.clone(), p: pos.clone(), s0: it.m.scale.x, s: skala === undefined ? 1 : skala, ease: this.ease[ease || 'masuk'], angkat: angkat || 0, selepas, ry0: it.m.rotation.y, ry1: ry };
+  },
+  ikutAnim(dt) {
+    this.item.forEach((it) => { const a = it.anim; if (!a) return; a.t += dt; if (a.t < 0) return; const u = Math.min(1, a.t / a.dur), e = a.ease(u), m = it.m;
+      m.position.x = a.a.x + (a.p.x - a.a.x) * e; m.position.z = a.a.z + (a.p.z - a.a.z) * e; m.position.y = a.a.y + (a.p.y - a.a.y) * e + Math.sin(Math.PI * u) * a.angkat; const s = a.s0 + (a.s - a.s0) * e; m.scale.setScalar(s);
+      if (a.ry1 !== undefined) m.rotation.y = a.ry0 + (a.ry1 - a.ry0) * e; if (u >= 1) { it.anim = null; m.position.copy(a.p); m.scale.setScalar(a.s); if (a.ry1 !== undefined) m.rotation.y = a.ry1; if (a.selepas) a.selepas(); } });
+    this.spark.forEach((s) => { if (s.l <= 0) return; s.l -= dt; s.v.y -= 2.4 * dt; s.m.position.addScaledVector(s.v, dt); s.m.scale.setScalar(Math.max(0.01, s.l * 2)); if (s.l <= 0) s.m.visible = false; });
+  },
+  percik(pos, bil, warna) { let n = 0; const C = ['#FFD84D', '#FF8FB1', '#7FD3FF', '#9BE37A', '#FFB36B']; this.spark.forEach((s) => { if (n >= bil || s.l > 0) return; n++; s.l = 0.6 + Math.random() * 0.3; s.m.visible = true; s.m.position.copy(pos); s.v.set((Math.random() - 0.5) * 0.9, 0.6 + Math.random() * 0.8, (Math.random() - 0.5) * 0.9); s.m.material.color.set(warna || C[n % 5]); s.m.scale.setScalar(1); }); },
+  // ---------- buka / tutup ----------
+  buka() {
+    if (this.aktif || State.uiLock) return true; if (this.gagal) return false;
+    if (!this.siap) { const r = Rooms.list && Rooms.list.k4; if (!r || Rooms.current !== 'k4' || !this.sediakan(r)) { this.gagal = true; return false; } }
+    this.aktif = true; this.ke = 1; if (this.kurang()) this.k = 1; setLock('k4'); this.hub = true; this.hasil = null; this.pegang = null; this.asalPos = Player.pos.clone(); this.domTunjuk(true); this.segarUI(); return true;
+  },
+  tutup() { if (!this.aktif) return; this.aktif = false; this.ke = 0; this.hub = false; this.pegang = null; this.terpilih = null; this.sasaran = []; this.akt = null; this.tertib(false); this.domTunjuk(false); this.bunyi('pick'); },
+  // ---------- aktiviti ----------
+  mula(akt) { this.hub = false; this.hasil = null; this.salah = 0; this.akt = akt; this.p = 0; this.bunyi('pick'); this.mulaPusing(); this.segarUI(); },
+  letakAwal(it, x, z, ry, tunda) { const p = new THREE.Vector3(x, 0.0105, z); it.kunciDah = false; it.m.visible = true; it.m.scale.setScalar(0.01); it.m.position.set(x, 0.0105, z); it.ang = ry; it.rot = ((Math.round(ry / (Math.PI / 2)) % 4) + 4) % 4 * 90; it.m.rotation.y = ry; this.terbang(it, p, 0.5, 'lantun', 0.05, 1, null, tunda, ry); it.asal = p.clone(); it.asalRy = ry; },
+  mulaPusing() {
+    this.sudah = 0; this.pegang = null; this.terpilih = null; this.terakhir = this.t; this.sasaran = []; this.fasa = 1; this.terkunci = false; this.zum = false; this.tutupPilihan(); const akt = this.akt, R = this.RAIL;
+    this.prop.ayat.visible = akt === 'ayat'; this.prop.ukur.visible = akt === 'ukur'; this.item.forEach((q) => { q.m.visible = false; }); this.garisHujung.visible = false;
+    if (akt === 'ayat') {
+      const K = this.KATA[this.p]; this.setKata(this.p); this.jumlah = 2; const sub = this.shuffle([this.kad4[0], this.kad4[1]]), pre = this.shuffle([this.kad4[2], this.kad4[3]]);
+      this.letakAwal(sub[0], 3.0, -2.75, (Math.random() - 0.5) * 0.2, 0); this.letakAwal(sub[1], 3.0, -2.5, (Math.random() - 0.5) * 0.2, 0.1); this.letakAwal(pre[0], 3.75, -2.75, (Math.random() - 0.5) * 0.2, 0.15); this.letakAwal(pre[1], 3.75, -2.5, (Math.random() - 0.5) * 0.2, 0.25);
+      this.sasaran.push({ kunci: 'subjek', kata: K.s, pos: new THREE.Vector3(R.x - 0.46, 0.0305, R.z), R: 0.22, isi: null }); this.sasaran.push({ kunci: 'predikat', kata: K.p, pos: new THREE.Vector3(R.x + 0.3, 0.0305, R.z), R: 0.34, isi: null });
+      this.teks = this.p === 0 ? 'Bina ayat lengkap: kad SUBJEK (pelaku) dan kad PREDIKAT (perbuatan). Lihat gambar! 🔤' : (this.p === 1 ? 'Pusingan 2: ayat yang baharu! 🐦' : 'Pusingan 3: pusingan terakhir! 📚');
+    } else {
+      const U = this.UKUR[this.p], ob = this.obj3[this.p], alat = this.alat2; this.jumlah = 3; this.sudah = this.p; this.fasa = 1;
+      const rt = [1, 2, 3][Math.floor(Math.random() * 3)] * (Math.PI / 2); this.letakAwal(ob, this.OBJ.x, this.OBJ.z, rt, 0);
+      this.letakAwal(alat[0], 3.7, -2.55, 0, 0.1); this.letakAwal(alat[1], 3.0, -2.4, 0, 0.2);
+      this.sasaran.push({ kunci: 'ukur', pos: new THREE.Vector3(this.OBJ.x, 0.0105, this.OBJ.z + 0.07), R: 0.14, isi: null }); this.garisMula.visible = true; this.garisHujung.position.x = this.OBJ.x + U.cm / 100; this.garisHujung.visible = false;
+      this.teks = 'Ukur panjang ' + U.nama + '! 1) Ketik objek untuk memutarnya sehingga mendatar. 2) Seret ' + U.alat + ' dengan sifar di hujung kiri objek. 📏';
+    }
+    this.tunjukBaris(this.teks, 'maklum', 6000);
+  },
+  sasaranDekat(it) {
+    let best = null, bd = 9; const p = it.m.position; this.sasaran.forEach((T) => { if (T.isi) return; const d = Math.hypot(T.pos.x - p.x, T.pos.z - p.z); if (d < bd && d < T.R) { bd = d; best = T; } }); return best;
+  },
+  boleh(it, T) {
+    if (this.akt === 'ayat') return it.jenis === 'kad' && it.peranan === T.kunci && it.simbol === T.kata;
+    if (T.kunci === 'ukur') { const ob = this.obj3[this.p]; return it.jenis === 'alat' && it.jenisAlat === (ob.alat === 'pita' ? 'pita' : 'pembaris') && ob.rot === 0 && it.rot === 0; } return false;
+  },
+  puji() { const L = ['Betul! 🎉', 'Bagus! ⭐', 'Tepat sekali! 👏', 'Hebat! 🌟', 'Cemerlang! 🥳']; this.tunjukBaris(L[Math.floor(Math.random() * L.length)], 'baik', 1300); },
+  petunjukSalah(it, T) {
+    if (this.akt === 'ayat') return it.peranan !== T.kunci ? (T.kunci === 'subjek' ? 'Ini kad predikat (perbuatan). Subjek ialah pelaku, letak di petak SUBJEK. 😊' : 'Ini kad subjek (pelaku). Predikat ialah perbuatan, letak di petak PREDIKAT. 😊') : 'Hampir! Padankan dengan gambar petunjuk. 😊';
+    const ob = this.obj3[this.p]; if (it.jenis !== 'alat') return 'Seret pembaris atau pita ukur ke hujung kiri objek. 😊';
+    if (ob.rot !== 0) return 'Ketik objek untuk memutarnya sehingga mendatar dahulu. 🔄'; if (it.rot !== 0) return 'Ketik alat untuk memutarnya sehingga mendatar. 🔄';
+    return ob.alat === 'pita' ? 'Objek ini panjang (lebih 30 cm). Guna pita ukur. 📏' : 'Objek ini pendek. Pembaris 30 cm lebih sesuai. 📏';
+  },
+  letak(it, T) {
+    if (!T) { this.pulang(it, false); return; }
+    if (!this.boleh(it, T)) { this.salah++; this.salahBalik(it, T); return; }
+    this.pegang = null; this.terpilih = null; this.terakhir = this.t; this.bunyi('ok');
+    if (this.akt === 'ayat') {
+      it.kunciDah = true; T.isi = it; const p = new THREE.Vector3(T.pos.x, 0.0305, T.pos.z); this.terbang(it, p, 0.5, 'lantun', 0.1, 1, () => { this.percik(new THREE.Vector3(p.x, p.y + 0.08, p.z), 7); }, 0, 0);
+      this.sudah++; this.puji(); this.segarUI(); if (this.sudah >= this.jumlah) { const K = this.KATA[this.p]; this.tunjukBaris('Ayat lengkap: "' + K.s + ' ' + K.p + '" 🎉', 'baik', 2400); setTimeout(() => this.selesaiPusing(), 1500); } return;
+    }
+    // ukur: tandakan alat pada sifar objek, tunjuk garis hujung dan pilihan jawapan
+    const ob = this.obj3[this.p]; T.isi = it; this.terkunci = true; this.alatTerkunci = it; const p = new THREE.Vector3(this.OBJ.x, 0.0105, this.OBJ.z + 0.07);
+    this.terbang(it, p, 0.45, 'lantun', 0.08, 1, () => { this.garisHujung.visible = true; this.garisHujung.position.x = this.OBJ.x + ob.cm / 100; this.percik(new THREE.Vector3(this.OBJ.x + ob.cm / 100, 0.05, this.OBJ.z + 0.05), 6, '#FF6B6B'); this.tunjukPilihan(); }, 0, 0);
+    this.tunjukBaris('Sifar pada hujung kiri objek. Baca nombor pada alat di hujung kanan objek (garis merah). 👀', 'maklum', 4500);
+  },
+  salahBalik(it, T) { this.pegang = null; this.terpilih = null; this.bunyi('pick'); this.tunjukBaris(this.petunjukSalah(it, T), 'cuba', 4200); const m = it.m, r0 = it.ang; let n = 0; const id = setInterval(() => { n++; m.rotation.y = r0 + Math.sin(n * 1.6) * 0.2 * (1 - n / 8); if (n >= 8) { clearInterval(id); m.rotation.y = r0; } }, 40); this.terbang(it, it.asal, 0.55, 'lantun', 0.08, 1, null, 0, it.ang); this.terakhir = this.t; },
+  pulang(it, senyap) { this.pegang = null; this.terpilih = null; this.terbang(it, it.asal, 0.45, 'lantun', 0.05, 1, null, 0, it.ang); if (!senyap) this.bunyi('pick'); },
+  putar(it) {   // ketik objek / alat: putar 90 darjah dengan animasi smooth
+    if (it.anim || (it.jenis !== 'objek' && it.jenis !== 'alat')) return; if (it.kunciDah || (it.jenis === 'alat' && this.terkunci && this.akt === 'ukur' && it === this.alatTerkunci)) return;
+    it.ang += Math.PI / 2; it.rot = (it.rot + 90) % 360; it.asalRy = it.ang; this.bunyi('pick'); this.terakhir = this.t; this.terbang(it, it.m.position.clone(), 0.35, 'lantun', 0.05, 1, null, 0, it.ang);
+  },
+  // ---------- pilihan jawapan (ukur) ----------
+  tunjukPilihan() {
+    const ob = this.obj3[this.p], P = this.el('k4Pilih'); if (!P) return; const opsyen = this.shuffle([ob.cm - 2, ob.cm, ob.cm + 3]);
+    P.innerHTML = '<div class="k4Soal">Berapa panjang ' + ob.u.nama + '?</div><div class="k4Opsyen">' + opsyen.map((n) => '<button class="btn k4Besar" data-j="' + n + '">' + n + ' cm</button>').join('') + '</div>';
+    P.hidden = false; P.querySelectorAll('[data-j]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.jawab(parseInt(b.getAttribute('data-j'), 10), b); }; });
+  },
+  tutupPilihan() { const P = this.el('k4Pilih'); if (P) { P.hidden = true; P.innerHTML = ''; } },
+  jawab(n, btn) {
+    const ob = this.obj3[this.p]; this.terakhir = this.t;
+    if (n !== ob.cm) { this.salah++; this.bunyi('pick'); if (btn) { btn.classList.add('salah'); btn.disabled = true; } this.tunjukBaris('Belum tepat. Kira ruang kecil (1 cm) dari sifar sehingga garis merah, ' + (n > ob.cm ? 'jawapan terlalu besar.' : 'jawapan terlalu kecil.') + ' 😊', 'cuba', 4500); return; }
+    this.bunyi('ok'); this.percik(new THREE.Vector3(this.OBJ.x + ob.cm / 200, 0.1, this.OBJ.z), 14); this.sudah = this.p + 1; this.tutupPilihan(); this.tunjukBaris('Betul! ' + ob.u.nama + ' panjangnya ' + ob.cm + ' cm. 🎉', 'baik', 2200); this.segarUI();
+    setTimeout(() => this.selesaiPusing(), 1500);
+  },
+  selesaiPusing() {
+    if (!this.aktif || this.hub) return; const akt = this.akt, maks = this.KATA.length;
+    if (this.p + 1 < maks) {
+      this.bunyi('naik'); this.percik(new THREE.Vector3(this.RAIL.x, 0.3, this.RAIL.z), 16); this.item.filter((q) => q.m.visible).forEach((q, i) => this.terbang(q, q.m.position.clone(), 0.3, 'masuk', 0, 0.01, null, i * 0.04, q.ang));
+      setTimeout(() => { if (this.aktif && !this.hub && this.akt === akt) { this.p++; this.mulaPusing(); this.segarUI(); } }, 600); return;
+    }
+    this.tamatPusing();
+  },
+  tamatPusing() {
+    if (!this.aktif || this.hub) return;
+    const s = this.salah <= 1 ? 3 : (this.salah <= 4 ? 2 : 1), D = this.data(), lama = D.bintang[this.akt] || 0; D.bintang[this.akt] = Math.max(lama, s);
+    try { Kiraan.tambah('k4Main'); } catch (e) {} const kunci = { ayat: 'k4Ayat', ukur: 'k4Ukur' }[this.akt], teks = { ayat: '+1 Ilmu: pandai membina ayat dengan subjek dan predikat', ukur: '+1 Ilmu: pandai mengukur panjang dalam cm' }[this.akt];
+    const diberi = this.ganjaran(kunci, { ilmu: 1 }, teks), semua = this.AKT.every((a) => (D.bintang[a.id] || 0) > 0); let bonus = false; if (semua) bonus = this.ganjaran('k4Semua', { ilmu: 1, kebaikan: 1 }, '+1 Ilmu +1 Kebaikan: Murid Tahun 4 Rajin!');
+    try { Save.save(); } catch (e) {} this.bunyi('naik'); this.percik(new THREE.Vector3(this.RUG.x, 0.3, this.RUG.z), 24); this.hasil = { akt: this.akt, s, salah: this.salah, diberi, bonus, ganj: '+1 Ilmu' }; this.segarUI();
+  },
+  // ---------- UI ----------
+  domTunjuk(on) { const L = this.el('k4Lapisan'); if (!L) return; L.hidden = !on; if (on) this.pasangInput(L); if (!on) this.tutupPilihan(); },
+  tunjukBaris(teks, jenis, ms) { const e = this.el('k4Baris'); if (!e) return; e.textContent = teks; e.className = 'k4Baris ' + (jenis || ''); e.hidden = false; clearTimeout(this._tb); this._tb = setTimeout(() => { e.hidden = true; }, ms || 3000); },
+  segarUI() {
+    if (!this.aktif) return; const D = this.data(), H = this.el('k4Pusat'), A = this.AKT.find((a) => a.id === this.akt); H.hidden = !(this.hub || this.hasil);
+    if (this.hasil) {
+      const h = this.hasil, a = this.AKT.find((x) => x.id === h.akt), idx = this.AKT.indexOf(a), nx = this.AKT[idx + 1];
+      H.innerHTML = '<div class="k4Kad"><div class="k4Jdl">Hebat! 🎉</div><div class="k4Nama">' + a.e + ' ' + a.nama + '</div><div class="k4Bintang">' + [0, 1, 2].map((i) => '<span class="' + (i < h.s ? 'on' : '') + '" style="animation-delay:' + (0.2 + i * 0.25) + 's">★</span>').join('') + '</div>' +
+        '<div class="k4Msg">' + (h.salah === 0 ? 'Tiada silap langsung! 👏' : 'Bagus! Cuba lagi untuk dapat lebih bintang.') + '</div><div class="k4Ganjaran ' + (h.diberi ? 'ada' : '') + '">🎁 ' + (h.diberi ? 'Ganjaran: ' + h.ganj + (h.bonus ? ' dan bonus Murid Tahun 4 Rajin!' : '') : 'Ganjaran hari ini sudah diterima. Cuba lagi esok!') + '</div>' +
+        '<div class="k4Btns"><button class="btn k4Besar" data-a="ulang">🔁 Cuba Lagi</button>' + (nx ? '<button class="btn k4Besar k4Hijau" data-a="mula:' + nx.id + '">➡ ' + nx.nama + '</button>' : '') + '<button class="btn k4Besar" data-a="hub">🏠 Menu</button></div></div>';
+    } else if (this.hub) {
+      const n = this.AKT.filter((a) => (D.bintang[a.id] || 0) > 0).length;
+      H.innerHTML = '<div class="k4Kad"><div class="k4Jdl">🧸 Sudut Pembelajaran Tahun 4</div><div class="k4Msg">Pilih satu aktiviti! Siap ' + n + ' / 2 ⭐</div><div class="k4Grid">' +
+        this.AKT.map((a) => { const s = D.bintang[a.id] || 0; return '<button class="k4Card" data-a="mula:' + a.id + '"><span class="k4E">' + a.e + '</span><b>' + a.nama + '</b><small>' + a.ket + '</small><span class="k4S">' + [0, 1, 2].map((i) => '<i class="' + (i < s ? 'on' : '') + '">★</i>').join('') + '</span></button>'; }).join('') + '</div></div>';
+    }
+    H.querySelectorAll('[data-a]').forEach((b) => { b.onclick = (e) => { e.stopPropagation(); this.aksi(b.getAttribute('data-a')); }; });
+    this.el('k4Tajuk').textContent = (!this.hub && A) ? A.e + ' ' + A.nama + (!this.hasil ? ' · Pusingan ' + (this.p + 1) + '/3' : '') : '🧸 Sudut Pembelajaran';
+    this.el('k4Jejak').innerHTML = (!this.hub && !this.hasil && this.jumlah) ? Array.from({ length: this.jumlah }, (_, i) => '<i class="' + (i < this.sudah ? 'on' : '') + '"></i>').join('') : '';
+    this.el('k4Ulang').hidden = this.hub || !!this.hasil; const z = this.el('k4Zum'); if (z) { z.hidden = !(this.akt === 'ukur' && !this.hub && !this.hasil); z.textContent = this.zum ? '🔍 Jauhkan' : '🔍 Dekatkan'; }
+  },
+  aksi(a) { this.bunyi('pick'); if (a === 'hub') { this.hasil = null; this.hub = true; this.akt = null; this.sasaran = []; this.tertib(false); this.segarUI(); } else if (a === 'ulang') { if (this.akt) this.mula(this.akt); } else if (a.startsWith('mula:')) this.mula(a.slice(5)); },
+  pasangInput(L) {
+    if (L._siap) return; L._siap = true; const self = this, ray = new THREE.Raycaster(), v = new THREE.Vector2();
+    const sinar = (e) => { const R = renderer.domElement.getBoundingClientRect(); v.set(((e.clientX - R.left) / R.width) * 2 - 1, -((e.clientY - R.top) / R.height) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(v, camera); return ray; };
+    const itemDi = (o) => { while (o) { if (o.userData && o.userData.item) return o.userData.item; o = o.parent; } return null; };
+    const dataran = (e, y) => { const r = sinar(e), p = new THREE.Vector3(), pl = new THREE.Plane(new THREE.Vector3(0, 1, 0), -y); if (!r.ray.intersectPlane(pl, p)) return null; return new THREE.Vector3(p.x - self.r.ox, y, p.z - self.r.oz); };
+    const hitItem = (e) => { const ms = self.item.filter((it) => !it.kunciDah && it.m.visible).map((it) => it.m), h = sinar(e).intersectObjects(ms, true)[0]; return h ? itemDi(h.object) : null; };
+    L.addEventListener('pointerdown', (e) => {
+      if (e.target.closest && e.target.closest('button, .k4Kad, #k4Pilih')) return; if (!self.aktif || self.k < 0.6 || self.hub || self.hasil) return; e.preventDefault(); e.stopPropagation(); try { L.setPointerCapture(e.pointerId); } catch (x) {}
+      self.terakhir = self.t; const it = hitItem(e); self.ptr = { x: e.clientX, y: e.clientY, it, seret: false, off: null };
+      if (it && self.akt === 'ukur' && self.terkunci && it.jenis === 'alat') { self.ptr = null; return; }   // alat sudah dijajarkan; jawab soalan
+      if (it) { if (self.terpilih && self.terpilih !== it) self.pulang(self.terpilih, true); self.pegang = it; it.anim = null; self.terpilih = null; const p = dataran(e, 0.1); self.ptr.off = p ? new THREE.Vector3(it.m.position.x - p.x, 0, it.m.position.z - p.z) : new THREE.Vector3(); if (it.jenis === 'kad') self.bunyi('pick'); }
+      else if (self.terpilih) { self.letak(self.terpilih, self.sasaranDekat(self.terpilih)); }
+    });
+    L.addEventListener('pointermove', (e) => {
+      const P = self.ptr; if (!P || !P.it || !self.pegang) return; const it = P.it; if (!P.seret && Math.hypot(e.clientX - P.x, e.clientY - P.y) > 8) { if (it.jenis === 'objek') return; P.seret = true; it.anim = null; it.m.scale.setScalar(1.15); self.bunyi('pick'); }
+      if (P.seret) { const p = dataran(e, 0.1); if (p) { const q = new THREE.Vector3(p.x + P.off.x, 0.16, p.z + P.off.z); it.m.position.lerp(q, 0.6); } }
+    });
+    const lepas = (e) => {
+      const P = self.ptr; self.ptr = null; if (!P || !P.it || !self.aktif || self.hub || self.hasil) return; const it = P.it; if (self.pegang !== it) return;
+      if (P.seret) { it.m.scale.setScalar(1); it.m.position.y = 0.0105; self.letak(it, self.sasaranDekat(it)); }
+      else { self.pegang = null; if (it.jenis === 'objek' || it.jenis === 'alat') self.putar(it); else { self.terpilih = it; self.terbang(it, new THREE.Vector3(it.m.position.x, 0.14, it.m.position.z), 0.25, 'lantun', 0, 1.15, null, 0, it.ang); self.tunjukBaris('Sekarang ketik tempat yang betul! 👆', 'maklum', 2500); } }
+    };
+    L.addEventListener('pointerup', (e) => { e.stopPropagation(); lepas(e); });
+    L.addEventListener('pointercancel', () => { const it = self.ptr && self.ptr.it; self.ptr = null; if (it && self.pegang === it) self.pulang(it, true); });
+    this.el('k4Keluar').addEventListener('click', (e) => { e.stopPropagation(); self.tutup(); });
+    this.el('k4Ulang').addEventListener('click', (e) => { e.stopPropagation(); self.bunyi('pick'); if (self.akt) self.mula(self.akt); });
+    this.el('k4Zum').addEventListener('click', (e) => { e.stopPropagation(); self.zum = !self.zum; self.bunyi('pick'); self.segarUI(); });
+  },
+  // ---------- kitaran ----------
+  tick(dt) {
+    if (!this.siap && !this.gagal && Rooms.current === 'k4' && Rooms.list && Rooms.list.k4 && Rooms.list.k4.group) { try { if (!this.sediakan(Rooms.list.k4)) this.gagal = true; } catch (e) { this.gagal = true; } }
+    if (this.siap && this.grup && !this.grup.parent) { this.siap = false; this.gagal = false; this.aktif = false; this.k = 0; this.ke = 0; this.item = []; this.sasaran = []; this.spark = []; return; }
+    if (!this.siap) return; this.t += dt; this.ikutAnim(dt); this.zk += (((this.zum && this.akt === 'ukur') ? 1 : 0) - this.zk) * (this.kurang() ? 1 : 1 - Math.exp(-dt * 6));
+    if (this.aktif && (Rooms.current !== 'k4' || !this.r.group.visible)) this.tutup();
+    const kur = this.kurang(); this.k += (this.ke - this.k) * (kur ? 1 : 1 - Math.exp(-dt * (this.aktif ? 3.4 : 5))); if (Math.abs(this.ke - this.k) < 0.002) this.k = this.ke;
+    if (this.aktif || this.k > 0.002) {
+      if (Player.m) { const sorok = this.k > 0.3 && this.ke === 1; if (Player.m.group.visible === sorok) Player.m.group.visible = !sorok; }
+      if (this.aktif && this.akt && !this.hub && !this.hasil && !this.pegang && !this.terkunci && this.t - this.terakhir > 9) {
+        const it = this.item.find((q) => !q.kunciDah && q.m.visible && !q.anim && q !== this.terpilih && (this.akt !== 'ukur' || q.jenis !== 'alat' || q.jenisAlat === (this.obj3[this.p].alat === 'pita' ? 'pita' : 'pembaris'))); if (it) { const u = Math.sin(this.t * 6); it.m.position.y = it.asal.y + Math.max(0, u) * 0.025; it.m.scale.setScalar(1 + 0.07 * u); }
+      }
+    }
+    if (!this.aktif && this.k <= 0.002 && this.ke === 0 && this.asalPos) { this.k = 0; this.asalPos = null; if (Player.m) Player.m.group.visible = true; setLock(null); }
+  },
+  kamera() {
+    const r = this.r; if (!r || this.k < 0.002) return; const e = this.k * this.k * (3 - 2 * this.k), V = this.V = this.V || new THREE.Vector3(), V2 = this.V2 = this.V2 || new THREE.Vector3(), zk = this.zk;
+    const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), asp = camera.aspect || 1.6, tx = r.ox + 3.6 + (3.45 - 3.6) * zk, tz = r.oz - 3.2 + (-2.95 + 3.2) * zk;
+    const D0 = Math.min(3.3, Math.max(1.7, 1.75 / (2 * tf), 2.2 / (2 * tf * asp))), D = D0 + (Math.max(0.9, 0.62 * D0) - D0) * zk, p = THREE.MathUtils.degToRad(62 + 8 * zk);
+    V.set(tx, 0.3 + D * Math.sin(p), tz + D * Math.cos(p)); camera.position.lerp(V, e); V2.copy(Cam.look).lerp(V.set(tx, 0.2, tz), e); camera.lookAt(V2);
   }
 };
 
@@ -19704,7 +20810,7 @@ async function boot() {
     scene.add(extRoot); scene.add(Rooms.root);
     bakeStatic(extRoot);
     try { ShellGLB.muatSemua(); } catch (e) {}
-    ['rmt', 'pss', 'pi', 'spbt', 'susu', 'makmal', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
+    ['rmt', 'k1', 'k2', 'k3', 'k4', 'pss', 'pi', 'spbt', 'susu', 'makmal', 'prasekolah', 'rumah1', 'rumah2', 'rumah3'].forEach((id, i) => setTimeout(() => { try { InteriorGLB.muat(id); } catch (e) {} }, 1200 + i * 1400));   // v82/v83: dalaman bilik GLB dimuat di latar, satu demi satu   // v77: cangkerang GLB dimuat di latar; jika gagal, versi asal kekal
     NPCs.build(); Pejalan.bina(); Iring.bina(); Kesan.init(); Sukan.bina(); Missions.init();
     Pasca.init(); Pasca.resize(); Grafik.init(); Cam.initMod(); Tetapan.muat();
     Player.setLook('L'); Player.m.group.visible = false;
